@@ -4,7 +4,7 @@ export default function ParametersInputMain() {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
 
-  const handleMakeChange = (event) => {
+  const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMake(event.target.value);
     setSelectedModel("");
   };
