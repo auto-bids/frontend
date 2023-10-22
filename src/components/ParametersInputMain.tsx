@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ParametersInputMain() {
   const [selectedMake, setSelectedMake] = useState("");
@@ -70,6 +71,9 @@ export default function ParametersInputMain() {
             <option value="Other">Other</option>
         </select>
       </select>
+      <Link to="/search">
+        <button>Search</button>
+      </Link>
     </div>
   );
 }
