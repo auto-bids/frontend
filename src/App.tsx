@@ -6,6 +6,7 @@ import MainPage from './components/MainPage';
 import {BrowserRouter as Router} from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import SearchPage from './components/SearchPage';
+import Account from './components/Account';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
            <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/account" element={<Account />} />
            </Routes>
         <Footer />
       </Router>
