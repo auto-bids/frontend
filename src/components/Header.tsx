@@ -14,7 +14,9 @@ export default function Header() {
             <Link to='/account'>
                 <button className='account'>Your account</button>
             </Link>
-            <button className='new-listing'>New Listing</button>
+            <Link to='/new-listing'>
+                <button className='new-listing'>New Listing</button>
+            </Link>
         </div>
     )
 }
