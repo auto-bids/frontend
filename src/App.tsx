@@ -8,6 +8,8 @@ import { Routes, Route } from 'react-router-dom';
 import SearchPage from './components/SearchPage';
 import Account from './components/Account';
 import NewListing from './components/NewListing';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/account" element={<Account />} />
               <Route path="/new-listing" element={<NewListing />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
            </Routes>
         <Footer />
       </Router>
