@@ -1,5 +1,6 @@
 import React from "react";
 import BidElement from "./BidElement";
+import SellerElement from "./SellerElement";
 
 export default function OfferPage(){
     return(
@@ -59,7 +60,7 @@ export default function OfferPage(){
                     <p>Central Locking</p>
                 </div>
                 <div className="offer-page-main-seller">
-                
+                    <SellerElement/>
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ import Account from './components/Account';
 import NewListing from './components/NewListing';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
+import OfferPage from './components/OfferPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/new-listing" element={<NewListing />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/offer" element={<OfferPage />} />
            </Routes>
         <Footer />
       </Router>
