@@ -13,7 +13,7 @@ export default function LoginPage() {
 
     return (
         <div>
-            <h1>Login Page</h1>
+            <h1>Login</h1>
             <button>
                 <a href="http://localhost:8080/auth/google">Login with Google</a>
             </button>
