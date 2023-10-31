@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export default function ParametersInputMain() {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
+  const [selectedColor, setSelectedColor] = useState("#000000");
 
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMake(event.target.value);
@@ -43,7 +44,9 @@ export default function ParametersInputMain() {
             <option value="Syrena">Syrena</option>
           </>
         )}
-        <label>Type:</label>
+        
+      </select>
+      <label>Type:</label>
         <select>
             <option value="">Type</option>
             <option value="Sedan">Sedan</option>
@@ -70,7 +73,26 @@ export default function ParametersInputMain() {
             <option value="Hybrid">Hybrid</option>
             <option value="Other">Other</option>
         </select>
-      </select>
+        <select>
+            <option value="">Condition</option>
+            <option value="New">New</option>
+            <option value="Used">Used</option>
+            <option value="Damaged">Damaged</option>
+        </select>
+        <select>
+            <option value="">Doors</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <label>Color:</label>
+          <input
+            type="color"
+            value={selectedColor}
+            onChange={(event) => setSelectedColor(event.target.value)}
+          />
       <Link to="/search">
         <button>Search</button>
       </Link>

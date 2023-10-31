@@ -3,6 +3,7 @@ import React, { useState } from "react";
 export default function ParametersInputSearch() {
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
+    const [selectedColor, setSelectedColor] = useState("#000000");
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMake(event.target.value);
@@ -111,16 +112,11 @@ export default function ParametersInputSearch() {
                 <option value="Damaged">Damaged</option>
             </select>
         <label>Color</label>
-            <select>
-                <option value="">Color</option>
-                <option value="White">White</option>
-                <option value="Black">Black</option>
-                <option value="Red">Red</option>
-                <option value="Blue">Blue</option>
-                <option value="Green">Green</option>
-                <option value="Silver">Silver</option>
-                <option value="Other">Other</option>
-            </select>
+        <input
+            type="color"
+            value={selectedColor}
+            onChange={(event) => setSelectedColor(event.target.value)}
+          />
         </div>
     );
 }
