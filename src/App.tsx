@@ -11,6 +11,11 @@ import NewListing from './components/NewListing';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import OfferPage from './components/OfferPage';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
+import TermsOfService from './components/TermsOfService';
+import Help from './components/Help';
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/offer" element={<OfferPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/help" element={<Help />} />
            </Routes>
         <Footer />
       </Router>
