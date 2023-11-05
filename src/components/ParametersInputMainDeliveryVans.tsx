@@ -12,7 +12,7 @@ export default function ParametersInputDeliveryVans() {
   };
 
   return (
-    <div>
+    <div className="parameters-input-main">
       <label>Make:</label>
       <select value={selectedMake} onChange={handleMakeChange}>
         <option value="">Make</option>

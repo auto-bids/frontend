@@ -3,6 +3,7 @@ import ParametersInputMain from "./ParametersInputMain";
 import ParametersInputMainMotorcycles from "./ParametersInputMainMotorcycles";
 import OfferElement from "./OfferElement";
 import ParametersInputDeliveryVans from "./ParametersInputMainDeliveryVans";
+import ParametersInputMainTrucks from "./ParametersInputMainTrucks";
 
 export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
@@ -18,7 +19,7 @@ export default function MainPage() {
                     <button onClick={() => handleCategoryChange("cars")}>cars</button>
                     <button onClick={() => handleCategoryChange("motorcycles")}>motorcycles</button>
                     <button onClick={() => handleCategoryChange("delivery vans")}>delivery vans</button>
-                    <button>trucks</button>
+                    <button onClick={() => handleCategoryChange("trucks")}>trucks</button>
                     <button>construction machinery</button>
                     <button>trailers</button>
                     <button>agricultural machinery</button>
@@ -28,6 +29,7 @@ export default function MainPage() {
             {selectedCategory === "cars" && <ParametersInputMain />}
             {selectedCategory === "motorcycles" && <ParametersInputMainMotorcycles />}
             {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans />}
+            {selectedCategory === "trucks" && <ParametersInputMainTrucks />}
             </div>
             <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
                 <img src='/ad.jpeg' alt='offer' />
