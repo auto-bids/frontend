@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import ParametersInputMain from "./ParametersInputMain";
 import ParametersInputMainMotorcycles from "./ParametersInputMainMotorcycles";
 import OfferElement from "./OfferElement";
+import ParametersInputDeliveryVans from "./ParametersInputMainDeliveryVans";
 
 export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
@@ -16,7 +17,7 @@ export default function MainPage() {
                 <div className="main-page-choose-category-buttons">
                     <button onClick={() => handleCategoryChange("cars")}>cars</button>
                     <button onClick={() => handleCategoryChange("motorcycles")}>motorcycles</button>
-                    <button>delivery vans</button>
+                    <button onClick={() => handleCategoryChange("delivery vans")}>delivery vans</button>
                     <button>trucks</button>
                     <button>construction machinery</button>
                     <button>trailers</button>
@@ -26,6 +27,7 @@ export default function MainPage() {
             <div className="main-page-parameters-input">
             {selectedCategory === "cars" && <ParametersInputMain />}
             {selectedCategory === "motorcycles" && <ParametersInputMainMotorcycles />}
+            {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans />}
             </div>
             <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
                 <img src='/ad.jpeg' alt='offer' />
