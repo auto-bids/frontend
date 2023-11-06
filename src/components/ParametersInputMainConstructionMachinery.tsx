@@ -41,6 +41,10 @@ export default function ParametersInputMainTrucks() {
                 <option value="Used">Used</option>
                 <option value="Damaged">Damaged</option>
             </select>
+            <label>Location:</label>
+            <input type="text" placeholder="Country" />
+            <input type="text" placeholder="City" />
+            <input type="text" placeholder="Radius" />
             <Link to="/results">
                 <button>Search</button>
             </Link>

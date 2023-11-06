@@ -58,14 +58,16 @@ export default function ParametersInputMain() {
         <option value="Coupe">Coupe</option>
         <option value="Other">Other</option>
       </select>
-
+      <label>Year:</label>
       <input type="text" placeholder="Year from" />
       <input type="text" placeholder="Year to" />
+      <label>Mileage:</label>
       <input type="text" placeholder="Mileage from" />
       <input type="text" placeholder="Mileage to" />
+      <label>Price:</label>
       <input type="text" placeholder="Price from" />
       <input type="text" placeholder="Price to" />
-
+      <label>Fuel Type:</label>
       <select>
         <option value="">Fuel Type</option>
         <option value="Gasoline">Gasoline</option>
@@ -83,7 +85,7 @@ export default function ParametersInputMain() {
         <option value="Used">Used</option>
         <option value="Damaged">Damaged</option>
       </select>
-
+      <label>Doors:</label>
       <select>
         <option value="">Doors</option>
         <option value="2">2</option>

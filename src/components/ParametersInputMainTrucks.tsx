@@ -89,6 +89,10 @@ export default function ParametersInputMainTrucks() {
                 <option value="Gasoline">Gasoline</option>
                 <option value="Other">Other</option>
             </select>
+            <label>Location:</label>
+            <input type="text" placeholder="Country" />
+            <input type="text" placeholder="City" />
+            <input type="text" placeholder="Radius" />
             <Link to="/search">
                 <button>Search</button>
             </Link>
