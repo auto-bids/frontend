@@ -6,6 +6,7 @@ import ParametersInputDeliveryVans from "./ParametersInputMainDeliveryVans";
 import ParametersInputMainTrucks from "./ParametersInputMainTrucks";
 import ParametersInputMainConstructionMachinery from "./ParametersInputMainConstructionMachinery";
 import ParametersInputMainTrailers from "./ParametersInputMainTrailers";
+import ParametersInputMainAgriculturalMachinery from "./ParametersInputMainAgriculturalMachinery";
 
 export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
@@ -24,7 +25,7 @@ export default function MainPage() {
                     <button onClick={() => handleCategoryChange("trucks")}>trucks</button>
                     <button onClick={() => handleCategoryChange("construction machinery")}>construction machinery</button>
                     <button onClick={() => handleCategoryChange("trailers")}>trailers</button>
-                    <button>agricultural machinery</button>
+                    <button onClick={() => handleCategoryChange("agricultural machinery")}>agricultural machinery</button>
                 </div>
             </div>
             <div className="main-page-parameters-input">
@@ -34,6 +35,7 @@ export default function MainPage() {
             {selectedCategory === "trucks" && <ParametersInputMainTrucks />}
             {selectedCategory === "construction machinery" && <ParametersInputMainConstructionMachinery />}
             {selectedCategory === "trailers" && <ParametersInputMainTrailers />}
+            {selectedCategory === "agricultural machinery" && <ParametersInputMainAgriculturalMachinery />}
             </div>
             <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
                 <img src='/ad.jpeg' alt='offer' />
