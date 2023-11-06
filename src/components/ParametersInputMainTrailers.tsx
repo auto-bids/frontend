@@ -1,36 +1,31 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ParametersInputMainTrucks() {
+export default function ParametersInputMainTrailers() {
 
     return(
         <div className="parameters-input-main">
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="Caterpillar">Caterpillar</option>
-                <option value="Komatsu">Komatsu</option>
-                <option value="Liebherr">Liebherr</option>
+                <option value="Schmitz Cargobull">Schmitz Cargobull</option>
+                <option value="Krone">Krone</option>
+                <option value="Kögel">Kögel</option>
             </select>
             <label>Model:</label>
             <input type="text" placeholder="Model" />
             <label>Application:</label>
             <select>
                 <option value="">Application</option>
-                <option value="Articulated Dump Truck">Articulated Dump Truck</option>
-                <option value="Backhoe Loader">Backhoe Loader</option>
-                <option value="Crawler Dozer">Crawler Dozer</option>
-                <option value="Excavator">Excavator</option>
-                <option value="Motor Grader">Motor Grader</option>
-                <option value="Skid Steer Loader">Skid Steer Loader</option>
-                <option value="Wheel Loader">Wheel Loader</option>
+                <option value="Box">Box</option>
+                <option value="Curtain Side">Curtain Side</option>
+                <option value="Flatbed">Flatbed</option>
+                <option value="Refrigerated">Refrigerated</option>
+                <option value="Tanker">Tanker</option>
             </select>
             <label>Year:</label>
             <input type="text" placeholder="Year from" />
             <input type="text" placeholder="Year to" />
-            <label>Operating Hours:</label>
-            <input type="text" placeholder="Operating Hours from" />
-            <input type="text" placeholder="Operating Hours to" />
             <label>Price:</label>
             <input type="text" placeholder="Price from" />
             <input type="text" placeholder="Price to" />
