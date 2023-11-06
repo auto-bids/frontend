@@ -89,6 +89,9 @@ export default function ParametersInputMainTrucks() {
                 <option value="Gasoline">Gasoline</option>
                 <option value="Other">Other</option>
             </select>
+            <Link to="/search">
+                <button>Search</button>
+            </Link>
         </div>
     )
 
