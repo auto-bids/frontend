@@ -94,6 +94,7 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
         <option value="4">4</option>
         <option value="5">5</option>
         <option value="6">6</option>
+        <option value='Other'>Other</option>
       </select>
 
       <label>Color:</label>
@@ -126,7 +127,7 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
         <option value="">Drive</option>
         <option value="Front">Front</option>
         <option value="Rear">Rear</option>
-        <option value="4x4">4x4</option>
+        <option value="All">All</option>
         <option value="Other">Other</option>
       </select>
 

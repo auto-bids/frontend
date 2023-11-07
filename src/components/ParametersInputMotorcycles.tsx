@@ -59,6 +59,15 @@ export default function MotorcycleParametersInput({showAllFields}: {showAllField
       <label>Engine capacity:</label>
       <input type="text" placeholder="Engine capacity from" />
       <input type="text" placeholder="Engine capacity to" />
+      <label>Engine power:</label>
+      <input type="text" placeholder="Engine power from" />
+      <input type="text" placeholder="Engine power to" />
+      <label>Transmission:</label>
+      <select>
+        <option value="">Transmission</option>
+        <option value="Manual">Manual</option>
+        <option value="Automatic">Automatic</option>
+      </select>
       <label>Mileage:</label>
       <input type="text" placeholder="Mileage from" />
       <input type="text" placeholder="Mileage to" />
