@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ParametersInputMainTrucks() {
+export default function ParametersInputMainTrucks({showAllFields}: {showAllFields: boolean}) {
 
     return(
         <div className="parameters-input-main">
@@ -25,6 +25,8 @@ export default function ParametersInputMainTrucks() {
                 <option value="Skid Steer Loader">Skid Steer Loader</option>
                 <option value="Wheel Loader">Wheel Loader</option>
             </select>
+            {showAllFields && (
+            <>
             <label>Year:</label>
             <input type="text" placeholder="Year from" />
             <input type="text" placeholder="Year to" />
@@ -45,6 +47,8 @@ export default function ParametersInputMainTrucks() {
             <input type="text" placeholder="Country" />
             <input type="text" placeholder="City" />
             <input type="text" placeholder="Radius" />
+            </>
+            )}
             <Link to="/results">
                 <button>Search</button>
             </Link>

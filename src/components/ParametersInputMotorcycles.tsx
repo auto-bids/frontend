@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function MotorcycleParametersInput() {
+export default function MotorcycleParametersInput({showAllFields}: {showAllFields: boolean}) {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedColor, setSelectedColor] = useState("#000000");
@@ -51,12 +51,14 @@ export default function MotorcycleParametersInput() {
         <option value="Cruiser">Cruiser</option>
         <option value="Dirt Bike">Dirt Bike</option>
       </select>
-      <label>Engine capacity:</label>
-      <input type="text" placeholder="Engine capacity from" />
-      <input type="text" placeholder="Engine capacity to" />
+      {showAllFields && (
+      <>
       <label>Year:</label>
       <input type="text" placeholder="Year from" />
       <input type="text" placeholder="Year to" />
+      <label>Engine capacity:</label>
+      <input type="text" placeholder="Engine capacity from" />
+      <input type="text" placeholder="Engine capacity to" />
       <label>Mileage:</label>
       <input type="text" placeholder="Mileage from" />
       <input type="text" placeholder="Mileage to" />
@@ -86,6 +88,8 @@ export default function MotorcycleParametersInput() {
       <input type="text" placeholder="Country" />
       <input type="text" placeholder="City" />
       <input type="text" placeholder="Radius" />
+      </>
+      )}
       <Link to="/search">
         <button>Search</button>
       </Link>

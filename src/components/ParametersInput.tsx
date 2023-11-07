@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ParametersInputMain() {
+export default function ParametersInputMain({showAllFields}: {showAllFields: boolean}) {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedColor, setSelectedColor] = useState("#000000");
@@ -61,7 +61,8 @@ export default function ParametersInputMain() {
       <label>Year:</label>
       <input type="text" placeholder="Year from" />
       <input type="text" placeholder="Year to" />
-      <label>Mileage:</label>
+      {showAllFields &&(
+      <><label>Mileage:</label>
       <input type="text" placeholder="Mileage from" />
       <input type="text" placeholder="Mileage to" />
       <label>Price:</label>
@@ -148,6 +149,8 @@ export default function ParametersInputMain() {
         <option value="Used">Used</option>
         <option value="Damaged">Damaged</option>
       </select>
+      </>)
+      }
 
       <Link to="/search">
         <button>Search</button>

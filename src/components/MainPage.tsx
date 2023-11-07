@@ -1,18 +1,20 @@
 import React, {useState} from "react";
-import ParametersInputMain from "./ParametersInputMain";
-import ParametersInputMainMotorcycles from "./ParametersInputMainMotorcycles";
+import ParametersInput from "./ParametersInput";
+import ParametersInputMotorcycles from "./ParametersInputMotorcycles";
 import OfferElement from "./OfferElement";
-import ParametersInputDeliveryVans from "./ParametersInputMainDeliveryVans";
-import ParametersInputMainTrucks from "./ParametersInputMainTrucks";
-import ParametersInputMainConstructionMachinery from "./ParametersInputMainConstructionMachinery";
-import ParametersInputMainTrailers from "./ParametersInputMainTrailers";
-import ParametersInputMainAgriculturalMachinery from "./ParametersInputMainAgriculturalMachinery";
+import ParametersInputDeliveryVans from "./ParametersInputDeliveryVans";
+import ParametersInputTrucks from "./ParametersInputTrucks";
+import ParametersInputConstructionMachinery from "./ParametersInputConstructionMachinery";
+import ParametersInputTrailers from "./ParametersInputTrailers";
+import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
 
 export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
+    const [showAllFields, setShowAllFields] = useState(false);
 
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(category);
+        setShowAllFields(false);
     }
     return (
         <div className='main-page'>
@@ -29,14 +31,15 @@ export default function MainPage() {
                 </div>
             </div>
             <div className="main-page-parameters-input">
-            {selectedCategory === "cars" && <ParametersInputMain />}
-            {selectedCategory === "motorcycles" && <ParametersInputMainMotorcycles />}
-            {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans />}
-            {selectedCategory === "trucks" && <ParametersInputMainTrucks />}
-            {selectedCategory === "construction machinery" && <ParametersInputMainConstructionMachinery />}
-            {selectedCategory === "trailers" && <ParametersInputMainTrailers />}
-            {selectedCategory === "agricultural machinery" && <ParametersInputMainAgriculturalMachinery />}
+            {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} />}
+            {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields}/>}
+            {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans showAllFields={showAllFields}/>}
+            {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
+            {selectedCategory === "construction machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields}/>}
+            {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields}/>}
+            {selectedCategory === "agricultural machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields}/>}
             </div>
+            <button className="show-all-fields" onClick={() => setShowAllFields(!showAllFields)}>{showAllFields ? "Hide additional fields" : "Show additional fields"}</button>
             <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
                 <img src='/ad.jpeg' alt='offer' />
             </a>
