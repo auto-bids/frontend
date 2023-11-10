@@ -73,9 +73,25 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         <option value="Automatic">Automatic</option>
         <option value="Semi-automatic">Semi-automatic</option>
       </select>
+      <label>Drive:</label>
+      <select>
+        <option value="">Drive</option>
+        <option value="Front">Front</option>
+        <option value="Rear">Rear</option>
+        <option value="All">All</option>
+      </select>
+      <label>Steering:</label>
+      <select>
+        <option value="">Steering</option>
+        <option value="Left">Left</option>
+        <option value="Right">Right</option>
+      </select>
       <label>Engine capacity:</label>
       <input type="text" placeholder="Engine capacity from" />
       <input type="text" placeholder="Engine capacity to" />
+      <label>Power:</label>
+      <input type="text" placeholder="Power from" />
+      <input type="text" placeholder="Power to" />
       <label>Condition:</label>
       <select>
         <option value="">Condition</option>
@@ -94,6 +110,19 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         <option value="7">7</option>
         <option value="8">8</option>
         <option value="8+">8+</option>
+      </select>
+      <label>Seats:</label>
+      <select>
+        <option value="">Seats</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value='9+'>9+</option>
       </select>
       <label>Permissible Gross Weight</label>
       <input type="text" placeholder="PGW from" />
