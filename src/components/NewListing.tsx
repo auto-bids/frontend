@@ -13,7 +13,9 @@ export default function NewListing() {
         <div className='new-listing-page'>
             <h1>New Listing</h1>
             <div className='new-listing-form'>
+                <label>Photos:</label>
                 <input type='file' multiple accept="image/*" />
+                <label>Title:</label>
                 <input type='text' placeholder='Title' />
                 <label>Make:</label>
                 <select value={selectedMake} onChange={handleMakeChange}>
