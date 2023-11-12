@@ -48,7 +48,7 @@ export default function NewListingDeliveryVans() {
             <label>Price:</label>
             <input type="text" placeholder="Price" />
             <label>Description:</label>
-            <input type="text" placeholder="Description" />
+            <textarea placeholder="Description" />
             <label>Fuel type:</label>
             <select>
                 <option value="">Fuel Type</option>

@@ -57,7 +57,7 @@ export default function NewListingMotorcycles() {
                 <label>Price:</label>
                 <input type='text' placeholder='Price' />
                 <label>Description:</label>
-                <input type='text' placeholder='Description' />
+                <textarea placeholder="Description" />
                 <label>Features:</label>
                 <input type='text' placeholder="Features" />
                 <label>VIN number:</label>

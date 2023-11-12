@@ -73,7 +73,7 @@ export default function NewListingTrucks() {
             <label>Price:</label>
             <input type="text" placeholder="Price"/>
             <label>Description:</label>
-            <input type="text" placeholder="Description"/>
+            <textarea placeholder="Description" />
             <label>Condition:</label>
             <select>
                 <option value="">Condition</option>
