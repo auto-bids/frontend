@@ -16,6 +16,7 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import TermsOfService from './components/TermsOfService';
 import Help from './components/Help';
+import SellerPage from './components/SellerPage';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/help" element={<Help />} />
+              <Route path="/seller" element={<SellerPage />} />
            </Routes>
         <Footer />
       </Router>
