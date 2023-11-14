@@ -1,5 +1,6 @@
 import React from "react";
 import OfferElement from "./OfferElement";
+import Chat from "./Chat";
 
 export default function Account() {
     return(
@@ -24,7 +25,7 @@ export default function Account() {
                 </div>
             </div>
             <div className="account-chat">
-                <h2>Chat</h2>
+                <Chat />
             </div>
         </div>
     );
