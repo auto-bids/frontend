@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import MapComponent from "./MapComponent";
 declare global {
   interface Window {
     google: any;
@@ -34,6 +34,9 @@ export default function SellerElement() {
         <p>Post code</p>
       </div>
       <div id="map" style={{ height: "400px", width: "100%" }}></div>
+      <div className="seller-test-map">
+        <MapComponent x={52.114187} y={16.93129} />
+      </div>
     </div>
   );
 }
