@@ -1,4 +1,5 @@
 import React from "react";
+import LocationInput from "./LocationInput";
 
 export default function NewListingTrailers(){
     return(
@@ -51,8 +52,7 @@ export default function NewListingTrailers(){
             <label>Description:</label>
             <textarea placeholder="Description" />
             <label>Location:</label>
-            <input type="text" placeholder="Country" />
-            <input type="text" placeholder="City" />
+            <LocationInput />
             <label>Phone number:</label>
             <input type="text" placeholder="Phone number" />
             <button>Submit</button>

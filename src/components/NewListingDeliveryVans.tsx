@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import LocationInput from "./LocationInput";
 
 export default function NewListingDeliveryVans() {
     const [selectedMake, setSelectedMake] = useState("");
@@ -137,8 +138,7 @@ export default function NewListingDeliveryVans() {
                 onChange={(event) => setSelectedColor(event.target.value)}
             />
             <label>Location:</label>
-            <input type="text" placeholder="Country" />
-            <input type="text" placeholder="City" />
+            <LocationInput />
             <label>Phone number:</label>
             <input type='text' placeholder='Phone Number' />
             <button>Submit</button>

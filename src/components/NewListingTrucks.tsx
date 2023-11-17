@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import LocationInput from "./LocationInput";
 
 export default function NewListingTrucks() {
     const [selectedMake, setSelectedMake] = useState("");
@@ -93,8 +94,7 @@ export default function NewListingTrucks() {
                 <option value="Other">Other</option>
             </select>
             <label>Location:</label>
-            <input type="text" placeholder="Country" />
-            <input type="text" placeholder="City" />
+            <LocationInput />
             <label>Phone number:</label>
             <input type='text' placeholder='Phone Number' />
             <button>Submit</button>
