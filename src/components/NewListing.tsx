@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import LocationInput from "./LocationInput";
 
 export default function NewListing() {
     const [selectedMake, setSelectedMake] = useState("");
@@ -150,6 +151,7 @@ export default function NewListing() {
                 <input type='text' placeholder='City' />
                 <label>Phone number:</label>
                 <input type='text' placeholder='Phone Number' />
+                <LocationInput />
                 <button>Submit</button>
             </div>
         </div>
