@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 export default function LocationInput() {
-  const [position, setPosition] = useState<[number, number] | null>(null);
-  const [zoom, setZoom] = useState<number>(13);
+  const [position, setPosition] = useState<[number, number] | null>([52.1141903, 16.9287151]);
+  const [zoom, setZoom] = useState<number>(6);
   const mapRef = React.useRef<any>();
 
   const handleMapClick = (e: any) => {
@@ -40,16 +41,23 @@ export default function LocationInput() {
     }
   };
 
+  const customIcon = new L.Icon({
+    iconUrl: require('./../profile-picture.jpg'),
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  });
+
   return (
     <div className="location-input">
-      <MapContainer ref={mapRef} center={[51.505, -0.09]} zoom={zoom} style={{ height: "400px", width: "100%" }}>
+      <MapContainer ref={mapRef} center={[52.1141903, 16.9287151]} zoom={zoom} style={{ height: "400px", width: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <MapEvents />
         {position && (
-          <Marker position={position}>
+          <Marker position={position} icon={customIcon}>
             <Popup>Your selected location</Popup>
           </Marker>
         )}
@@ -58,4 +66,4 @@ export default function LocationInput() {
       <button onClick={getUserLocation}>Get My Location</button>
     </div>
   );
-};
+}
