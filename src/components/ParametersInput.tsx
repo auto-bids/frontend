@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import LocationInputSearch from "./LocationInputSearch";
 
 export default function ParametersInputMain({showAllFields}: {showAllFields: boolean}) {
   const [selectedMake, setSelectedMake] = useState("");
@@ -142,6 +143,8 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
       <input type="text" placeholder="Country" />
       <input type="text" placeholder="City" />
       <input type="text" placeholder="Radius" />
+
+      <LocationInputSearch />
 
       <label>Status:</label>
       <select>
