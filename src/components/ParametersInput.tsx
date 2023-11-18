@@ -6,10 +6,15 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedColor, setSelectedColor] = useState("#000000");
+  const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
 
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMake(event.target.value);
     setSelectedModel("");
+  };
+
+  const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
+    setLocationParams(params);
   };
 
   return (
@@ -144,7 +149,7 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
       <input type="text" placeholder="City" />
       <input type="text" placeholder="Radius" />
 
-      <LocationInputSearch />
+      <LocationInputSearch onLocationChange={handleLocationChange} />
 
       <label>Status:</label>
       <select>

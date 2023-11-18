@@ -3,7 +3,11 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, useMapEvents } from "re
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-export default function LocationInput() {
+interface LocationInputSearchProps {
+    onLocationChange: (params: { position: [number, number] | null; radius: number }) => void;
+}
+
+export default function LocationInput({ onLocationChange }: LocationInputSearchProps) {
     const defaultPosition: [number, number] = [52.1141903, 16.9287151];
     const [position, setPosition] = useState<[number, number] | null>([52.1141903, 16.9287151]);;
     const [zoom, setZoom] = useState<number>(6);
@@ -13,10 +17,13 @@ export default function LocationInput() {
     const handleMapClick = (e: any) => {
         const { lat, lng } = e.latlng;
         setPosition([lat, lng]);
+        onLocationChange({ position: [lat, lng], radius });
     };
 
     const handleRadiusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setRadius(parseInt(e.target.value, 10));
+        const newRadius = parseInt(e.target.value, 10);
+        setRadius(newRadius);
+        onLocationChange({ position, radius: newRadius });
     };
 
     const MapEvents = () => {
