@@ -145,10 +145,6 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
       </select>
 
       <label>Location:</label>
-      <input type="text" placeholder="Country" />
-      <input type="text" placeholder="City" />
-      <input type="text" placeholder="Radius" />
-
       <LocationInputSearch onLocationChange={handleLocationChange} />
 
       <label>Status:</label>

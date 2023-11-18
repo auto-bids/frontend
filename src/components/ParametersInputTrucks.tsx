@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import LocationInputSearch from "./LocationInputSearch";
 
 export default function ParametersInputMainTrucks({showAllFields}: {showAllFields: boolean}) {
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
+    const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMake(event.target.value);
         setSelectedModel("");
     };
+
+    const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
+        setLocationParams(params);
+    }
 
     return(
         <div className="parameters-input-main">
@@ -92,9 +98,7 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
                 <option value="Other">Other</option>
             </select>
             <label>Location:</label>
-            <input type="text" placeholder="Country" />
-            <input type="text" placeholder="City" />
-            <input type="text" placeholder="Radius" />
+            <LocationInputSearch onLocationChange={handleLocationChange} />
             </>
             )}
             <Link to="/search">

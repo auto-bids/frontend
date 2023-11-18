@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import LocationInputSearch from "./LocationInputSearch";
 
 export default function ParametersInputDeliveryVans({showAllFields}: {showAllFields: boolean}) {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedColor, setSelectedColor] = useState("#000000");
+  const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
 
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMake(event.target.value);
     setSelectedModel("");
+  };
+
+  const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
+    setLocationParams(params);
   };
 
   return (
@@ -140,9 +146,7 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         onChange={(event) => setSelectedColor(event.target.value)}
       />
       <label>Location:</label>
-      <input type="text" placeholder="Country" />
-      <input type="text" placeholder="City" />
-      <input type="text" placeholder="Radius" />
+      <LocationInputSearch onLocationChange={handleLocationChange} />
       </>
       )}
       <Link to="/search">

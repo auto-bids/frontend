@@ -7,7 +7,7 @@ interface LocationInputSearchProps {
     onLocationChange: (params: { position: [number, number] | null; radius: number }) => void;
 }
 
-export default function LocationInput({ onLocationChange }: LocationInputSearchProps) {
+export default function LocationInputSearch({ onLocationChange }: LocationInputSearchProps) {
     const defaultPosition: [number, number] = [52.1141903, 16.9287151];
     const [position, setPosition] = useState<[number, number] | null>([52.1141903, 16.9287151]);;
     const [zoom, setZoom] = useState<number>(6);
