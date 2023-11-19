@@ -1,0 +1,29 @@
+{
+    "photos": ["photo1","photo2"],
+    "title": "Sample Title",
+    "make": "Honda",
+    "model": "CBR",
+    "type": "Sportbike",
+    "year": "2022",
+    "mileage": 5000,
+    "price": 8000,
+    "description": "This is a sample description.",
+    "vinNumber": "123456789",
+    "engineCapacity": "600",
+    "fuelType": "Petrol",
+    "enginePower": "100",
+    "transmission": "Manual",
+    "color": "#ff0000",
+    "driveType": "Chain",
+    "registrationNumber": "ABC123",
+    "firstRegistration": "2022",
+    "condition": "Used",
+    "seller": {
+        "name": "John Doe",
+        "phone": "123456789",
+        "email": "john@example.com",
+        "x": 53,
+        "y": 16
+    }
+  }
+  

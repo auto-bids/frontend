@@ -24,7 +24,7 @@
     "features": ["Feature 1", "Feature 2", "Feature 3"],
     "seller": {
       "name": "John Doe",
-      "phone": "123-456-7890",
+      "phone": "123456789",
       "email": "john@example.com",
       "x": 53,
       "y": 16
