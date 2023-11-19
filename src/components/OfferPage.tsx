@@ -39,6 +39,8 @@ interface IOffer {
 export default function OfferPage(){
 
     const [offerData, setOfferData] = useState<IOffer | null>(null);
+    const [isOwner, setIsOwner] = useState<boolean>(true);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
     // useEffect(() => {
     //     fetch("https://essa.com/api/offer/123")
@@ -54,15 +56,48 @@ export default function OfferPage(){
           .catch((error) => console.error("Error loading local data:", error));
       }, []);
 
+    const handleSaveChanges = () => {
+        setIsEditing(false);
+    };
+
     if (!offerData) {
         return <p>Loading...</p>;
     }
     return(
         <div className="offer-page">
             <div className="offer-page-top-bar">
+                {isOwner===true && isEditing===false ? (
+                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                ) : (
+                    ""
+                )}
+                {isOwner===true && isEditing===true ? (
+                    <button onClick={handleSaveChanges}>Save</button>
+                ) : (
+                    ""
+                )}
+                {isOwner===true && isEditing===true ? (
+                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                ) : (
+                    ""
+                )}
                 <h1>{offerData.title}</h1>
-                <p>{offerData.price}</p>
-                <button className="offer-page-top-bar-button">Add to favourites</button>
+                <p>
+                {isEditing ? (
+                    <input
+                    type="number"
+                    value={offerData.price}
+                    onChange={(event) =>
+                        setOfferData({
+                        ...offerData,
+                        price: Number(event.target.value),
+                        })
+                    }
+                    />
+                ) : (
+                    offerData.price
+                )}
+                </p>
             </div>
             <div className="offer-page-main">
                 <div className="offer-page-main-images">
@@ -74,6 +109,13 @@ export default function OfferPage(){
                             <img src={photo} alt="offer" />
                         ))}
                     </div>
+                    {isOwner && isEditing ? (
+                        <div className="offer-images-add-image">
+                            <input type="file" accept="image/*" />
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </div>
                 <div className="offer-page-main-details">
                     <label>Make:</label>
@@ -85,7 +127,20 @@ export default function OfferPage(){
                     <label>Year:</label>
                     <p>{offerData.year}</p>
                     <label>Mileage:</label>
-                    <p>{offerData.mileage}</p>
+                    {isEditing ? (
+                        <input
+                        type="number"
+                        value={offerData.mileage}
+                        onChange={(event) =>
+                            setOfferData({
+                            ...offerData,
+                            mileage: Number(event.target.value),
+                            })
+                        }
+                        />
+                    ) : (
+                        <p>{offerData.mileage}</p>
+                    )}
                     <label>Engine Capacity:</label>
                     <p>{offerData.engineCapacity}</p>
                     <label>Fuel:</label>
@@ -93,7 +148,7 @@ export default function OfferPage(){
                     <label>Power:</label>
                     <p>{offerData.power}</p>
                     <label>Transmission:</label>
-                    <p>{offerData.transmission}</p>
+                    <p>{offerData.drive}</p>
                     <label>Drive:</label>
                     <p>{offerData.drive}</p>
                     <label>Steering:</label>
@@ -118,7 +173,19 @@ export default function OfferPage(){
                 </div>
                 <div className="offer-page-main-description">
                     <h2>Description</h2>
-                    <p>{offerData.description}</p>
+                    {isEditing ? (
+                        <textarea
+                        value={offerData.description}
+                        onChange={(event) =>
+                            setOfferData({
+                            ...offerData,
+                            description: event.target.value,
+                            })
+                        }
+                        />
+                    ) : (
+                        <p>{offerData.description}</p>
+                    )}
                 </div>
                 <div className="offer-page-main-features">
                     <h2>Features</h2>
