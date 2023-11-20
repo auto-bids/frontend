@@ -1,0 +1,20 @@
+{
+    "photos": ["machinery_photo1.jpg", "machinery_photo2.jpg", "machinery_photo3.jpg"],
+    "title": "Excavator for Sale",
+    "make": "Caterpillar",
+    "model": "320D",
+    "application": "Excavation",
+    "year": 2019,
+    "operatingHours": 1200,
+    "price": 80000,
+    "condition": "Used",
+    "description": "Powerful excavator for various construction tasks.",
+    "seller": {
+      "name": "Bob Builder",
+      "phone": "+1234567890",
+      "email": "bob.builder@example.com",
+      "x": 40.7128,
+      "y": -74.0060
+    }
+  }
+  
