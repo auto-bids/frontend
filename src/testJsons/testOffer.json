@@ -13,7 +13,6 @@
     "transmission": "Automatic",
     "drive": "Front",
     "steering": "Left",
-    "color": "Blue",
     "doors": 4,
     "seats": 5,
     "registrationNumber": "ABC123",
@@ -21,7 +20,6 @@
     "condition": "Used",
     "vinNumber": "12345678901234567",
     "description": "This is a sample offer description.",
-    "features": ["Feature 1", "Feature 2", "Feature 3"],
     "seller": {
       "name": "John Doe",
       "phone": "123456789",

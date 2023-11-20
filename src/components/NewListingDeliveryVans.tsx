@@ -5,7 +5,6 @@ import LocationInput from "./LocationInput";
 export default function NewListingDeliveryVans() {
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
-    const [selectedColor, setSelectedColor] = useState("#000000");
 
     return(
         <div className="new-listing-page">
@@ -133,12 +132,6 @@ export default function NewListingDeliveryVans() {
             <label>Capacity:</label>
             <input type="text" placeholder="Capacity from" />
             <input type="text" placeholder="Capacity to" />
-            <label>Color:</label>
-            <input
-                type="color"
-                value={selectedColor}
-                onChange={(event) => setSelectedColor(event.target.value)}
-            />
             <label>Location:</label>
             <LocationInput />
             <label>Phone number:</label>

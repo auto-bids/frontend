@@ -18,7 +18,6 @@ interface IOffer {
     transmission: string;
     drive: string;
     steering: string;
-    color: string;
     doors: number;
     seats: number;
     registrationNumber: string;
@@ -26,7 +25,6 @@ interface IOffer {
     condition: string;
     vinNumber: string;
     description: string;
-    features: string[];
     seller: {
         name: string;
         phone: string;
@@ -153,8 +151,6 @@ export default function OfferPage(){
                     <p>{offerData.drive}</p>
                     <label>Steering:</label>
                     <p>{offerData.steering}</p>
-                    <label>Color:</label>
-                    <p>{offerData.color}</p>
                     <label>Doors:</label>
                     <p>{offerData.doors}</p>
                     <label>Seats:</label>
@@ -186,12 +182,6 @@ export default function OfferPage(){
                     ) : (
                         <p>{offerData.description}</p>
                     )}
-                </div>
-                <div className="offer-page-main-features">
-                    <h2>Features</h2>
-                    {offerData.features.map((feature, index) => (
-                    <p key={index}>{feature}</p>
-                    ))}
                 </div>
                 <div className="offer-page-main-seller">
                     <SellerElement name={offerData.seller.name} phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/>

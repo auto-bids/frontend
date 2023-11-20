@@ -22,7 +22,6 @@
     "permissibleGrossWeight": "3000 kg",
     "maximumLoad": "1500 kg",
     "capacity": "2000 cc",
-    "color": "White",
     "seller": {
       "name": "Jane Smith",
       "phone": "+9876543210",

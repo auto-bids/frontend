@@ -5,7 +5,6 @@ import LocationInputSearch from "./LocationInputSearch";
 export default function ParametersInputDeliveryVans({showAllFields}: {showAllFields: boolean}) {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
-  const [selectedColor, setSelectedColor] = useState("#000000");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
 
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -139,12 +138,6 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
       <label>Capacity:</label>
       <input type="text" placeholder="Capacity from" />
       <input type="text" placeholder="Capacity to" />
-      <label>Color:</label>
-      <input
-        type="color"
-        value={selectedColor}
-        onChange={(event) => setSelectedColor(event.target.value)}
-      />
       <label>Location:</label>
       <LocationInputSearch onLocationChange={handleLocationChange} />
       </>

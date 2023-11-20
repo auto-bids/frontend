@@ -26,7 +26,6 @@ interface IOfferDeliveryVans{
     permissibleGrossWeight: string;
     maximumLoad: string;
     capacity: string;
-    color: string;
     seller: {
         name: string;
         phone: string;
@@ -156,8 +155,6 @@ export default function OfferPageDeliveryVans(){
                             <p>{offerData.maximumLoad}</p>
                             <label>Capacity:</label>
                             <p>{offerData.capacity}</p>
-                            <label>Color:</label>
-                            <p>{offerData.color}</p>   
                     </div>
                     <div className="offer-page-main-description">
                         <h2>Description</h2>

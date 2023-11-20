@@ -17,7 +17,6 @@ interface IOfferMotorcycles {
     fuelType: string;
     enginePower: string;
     transmission: string;
-    color: string;
     driveType: string;
     registrationNumber: string;
     firstRegistration: string;
@@ -140,8 +139,6 @@ export default function OfferPageMotorcycles(){
                         <p>{offerData.enginePower}</p>
                         <label>Transmission:</label>
                         <p>{offerData.transmission}</p>
-                        <label>Color:</label>
-                        <p>{offerData.color}</p>
                         <label>Drive type:</label>
                         <p>{offerData.driveType}</p>
                         <label>Registration number:</label>

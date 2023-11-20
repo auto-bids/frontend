@@ -4,7 +4,7 @@ import LocationInput from "./LocationInput";
 export default function NewListing() {
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
-    const [selectedColor, setSelectedColor] = useState("#000000");
+    // const [selectedColor, setSelectedColor] = useState("#000000");
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMake(event.target.value);
@@ -70,8 +70,8 @@ export default function NewListing() {
                 <input type='text' placeholder='Price' />
                 <label>Description:</label>
                 <textarea placeholder='Description' />
-                <label>Features:</label>
-                <input type='text' placeholder="Features" />
+                {/* <label>Features:</label>
+                <input type='text' placeholder="Features" /> */}
                 <label>VIN number:</label>
                 <input type='text' placeholder='VIN number' />
                 <label>Engine capacity:</label>
@@ -110,12 +110,12 @@ export default function NewListing() {
                     <option value='Left'>Left</option>
                     <option value='Right'>Right</option>
                 </select>
-                <label>Color:</label>
+                {/* <label>Color:</label>
                 <input
                     type="color"
                     value={selectedColor}
                     onChange={(event) => setSelectedColor(event.target.value)}
-                />
+                /> */}
                 <label>Doors:</label>
                 <select>
                     <option value=''>Doors</option>

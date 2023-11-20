@@ -5,7 +5,6 @@ import LocationInput from "./LocationInput";
 export default function NewListingMotorcycles() {
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
-    const [selectedColor, setSelectedColor] = useState("#000000");
 
     return(
         <div className='new-listing-page'>
@@ -59,8 +58,6 @@ export default function NewListingMotorcycles() {
                 <input type='text' placeholder='Price' />
                 <label>Description:</label>
                 <textarea placeholder="Description" />
-                <label>Features:</label>
-                <input type='text' placeholder="Features" />
                 <label>VIN number:</label>
                 <input type='text' placeholder='VIN number' />
                 <label>Engine capacity:</label>
@@ -81,11 +78,6 @@ export default function NewListingMotorcycles() {
                     <option value='Automatic'>Automatic</option>
                 </select>
                 <label>Color:</label>
-                <input
-                    type="color"
-                    value={selectedColor}
-                    onChange={(event) => setSelectedColor(event.target.value)}
-                />
                 <label>Drive type:</label>
                 <select>
                     <option value=''>Drive type</option>

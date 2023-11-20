@@ -5,7 +5,6 @@ import LocationInputSearch from "./LocationInputSearch";
 export default function ParametersInputMain({showAllFields}: {showAllFields: boolean}) {
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
-  const [selectedColor, setSelectedColor] = useState("#000000");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
 
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -102,13 +101,6 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
         <option value="6">6</option>
         <option value='Other'>Other</option>
       </select>
-
-      <label>Color:</label>
-      <input
-        type="color"
-        value={selectedColor}
-        onChange={(event) => setSelectedColor(event.target.value)}
-      />
 
       <label>Engine Capacity:</label>
       <input type="text" placeholder="Engine Capacity from" />
