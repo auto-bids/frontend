@@ -1,0 +1,34 @@
+{
+    "photos": ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
+    "title": "Delivery Van for Sale",
+    "make": "Ford",
+    "model": "Transit",
+    "year": "2018",
+    "mileage": 80000,
+    "price": 20000,
+    "description": "Spacious delivery van with low mileage.",
+    "fuelType": "Diesel",
+    "transmission": "Manual",
+    "drive": "Rear",
+    "steering": "Left",
+    "engineCapacity": 2.0,
+    "power": 130,
+    "registrationNumber": "XYZ789",
+    "firstRegistration": 2018,
+    "vinNumber": "98765432109876543",
+    "condition": "Used",
+    "doors": "3",
+    "seats": "2",
+    "permissibleGrossWeight": "3000 kg",
+    "maximumLoad": "1500 kg",
+    "capacity": "2000 cc",
+    "color": "White",
+    "seller": {
+      "name": "Jane Smith",
+      "phone": "+9876543210",
+      "email": "jane.smith@example.com",
+      "x": 34.0522,
+      "y": -118.2437
+    }
+  }
+  

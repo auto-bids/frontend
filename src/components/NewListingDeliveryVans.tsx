@@ -88,6 +88,8 @@ export default function NewListingDeliveryVans() {
             <input type="text" placeholder="Power" />
             <label>Registration number</label>
             <input type="text" placeholder="Registration number" />
+            <label>First registration:</label>
+            <input type="text" placeholder="First registration" />
             <label>VIN number:</label>
             <input type="text" placeholder="Vin number" />
             <label>Condition:</label>
