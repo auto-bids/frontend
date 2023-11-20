@@ -1,0 +1,21 @@
+{
+    "photos": ["truck_photo1.jpg", "truck_photo2.jpg", "truck_photo3.jpg"],
+    "title": "Heavy-duty Truck for Sale",
+    "make": "Volvo",
+    "model": "VNL",
+    "application": "Long Haul",
+    "year": "2019",
+    "mileage": 150000,
+    "price": 80000,
+    "description": "Powerful truck suitable for long-distance hauling.",
+    "condition": "Used",
+    "fuelType": "Diesel",
+    "seller": {
+      "name": "Mike Johnson",
+      "phone": "+1234567890",
+      "email": "mike.johnson@example.com",
+      "x": 41.8781,
+      "y": -87.6298
+    }
+  }
+  

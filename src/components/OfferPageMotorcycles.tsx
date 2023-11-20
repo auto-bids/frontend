@@ -60,15 +60,6 @@ export default function OfferPageMotorcycles(){
         return(
             <div className="offer-page">
                 <div className="offer-page-top-bar">
-                {isOwner && !isEditing && (
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
-                )}
-                {isOwner && isEditing && (
-                    <>
-                    <button onClick={handleSaveChanges}>Save</button>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
-                    </>
-                )}
                 <h1>{offerData.title}</h1>
                     <p>
                         {isEditing ? (
@@ -168,6 +159,14 @@ export default function OfferPageMotorcycles(){
                     <div className="offer-page-main-seller">
                         <SellerElement name={offerData.seller.name} phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/>
                     </div>
+                </div>
+                <div className="offer-page-buttons">
+                    {isOwner && !isEditing && (
+                        <button onClick={() => setIsEditing(true)}>Edit</button>
+                    )}
+                    {isOwner && isEditing && (
+                        <button onClick={handleSaveChanges}>Save Changes</button>
+                    )}
                 </div>
             </div>
         );
