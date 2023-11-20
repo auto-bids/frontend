@@ -1,0 +1,18 @@
+{
+    "photos": ["trailer_photo1.jpg", "trailer_photo2.jpg", "trailer_photo3.jpg"],
+    "title": "Cargo Trailer for Sale",
+    "make": "Utility",
+    "application": "Cargo Transport",
+    "year": 2022,
+    "price": 15000,
+    "condition": "New",
+    "description": "Spacious cargo trailer for transporting goods.",
+    "seller": {
+      "name": "Alice Johnson",
+      "phone": "+9876543210",
+      "email": "alice.johnson@example.com",
+      "x": 34.0522,
+      "y": -118.2437
+    }
+  }
+  
