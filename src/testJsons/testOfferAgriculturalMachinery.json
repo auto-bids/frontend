@@ -1,0 +1,18 @@
+{
+    "photos": ["agricultural_machinery_photo1.jpg", "agricultural_machinery_photo2.jpg", "agricultural_machinery_photo3.jpg"],
+    "title": "Tractor for Sale",
+    "make": "John Deere",
+    "application": "Farm Work",
+    "year": 2020,
+    "operatingHours": 500,
+    "price": 35000,
+    "condition": "Like New",
+    "description": "Efficient tractor for various agricultural tasks.",
+    "seller": {
+      "name": "Farm Equipment Ltd.",
+      "phone": "+9876543210",
+      "email": "info@farmequipment.com",
+      "x": 34.0522,
+      "y": -118.2437
+    }
+  }
