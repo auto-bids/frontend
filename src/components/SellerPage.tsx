@@ -9,32 +9,127 @@ import ParametersInputTrailers from "./ParametersInputTrailers";
 import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
 import { useState } from "react";
 
-declare global {
-    interface Window {
-      google: any;
-    }
-  }
-
+interface IOffer {
+    agriculturalMachinery: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+    generalOffer: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+    constructionMachinery: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+    deliveryVans: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+    motorcycles: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+    trailers: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+    trucks: {
+        photos: string[];
+        title: string;
+        price: number;
+        year: number;
+    };
+};
 export default function SellerPage() {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showAllFields, setShowAllFields] = useState(false);
     const [showContactOrOffer, setShowContactOrOffer] = useState("offer");
 
+    //just for testing
+    const [offerData, setOfferData] = useState<IOffer | null>(null);
     useEffect(() => {
-        if (window.google) {
-          const map = new window.google.maps.Map(document.getElementById("map"), {
-            center: { lat: 52.1138226, lng: 16.9311019 },
-            zoom: 10,
-          });
-    
-          new window.google.maps.Marker({
-            position: { lat: 52.1138226, lng: 16.9311019 },
-            map: map,
-            title: "Seller Location",
-          });
-        }
+        Promise.all([
+          import("../testJsons/testOfferAgriculturalMachinery.json"),
+          import("../testJsons/testOffer.json"),
+          import("../testJsons/testOfferConstructionMachinery.json"),
+          import("../testJsons/testOfferDeliveryVans.json"),
+          import("../testJsons/testOfferMotorcycles.json"),
+          import("../testJsons/testOfferTrailers.json"),
+          import("../testJsons/testOfferTrucks.json"),
+        ])
+          .then((data) => {
+            const [
+              agriculturalMachineryData,
+              offerData,
+              constructionMachineryData,
+              deliveryVansData,
+              motorcyclesData,
+              trailersData,
+              trucksData,
+            ] = data;
+      
+            setOfferData({
+              agriculturalMachinery: {
+                photos: agriculturalMachineryData.default.photos,
+                title: agriculturalMachineryData.default.title,
+                price: agriculturalMachineryData.default.price,
+                year: agriculturalMachineryData.default.year,
+              },
+              generalOffer: {
+                photos: offerData.default.photos,
+                title: offerData.default.title,
+                price: offerData.default.price,
+                year: offerData.default.year,
+              },
+              constructionMachinery: {
+                photos: constructionMachineryData.default.photos,
+                title: constructionMachineryData.default.title,
+                price: constructionMachineryData.default.price,
+                year: constructionMachineryData.default.year,
+              },
+              deliveryVans: {
+                photos: deliveryVansData.default.photos,
+                title: deliveryVansData.default.title,
+                price: deliveryVansData.default.price,
+                year: deliveryVansData.default.year,
+              },
+              motorcycles: {
+                photos: motorcyclesData.default.photos,
+                title: motorcyclesData.default.title,
+                price: motorcyclesData.default.price,
+                year: motorcyclesData.default.year,
+              },
+              trailers: {
+                photos: trailersData.default.photos,
+                title: trailersData.default.title,
+                price: trailersData.default.price,
+                year: trailersData.default.year,
+              },
+              trucks: {
+                photos: trucksData.default.photos,
+                title: trucksData.default.title,
+                price: trucksData.default.price,
+                year: trucksData.default.year,
+              },
+            });
+          })
+          .catch((error) => console.error("Error loading local data:", error));
       }, []);
 
+    
     return(
         <div className="seller-page">
             <div className="seller-page-header">
@@ -76,7 +171,15 @@ export default function SellerPage() {
                 </div>
                 <h1>Offers</h1>
                 <div className="seller-page-offers-offers">
-                    {[...Array(6)].map((e, i) => <OfferElement key={i} />)}
+                    ?{offerData?.generalOffer.photos.map((photo) => (
+                        <OfferElement
+                            key={photo}
+                            image={photo}
+                            title={offerData?.generalOffer.title}
+                            price={offerData?.generalOffer.price}
+                            year={offerData?.generalOffer.year}
+                        />
+                    ))}
                 </div>
             </div>}
             {showContactOrOffer === "contact" &&
@@ -89,7 +192,6 @@ export default function SellerPage() {
                     <p>Street</p>
                     <p>Post code</p>
                 </div>
-                <div id="map" style={{ height: "400px", width: "100%" }}></div>
             </div>}
         </div>
     )

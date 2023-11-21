@@ -8,7 +8,7 @@ interface IOfferTrucks {
     make: string;
     model: string;
     application: string;
-    year: string;
+    year: number;
     mileage: number;
     price: number;
     description: string;

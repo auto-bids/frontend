@@ -4,7 +4,7 @@
     "make": "Volvo",
     "model": "VNL",
     "application": "Long Haul",
-    "year": "2019",
+    "year": 2019,
     "mileage": 150000,
     "price": 80000,
     "description": "Powerful truck suitable for long-distance hauling.",

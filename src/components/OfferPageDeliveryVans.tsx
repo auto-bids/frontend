@@ -7,7 +7,7 @@ interface IOfferDeliveryVans{
     title: string;
     make: string;
     model: string;
-    year: string;
+    year: number;
     mileage: number;
     price: number;
     description: string;

@@ -8,7 +8,7 @@ interface IOfferMotorcycles {
     make: string;
     model: string;
     type: string;
-    year: string;
+    year: number;
     mileage: number;
     price: number;
     description: string;

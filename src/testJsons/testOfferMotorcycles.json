@@ -4,7 +4,7 @@
     "make": "Honda",
     "model": "CBR",
     "type": "Sportbike",
-    "year": "2022",
+    "year": 2022,
     "mileage": 5000,
     "price": 8000,
     "description": "This is a sample description.",

@@ -3,7 +3,7 @@
     "title": "Delivery Van for Sale",
     "make": "Ford",
     "model": "Transit",
-    "year": "2018",
+    "year": 2018,
     "mileage": 80000,
     "price": 20000,
     "description": "Spacious delivery van with low mileage.",

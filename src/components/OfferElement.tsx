@@ -1,18 +1,22 @@
 import React from "react";
 
-export default function OfferElement() {
+interface OfferElementProps {
+    image: string;
+    title: string;
+    price: number;
+    year: number;
+}
 
+export default function OfferElement(props: OfferElementProps) {
     return (
         <div className="offer-element">
-            <img className="offer-element-img" src='/test.jpeg' alt='offer' />
-            <div className="offer-element-info">
-                <h2>Offer Title</h2>
-                <h2>Price</h2>
-                <p>Year</p>
-                <p>Mileage</p>
-                <p>Fuel</p>
-                <p>Engine capacity</p>
-                <p>Power</p>
+            <div className="offer-element-image">
+                <img src={props.image} alt={props.title} />
+            </div>
+            <div className="offer-element-details">
+                <h3>{props.title}</h3>
+                <p>{props.price}€</p>
+                <p>{props.year}</p>
             </div>
         </div>
     );
