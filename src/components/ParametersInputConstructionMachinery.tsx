@@ -1,23 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import constructionMachineryDataJson from "../testJsons/makeModelConstructionMachinery.json";
 
 export default function ParametersInputMainTrucks({showAllFields}: {showAllFields: boolean}) {
+    const [constructionMachineryMakes, setConstructionMachineryMakes] = useState<string[]>([]);
 
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
     };
 
+    useEffect(() => {
+        setConstructionMachineryMakes(constructionMachineryDataJson);
+    }, []);
+
     return(
         <div className="parameters-input-main">
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="Caterpillar">Caterpillar</option>
-                <option value="Komatsu">Komatsu</option>
-                <option value="Liebherr">Liebherr</option>
+                {constructionMachineryMakes.map((constructionMachinery) => (
+                    <option key={constructionMachinery} value={constructionMachinery}>
+                        {constructionMachinery}
+                    </option>
+                ))}
             </select>
             <label>Model:</label>
             <input type="text" placeholder="Model" />
