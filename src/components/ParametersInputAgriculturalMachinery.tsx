@@ -1,22 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import agriculturalMachineryDataJson from "../testJsons/makeModelAgriculturalMachinery.json";
 
 export default function ParametersInputMainAgriculturalMachinery({showAllFields}: {showAllFields: boolean}) {
+    const [agriculturalMachineryMakes, setAgriculturalMachineryMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
     };
+
+    useEffect(() => {
+        setAgriculturalMachineryMakes(agriculturalMachineryDataJson);
+    }, []);
 
     return(
         <div className="parameters-input-main">
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="John Deere">John Deere</option>
-                <option value="New Holland">New Holland</option>
-                <option value="Case IH">Case IH</option>
+                {agriculturalMachineryMakes.map((agriculturalMachinery) => (
+                    <option key={agriculturalMachinery} value={agriculturalMachinery}>
+                        {agriculturalMachinery}
+                    </option>
+                ))}
             </select>
             <label>Model:</label>
             <input type="text" placeholder="Model" />
