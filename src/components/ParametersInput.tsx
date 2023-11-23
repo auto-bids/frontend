@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
-import carDataJson from "../testJsons/carMakeModel.json";
+import carDataJson from "../testJsons/makeModelCars.json";
 
 interface CarData {
   make: string;
