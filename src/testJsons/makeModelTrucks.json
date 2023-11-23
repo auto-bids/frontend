@@ -1,0 +1,15 @@
+[
+    {
+      "make": "Mercedes-Benz",
+      "models": ["Actros", "Atego", "Axor", "Econic", "Unimog", "Vario"]
+    },
+    {
+      "make": "Scania",
+      "models": ["G-series", "P-series", "R-series", "S-series"]
+    },
+    {
+      "make": "Volvo",
+      "models": ["FH", "FM", "FL", "FE", "FH16"]
+    }
+  ]
+  

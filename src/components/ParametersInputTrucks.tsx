@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
+import trucksDataJson from "../testJsons/makeModelTrucks.json";
 
 export default function ParametersInputMainTrucks({showAllFields}: {showAllFields: boolean}) {
+    const [trucksData, setTrucksData] = useState(trucksDataJson);
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+
+    useEffect(() => {
+        setTrucksData(trucksDataJson);
+    }, []);
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMake(event.target.value);
@@ -21,40 +27,21 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
             <label>Make:</label>
             <select value={selectedMake} onChange={handleMakeChange}>
                 <option value="">Make</option>
-                <option value="Mercedes-Benz">Mercedes-Benz</option>
-                <option value="Scania">Scania</option>
-                <option value="Volvo">Volvo</option>
+                {trucksData.map((truck) => (
+                    <option key={truck.make} value={truck.make}>
+                        {truck.make}
+                    </option>
+                ))}
             </select>
             <label>Model:</label>
             <select value={selectedModel} onChange={(event) => setSelectedModel(event.target.value)}>
                 <option value="">Model</option>
-                {selectedMake === "Mercedes-Benz" && (
-                    <>
-                        <option value="Actros">Actros</option>
-                        <option value="Atego">Atego</option>
-                        <option value="Axor">Axor</option>
-                        <option value="Econic">Econic</option>
-                        <option value="Unimog">Unimog</option>
-                        <option value="Vario">Vario</option>
-                    </>
-                )}
-                {selectedMake === "Scania" && (
-                    <>
-                        <option value="G-series">G-series</option>
-                        <option value="P-series">P-series</option>
-                        <option value="R-series">R-series</option>
-                        <option value="S-series">S-series</option>
-                    </>
-                )}
-                {selectedMake === "Volvo" && (
-                    <>
-                        <option value="FH">FH</option>
-                        <option value="FM">FM</option>
-                        <option value="FL">FL</option>
-                        <option value="FE">FE</option>
-                        <option value="FH16">FH16</option>
-                    </>
-                )}
+                {trucksData
+                    .find((truck) => truck.make === selectedMake)?.models.map((model) => (
+                        <option key={model} value={model}>
+                            {model}
+                        </option>
+                    ))}
             </select>
             <label>Application:</label>
             <select>
