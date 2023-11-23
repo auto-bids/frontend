@@ -1,23 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import trailersDataJson from "../testJsons/makeModelTrailers.json";
 
 export default function ParametersInputMainTrailers({showAllFields}: {showAllFields: boolean}) {
-
+    const [trailerMakes, setTrailerMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
     }
+
+    useEffect(() => {
+        setTrailerMakes(trailersDataJson);
+    }, []);
 
     return(
         <div className="parameters-input-main">
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="Schmitz Cargobull">Schmitz Cargobull</option>
-                <option value="Krone">Krone</option>
-                <option value="Kögel">Kögel</option>
+                {trailerMakes.map((trailer) => (
+                    <option key={trailer} value={trailer}>
+                        {trailer}
+                    </option>
+                ))}
             </select>
             <label>Model:</label>
             <input type="text" placeholder="Model" />
