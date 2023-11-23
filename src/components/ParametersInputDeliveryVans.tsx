@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
+import deliveryVanDataJson from "../testJsons/makeModelDeliveryVans.json";
 
 export default function ParametersInputDeliveryVans({showAllFields}: {showAllFields: boolean}) {
+  const [deliveryVanData, setDeliveryVanData] = useState(deliveryVanDataJson);
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+
+  useEffect(() => {
+    setDeliveryVanData(deliveryVanDataJson);
+  }, []);
 
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMake(event.target.value);
@@ -21,32 +27,21 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
       <label>Make:</label>
       <select value={selectedMake} onChange={handleMakeChange}>
         <option value="">Make</option>
-        <option value="Ford">Ford</option>
-        <option value="Mercedes-Benz">Mercedes-Benz</option>
-        <option value="Volkswagen">Volkswagen</option>
+        {deliveryVanData.map((deliveryVan) => (
+          <option key={deliveryVan.make} value={deliveryVan.make}>
+            {deliveryVan.make}
+          </option>
+        ))}
       </select>
-
       <label>Model:</label>
       <select value={selectedModel} onChange={(event) => setSelectedModel(event.target.value)}>
         <option value="">Model</option>
-        {selectedMake === "Ford" && (
-          <>
-            <option value="Transit">Transit</option>
-            <option value="Connect">Connect</option>
-          </>
-        )}
-        {selectedMake === "Mercedes-Benz" && (
-          <>
-            <option value="Sprinter">Sprinter</option>
-            <option value="Vito">Vito</option>
-          </>
-        )}
-        {selectedMake === "Volkswagen" && (
-          <>
-            <option value="Transporter">Transporter</option>
-            <option value="Caddy">Caddy</option>
-          </>
-        )}
+        {deliveryVanData
+          .find((deliveryVan) => deliveryVan.make === selectedMake)?.models.map((model) => (
+            <option key={model} value={model}>
+              {model}
+            </option>
+          ))}
       </select>
       <label>Year:</label>
       <input type="text" placeholder="Year from" />
