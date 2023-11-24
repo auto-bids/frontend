@@ -1,7 +1,14 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import LocationInput from "./LocationInput";
+import makeModelConstructionMachinery from "../testJsons/makeModelConstructionMachinery.json";
 
 export default function NewListingConstructionMachinery() {
+    const [constructionMachineryMakes, setConstructionMachineryMakes] = useState<string[]>([]);
+    
+    useEffect(() => {
+        setConstructionMachineryMakes(makeModelConstructionMachinery);
+    }, []);
+
 
     return(
         <div className='new-listing-page'>
@@ -12,9 +19,11 @@ export default function NewListingConstructionMachinery() {
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="Caterpillar">Caterpillar</option>
-                <option value="Komatsu">Komatsu</option>
-                <option value="Liebherr">Liebherr</option>
+                {constructionMachineryMakes.map((constructionMachinery) => (
+                    <option key={constructionMachinery} value={constructionMachinery}>
+                        {constructionMachinery}
+                    </option>
+                ))}
             </select>
             <label>Model:</label>
             <input type="text" placeholder="Model" />

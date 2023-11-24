@@ -1,7 +1,17 @@
 import React from "react";
 import LocationInput from "./LocationInput";
+import {useState, useEffect} from "react";
+import makeModelAgriculturalMachinery from "../testJsons/makeModelAgriculturalMachinery.json";
+
 
 export default function NewListingAgriculturalMachinery(){
+    const [agriculturalMachineryMakes, setAgriculturalMachineryMakes] = useState<string[]>([]);
+
+    useEffect(() => {
+        setAgriculturalMachineryMakes(makeModelAgriculturalMachinery);
+    }, []);
+
+    
     return(
         <div className='new-listing-page'>
             <label>Photos:</label>
@@ -11,9 +21,11 @@ export default function NewListingAgriculturalMachinery(){
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="John Deere">John Deere</option>
-                <option value="New Holland">New Holland</option>
-                <option value="Case IH">Case IH</option>
+                {agriculturalMachineryMakes.map((agriculturalMachinery) => (
+                    <option key={agriculturalMachinery} value={agriculturalMachinery}>
+                        {agriculturalMachinery}
+                    </option>
+                ))}
             </select>
             <label>Model:</label>
             <input type="text" placeholder="Model" />

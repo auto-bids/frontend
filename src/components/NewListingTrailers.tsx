@@ -1,7 +1,15 @@
 import React from "react";
 import LocationInput from "./LocationInput";
+import {useState, useEffect} from "react";
+import makeModelTrailers from "../testJsons/makeModelTrailers.json";
 
 export default function NewListingTrailers(){
+    const [trailerMakes, setTrailerMakes] = useState<string[]>([]);
+
+    useEffect(() => {
+        setTrailerMakes(makeModelTrailers);
+    }, []);
+
     return(
         <div className='new-listing-page'>
             <label>Photos:</label>
@@ -11,21 +19,11 @@ export default function NewListingTrailers(){
             <label>Make:</label>
             <select>
                 <option value="">Make</option>
-                <option value="Schmitz">Schmitz</option>
-                <option value="Krone">Krone</option>
-                <option value="Kogel">Kogel</option>
-                <option value="Schwarzmuller">Schwarzmuller</option>
-                <option value="Fliegl">Fliegl</option>
-                <option value="Wielton">Wielton</option>
-                <option value="Kassbohrer">Kassbohrer</option>
-                <option value="Lamberet">Lamberet</option>
-                <option value="Krone">Krone</option>
-                <option value="Kogel">Kogel</option>
-                <option value="Schwarzmuller">Schwarzmuller</option>
-                <option value="Fliegl">Fliegl</option>
-                <option value="Wielton">Wielton</option>
-                <option value="Kassbohrer">Kassbohrer</option>
-                <option value="Lamberet">Lamberet</option>
+                {trailerMakes.map((trailer) => (
+                    <option key={trailer} value={trailer}>
+                        {trailer}
+                    </option>
+                ))}
             </select>
             <label>Application:</label>
             <select>
