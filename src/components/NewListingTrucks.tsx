@@ -1,8 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LocationInput from "./LocationInput";
+import makeModelTrucks from "../testJsons/makeModelTrucks.json";
+
+interface MakeModelTrucks {
+    make: string;
+    models: string[];
+}
 
 export default function NewListingTrucks() {
+    const [truckData, setMakeModelTrucks] = useState<MakeModelTrucks[]>([]);
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
 
@@ -10,6 +17,10 @@ export default function NewListingTrucks() {
         setSelectedMake(event.target.value);
         setSelectedModel("");
     };
+
+    useEffect(() => {
+        setMakeModelTrucks(makeModelTrucks);
+    }, []);
 
     return(
         <div className="new-listing-page">
@@ -20,40 +31,21 @@ export default function NewListingTrucks() {
             <label>Make:</label>
             <select value={selectedMake} onChange={handleMakeChange}>
                 <option value="">Make</option>
-                <option value="Mercedes-Benz">Mercedes-Benz</option>
-                <option value="Scania">Scania</option>
-                <option value="Volvo">Volvo</option>
+                {truckData.map((truck) => (
+                <option key={truck.make} value={truck.make}>
+                    {truck.make}
+                </option>
+                ))}
             </select>
             <label>Model:</label>
             <select value={selectedModel} onChange={(event) => setSelectedModel(event.target.value)}>
                 <option value="">Model</option>
-                {selectedMake === "Mercedes-Benz" && (
-                    <>
-                        <option value="Actros">Actros</option>
-                        <option value="Atego">Atego</option>
-                        <option value="Axor">Axor</option>
-                        <option value="Econic">Econic</option>
-                        <option value="Unimog">Unimog</option>
-                        <option value="Vario">Vario</option>
-                    </>
-                )}
-                {selectedMake === "Scania" && (
-                    <>
-                        <option value="G-series">G-series</option>
-                        <option value="P-series">P-series</option>
-                        <option value="R-series">R-series</option>
-                        <option value="S-series">S-series</option>
-                    </>
-                )}
-                {selectedMake === "Volvo" && (
-                    <>
-                        <option value="FH">FH</option>
-                        <option value="FM">FM</option>
-                        <option value="FL">FL</option>
-                        <option value="FE">FE</option>
-                        <option value="FH16">FH16</option>
-                    </>
-                )}
+                {truckData
+                .find((truck) => truck.make === selectedMake)?.models.map((model) => (
+                    <option key={model} value={model}>
+                    {model}
+                    </option>
+                ))}
             </select>
             <label>Application:</label>
             <select>
