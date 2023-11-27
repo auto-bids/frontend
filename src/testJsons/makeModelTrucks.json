@@ -1,15 +1,578 @@
 [
-    {
-      "make": "Mercedes-Benz",
-      "models": ["Actros", "Atego", "Axor", "Econic", "Unimog", "Vario"]
-    },
-    {
-      "make": "Scania",
-      "models": ["G-series", "P-series", "R-series", "S-series"]
-    },
-    {
-      "make": "Volvo",
-      "models": ["FH", "FM", "FL", "FE", "FH16"]
-    }
-  ]
-  
+  {
+    "make": "Aeronautica Industrial",
+    "models": [
+      "Model A",
+      "Model B",
+      "Model C"
+    ]
+  },
+  {
+    "make": "Ashok Leyland",
+    "models": [
+      "Bison",
+      "Captain",
+      "Partner"
+    ]
+  },
+  {
+    "make": "Associated Equipment Company",
+    "models": [
+      "Mammoth Major",
+      "Regent III",
+      "Reliance"
+    ]
+  },
+  {
+    "make": "Avia",
+    "models": [
+      "D-Line",
+      "R-Line",
+      "Fleet"
+    ]
+  },
+  {
+    "make": "Berliet",
+    "models": [
+      "GLR",
+      "GDR",
+      "TBO"
+    ]
+  },
+  {
+    "make": "BiełAZ",
+    "models": [
+      "75710",
+      "75601",
+      "7540"
+    ]
+  },
+  {
+    "make": "Brockway Motor Company",
+    "models": [
+      "358",
+      "761",
+      "769"
+    ]
+  },
+  {
+    "make": "Büssing",
+    "models": [
+      "BS",
+      "BVG",
+      "F/W"
+    ]
+  },
+  {
+    "make": "DAF Trucks",
+    "models": [
+      "XF",
+      "CF",
+      "LF"
+    ]
+  },
+  {
+    "make": "Dansk Automobil Byggeri",
+    "models": [
+      "DAB-12",
+      "DAB-15",
+      "DAB-8"
+    ]
+  },
+  {
+    "make": "Datsun",
+    "models": [
+      "Truck 320",
+      "Truck 520",
+      "Urvan"
+    ]
+  },
+  {
+    "make": "Ebro",
+    "models": [
+      "Superpullman",
+      "Comet",
+      "E-350"
+    ]
+  },
+  {
+    "make": "ERF",
+    "models": [
+      "E series",
+      "EC series",
+      "ES series"
+    ]
+  },
+  {
+    "make": "Fabryka Samochodów Ciężarowych „Star”",
+    "models": [
+      "266",
+      "200",
+      "660"
+    ]
+  },
+  {
+    "make": "FAP",
+    "models": [
+      "1620",
+      "1921",
+      "2628"
+    ]
+  },
+  {
+    "make": "FAW Group",
+    "models": [
+      "Jiefang",
+      "Tiger V",
+      "Oley"
+    ]
+  },
+  {
+    "make": "FIAT",
+    "models": [
+      "Ducato",
+      "Iveco Daily",
+      "Fiorino"
+    ]
+  },
+  {
+    "make": "Foden",
+    "models": [
+      "S41",
+      "S80",
+      "Alpha"
+    ]
+  },
+  {
+    "make": "Ford F-MAX",
+    "models": [
+      "F-MAX",
+      "Cargo",
+      "Transit"
+    ]
+  },
+  {
+    "make": "Ford Motor Company",
+    "models": [
+      "F-Series",
+      "Super Duty",
+      "L-Series"
+    ]
+  },
+  {
+    "make": "Foton Motor",
+    "models": [
+      "Aumark",
+      "Aoling",
+      "Ollin"
+    ]
+  },
+  {
+    "make": "Freightliner Trucks",
+    "models": [
+      "Cascadia",
+      "M2 106",
+      "Coronado"
+    ]
+  },
+  {
+    "make": "Fuso",
+    "models": [
+      "Canter",
+      "Fighter",
+      "Super Great"
+    ]
+  },
+  {
+    "make": "GMC",
+    "models": [
+      "Sierra",
+      "Canyon",
+      "TopKick"
+    ]
+  },
+  {
+    "make": "Hanomag",
+    "models": [
+      "Robur",
+      "F-Series",
+      "K55"
+    ]
+  },
+  {
+    "make": "Hino Motors",
+    "models": [
+      "Dutro",
+      "300 Series",
+      "500 Series"
+    ]
+  },
+  {
+    "make": "Hyundai Motor Company",
+    "models": [
+      "Mighty",
+      "HD series",
+      "Trago"
+    ]
+  },
+  {
+    "make": "Isuzu",
+    "models": [
+      "N-Series",
+      "F-Series",
+      "Giga"
+    ]
+  },
+  {
+    "make": "Iveco",
+    "models": [
+      "Stralis",
+      "Eurocargo",
+      "Daily"
+    ]
+  },
+  {
+    "make": "Jelcz",
+    "models": [
+      "272",
+      "325",
+      "442"
+    ]
+  },
+  {
+    "make": "Kaisis Motor Company",
+    "models": [
+      "KMC-12",
+      "KMC-15",
+      "KMC-8"
+    ]
+  },
+  {
+    "make": "KAZ",
+    "models": [
+      "Bremach",
+      "Barys",
+      "Shanghai Maple"
+    ]
+  },
+  {
+    "make": "Kenworth",
+    "models": [
+      "W900",
+      "T680",
+      "T800"
+    ]
+  },
+  {
+    "make": "KrAZ",
+    "models": [
+      "Kremenchuk",
+      "Spartan",
+      "Barricade"
+    ]
+  },
+  {
+    "make": "Leyland Motors",
+    "models": [
+      "Hippo",
+      "Super Comet",
+      "Octopus"
+    ]
+  },
+  {
+    "make": "LIAZ",
+    "models": [
+      "5256",
+      "677",
+      "5292"
+    ]
+  },
+  {
+    "make": "Mack Trucks",
+    "models": [
+      "Anthem",
+      "Granite",
+      "Pinnacle"
+    ]
+  },
+  {
+    "make": "MAN",
+    "models": [
+      "TGX",
+      "TGS",
+      "TGM"
+    ]
+  },
+  {
+    "make": "MAZ",
+    "models": [
+      "5432",
+      "5440",
+      "6303"
+    ]
+  },
+  {
+    "make": "Mercedes-Benz",
+    "models": [
+      "Actros",
+      "Arocs",
+      "Sprinter"
+    ]
+  },
+  {
+    "make": "Mińska Fabryka Ciągników Kołowych",
+    "models": [
+      "6422",
+      "6425",
+      "6441"
+    ]
+  },
+  {
+    "make": "Mitsubishi",
+    "models": [
+      "Fuso Canter",
+      "Rosa Bus",
+      "Strada"
+    ]
+  },
+  {
+    "make": "Navistar International",
+    "models": [
+      "ProStar",
+      "TranStar",
+      "WorkStar"
+    ]
+  },
+  {
+    "make": "Nikola Corporation",
+    "models": [
+      "Nikola One",
+      "Nikola Two",
+      "Nikola Tre"
+    ]
+  },
+  {
+    "make": "Nissan",
+    "models": [
+      "UD",
+      "Atlas",
+      "Condor"
+    ]
+  },
+  {
+    "make": "North American Bus Industries",
+    "models": [
+      "Comet",
+      "D40LF",
+      "LFS"
+    ]
+  },
+  {
+    "make": "Paccar",
+    "models": [
+      "Kenworth",
+      "Peterbilt",
+      "DAF"
+    ]
+  },
+  {
+    "make": "Pegaso",
+    "models": [
+      "Troner",
+      "Europa",
+      "Mider"
+    ]
+  },
+  {
+    "make": "Peterbilt",
+    "models": [
+      "379",
+      "389",
+      "567"
+    ]
+  },
+  {
+    "make": "Praga",
+    "models": [
+      "V3S",
+      "V3H",
+      "V4S"
+    ]
+  },
+  {
+    "make": "Rába",
+    "models": [
+      "H14",
+      "S22",
+      "G28"
+    ]
+  },
+  {
+    "make": "Renault Korea Motors",
+    "models": [
+      "Maxity",
+      "Midlum",
+      "Premium"
+    ]
+  },
+  {
+    "make": "Renault Trucks",
+    "models": [
+      "T",
+      "C",
+      "K"
+    ]
+  },
+  {
+    "make": "Roman",
+    "models": [
+      "Diesel 4x4",
+      "10.176",
+      "8.150"
+    ]
+  },
+  {
+    "make": "Saurer",
+    "models": [
+      "CR",
+      "D330",
+      "6DM"
+    ]
+  },
+  {
+    "make": "Scania",
+    "models": [
+      "R-Series",
+      "S-Series",
+      "P-Series"
+    ]
+  },
+  {
+    "make": "Seddon Atkinson",
+    "models": [
+      "Strato",
+      "Venturer",
+      "Pacer"
+    ]
+  },
+  {
+    "make": "Sisu Auto",
+    "models": [
+      "Polar",
+      "E13TP",
+      "SRG-334"
+    ]
+  },
+  {
+    "make": "Sterling Trucks",
+    "models": [
+      "Bullet",
+      "Acterra",
+      "L-Line"
+    ]
+  },
+  {
+    "make": "Studebaker",
+    "models": [
+      "US6",
+      "M29 Weasel",
+      "E13"
+    ]
+  },
+  {
+    "make": "Tata Daewoo Commercial Vehicle",
+    "models": [
+      "Novus",
+      "Ultra",
+      "Prima"
+    ]
+  },
+  {
+    "make": "Tata Motors",
+    "models": [
+      "Prima",
+      "Ultra",
+      "Signa"
+    ]
+  },
+  {
+    "make": "Tatra",
+    "models": [
+      "Phoenix",
+      "Terra",
+      "Force"
+    ]
+  },
+  {
+    "make": "Tedom",
+    "models": [
+      "V12",
+      "V8",
+      "V6"
+    ]
+  },
+  {
+    "make": "Temsa",
+    "models": [
+      "Safari HD",
+      "Marathon",
+      "Avenue"
+    ]
+  },
+  {
+    "make": "Tovarna avtomobilov Maribor",
+    "models": [
+      "TAM 80T",
+      "TAM 110",
+      "TAM 150"
+    ]
+  },
+  {
+    "make": "Toyota",
+    "models": [
+      "Dyna",
+      "Coaster",
+      "ToyoAce"
+    ]
+  },
+  {
+    "make": "UralAZ",
+    "models": [
+      "4320",
+      "375",
+      "5557"
+    ]
+  },
+  {
+    "make": "URO",
+    "models": [
+      "VAMTAC",
+      "Granada",
+      "Superpolaris"
+    ]
+  },
+  {
+    "make": "Volvo AB",
+    "models": [
+      "FH",
+      "FMX",
+      "VNL"
+    ]
+  },
+  {
+    "make": "Western Star",
+    "models": [
+      "4900",
+      "5700",
+      "4700"
+    ]
+  },
+  {
+    "make": "Workhorse Group",
+    "models": [
+      "W15",
+      "W22",
+      "W42"
+    ]
+  }
+]
