@@ -1,15 +1,2915 @@
 [
-    {
-      "make": "Honda",
-      "models": ["CBR", "CRF"]
-    },
-    {
-      "make": "Yamaha",
-      "models": ["YZF", "MT"]
-    },
-    {
-      "make": "Kawasaki",
-      "models": ["Ninja", "Z"]
-    }
-  ]
-  
+  {
+    "make": "Access",
+    "models": [
+      "DRR",
+      "Inny",
+      "Max",
+      "Tomahawk",
+      "Warrior"
+    ]
+  },
+  {
+    "make": "Adly",
+    "models": [
+      "Air Tec",
+      "AT",
+      "Cat",
+      "Fun Cruiser",
+      "Inny",
+      "Jet",
+      "Noble",
+      "Panther",
+      "Road Tracer",
+      "Rooster",
+      "Silver Fox",
+      "Super Sonic",
+      "TB",
+      "Thunder Bike"
+    ]
+  },
+  {
+    "make": "Aeon",
+    "models": [
+      "Aero",
+      "Argon",
+      "Cobra",
+      "Crossland",
+      "Cube",
+      "Echo",
+      "Goes",
+      "Inny",
+      "LG",
+      "Mini Kolt",
+      "Newark",
+      "Nox",
+      "Overland",
+      "Pulsar",
+      "Regal",
+      "Revo",
+      "SP",
+      "Stinger",
+      "Super Sport",
+      "Utility"
+    ]
+  },
+  {
+    "make": "AJP",
+    "models": [
+      "Galp",
+      "Inny",
+      "PR4"
+    ]
+  },
+  {
+    "make": "AJS",
+    "models": [
+      "Inny",
+      "M16",
+      "Spring Twin",
+      "Stormer"
+    ]
+  },
+  {
+    "make": "Alfarad",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "APOLLO",
+    "models": [
+      "Inny",
+      "RFZ",
+      "RXF"
+    ]
+  },
+  {
+    "make": "Aprilia",
+    "models": [
+      "AF1",
+      "Amico",
+      "Area",
+      "Arrecife",
+      "Atlantic",
+      "Caponord",
+      "Classic",
+      "Climber",
+      "Dorsoduro",
+      "ETV",
+      "ETX",
+      "Falco",
+      "Gulliver",
+      "Habana",
+      "Inny",
+      "Leonardo",
+      "Mana",
+      "Mini RX",
+      "Mojito",
+      "Moto",
+      "MX",
+      "MXV",
+      "Pegaso",
+      "Rally",
+      "RC",
+      "Red Rose",
+      "RS",
+      "RST",
+      "RSV",
+      "RSW",
+      "RX",
+      "RXV",
+      "Scarabeo",
+      "Shiver",
+      "SL",
+      "SMV",
+      "Sonic",
+      "Sportcity",
+      "SR",
+      "Stealth",
+      "SX",
+      "SXV",
+      "Tuareg",
+      "Tuono"
+    ]
+  },
+  {
+    "make": "Arctic Cat",
+    "models": [
+      "400",
+      "500",
+      "650",
+      "Inny"
+    ]
+  },
+  {
+    "make": "ASIX",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Askoll",
+    "models": [
+      "eS1",
+      "eS2",
+      "eS3",
+      "eSpro45",
+      "eSpro70",
+      "Inny",
+      "NGS1",
+      "NGS2",
+      "NGS3"
+    ]
+  },
+  {
+    "make": "Bajaj",
+    "models": [
+      "Avenger",
+      "BYK",
+      "Caliber",
+      "Chetak",
+      "Classic",
+      "CT",
+      "Discover",
+      "Dominar 400",
+      "Eliminator",
+      "Inny",
+      "KB",
+      "Kristal",
+      "Platina",
+      "Pulsar",
+      "Qute",
+      "RTZ",
+      "Spirit",
+      "Super",
+      "SX Enduro",
+      "Wave",
+      "Wind",
+      "XCD"
+    ]
+  },
+  {
+    "make": "Baotian",
+    "models": [
+      "BT49QT",
+      "Citibike",
+      "Eagle",
+      "Evolution",
+      "Falcon",
+      "Inny",
+      "Monza",
+      "Tanco"
+    ]
+  },
+  {
+    "make": "Barton",
+    "models": [
+      "Active",
+      "B-Max",
+      "Cafe Racer",
+      "Classic",
+      "Cross",
+      "E-Max One",
+      "Energy",
+      "Falcon",
+      "Fighter",
+      "FR",
+      "GT",
+      "Hyper",
+      "Inny",
+      "MZK",
+      "NXT",
+      "Scalpel",
+      "Sprint",
+      "Tres",
+      "Volcano",
+      "Warrior",
+      "Z"
+    ]
+  },
+  {
+    "make": "Bashan",
+    "models": [
+      "BS50s-7",
+      "BS110s-7",
+      "BS125s-2",
+      "BS150-2",
+      "BS150s-3g",
+      "BS150s-3h",
+      "BS200s-6a",
+      "BS200s-7",
+      "BS250s-5",
+      "BS250s-9",
+      "BS250s-11b",
+      "BS250s-24",
+      "BS250s-30",
+      "BS300s-18a",
+      "BS300s-a",
+      "BS400s",
+      "Inny"
+    ]
+  },
+  {
+    "make": "BearEbike",
+    "models": [
+      "Russell Desert",
+      "Russell Military",
+      "Russell Nitro",
+      "Russell Ultimate"
+    ]
+  },
+  {
+    "make": "Benda",
+    "models": [
+      "Inny",
+      "Street 125"
+    ]
+  },
+  {
+    "make": "Benelli",
+    "models": [
+      "302 S",
+      "502 C",
+      "752 S",
+      "Banshee",
+      "BKX",
+      "BN 125",
+      "BN 251",
+      "BN 302",
+      "Buzzer",
+      "BX",
+      "Devil",
+      "Fireball",
+      "IMPERIALE 400",
+      "Inny",
+      "Jarno",
+      "K2",
+      "Leoncino",
+      "Leoncino Trail",
+      "LS",
+      "Mojave",
+      "Pepe",
+      "Quattro Nove",
+      "SEI",
+      "Sport",
+      "TNT",
+      "Tornado",
+      "Tornado Naked T",
+      "TRE",
+      "TRE-K",
+      "TRK 125",
+      "TRK 251",
+      "TRK 502",
+      "TRK 702",
+      "Velvet"
+    ]
+  },
+  {
+    "make": "Benyco",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Benzer",
+    "models": [
+      "Colorado",
+      "Dakota",
+      "Daytona",
+      "Florida",
+      "Indiana",
+      "Inny",
+      "Ohio",
+      "Texas"
+    ]
+  },
+  {
+    "make": "Beta",
+    "models": [
+      "Alp",
+      "Ark",
+      "ART",
+      "Eikon",
+      "Euro",
+      "Evo",
+      "Inny",
+      "Jonathan",
+      "KR",
+      "M4",
+      "Minicross",
+      "Minitrial",
+      "Motard",
+      "Quadra",
+      "REV",
+      "RR",
+      "Synt",
+      "Techno",
+      "TR",
+      "TX",
+      "Zero"
+    ]
+  },
+  {
+    "make": "Big Dog",
+    "models": [
+      "Inny",
+      "K-9",
+      "Mastiff",
+      "Pitbull",
+      "Ridgeback"
+    ]
+  },
+  {
+    "make": "Bili Bike",
+    "models": [
+      "500",
+      "Anger",
+      "Chopper",
+      "CITY GO",
+      "Dynamic",
+      "E-Baldur",
+      "E-Baldur Delivery",
+      "Extreme",
+      "Future",
+      "Grace",
+      "Grace",
+      "Harley",
+      "Hawk",
+      "Hawk Delivery",
+      "Inny",
+      "J1",
+      "J2",
+      "Leon",
+      "Miku Max",
+      "Next",
+      "Robo-S",
+      "Ronic",
+      "S-Way",
+      "S-Way Max",
+      "S3",
+      "S4",
+      "S5",
+      "S5 Delivery",
+      "Shino",
+      "Super Miku",
+      "X1"
+    ]
+  },
+  {
+    "make": "Bili Coco",
+    "models": [
+      "Big Chopper",
+      "Chopper",
+      "Cobra",
+      "Cobra Trójkołowa",
+      "Coco",
+      "Coco Baltic",
+      "Coco Strong",
+      "Dynamic",
+      "Future",
+      "G4",
+      "G5",
+      "G6",
+      "G7",
+      "G8",
+      "G9",
+      "Grand",
+      "Inny",
+      "Strong",
+      "Trójkołowy",
+      "Trójkołowy Sport"
+    ]
+  },
+  {
+    "make": "Bimota",
+    "models": [
+      "KB4",
+      "TESI H2"
+    ]
+  },
+  {
+    "make": "BMW",
+    "models": [
+      "Adventure",
+      "C1",
+      "C 400 GT",
+      "C 400 X",
+      "C600 Sport",
+      "C650 GT",
+      "CE 02",
+      "CE 04",
+      "CS",
+      "F",
+      "G",
+      "GS",
+      "Inny",
+      "K",
+      "LT",
+      "M4",
+      "R",
+      "R1250 GS Adventure",
+      "RT",
+      "S",
+      "XR"
+    ]
+  },
+  {
+    "make": "Bombardier",
+    "models": [
+      "Inny",
+      "Outlander",
+      "Quest",
+      "Rally",
+      "Sarasota",
+      "Spyder",
+      "Traxter"
+    ]
+  },
+  {
+    "make": "BOOM",
+    "models": [
+      "Fighter",
+      "Highway",
+      "Low Rider",
+      "Mustang Family",
+      "Mustang ST1"
+    ]
+  },
+  {
+    "make": "Brixton",
+    "models": [
+      "Cromwell",
+      "Crossfire",
+      "Felsberg",
+      "Inny",
+      "Rayburn",
+      "Sunray"
+    ]
+  },
+  {
+    "make": "BSA",
+    "models": [
+      "B",
+      "Bantam",
+      "C",
+      "Goldflash",
+      "Gold Star",
+      "GP Victor",
+      "Inny",
+      "Lightning",
+      "M",
+      "Super Rocket",
+      "Twin Shooting Star",
+      "Victor",
+      "Victor Super Sport",
+      "XB"
+    ]
+  },
+  {
+    "make": "Buell",
+    "models": [
+      "Blast",
+      "CityX Lightning",
+      "Inny",
+      "M",
+      "S",
+      "S3",
+      "X",
+      "XB"
+    ]
+  },
+  {
+    "make": "Cagiva",
+    "models": [
+      "Alazzurra",
+      "Aletta",
+      "Blues",
+      "Canyon",
+      "City",
+      "Cocis",
+      "Cruiser",
+      "Elefant",
+      "Freccia",
+      "GP",
+      "Inny",
+      "Mito",
+      "Navigator",
+      "Planet",
+      "Prima",
+      "Raptor",
+      "River",
+      "Roadster",
+      "S2",
+      "SST",
+      "Stella",
+      "Super City",
+      "SXT",
+      "T4",
+      "Tamanaco",
+      "W"
+    ]
+  },
+  {
+    "make": "Can-Am",
+    "models": [
+      "DS",
+      "Inny",
+      "Maverick",
+      "Outlander",
+      "Outlander Max",
+      "Renegade",
+      "Ryker",
+      "Spyder",
+      "Youth"
+    ]
+  },
+  {
+    "make": "CECTEK",
+    "models": [
+      "Estoc",
+      "Gladiator",
+      "Kingcobra",
+      "Quadrift"
+    ]
+  },
+  {
+    "make": "CFMoto",
+    "models": [
+      "650 MT",
+      "Allroad",
+      "Blizzer",
+      "CForce",
+      "CL-X",
+      "E-Charm",
+      "Fashion",
+      "Glory",
+      "Inny",
+      "Jet Max",
+      "MT",
+      "NK",
+      "SR",
+      "UForce",
+      "V3",
+      "V5",
+      "X6",
+      "ZForce"
+    ]
+  },
+  {
+    "make": "CPI",
+    "models": [
+      "Aragon",
+      "Bingo",
+      "GTR",
+      "GTS",
+      "Hussar",
+      "Inny",
+      "Oliver",
+      "Popcorn",
+      "Show FB",
+      "SM",
+      "SX",
+      "X-Large",
+      "XS"
+    ]
+  },
+  {
+    "make": "Daelim",
+    "models": [
+      "Altino",
+      "History",
+      "Inny",
+      "Liberty",
+      "Message",
+      "NS",
+      "Roadwin",
+      "S-Five",
+      "S2",
+      "S3",
+      "Tapo",
+      "VL",
+      "VS",
+      "VT"
+    ]
+  },
+  {
+    "make": "Derbi",
+    "models": [
+      "Antorcha",
+      "Atlantis",
+      "Boulevard",
+      "FDS",
+      "Fenix",
+      "GP1",
+      "GPR",
+      "GPR Nude",
+      "Hunter",
+      "Inny",
+      "Manhattan",
+      "Paddock",
+      "Predator",
+      "Senda",
+      "TT8",
+      "Vamos G",
+      "Variant",
+      "X-Treme"
+    ]
+  },
+  {
+    "make": "Diabolini",
+    "models": [
+      "Buggy",
+      "Cobra",
+      "Diablo 200",
+      "Diablo HOM",
+      "FX 150cc",
+      "Inny"
+    ]
+  },
+  {
+    "make": "DKW",
+    "models": [
+      "Inny",
+      "Ks 200",
+      "Nz",
+      "RT 3",
+      "Sb 500"
+    ]
+  },
+  {
+    "make": "Dniepr",
+    "models": [
+      "Inny",
+      "K 650",
+      "K 750",
+      "M-72",
+      "MT-9",
+      "MT-10",
+      "MT-11",
+      "MT-12",
+      "MT-16"
+    ]
+  },
+  {
+    "make": "Ducati",
+    "models": [
+      "160",
+      "200 GT",
+      "250",
+      "350 SS",
+      "400 F3",
+      "450",
+      "500",
+      "600 SS",
+      "620",
+      "696",
+      "748",
+      "749",
+      "750",
+      "848",
+      "851",
+      "860",
+      "888",
+      "900",
+      "906",
+      "907",
+      "916",
+      "955",
+      "959 Panigale",
+      "996",
+      "998",
+      "999",
+      "1098",
+      "1199 Panigale",
+      "Bris 48-1",
+      "DesertX",
+      "Desmo",
+      "Desmosedici",
+      "Diavel",
+      "Ds 1000",
+      "F1",
+      "Hypermotard",
+      "Inny",
+      "Mach 1",
+      "Mark 3",
+      "MH 900",
+      "MHR 1000",
+      "Monster",
+      "Multistrada",
+      "Panigale 899",
+      "Panigale 1299",
+      "Panigale V2",
+      "Panigale V4",
+      "Panigale V4R",
+      "Panigale V4S",
+      "Pantah",
+      "Paso 750",
+      "Paso 907",
+      "Radical",
+      "Scrambler",
+      "Sport Classic",
+      "SS 800",
+      "SS 1000",
+      "ST2",
+      "ST3",
+      "ST4",
+      "Streetfighter 848",
+      "Streetfighter 1098",
+      "Streetfighter V2",
+      "Streetfighter V4",
+      "SuperSport"
+    ]
+  },
+  {
+    "make": "E-mio",
+    "models": [
+      "Agile",
+      "Destina",
+      "Toro",
+      "Vento"
+    ]
+  },
+  {
+    "make": "Eagle Motorsports",
+    "models": [
+      "ATV 200",
+      "ATV 250",
+      "Inny",
+      "Lyda 203C",
+      "Lyda 203E"
+    ]
+  },
+  {
+    "make": "ELECTRORIDE",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Elon Motors",
+    "models": [
+      "Elon One 50 Km",
+      "Elon One 80 Km"
+    ]
+  },
+  {
+    "make": "Energica",
+    "models": [
+      "EVA",
+      "EVA EsseEsse9",
+      "Inny"
+    ]
+  },
+  {
+    "make": "Enormis",
+    "models": [
+      "Cargo 150",
+      "Delivery",
+      "iDo",
+      "Nino",
+      "Pass 120",
+      "Pronto",
+      "Romex",
+      "Sprint",
+      "Uran"
+    ]
+  },
+  {
+    "make": "Fantic",
+    "models": [
+      "Cabalerro 50",
+      "Inny",
+      "TX"
+    ]
+  },
+  {
+    "make": "FD MOTORS",
+    "models": [
+      "F3",
+      "F5"
+    ]
+  },
+  {
+    "make": "FK Motors",
+    "models": [
+      "FK-12MS",
+      "FK-12SF",
+      "FK-12SX",
+      "FK-12TA"
+    ]
+  },
+  {
+    "make": "FYM",
+    "models": [
+      "FY 250",
+      "Inny",
+      "Scooter"
+    ]
+  },
+  {
+    "make": "Garelli",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Gas Gas",
+    "models": [
+      "Delta",
+      "EC",
+      "Halley",
+      "Inny",
+      "JT",
+      "JTR",
+      "MC",
+      "Pampera",
+      "SM",
+      "Trial",
+      "TXT",
+      "XC"
+    ]
+  },
+  {
+    "make": "Generic",
+    "models": [
+      "Cracker",
+      "Ideo",
+      "Inny",
+      "Tiger",
+      "XOR"
+    ]
+  },
+  {
+    "make": "Gilera",
+    "models": [
+      "125 R",
+      "503",
+      "Apache 125",
+      "Cougar",
+      "Crono",
+      "CX 125",
+      "Dakota 125",
+      "DNA",
+      "Eaglet 50",
+      "GFR 125",
+      "GPR",
+      "GSM",
+      "GTA 125",
+      "Ice 50",
+      "Inny",
+      "KK",
+      "KZ",
+      "MXR",
+      "Nexus 500",
+      "Nordwest",
+      "R 1",
+      "RC",
+      "RCR",
+      "RK",
+      "Runner",
+      "RX",
+      "Saturno 500",
+      "Sioux",
+      "Smash 110",
+      "SMT",
+      "SP",
+      "Stalker 50",
+      "Typhoon 50",
+      "XR1",
+      "XR2",
+      "YL 150",
+      "Zulu 50"
+    ]
+  },
+  {
+    "make": "Goes",
+    "models": [
+      "COBALT MAX",
+      "COPPER 3.0",
+      "Inny",
+      "IRON MAX"
+    ]
+  },
+  {
+    "make": "Harley-Davidson",
+    "models": [
+      "Bad Boy",
+      "Cafe Racer",
+      "Custom Low Rider",
+      "Dyna",
+      "Dyna Fat Bob",
+      "Dyna Glide",
+      "Dyna Low Rider",
+      "Dyna Street Bob",
+      "Dyna Super Glide",
+      "Dyna Switchback",
+      "Dyna Wide Glide",
+      "Electra",
+      "Evolution Sportster",
+      "FL Duo Glide",
+      "FLH Electra Glide",
+      "FLHS Electra Glide",
+      "FLH Shovelhead",
+      "FLHTCU Ultra",
+      "FLHXS Special",
+      "FL Hydra Glide",
+      "FXSB Breakout",
+      "Inny",
+      "LiveWire",
+      "Night Train",
+      "Pan America",
+      "Softail",
+      "Softail Blackline",
+      "Softail Breakout",
+      "Softail Cross Bones",
+      "Softail Custom",
+      "Softail Deluxe",
+      "Softail Fat Bob",
+      "Softail Fat Boy",
+      "Softail FXDR",
+      "Softail Heritage Classic",
+      "Softail Low Rider",
+      "Softail Slim",
+      "Softail Sport Glide",
+      "Softail Springer Classic",
+      "Softail Standard",
+      "Softail Street Bob",
+      "Softail V-Rod",
+      "Sportster",
+      "Sportster Custom 883C",
+      "Sportster Custom 1200C",
+      "Sportster Forty-Eight",
+      "Sportster Iron 883",
+      "Sportster Iron 1200",
+      "Sportster Low 883L",
+      "Sportster Nightster 975",
+      "Sportster Nightster 1200N",
+      "Sportster Roadster 883R",
+      "Sportster Roadster 1200R",
+      "Sportster Seventy-Two",
+      "Sportster Superlow",
+      "Street 750",
+      "Street Glide Trike",
+      "Street Rod XG 750A",
+      "Street XG 750",
+      "Super Glide",
+      "Touring Electra Glide",
+      "Touring Road Glide",
+      "Touring Road King",
+      "Touring Street Glide",
+      "Touring Ultra Limited",
+      "Tri Glide",
+      "Trike Freewheeler",
+      "V-Rod Muscle",
+      "V-Rod Night Rod",
+      "V-Rod Street Rod",
+      "WL",
+      "WR",
+      "XR 1200"
+    ]
+  },
+  {
+    "make": "Hercules",
+    "models": [
+      "Inny",
+      "K 50",
+      "K 125",
+      "MC",
+      "Prima",
+      "Supra 4 Enduro",
+      "Supra 4 GP",
+      "W 2000"
+    ]
+  },
+  {
+    "make": "HISUN",
+    "models": [
+      "Inny",
+      "Tactic 550"
+    ]
+  },
+  {
+    "make": "Honda",
+    "models": [
+      "Activa",
+      "Amigo",
+      "ANF",
+      "AX",
+      "Bali",
+      "Biz",
+      "C",
+      "CA",
+      "CB",
+      "CBF",
+      "CBR",
+      "CBX",
+      "CBZ",
+      "CD",
+      "CDI",
+      "CF",
+      "CG",
+      "CGL",
+      "CHF",
+      "CL",
+      "CLR",
+      "CM",
+      "CMX",
+      "CN",
+      "CR",
+      "CRF",
+      "CRM",
+      "CS",
+      "CT",
+      "CTX",
+      "CX",
+      "Deauville",
+      "Dio",
+      "DJ1",
+      "DN-01",
+      "Dylan",
+      "EC",
+      "Elite",
+      "EX",
+      "Express",
+      "FES",
+      "FJS",
+      "FMX",
+      "FourTrax",
+      "FSC",
+      "FSX",
+      "FT",
+      "FX",
+      "GB",
+      "GL",
+      "GLX",
+      "Gorilla",
+      "Gyro",
+      "Hornet",
+      "Inny",
+      "Lead",
+      "LJ",
+      "LS",
+      "MB",
+      "MBX",
+      "Montesa Repsol",
+      "MR",
+      "MSX 125",
+      "MT",
+      "MTX",
+      "MVX",
+      "NB",
+      "NC",
+      "ND",
+      "Nighthawk",
+      "Nova",
+      "NPS",
+      "NQ",
+      "NR",
+      "NS",
+      "NSR",
+      "NSS",
+      "NT",
+      "NTV",
+      "NV",
+      "NX",
+      "NXR",
+      "Pantheon",
+      "PC",
+      "PCX",
+      "PES",
+      "PXR",
+      "QA",
+      "QR",
+      "Rancher",
+      "RC",
+      "Reflex",
+      "Rincon",
+      "RS",
+      "RVF",
+      "S-Wing",
+      "SCF",
+      "Scrambler",
+      "SFX",
+      "SH",
+      "Shadow",
+      "Silver Wing",
+      "SL",
+      "ST",
+      "Super Cub",
+      "SW-T400",
+      "TA",
+      "TL",
+      "TLR",
+      "TMX",
+      "Transalp",
+      "TRX",
+      "Valkyrie",
+      "Varadero",
+      "VF",
+      "VFR",
+      "Vision",
+      "VT",
+      "VTR",
+      "VTX",
+      "VTZ",
+      "Wallaroo",
+      "Wave 110i",
+      "X-ADV",
+      "X4",
+      "X8R",
+      "X11",
+      "XBR",
+      "XL",
+      "XLR",
+      "XLV",
+      "XR",
+      "XRM",
+      "XRV",
+      "Z",
+      "ZB",
+      "Zoomer",
+      "ZR"
+    ]
+  },
+  {
+    "make": "Husaberg",
+    "models": [
+      "FC",
+      "FE",
+      "FS",
+      "Inny"
+    ]
+  },
+  {
+    "make": "Husqvarna",
+    "models": [
+      "250",
+      "390 CR",
+      "401",
+      "430 XC",
+      "510 Cross Country",
+      "701",
+      "CR",
+      "FC",
+      "FE",
+      "FM",
+      "FS",
+      "FX",
+      "Husky Boy",
+      "Inny",
+      "NOX",
+      "Nuda 900R",
+      "SM",
+      "Svartpilen",
+      "TC",
+      "TE",
+      "TX",
+      "Vitpilen",
+      "WR",
+      "WRE",
+      "WSE",
+      "WXE"
+    ]
+  },
+  {
+    "make": "Hyosung",
+    "models": [
+      "Cruise II",
+      "GT",
+      "GT Comet",
+      "GV",
+      "Inny",
+      "Rush",
+      "RX",
+      "SF 50",
+      "Super Cab 50",
+      "XRX"
+    ]
+  },
+  {
+    "make": "iamelectric",
+    "models": [
+      "ARIEL",
+      "Blade M",
+      "Blade S",
+      "Dream 2",
+      "Eagle",
+      "Grace",
+      "Grace Double",
+      "Havana",
+      "Havana Double",
+      "Hawk Double",
+      "Horwin CR6",
+      "Horwin EK3",
+      "Horwin Ranger",
+      "Inny",
+      "iTank",
+      "Lala",
+      "Life",
+      "LIFE4",
+      "Miku Max",
+      "MV Racer",
+      "NCE-S",
+      "NEMO",
+      "On Time",
+      "PCX-E",
+      "Robo-S",
+      "Robo-SC",
+      "Roma GT",
+      "S3",
+      "S3 Double",
+      "S4",
+      "S5",
+      "S5 Delivery",
+      "S5 Double",
+      "Swift",
+      "T-REX",
+      "TS-MAX",
+      "X1 Double",
+      "Yadea C1S"
+    ]
+  },
+  {
+    "make": "Indian",
+    "models": [
+      "741",
+      "Challenger",
+      "Chief",
+      "Chieftain",
+      "FTR",
+      "Inny",
+      "Roadmaster",
+      "Scout",
+      "Springfield",
+      "Vintage"
+    ]
+  },
+  {
+    "make": "Inny",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Jawa",
+    "models": [
+      "50",
+      "125",
+      "175",
+      "175 typ 356",
+      "250",
+      "250 typ 353",
+      "350",
+      "500",
+      "895",
+      "Babetta",
+      "Dandy",
+      "Enduro Sport",
+      "Inny",
+      "Mustang 50",
+      "Robby",
+      "Stella",
+      "TS 350"
+    ]
+  },
+  {
+    "make": "Junak",
+    "models": [
+      "103",
+      "104",
+      "106",
+      "125",
+      "125 Racer",
+      "607",
+      "711",
+      "805",
+      "806",
+      "901",
+      "901 RS",
+      "902",
+      "904",
+      "905",
+      "906",
+      "ADV",
+      "B20",
+      "Furious",
+      "Inny",
+      "M",
+      "M11",
+      "M12",
+      "M14",
+      "M15",
+      "M16",
+      "RAW 50",
+      "RX One",
+      "SC Furious",
+      "SR",
+      "Vintage",
+      "X-Ray 50"
+    ]
+  },
+  {
+    "make": "Kawasaki",
+    "models": [
+      "1000 GTR",
+      "BN",
+      "Brute Force",
+      "Concours",
+      "EL",
+      "EN",
+      "ER",
+      "Estrella",
+      "F",
+      "FX",
+      "GPX",
+      "GPZ",
+      "GT",
+      "GTR",
+      "H1",
+      "H2",
+      "Inny",
+      "Kazer",
+      "KFX",
+      "KLE",
+      "KLR",
+      "KLV",
+      "KLX",
+      "KX",
+      "KZ",
+      "LTD",
+      "Ninja",
+      "Ninja 250R",
+      "Ninja 300 ABS",
+      "Ninja 400",
+      "Ninja 1000 SX",
+      "Ninja H2 SX",
+      "Spectre",
+      "Versys-X 300",
+      "Versys 650",
+      "Versys 1000",
+      "VN",
+      "Vulcan",
+      "Z",
+      "Z 650",
+      "Z 650 RS",
+      "Z 900",
+      "Z 900 RS",
+      "Zephyr",
+      "ZL",
+      "ZR",
+      "ZRX",
+      "ZX",
+      "ZXR",
+      "ZZR"
+    ]
+  },
+  {
+    "make": "KAYO",
+    "models": [
+      "AU",
+      "Inny",
+      "K2",
+      "T4"
+    ]
+  },
+  {
+    "make": "Keeway",
+    "models": [
+      "Arn",
+      "ATV",
+      "ATV Dragon",
+      "Cruiser",
+      "F-act-Fact-NKD",
+      "Flash",
+      "Focus",
+      "Goccia",
+      "Hacker",
+      "Hurricane",
+      "Inny",
+      "Matrix",
+      "Mini ATV",
+      "Outlook",
+      "Pixel",
+      "RKF",
+      "Ry-8",
+      "Speed",
+      "Superlight",
+      "Supershadow",
+      "Swan",
+      "TX",
+      "Venus",
+      "Vieste",
+      "Viva",
+      "X-ray"
+    ]
+  },
+  {
+    "make": "Kingway",
+    "models": [
+      "70",
+      "150",
+      "250MR",
+      "500",
+      "Alien",
+      "Alpinus",
+      "Apollo",
+      "Arrow",
+      "ATV 70",
+      "Barracuda",
+      "Black Horse",
+      "Camaro",
+      "CAT",
+      "Cereno",
+      "Challenger",
+      "Chinaboy",
+      "Cobra",
+      "Coliber",
+      "Commander",
+      "Condor",
+      "Corvette",
+      "Cross",
+      "CUB",
+      "Dinli",
+      "Dominator",
+      "El Passo",
+      "Euroboy",
+      "Eurostar",
+      "Falcon",
+      "Fennari",
+      "Fonero",
+      "Forever",
+      "FOX",
+      "Gallus",
+      "Guliver",
+      "Hassan",
+      "Hooligan",
+      "Hummer",
+      "Ibis",
+      "Inny",
+      "Jinlun",
+      "Johnatan",
+      "Jonathon",
+      "Jumper",
+      "King",
+      "Koyot",
+      "Lander",
+      "Linhai",
+      "Martinelli",
+      "Mini",
+      "Monster",
+      "Mosquito",
+      "Naked",
+      "Navigator",
+      "Paulo",
+      "Poster",
+      "Purga",
+      "Quattro",
+      "Qurier",
+      "Rocky",
+      "Shark",
+      "Spider",
+      "Sport",
+      "Street",
+      "Swift",
+      "Tanco",
+      "Terminator",
+      "Tiggero",
+      "Tommy",
+      "Touran",
+      "Traper",
+      "UFO",
+      "Varadero",
+      "Yarox",
+      "Yuxin",
+      "Zibo"
+    ]
+  },
+  {
+    "make": "Komar",
+    "models": [
+      "50",
+      "Inny"
+    ]
+  },
+  {
+    "make": "KOVE",
+    "models": [
+      "450 Rally",
+      "500F Neo Scrambler",
+      "500F Wild",
+      "500X ADV",
+      "800X ADV",
+      "MX250",
+      "NK125R",
+      "NK321R",
+      "NK321RR",
+      "NK450RR"
+    ]
+  },
+  {
+    "make": "KSR Moto",
+    "models": [
+      "Classic 50",
+      "Classic 125",
+      "Demonio 50",
+      "Demonio 125",
+      "GRS 125",
+      "Pandora 50",
+      "Sirion 50",
+      "Sirion 125",
+      "TR 50",
+      "TTX",
+      "TW 125",
+      "Vionis"
+    ]
+  },
+  {
+    "make": "KTM",
+    "models": [
+      "Adventure",
+      "Duke",
+      "Enduro",
+      "EXC",
+      "Foxi GT",
+      "Freeride",
+      "GO",
+      "Inny",
+      "LC",
+      "LC 8",
+      "RC 8",
+      "RC 125",
+      "RC 200",
+      "RC 250",
+      "RC 390",
+      "SMC",
+      "SMT",
+      "Super Adventure",
+      "Super Duke",
+      "SX",
+      "SXF"
+    ]
+  },
+  {
+    "make": "KXD",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Kymco",
+    "models": [
+      "Activ",
+      "Agility",
+      "Agility City A-C",
+      "AK 550",
+      "Bet & Win",
+      "Calypso",
+      "Caro",
+      "Cherry",
+      "City",
+      "CK",
+      "Cobra Cross",
+      "Cobra Racer",
+      "Cruiser",
+      "Dink",
+      "Dink-Yager",
+      "DJ",
+      "Downtown",
+      "DT X125",
+      "DT X360",
+      "Ego",
+      "Espresso",
+      "Fever",
+      "Filly",
+      "Grand Dink",
+      "Grand King",
+      "Hipster",
+      "Inny",
+      "KTR-KCR",
+      "KXR",
+      "Like",
+      "Maxxer",
+      "Miler",
+      "Mongoose KXR",
+      "Movie XL",
+      "MXer",
+      "MXU",
+      "MyRoad",
+      "New Dink",
+      "Nexxon",
+      "People",
+      "Pulsar-CK",
+      "Pulsar Luxe",
+      "Quannon-KR Sport",
+      "Sooner",
+      "Spike",
+      "Stryker",
+      "Super",
+      "Super 8",
+      "Super 9 A-C",
+      "Super 9 L-C",
+      "Top Boy",
+      "UXV",
+      "Venox",
+      "Vitality",
+      "Vivio",
+      "X-Town",
+      "Xciting",
+      "Yager GT",
+      "Yup",
+      "Zing",
+      "ZX"
+    ]
+  },
+  {
+    "make": "Lambretta",
+    "models": [
+      "D",
+      "Inny",
+      "LI",
+      "SX",
+      "TV"
+    ]
+  },
+  {
+    "make": "Linhai",
+    "models": [
+      "260",
+      "300",
+      "ATV",
+      "Goon",
+      "Inny",
+      "Mainstreet",
+      "Monarch",
+      "Muddy",
+      "Prince",
+      "Scooter",
+      "Tornado"
+    ]
+  },
+  {
+    "make": "LIYA",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "LML",
+    "models": [
+      "50",
+      "LML 151 - 4T",
+      "Star 125- 2T",
+      "Star 150- 2T",
+      "Star 200 -4T"
+    ]
+  },
+  {
+    "make": "Loncin",
+    "models": [
+      "Inny",
+      "Tracker",
+      "XWOLF 700"
+    ]
+  },
+  {
+    "make": "Malaguti",
+    "models": [
+      "Calvacone",
+      "Drakon",
+      "Dune",
+      "Grizzly",
+      "Inny",
+      "Madison",
+      "MISSION",
+      "Monte Pro",
+      "MRX",
+      "RST 125",
+      "Warrior",
+      "XSM",
+      "XTM 125"
+    ]
+  },
+  {
+    "make": "Masai",
+    "models": [
+      "A",
+      "D",
+      "Drift",
+      "Inny",
+      "K",
+      "L",
+      "Ultimate"
+    ]
+  },
+  {
+    "make": "MBK",
+    "models": [
+      "altul",
+      "Booster",
+      "Cityliner",
+      "Flame X",
+      "MachG",
+      "Nitro",
+      "Oceo",
+      "Ovetto",
+      "Skycruiser",
+      "Waap",
+      "X-Over",
+      "X-Power"
+    ]
+  },
+  {
+    "make": "MIKILON",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "MIR Racing",
+    "models": [
+      "Inny",
+      "MiniGP",
+      "Moto 4",
+      "Moto 5",
+      "Pre 3",
+      "Pre 4"
+    ]
+  },
+  {
+    "make": "Mondial",
+    "models": [
+      "250 Bialbero",
+      "HPS 125",
+      "Inny",
+      "Piega",
+      "RZ"
+    ]
+  },
+  {
+    "make": "Moto Guzzi",
+    "models": [
+      "750 Strada",
+      "850",
+      "1000 SP",
+      "1200",
+      "Airone 250 Sport",
+      "Bellagio",
+      "Breva",
+      "California",
+      "Centauro Sport",
+      "Daytona",
+      "EV Californian",
+      "Griso",
+      "Inny",
+      "Le Mans",
+      "Lodola Sport",
+      "MGS-01 Corsa",
+      "Monza",
+      "Nevada",
+      "Norge",
+      "NTX 650",
+      "Sport 1100",
+      "Stelvio",
+      "Stone",
+      "V7",
+      "V9",
+      "V11"
+    ]
+  },
+  {
+    "make": "Moto Morini",
+    "models": [
+      "3.5 Sport",
+      "500 Strada",
+      "Camel 500",
+      "Dart 400",
+      "Excalibur 350",
+      "Inny",
+      "Montana GS4 50"
+    ]
+  },
+  {
+    "make": "Motowell",
+    "models": [
+      "Inny",
+      "Kid",
+      "Magnet",
+      "Retrosa",
+      "Yoyo"
+    ]
+  },
+  {
+    "make": "Motron",
+    "models": [
+      "BREEZY",
+      "CUBERTINO",
+      "IDEO",
+      "Revolver",
+      "VIZION",
+      "VOLTZ",
+      "WHIZZ"
+    ]
+  },
+  {
+    "make": "MRF",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "MV AGUSTA",
+    "models": [
+      "350 Sport Ipotesi",
+      "750S",
+      "Brutale",
+      "Brutale America",
+      "Brutale S",
+      "Dragster",
+      "F3",
+      "F4",
+      "Inny",
+      "Raptor X",
+      "RUSH",
+      "RVS",
+      "Superveloce",
+      "Turismo Veloce"
+    ]
+  },
+  {
+    "make": "MZ",
+    "models": [
+      "125SM",
+      "1000 SF",
+      "1000S",
+      "Baghira",
+      "BK",
+      "ES",
+      "ETS",
+      "ETZ",
+      "ETZ 125 Cross",
+      "Inny",
+      "Kanuni",
+      "Mastiff 660",
+      "Moskito",
+      "RT",
+      "Saxon Fun 301",
+      "Silverstar 500",
+      "Skorpion",
+      "Skorpion Traveller",
+      "Supa 5",
+      "TS"
+    ]
+  },
+  {
+    "make": "Nitro Motors",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Niu",
+    "models": [
+      "M",
+      "M+",
+      "MQI",
+      "MQI+",
+      "N",
+      "NQI",
+      "U"
+    ]
+  },
+  {
+    "make": "ODES",
+    "models": [
+      "Inny",
+      "Patchcross",
+      "RM"
+    ]
+  },
+  {
+    "make": "Pannonia",
+    "models": [
+      "Inny",
+      "P10",
+      "T1",
+      "T5",
+      "T8",
+      "T9"
+    ]
+  },
+  {
+    "make": "Peda",
+    "models": [
+      "Desire",
+      "Eagle",
+      "Inny",
+      "Maxisport",
+      "Rally",
+      "Shark",
+      "Speedy",
+      "Via Warrior"
+    ]
+  },
+  {
+    "make": "Peugeot",
+    "models": [
+      "103 RCX",
+      "103 SPX",
+      "103D",
+      "104",
+      "BB-1C",
+      "Belville",
+      "Buxy",
+      "Citystar",
+      "Django",
+      "e-STREETZONE",
+      "Elyseo",
+      "Elystar Advantage",
+      "Geopolis",
+      "Inny",
+      "Jet C-tech",
+      "Jet Force",
+      "Kisbee",
+      "Looxor",
+      "Ludix 2",
+      "Metropolis",
+      "New Vivacity",
+      "PM-01",
+      "RX 80",
+      "Satelis",
+      "SC",
+      "Snake",
+      "Speedake",
+      "Speedfight",
+      "Squab",
+      "ST",
+      "Street Zone",
+      "SV",
+      "TKR",
+      "Trekker",
+      "Tweet",
+      "V-Clic",
+      "Vivacity",
+      "Vogue",
+      "WRC 206",
+      "WRC 307",
+      "X-Fight Furious",
+      "XP 6",
+      "XP 50",
+      "XP400",
+      "XPS Enduro",
+      "XPS SM",
+      "XR6",
+      "Zenith"
+    ]
+  },
+  {
+    "make": "Piaggio",
+    "models": [
+      "Albatros",
+      "Ape 50 Pickup",
+      "Ape 50 Van",
+      "Ape Calessino",
+      "Ape Classic Pickup",
+      "Ape Classic Van",
+      "Beverly",
+      "Bravo",
+      "Carnaby",
+      "Ciao",
+      "Cosa",
+      "Diesis",
+      "Energy",
+      "ET",
+      "FLY",
+      "Free",
+      "Gran Sport",
+      "Grillo",
+      "GS",
+      "Hexagon",
+      "Inny",
+      "Liberty",
+      "Medley",
+      "MP-3",
+      "NRG",
+      "NTT",
+      "P",
+      "PK",
+      "PX",
+      "Quartz",
+      "Sfera",
+      "SI",
+      "Skipper",
+      "SKR",
+      "Storm",
+      "Super Bravo",
+      "T",
+      "TPH",
+      "Trackmaster",
+      "Typhoon",
+      "Vespa",
+      "X7",
+      "X8",
+      "X9",
+      "X10",
+      "Xevo",
+      "ZIP"
+    ]
+  },
+  {
+    "make": "Pit Bike IMR",
+    "models": [
+      "Corse",
+      "GP20",
+      "Inny"
+    ]
+  },
+  {
+    "make": "Polaris",
+    "models": [
+      "Beast",
+      "Hawkeye",
+      "Inny",
+      "Outlaw",
+      "Phoenix",
+      "Predator",
+      "Ranger",
+      "Ranger 6x6",
+      "Ranger EV",
+      "Ranger XP",
+      "RZR",
+      "Sawtooth Base",
+      "Scrambler",
+      "Sportsman",
+      "Trail Boss",
+      "X2"
+    ]
+  },
+  {
+    "make": "Rewaco",
+    "models": [
+      "RF1",
+      "RF2"
+    ]
+  },
+  {
+    "make": "Rieju",
+    "models": [
+      "Aventura 125",
+      "Aventura 500",
+      "Inny",
+      "Marathon",
+      "Marathon Pro",
+      "MRT",
+      "MRT Pro",
+      "MRT Pro SM",
+      "MRT SM",
+      "MRX",
+      "MRX Pro",
+      "MX",
+      "MX Disk",
+      "NKD",
+      "Pacific",
+      "RRX",
+      "RRX Spike",
+      "RS2",
+      "RS2 FR",
+      "RS2 Pro",
+      "SMX",
+      "SMX FR",
+      "SMX Pro",
+      "SMX Street",
+      "Tango",
+      "Tango Motard",
+      "Tangoo!",
+      "Tango Pro"
+    ]
+  },
+  {
+    "make": "RM",
+    "models": [
+      "800 Duo",
+      "Inny"
+    ]
+  },
+  {
+    "make": "Romet",
+    "models": [
+      "6E",
+      "707",
+      "717",
+      "727",
+      "737",
+      "747",
+      "767",
+      "777",
+      "787",
+      "797",
+      "ATV",
+      "C1",
+      "CRS",
+      "Division",
+      "Inny",
+      "JET",
+      "K",
+      "Kadet",
+      "Ogar 202",
+      "Ogar 900",
+      "R",
+      "RCR",
+      "Retro",
+      "RXC",
+      "RXL",
+      "Safari",
+      "Soft Chopper",
+      "Target",
+      "VXL",
+      "Z",
+      "Zenit",
+      "Zetka",
+      "ZXT"
+    ]
+  },
+  {
+    "make": "Royal Enfield",
+    "models": [
+      "Classic",
+      "Continental",
+      "Himalayan",
+      "HNTR",
+      "Inny",
+      "Interceptor",
+      "Meteor",
+      "Scram",
+      "Super Meteor"
+    ]
+  },
+  {
+    "make": "Sachs",
+    "models": [
+      "B",
+      "Balboa",
+      "Formula 1",
+      "Inny",
+      "Jupiter",
+      "Jupiter Safir",
+      "Lotus",
+      "Madass",
+      "Panter",
+      "Roadster",
+      "Ultra RS",
+      "V5 Racing",
+      "X-Road",
+      "XTC Racing",
+      "ZX",
+      "ZZ"
+    ]
+  },
+  {
+    "make": "Segway",
+    "models": [
+      "Fugleman UT10",
+      "Inny",
+      "Snarler AT6",
+      "Snarler AT10",
+      "Villain SX1"
+    ]
+  },
+  {
+    "make": "Sherco",
+    "models": [
+      "2T Trials",
+      "4T",
+      "Enduro",
+      "Inny",
+      "Kid",
+      "SM",
+      "Trial"
+    ]
+  },
+  {
+    "make": "Shineray",
+    "models": [
+      "Extreme",
+      "Inny",
+      "Lanca",
+      "Roadwin",
+      "XY"
+    ]
+  },
+  {
+    "make": "SHL",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Simson",
+    "models": [
+      "Easy 01",
+      "Inny",
+      "KR"
+    ]
+  },
+  {
+    "make": "SMC",
+    "models": [
+      "Buzz",
+      "Florett",
+      "Inny",
+      "Jumbo",
+      "RAM",
+      "Razeer",
+      "Snake"
+    ]
+  },
+  {
+    "make": "Stark Future",
+    "models": [
+      "Inny",
+      "VARG"
+    ]
+  },
+  {
+    "make": "Stels",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Super Soco",
+    "models": [
+      "CPx",
+      "CUX",
+      "E-MAX",
+      "Inny",
+      "TC",
+      "TC MAX",
+      "TS",
+      "TSX"
+    ]
+  },
+  {
+    "make": "Surron",
+    "models": [
+      "Light Bee",
+      "Light Bee S",
+      "Storm Bee"
+    ]
+  },
+  {
+    "make": "Suzuki",
+    "models": [
+      "Address",
+      "AP",
+      "Avenis",
+      "Bandit",
+      "Boulevard",
+      "Burgman",
+      "DL",
+      "DR",
+      "DR-Z",
+      "EN",
+      "ER",
+      "Gladius",
+      "GN",
+      "GR",
+      "GS",
+      "GSR",
+      "GSX",
+      "GSX-F - Katana",
+      "GSX-R",
+      "GSX 1000",
+      "GV",
+      "GW 250",
+      "GX",
+      "GZ",
+      "Hayabusa",
+      "Inny",
+      "Intruder",
+      "Katana",
+      "Kingquad",
+      "Marauder",
+      "OR",
+      "Papia FD",
+      "PV",
+      "Raider",
+      "RAN",
+      "RF",
+      "RG",
+      "RGV",
+      "RL",
+      "RM",
+      "RM-Z",
+      "RMX",
+      "RV",
+      "S",
+      "S1",
+      "Satria",
+      "Savage",
+      "Sepia",
+      "Shogun",
+      "SMX",
+      "SP",
+      "Sprinter",
+      "SV",
+      "T",
+      "TC",
+      "TL",
+      "TM",
+      "TR",
+      "TU",
+      "TXR",
+      "V-STROM",
+      "VL 800 Volusia",
+      "VL 800 Volusia - Boulevard C50",
+      "VL 1500 Intruder LC - Boulevard C90",
+      "VS",
+      "VX",
+      "VZ",
+      "XF"
+    ]
+  },
+  {
+    "make": "SWM",
+    "models": [
+      "Ace of spades",
+      "Gran Turismo`",
+      "Inny",
+      "RS 125 R",
+      "RS 300 R",
+      "RS 500 R",
+      "Silver Vase",
+      "Six Days",
+      "SM 125 R",
+      "SM 450 R",
+      "SM 500 R",
+      "Super Dual T",
+      "Superdual X"
+    ]
+  },
+  {
+    "make": "SYM",
+    "models": [
+      "Citycom",
+      "CRUiSYM",
+      "DD",
+      "Fiddle",
+      "GTS",
+      "HD",
+      "Inny",
+      "Jet",
+      "Joymax",
+      "Joyride",
+      "MAXSYM",
+      "MIO",
+      "Orbit",
+      "Symphony",
+      "Symply",
+      "VS",
+      "XS",
+      "X’PRO"
+    ]
+  },
+  {
+    "make": "TAO MOTORS",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "TGB",
+    "models": [
+      "Akros",
+      "ATV425",
+      "Bellavita",
+      "BK1",
+      "Blade",
+      "Express",
+      "F",
+      "F409",
+      "GFS",
+      "Hawk",
+      "Inny",
+      "Laser",
+      "Mystique",
+      "Octane",
+      "Orion",
+      "R50X Bullet",
+      "Sienna",
+      "Tryton",
+      "Urban",
+      "Vivo",
+      "Voodoo"
+    ]
+  },
+  {
+    "make": "TM",
+    "models": [
+      "Cross",
+      "Enduro",
+      "Inny",
+      "SMM",
+      "SMR",
+      "SMX"
+    ]
+  },
+  {
+    "make": "Triumph",
+    "models": [
+      "Adventurer",
+      "America",
+      "Bonneville",
+      "Bonneville Bobber",
+      "Daytona",
+      "Inny",
+      "Legend TT",
+      "Rocket",
+      "Scrambler",
+      "Speed Four",
+      "Speedmaster",
+      "Speed Triple",
+      "Speed Twin",
+      "Sprint",
+      "Street Scrambler",
+      "Street Triple",
+      "Street Twin",
+      "T",
+      "T25T",
+      "Thruxton",
+      "Thunderbird",
+      "Tiger",
+      "Tiger Cub",
+      "TR6R",
+      "Trident",
+      "Trophy",
+      "TT"
+    ]
+  },
+  {
+    "make": "UM",
+    "models": [
+      "Inny",
+      "Renegade Commando",
+      "Renegade Freedom",
+      "Renegade Sport",
+      "Renegade Vegas"
+    ]
+  },
+  {
+    "make": "Ural",
+    "models": [
+      "Custom",
+      "IMZ",
+      "Inny",
+      "K-750",
+      "M-61",
+      "M-62",
+      "M-63",
+      "M-66",
+      "M-67",
+      "M-72",
+      "Patrol",
+      "Retro",
+      "Tourist",
+      "Wolf"
+    ]
+  },
+  {
+    "make": "VELEX",
+    "models": [
+      "Comfort",
+      "Egreen",
+      "M1",
+      "M2",
+      "M8",
+      "TRIP"
+    ]
+  },
+  {
+    "make": "Vespa",
+    "models": [
+      "Elettrica",
+      "ET",
+      "Grantourismo",
+      "GS",
+      "GT",
+      "GTS",
+      "GTV-LXV",
+      "Inny",
+      "LX",
+      "Montec",
+      "P",
+      "PK",
+      "Primavera",
+      "PX",
+      "Special",
+      "Sprint",
+      "Super",
+      "V",
+      "VBB",
+      "Vespino",
+      "VNB"
+    ]
+  },
+  {
+    "make": "Victory",
+    "models": [
+      "Hammer",
+      "Inny",
+      "Kingpin",
+      "V",
+      "Vegas",
+      "Vision"
+    ]
+  },
+  {
+    "make": "VOGE",
+    "models": [
+      "300 AC",
+      "300 DS",
+      "300 R",
+      "300ACX",
+      "300GY RALLY",
+      "500 DS",
+      "500AC",
+      "500DSX",
+      "500R",
+      "650DSX",
+      "ER10",
+      "Inny",
+      "R125",
+      "SR4 MAX"
+    ]
+  },
+  {
+    "make": "WFM",
+    "models": [
+      "Inny",
+      "M",
+      "Osa",
+      "SHL"
+    ]
+  },
+  {
+    "make": "WSK",
+    "models": [
+      "Inny",
+      "M06",
+      "M21"
+    ]
+  },
+  {
+    "make": "X-Moto",
+    "models": [
+      "Inny",
+      "ostatní"
+    ]
+  },
+  {
+    "make": "XMOTOS",
+    "models": [
+      "Inny",
+      "XB39",
+      "XB88"
+    ]
+  },
+  {
+    "make": "XTR",
+    "models": [
+      "Inny"
+    ]
+  },
+  {
+    "make": "Yadea",
+    "models": [
+      "C-line"
+    ]
+  },
+  {
+    "make": "Yamaha",
+    "models": [
+      "Aerox",
+      "AG",
+      "Airport",
+      "Air Tricker",
+      "AT",
+      "ATI",
+      "Autolube",
+      "Axis",
+      "Beluga",
+      "Big Bear",
+      "Boulevard",
+      "BT",
+      "Bulldog",
+      "BW",
+      "BWS",
+      "CA",
+      "CR",
+      "Crypton",
+      "CS",
+      "CT",
+      "CT1",
+      "Cute",
+      "Cygnus",
+      "D'elight",
+      "Drag Star",
+      "DS",
+      "DT",
+      "EW",
+      "F1",
+      "FJ",
+      "FJR",
+      "FS1",
+      "FZ",
+      "FZR",
+      "FZS",
+      "FZX",
+      "Grizzly",
+      "GT",
+      "GTS",
+      "HS",
+      "Inny",
+      "IT",
+      "JOG",
+      "JT",
+      "Kodiak",
+      "L5",
+      "Lagenda",
+      "LB",
+      "LC",
+      "Libero",
+      "Majesty",
+      "Maxim",
+      "Maxster",
+      "MBK",
+      "Midnight Star",
+      "Mio",
+      "MT",
+      "MX",
+      "Neos",
+      "NIKEN",
+      "NMAX",
+      "NXC",
+      "Passol",
+      "PW",
+      "R1",
+      "R3",
+      "R6",
+      "R7",
+      "R125",
+      "Radian",
+      "Raider",
+      "Raptor",
+      "Razz",
+      "RD",
+      "Riva",
+      "Road Star",
+      "Royal Star",
+      "RS",
+      "RSX",
+      "RT",
+      "RX",
+      "RXS",
+      "RXZ",
+      "RZ",
+      "SA",
+      "Salient",
+      "Scorpio",
+      "SCR",
+      "SDR",
+      "SG",
+      "Skyliner",
+      "Slider",
+      "SR",
+      "SRX",
+      "SS TWO",
+      "Super Tenere",
+      "SX",
+      "SZR",
+      "TA",
+      "Target",
+      "TDM",
+      "TDR",
+      "Tenere",
+      "Thundercat",
+      "Tiara",
+      "Tmax",
+      "Touch",
+      "Tracer",
+      "Tricity",
+      "TRX",
+      "TT",
+      "TTR",
+      "TW",
+      "TX",
+      "TY",
+      "TZ",
+      "TZM",
+      "TZR",
+      "V",
+      "V-MAX",
+      "Vega",
+      "Venture",
+      "Vino",
+      "Virago",
+      "VRR",
+      "V Star",
+      "Warrior",
+      "Wild star",
+      "Wolverine",
+      "WR",
+      "X",
+      "X-max",
+      "XC",
+      "XJ",
+      "XJR",
+      "XS",
+      "XSR",
+      "XT",
+      "XTX",
+      "XTZ",
+      "XV",
+      "XVS",
+      "XVZ",
+      "XZ",
+      "Yamahopper QT",
+      "YB",
+      "YBR",
+      "YDS",
+      "YFM",
+      "YFZ",
+      "YGS",
+      "YR",
+      "YS",
+      "YSR",
+      "YX",
+      "YZ",
+      "YZF",
+      "YZR",
+      "Z",
+      "Zest",
+      "Zico",
+      "Zipp",
+      "ZR",
+      "Zuma"
+    ]
+  },
+  {
+    "make": "Yamasaki",
+    "models": [
+      "125",
+      "Inny"
+    ]
+  },
+  {
+    "make": "Zero",
+    "models": [
+      "DS",
+      "DSR",
+      "S",
+      "SR"
+    ]
+  },
+  {
+    "make": "Zipp",
+    "models": [
+      "Appia",
+      "Astec",
+      "Azer",
+      "GP500",
+      "Inny",
+      "JZW-50",
+      "LaVISSA 125",
+      "Manic",
+      "Manic 125",
+      "Otis",
+      "Otis plus",
+      "PARCO",
+      "PRO RS50",
+      "PRO RS 125",
+      "Quantum",
+      "Raven",
+      "Raven 125",
+      "Raven LUX 125",
+      "Roadstar",
+      "Rooster",
+      "Salmo",
+      "Simpli",
+      "STEED",
+      "TOPS",
+      "Vapor",
+      "Vega",
+      "Volteno",
+      "VZ-1",
+      "VZ-2",
+      "VZ-3",
+      "VZ-50",
+      "ZIPP 125"
+    ]
+  },
+  {
+    "make": "Zongshen",
+    "models": [
+      "Inny",
+      "ZS"
+    ]
+  },
+  {
+    "make": "Zontes",
+    "models": [
+      "125 G1 Aluminium",
+      "125 G1 Spoke",
+      "125 GK",
+      "125 U",
+      "125 U1",
+      "125 Z2",
+      "125M",
+      "310M",
+      "310R",
+      "310T",
+      "310V",
+      "310X",
+      "312V",
+      "350GK",
+      "350R",
+      "350T",
+      "350V",
+      "350VX",
+      "350X",
+      "Inny",
+      "M310"
+    ]
+  },
+  {
+    "make": "Zumico",
+    "models": [
+      "Aion",
+      "Avatar",
+      "Dynamic",
+      "Eos",
+      "GR1100",
+      "Ignis",
+      "Inny",
+      "Mac",
+      "ORS 150",
+      "ORS 250",
+      "Quad",
+      "Quick",
+      "Ronin",
+      "Shiva"
+    ]
+  },
+  {
+    "make": "Zundapp",
+    "models": [
+      "CS",
+      "Famel XF",
+      "Inny",
+      "KS",
+      "M25",
+      "Z3",
+      "ZR"
+    ]
+  }
+]
