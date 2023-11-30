@@ -48,6 +48,13 @@ interface IOffer {
     };
 };
 
+interface IProfile {
+    email: string;
+    name: string;
+    surname: string;
+    profilePicture: string;
+}
+
 export default function Account() {
 
     //just for testing
@@ -121,46 +128,72 @@ export default function Account() {
           .catch((error) => console.error("Error loading local data:", error));
       }, []);
 
+      const [profileData, setProfileData] = useState<IProfile | null>(null);
+      useEffect(() => {
+        Promise.all([
+          import("../testJsons/profile.json"),
+        ])
+          .then((data) => {
+            const [
+              profileData,
+            ] = data;
+      
+            setProfileData({
+              email: profileData.default.email,
+              name: profileData.default.name,
+              surname: profileData.default.surname,
+              profilePicture: profileData.default.profilePicture,
+            });
+          })
+          .catch((error) => console.error("Error loading local data:", error));
+      }, []);
+
     return(
         <div className="account">
-            <div className="account-header">
-                <h2>Your account</h2>
-                <img src='https://rybnik.policja.gov.pl/dokumenty/zalaczniki/57/57-663570_g.jpg' alt='jacek' />
-                <h2>Jacek</h2>
-                <h2>Jaworek</h2>
-                <h3>email: jacek@jaworek.pl</h3>
+        <div className="account-header">
+          <div className="account-header-profile">
+            <img src={profileData?.profilePicture} alt="profile" />
+            <div className="account-header-profile-info">
+              <h2>{profileData?.name} {profileData?.surname}</h2>
+              <p>{profileData?.email}</p>
             </div>
-            <div className="account-offers">
-                <h2>Your offers</h2>
-                <div className="account-offers-elements">
-                    ?{offerData?.generalOffer.photos.map((photo) => (
-                        <OfferElement
-                            key={photo}
-                            image={photo}
-                            title={offerData?.generalOffer.title}
-                            price={offerData?.generalOffer.price}
-                            year={offerData?.generalOffer.year}
-                        />
-                    ))}
-                </div>
-            </div>
-            <div className="account-saved-offers">
-                <h2>Saved offers</h2>
-                <div className="account-saved-offers-elements">
-                    ?{offerData?.generalOffer.photos.map((photo) => (
-                        <OfferElement
-                            key={photo}
-                            image={photo}
-                            title={offerData?.generalOffer.title}
-                            price={offerData?.generalOffer.price}
-                            year={offerData?.generalOffer.year}
-                        />
-                    ))}
-                </div>
-            </div>
-            <div className="account-chat">
-                <Chat />
-            </div>
+          </div>
+          <div className="account-header-buttons">
+            <button>Change profile picture</button>
+            <button>Change password</button>
+          </div>
         </div>
+        <div className="account-offers">
+          <h2>Your offers</h2>
+          <div className="account-offers-elements">
+            ?{offerData?.generalOffer.photos.map((photo) => (
+              <OfferElement
+                key={photo}
+                image={photo}
+                title={offerData?.generalOffer.title}
+                price={offerData?.generalOffer.price}
+                year={offerData?.generalOffer.year} />
+            ))}
+          </div>
+        </div><div className="account-saved-offers">
+          <h2>Saved offers</h2>
+          <div className="account-saved-offers-elements">
+            ?{offerData?.generalOffer.photos.map((photo) => (
+              <OfferElement
+                key={photo}
+                image={photo}
+                title={offerData?.generalOffer.title}
+                price={offerData?.generalOffer.price}
+                year={offerData?.generalOffer.year} />
+            ))}
+          </div>
+        </div>
+        <div className="account-chat">
+          <h2>Chat</h2>
+          <div className="account-chat-elements">
+            <Chat />
+          </div>
+        </div>
+      </div>
     );
 }
