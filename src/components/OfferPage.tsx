@@ -150,7 +150,12 @@ export default function OfferPage(){
                     <p>{offerData.vinNumber}</p>
                 </div>
                 <div className="offer-page-main-bid">
-                    <BidElement/>
+                    <BidElement
+                        sellerReserve="1000 PLN"
+                        timeLeft="1 day 2 hours"
+                        numberOfBids={5}
+                        currentBid="2000 PLN"
+                    />
                 </div>
                 <div className="offer-page-main-description">
                     <h2>Description</h2>
