@@ -56,6 +56,28 @@ interface IProfile {
 }
 
 export default function Account() {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedProfile, setEditedProfile] = useState<IProfile | null>(null);
+
+    const handleEditProfile = () => {
+      setIsEditing(true);
+      setEditedProfile(profileData ? { ...profileData } : null);
+    };
+
+    const handleCancelEdit = () => {
+      setIsEditing(false);
+      setEditedProfile(null);
+    };
+
+    const handleSaveProfile = () => {
+      setIsEditing(false);
+      setProfileData(editedProfile ? { ...editedProfile } : null);
+    }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setEditedProfile(editedProfile ? { ...editedProfile, [name]: value } : null);
+    };
 
     //just for testing
     const [offerData, setOfferData] = useState<IOffer | null>(null);
@@ -150,19 +172,36 @@ export default function Account() {
 
     return(
         <div className="account">
-        <div className="account-header">
-          <div className="account-header-profile">
-            <img src={profileData?.profilePicture} alt="profile" />
-            <div className="account-header-profile-info">
-              <h2>{profileData?.name} {profileData?.surname}</h2>
-              <p>{profileData?.email}</p>
+          <div className="account-header">
+            <div className="account-header-profile">
+              <img src={profileData?.profilePicture} alt="profile" />
+              <div className="account-header-profile-info">
+                <h2>{profileData?.name} {profileData?.surname}</h2>
+                <p>{profileData?.email}</p>
+              </div>
+            </div>
+            <div className="account-header-buttons">
+              <button onClick={handleEditProfile}>Edit Profile</button>
             </div>
           </div>
-          <div className="account-header-buttons">
-            <button>Change profile picture</button>
-            <button>Change password</button>
-          </div>
-        </div>
+          {isEditing && editedProfile && (
+            <div className="account-edit-profile">
+              <h2>Edit Profile</h2>
+              <label>Name:
+                <input type="text" name="name" value={editedProfile.name} onChange={handleInputChange} />
+              </label>
+              <label>Surname:
+                <input type="text" name="surname" value={editedProfile.surname} onChange={handleInputChange} />
+              </label>
+              <label>Profile picture:
+                <input type="text" name="profilePicture" value={editedProfile.profilePicture} onChange={handleInputChange} />
+              </label>
+              <div>
+                <button onClick={handleCancelEdit}>Cancel</button>
+                <button onClick={handleSaveProfile}>Save</button>
+              </div>
+            </div>
+        )}
         <div className="account-offers">
           <h2>Your offers</h2>
           <div className="account-offers-elements">
