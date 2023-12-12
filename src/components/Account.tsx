@@ -51,7 +51,6 @@ interface IOffer {
 interface IProfile {
     email: string;
     name: string;
-    surname: string;
     profilePicture: string;
 }
 
@@ -163,7 +162,6 @@ export default function Account() {
             setProfileData({
               email: profileData.default.email,
               name: profileData.default.name,
-              surname: profileData.default.surname,
               profilePicture: profileData.default.profilePicture,
             });
           })
@@ -176,7 +174,7 @@ export default function Account() {
             <div className="account-header-profile">
               <img src={profileData?.profilePicture} alt="profile" />
               <div className="account-header-profile-info">
-                <h2>{profileData?.name} {profileData?.surname}</h2>
+                <h2>{profileData?.name}</h2>
                 <p>{profileData?.email}</p>
               </div>
             </div>
@@ -189,9 +187,6 @@ export default function Account() {
               <h2>Edit Profile</h2>
               <label>Name:
                 <input type="text" name="name" value={editedProfile.name} onChange={handleInputChange} />
-              </label>
-              <label>Surname:
-                <input type="text" name="surname" value={editedProfile.surname} onChange={handleInputChange} />
               </label>
               <label>Profile picture:
                 <input type="text" name="profilePicture" value={editedProfile.profilePicture} onChange={handleInputChange} />
