@@ -3,10 +3,20 @@ import BidElement from "./BidElement";
 import SellerElement from "./SellerElement";
 import { useEffect, useState } from "react";
 
+interface IAuction{
+    isActive: boolean;
+    currentBid: number;
+    numberOfBids: number;
+    sellerReserve: number;
+    endDate: string;
+}
+
 interface IOffer {
+    id: string;
     photos: string[];
     title: string;
-    price: number;
+    price?: number;
+    auction?: IAuction;
     make: string;
     model: string;
     type: string;
@@ -49,7 +59,8 @@ export default function OfferPage(){
 
     //code below is for testing purposes only, it will be replaced with the code above
     useEffect(() => {
-        import("../testJsons/testOffer.json")
+        import("../testJsons/testBidOffer.json")
+        // import("../testJsons/testOffer.json")
           .then((data) => setOfferData(data.default))
           .catch((error) => console.error("Error loading local data:", error));
       }, []);
@@ -65,22 +76,35 @@ export default function OfferPage(){
         <div className="offer-page">
             <div className="offer-page-top-bar">
                 <h1>{offerData.title}</h1>
-                <p>
-                {isEditing ? (
-                    <input
-                    type="number"
-                    value={offerData.price}
-                    onChange={(event) =>
-                        setOfferData({
-                        ...offerData,
-                        price: Number(event.target.value),
-                        })
-                    }
-                    />
-                ) : (
-                    offerData.price
+                {!offerData.auction && (
+                    <p>
+                        {isEditing ? (
+                        <input
+                            type="number"
+                            value={offerData.price}
+                            onChange={(event) =>
+                            setOfferData({
+                                ...offerData,
+                                price: Number(event.target.value),
+                            })
+                            }
+                        />
+                        ) : (
+                        offerData.price
+                        )}
+                    </p>
                 )}
-                </p>
+                {offerData.auction &&(
+                    <div className="offer-page-main-bid">
+                        <BidElement
+                            isActive={offerData.auction.isActive}
+                            currentBid={offerData.auction.currentBid}
+                            numberOfBids={offerData.auction.numberOfBids}
+                            sellerReserve={offerData.auction.sellerReserve}
+                            endDate={new Date(offerData.auction.endDate)}
+                        />
+                    </div>
+                )}
             </div>
             <div className="offer-page-main">
                 <div className="offer-page-main-images">
@@ -148,14 +172,6 @@ export default function OfferPage(){
                     <p>{offerData.condition}</p>
                     <label>VIN Number:</label>
                     <p>{offerData.vinNumber}</p>
-                </div>
-                <div className="offer-page-main-bid">
-                    <BidElement
-                        sellerReserve="1000 PLN"
-                        timeLeft="1 day 2 hours"
-                        numberOfBids={5}
-                        currentBid="2000 PLN"
-                    />
                 </div>
                 <div className="offer-page-main-description">
                     <h2>Description</h2>

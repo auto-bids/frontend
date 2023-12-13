@@ -1,0 +1,38 @@
+{
+    "id": "5add46ca-3503-4801-9c7b-8590cb141b9e",
+    "photos": ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
+    "title": "Sample Offer",
+    "auction": {
+        "isActive": true,
+        "currentBid": 1000,
+        "numberOfBids": 1,
+        "sellerReserve": 2000,
+        "endDate": "2023-12-24T12:00:00Z"
+    },
+    "make": "Polonez",
+    "model": "Caro",
+    "type": "Hatchback",
+    "year": 1999,
+    "mileage": 100000,
+    "engineCapacity": 1600,
+    "fuel": "Gasoline",
+    "power": 90,
+    "transmission": "Manual",
+    "drive": "Rear",
+    "steering": "Left",
+    "doors": 5,
+    "seats": 5,
+    "registrationNumber": "WWL1234",
+    "firstRegistration": 1999,
+    "condition": "Used",
+    "vinNumber": "12345678901234567",
+    "description": "Jeździ skręca hamuje. Blacharka jak na zdjęciach. Opłaty i do końca roku przeglądu brak.",
+    "seller": {
+      "name": "Zbigniew Łomnik",
+      "phone": "123456789",
+      "email": "zlomnik@zlomnik.pl",
+      "x": 52.0733874,
+      "y": 20.9760459
+    }
+  }
+  

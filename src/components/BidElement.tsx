@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface BidElementProps {
-  sellerReserve: string;
-  timeLeft: string;
+  isActive: boolean;
+  currentBid: number;
   numberOfBids: number;
-  currentBid: string;
+  sellerReserve: number;
+  endDate: Date;
 }
 
 export default function BidElement(props: BidElementProps) {
   const [bidValue, setBidValue] = useState("");
+  const [timeLeft, setTimeLeft] = useState<string>("");
 
   const handleBidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBidValue(event.target.value);
@@ -18,29 +20,62 @@ export default function BidElement(props: BidElementProps) {
     console.log(`Placing bid: ${bidValue} PLN`);
   };
 
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime();
+      const endDate = props.endDate.getTime();
+      const timeDifference = endDate - now;
+
+      if (timeDifference > 0) {
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+
+        setTimeLeft(`${days}d ${hours}h ${minutes}m`);
+      } else {
+        setTimeLeft("Auction has ended");
+      }
+    };
+
+    // Ustawienie interwału aktualizacji co minutę
+    const timer = setInterval(() => {
+      calculateTimeLeft();
+    }, 60000); // 60000 milisekund to 1 minuta
+
+    // Wywołanie funkcji calculateTimeLeft po pierwszym renderowaniu komponentu
+    calculateTimeLeft();
+
+    // Wyczyszczenie interwału po zakończeniu komponentu
+    return () => clearInterval(timer);
+  }, [props.endDate]);
+
   return (
-    <div className='bid-element'>
-      <div className='bid-element-info'>
-        <div className='Seller reserve'>
+    <div className="bid-element">
+      <div className="bid-element-info">
+        <div className="Seller reserve">
           <h3>Seller reserve:</h3>
           <p>{props.sellerReserve}</p>
         </div>
-        <div className='bid-element-info-time'>
+        <div className="bid-element-info-time">
           <h3>Time left:</h3>
-          <p>{props.timeLeft}</p>
+          <p>{timeLeft}</p>
         </div>
-        <div className='bid-element-info-bids'>
+        <div className="bid-element-info-bids">
           <h3>Bids:</h3>
           <p>{props.numberOfBids}</p>
         </div>
-        <div className='bid-element-info-bid'>
+        <div className="bid-element-info-bid">
           <h3>Current bid:</h3>
           <p>{props.currentBid}</p>
         </div>
-        <div className='bid-element-info-form'>
+        <div className="bid-element-info-form">
           <input
-            type='text'
-            placeholder='Bid'
+            type="text"
+            placeholder="Bid"
             value={bidValue}
             onChange={handleBidChange}
           />
