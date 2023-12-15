@@ -7,10 +7,6 @@ export default function Header() {
             <Link to='/'>
                 <button className='home-button'>auto-bids</button>
             </Link>
-            <div className='buy-now-or-bid'>
-                <button className='buy-now-button'>Buy Now</button>
-                <button className='bid-button'>Auctions</button>
-            </div>
             <Link to='/account'>
                 <button className='account'>Your account</button>
             </Link>

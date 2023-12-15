@@ -1,9 +1,18 @@
 import React from "react";
 
+interface IAuction {
+    isActive: boolean;
+    currentBid: number;
+    numberOfBids: number;
+    sellerReserve: number;
+    endDate: string;
+}
+
 interface OfferElementProps {
     image: string;
     title: string;
-    price: number;
+    price?: number;
+    auction?: IAuction;
     year: number;
 }
 
@@ -15,7 +24,22 @@ export default function OfferElement(props: OfferElementProps) {
             </div>
             <div className="offer-element-details">
                 <h3>{props.title}</h3>
-                <p>{props.price}€</p>
+                {props.auction ? (
+                    <div className="offer-element-details-bid">
+                        <p>
+                            {props.auction.isActive ? (
+                                <span>Current bid: {props.auction.currentBid}</span>
+                            ) : (
+                                <span>Sold for: {props.auction.currentBid}</span>
+                            )}
+                        </p>
+                        <p>Number of bids: {props.auction.numberOfBids}</p>
+                        <p>Seller reserve: {props.auction.sellerReserve}</p>
+                        <p>End date: {props.auction.endDate}</p>
+                    </div>
+                ) : (
+                    <p>{props.price}</p>
+                )}
                 <p>{props.year}</p>
             </div>
         </div>
