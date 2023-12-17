@@ -56,7 +56,7 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
             <LocationInputSearch onLocationChange={handleLocationChange} />
             </>
             )}
-            <Link to="/results">
+            <Link to="/search/trailers">
                 <button>Search</button>
             </Link>
         </div>

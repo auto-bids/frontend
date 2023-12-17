@@ -88,7 +88,7 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
             <LocationInputSearch onLocationChange={handleLocationChange} />
             </>
             )}
-            <Link to="/search">
+            <Link to="/search/trucks">
                 <button>Search</button>
             </Link>
         </div>

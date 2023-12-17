@@ -160,7 +160,7 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
       </>)
       }
 
-      <Link to="/search">
+      <Link to="/search/cars">
         <button>Search</button>
       </Link>
     </div>

@@ -137,7 +137,7 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
       <LocationInputSearch onLocationChange={handleLocationChange} />
       </>
       )}
-      <Link to="/search">
+      <Link to="/search/delivery-vans">
         <button>Search</button>
       </Link>
     </div>

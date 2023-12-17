@@ -26,7 +26,7 @@ function App() {
         <Header />
            <Routes>
               <Route path="/" element={<MainPage />} />
-              <Route path="/search" element={<SearchPage />} />
+              <Route path="/search/:category" element={<SearchPage />} />
               <Route path="/account" element={<Account />} />
               <Route path="/new-listing" element={<NewListing />} />
               <Route path="/login" element={<LoginPage />} />

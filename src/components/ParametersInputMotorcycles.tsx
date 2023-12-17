@@ -95,7 +95,7 @@ export default function MotorcycleParametersInput({showAllFields}: {showAllField
       <LocationInputSearch onLocationChange={handleLocationChange} />
       </>
       )}
-      <Link to="/search">
+      <Link to="/search/motorcycles">
         <button>Search</button>
       </Link>
     </div>

@@ -60,7 +60,7 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields}
             <LocationInputSearch onLocationChange={handleLocationChange} />
             </>
             )}
-            <Link to="/results">
+            <Link to="/search/agricultural-machinery">
                 <button>Search</button>
             </Link>
         </div>
