@@ -2,6 +2,7 @@ import React from "react";
 import BidElement from "./BidElement";
 import SellerElement from "./SellerElement";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 interface IAuction{
     isActive: boolean;

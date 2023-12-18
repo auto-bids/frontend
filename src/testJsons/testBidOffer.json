@@ -1,7 +1,7 @@
 {
     "id": "5add46ca-3503-4801-9c7b-8590cb141b9e",
     "photos": ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
-    "title": "Sample Offer",
+    "title": "Sample Bid Offer",
     "auction": {
         "isActive": true,
         "currentBid": 1000,

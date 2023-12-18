@@ -41,15 +41,12 @@ export default function BidElement(props: BidElementProps) {
       }
     };
 
-    // Ustawienie interwału aktualizacji co minutę
     const timer = setInterval(() => {
       calculateTimeLeft();
-    }, 60000); // 60000 milisekund to 1 minuta
+    }, 60000);
 
-    // Wywołanie funkcji calculateTimeLeft po pierwszym renderowaniu komponentu
     calculateTimeLeft();
 
-    // Wyczyszczenie interwału po zakończeniu komponentu
     return () => clearInterval(timer);
   }, [props.endDate]);
 

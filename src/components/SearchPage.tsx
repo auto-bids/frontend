@@ -9,6 +9,7 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface IOffer {
   id: string;
@@ -49,8 +50,12 @@ export default function SearchPage() {
       }, []);
 
     return (
-        <div className='search-page'>
-            {/* <ParametersInput showAllFields={true}/> */}
+      <div className="search-page">
+        <div className="search-page-parameters">
+          <div className="search-page-parameters-title">
+            <h2>Search parameters</h2>
+          </div>
+          <div className="search-page-parameters-input">
             {category === "cars" && <ParametersInput showAllFields={true} />}
             {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} />}
             {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} />}
@@ -58,23 +63,46 @@ export default function SearchPage() {
             {category === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={true} />}
             {category === "trailers" && <ParametersInputTrailers showAllFields={true} />}
             {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} />}
-
-            <div className="search-page-offers">
-                <h1>Search Results</h1>
-                {/* {offerData && offerData.map((offer) => {
-                    return (
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                    )
-                }
-                )} */}
-                {category === "cars" && offerData && offerData[0] && <OfferElement key={offerData[0].id} image={offerData[0].image} title={offerData[0].title} price={offerData[0].price} year={offerData[0].year} />}
-                {category === "motorcycles" && offerData && offerData[1] && <OfferElement key={offerData[1].id} image={offerData[1].image} title={offerData[1].title} price={offerData[1].price} year={offerData[1].year} />}
-                {category === "delivery-vans" && offerData && offerData[2] && <OfferElement key={offerData[2].id} image={offerData[2].image} title={offerData[2].title} price={offerData[2].price} year={offerData[2].year} />}
-                {category === "trucks" && offerData && offerData[3] && <OfferElement key={offerData[3].id} image={offerData[3].image} title={offerData[3].title} price={offerData[3].price} year={offerData[3].year} />}
-                {category === "construction-machinery" && offerData && offerData[4] && <OfferElement key={offerData[4].id} image={offerData[4].image} title={offerData[4].title} price={offerData[4].price} year={offerData[4].year} />}
-                {category === "trailers" && offerData && offerData[5] && <OfferElement key={offerData[5].id} image={offerData[5].image} title={offerData[5].title} price={offerData[5].price} year={offerData[5].year} />}
-                {category === "agricultural-machinery" && offerData && offerData[6] && <OfferElement key={offerData[6].id} image={offerData[6].image} title={offerData[6].title} price={offerData[6].price} year={offerData[6].year} />}
-            </div>
+          </div>
         </div>
-    )
+        <div className="search-page-offers">
+          {category === "cars" && offerData && offerData[0] &&
+            <Link to={`/offer-cars/${offerData[0].id}`}>
+              <OfferElement key={offerData[0].id} image={offerData[0].image} title={offerData[0].title} price={offerData[0].price} year={offerData[0].year} />
+            </Link>
+          }
+          {category === "motorcycles" && offerData && offerData[1] &&
+            <Link to={`/offer-motorcycles/${offerData[1].id}`}>
+              <OfferElement key={offerData[1].id} image={offerData[1].image} title={offerData[1].title} price={offerData[1].price} year={offerData[1].year} />
+            </Link>
+          }
+          {category === "delivery-vans" && offerData && offerData[2] &&
+            <Link to={`/offer-delivery-vans/${offerData[2].id}`}>
+              <OfferElement key={offerData[2].id} image={offerData[2].image} title={offerData[2].title} price={offerData[2].price} year={offerData[2].year} />
+            </Link>
+          }
+          {category === "trucks" && offerData && offerData[3] &&
+            <Link to={`/offer-trucks/${offerData[3].id}`}>
+              <OfferElement key={offerData[3].id} image={offerData[3].image} title={offerData[3].title} price={offerData[3].price} year={offerData[3].year} />
+            </Link>
+          }
+          {category === "construction-machinery" && offerData && offerData[4] &&
+            <Link to={`/offer-construction-machinery/${offerData[4].id}`}>
+              <OfferElement key={offerData[4].id} image={offerData[4].image} title={offerData[4].title} price={offerData[4].price} year={offerData[4].year} />
+            </Link>
+          }
+          {category === "trailers" && offerData && offerData[5] &&
+            <Link to={`/offer-trailers/${offerData[5].id}`}>
+              <OfferElement key={offerData[5].id} image={offerData[5].image} title={offerData[5].title} price={offerData[5].price} year={offerData[5].year} />
+            </Link>
+          }
+          {category === "agricultural-machinery" && offerData && offerData[6] &&
+            <Link to={`/offer-agricultural-machinery/${offerData[6].id}`}>
+              <OfferElement key={offerData[6].id} image={offerData[6].image} title={offerData[6].title} price={offerData[6].price} year={offerData[6].year} />
+            </Link>
+          }
+
+        </div>
+      </div>
+    );
 }

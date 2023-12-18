@@ -8,6 +8,7 @@ import ParametersInputConstructionMachinery from "./ParametersInputConstructionM
 import ParametersInputTrailers from "./ParametersInputTrailers";
 import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface IAuction {
     isActive: boolean;
@@ -51,19 +52,19 @@ export default function MainPage() {
                 case "motorcycles":
                     data = await import("../testJsons/testOfferMotorcycles.json");
                     break;
-                case "delivery vans":
+                case "delivery-vans":
                     data = await import("../testJsons/testOfferDeliveryVans.json");
                     break;
                 case "trucks":
                     data = await import("../testJsons/testOfferTrucks.json");
                     break;
-                case "construction machinery":
+                case "construction-machinery":
                     data = await import("../testJsons/testOfferConstructionMachinery.json");
                     break;
                 case "trailers":
                     data = await import("../testJsons/testOfferTrailers.json");
                     break;
-                case "agricultural machinery":
+                case "agricultural-machinery":
                     data = await import("../testJsons/testOfferAgriculturalMachinery.json");
                     break;
                 default:
@@ -104,35 +105,34 @@ export default function MainPage() {
                 <div className="main-page-choose-category-buttons">
                     <button onClick={() => handleCategoryChange("cars")}>cars</button>
                     <button onClick={() => handleCategoryChange("motorcycles")}>motorcycles</button>
-                    <button onClick={() => handleCategoryChange("delivery vans")}>delivery vans</button>
+                    <button onClick={() => handleCategoryChange("delivery-vans")}>delivery vans</button>
                     <button onClick={() => handleCategoryChange("trucks")}>trucks</button>
-                    <button onClick={() => handleCategoryChange("construction machinery")}>construction machinery</button>
+                    <button onClick={() => handleCategoryChange("construction-machinery")}>construction machinery</button>
                     <button onClick={() => handleCategoryChange("trailers")}>trailers</button>
-                    <button onClick={() => handleCategoryChange("agricultural machinery")}>agricultural machinery</button>
+                    <button onClick={() => handleCategoryChange("agricultural-machinery")}>agricultural machinery</button>
                 </div>
             </div>
             )}
             <div className="main-page-parameters-input">
             {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} />}
             {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields}/>}
-            {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans showAllFields={showAllFields}/>}
+            {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields}/>}
             {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
-            {selectedCategory === "construction machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields}/>}
+            {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields}/>}
             {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields}/>}
-            {selectedCategory === "agricultural machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields}/>}
+            {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields}/>}
             </div>
             <button className="show-all-fields" onClick={() => setShowAllFields(!showAllFields)}>{showAllFields ? "Hide additional fields" : "Show additional fields"}</button>
-            <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
+            {/* <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
                 <img src='/ad.jpeg' alt='offer' />
-            </a>
+            </a> */}
             <div className="promoted-offers">
                 <h1>Promoted Offers</h1>
-                {offerData && offerData.map((offer) => {
-                    return (
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction}/>
-                    )
-                }
-                )}
+                {offerData && offerData.map((offer) => (
+                    <Link key={offer.id} to={`/offer-${selectedCategory}/${offer.id}`}>
+                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction} />
+                    </Link>
+                ))}
             </div>
         </div>
     )
