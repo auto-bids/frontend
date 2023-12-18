@@ -7,9 +7,16 @@ import trailersDataJson from "../testJsons/makeModelTrailers.json";
 export default function ParametersInputMainTrailers({showAllFields}: {showAllFields: boolean}) {
     const [trailerMakes, setTrailerMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+    const [locationVisible, setLocationVisible] = useState(false);
+    
+    const handleLocationVisibleChange = () => {
+      setLocationVisible(!locationVisible);
+      setLocationParams({ position: null, radius: 100000 });
+    };
+
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
-    }
+    };
 
     useEffect(() => {
         setTrailerMakes(trailersDataJson);
@@ -52,8 +59,14 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
                 <option value="Used">Used</option>
                 <option value="Damaged">Damaged</option>
             </select>
-            <label>Location:</label>
-            <LocationInputSearch onLocationChange={handleLocationChange} />
+            {
+                locationVisible ? (
+                <button onClick={handleLocationVisibleChange}>Any location</button>
+                ) : (
+                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                )
+            }
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
             <Link to="/search/trailers">

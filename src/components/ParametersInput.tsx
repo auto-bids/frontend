@@ -148,7 +148,7 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
           <button onClick={handleLocationVisibleChange}>Choose location</button>
         )
       }
-      {locationVisible && <LocationInputSearch onLocationChange={handleLocationVisibleChange} />}
+      {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
 
       <label>Status:</label>
       <select>

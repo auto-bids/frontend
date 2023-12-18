@@ -8,6 +8,12 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+    const [locationVisible, setLocationVisible] = useState(false);
+
+    const handleLocationVisibleChange = () => {
+        setLocationVisible(!locationVisible);
+        setLocationParams({ position: null, radius: 100000 });
+    };
 
     useEffect(() => {
         setTrucksData(trucksDataJson);
@@ -84,8 +90,14 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
                 <option value="Gasoline">Gasoline</option>
                 <option value="Other">Other</option>
             </select>
-            <label>Location:</label>
-            <LocationInputSearch onLocationChange={handleLocationChange} />
+            {
+                locationVisible ? (
+                <button onClick={handleLocationVisibleChange}>Any location</button>
+                ) : (
+                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                )
+            }
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
             <Link to="/search/trucks">

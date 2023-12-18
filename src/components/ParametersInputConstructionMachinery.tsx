@@ -6,8 +6,13 @@ import constructionMachineryDataJson from "../testJsons/makeModelConstructionMac
 
 export default function ParametersInputMainTrucks({showAllFields}: {showAllFields: boolean}) {
     const [constructionMachineryMakes, setConstructionMachineryMakes] = useState<string[]>([]);
-
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+    const [locationVisible, setLocationVisible] = useState(false);
+    
+    const handleLocationVisibleChange = () => {
+        setLocationVisible(!locationVisible);
+        setLocationParams({ position: null, radius: 100000 });
+    };
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
     };
@@ -58,8 +63,14 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
                 <option value="Used">Used</option>
                 <option value="Damaged">Damaged</option>
             </select>
-            <label>Location:</label>
-            <LocationInputSearch onLocationChange={handleLocationChange} />
+            {
+                locationVisible ? (
+                <button onClick={handleLocationVisibleChange}>Any location</button>
+                ) : (
+                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                )
+            }
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
             <Link to="/search/construction-machinery">

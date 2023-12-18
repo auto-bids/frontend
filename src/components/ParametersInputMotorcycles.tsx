@@ -13,6 +13,12 @@ export default function MotorcycleParametersInput({showAllFields}: {showAllField
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+  const [locationVisible, setLocationVisible] = useState(false);
+    
+  const handleLocationVisibleChange = () => {
+      setLocationVisible(!locationVisible);
+      setLocationParams({ position: null, radius: 100000 });
+  };
 
   useEffect(() => {
     setMotorcycleData(motorcycleDataJson);
@@ -91,9 +97,15 @@ export default function MotorcycleParametersInput({showAllFields}: {showAllField
         <option value="Used">Used</option>
         <option value="Damaged">Damaged</option>
       </select>
-      <label>Location:</label>
-      <LocationInputSearch onLocationChange={handleLocationChange} />
-      </>
+      {
+                locationVisible ? (
+                <button onClick={handleLocationVisibleChange}>Any location</button>
+                ) : (
+                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                )
+            }
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
+            </>
       )}
       <Link to="/search/motorcycles">
         <button>Search</button>

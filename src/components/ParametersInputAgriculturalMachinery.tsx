@@ -7,8 +7,15 @@ import agriculturalMachineryDataJson from "../testJsons/makeModelAgriculturalMac
 export default function ParametersInputMainAgriculturalMachinery({showAllFields}: {showAllFields: boolean}) {
     const [agriculturalMachineryMakes, setAgriculturalMachineryMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+    const [locationVisible, setLocationVisible] = useState(false);
+
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
+    };
+
+    const handleLocationVisibleChange = () => {
+        setLocationVisible(!locationVisible);
+        setLocationParams({ position: null, radius: 100000 });
     };
 
     useEffect(() => {
@@ -56,8 +63,14 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields}
                 <option value="Used">Used</option>
                 <option value="Damaged">Damaged</option>
             </select>
-            <label>Location:</label>
-            <LocationInputSearch onLocationChange={handleLocationChange} />
+            {
+                locationVisible ? (
+                <button onClick={handleLocationVisibleChange}>Any location</button>
+                ) : (
+                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                )
+            }
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
             <Link to="/search/agricultural-machinery">

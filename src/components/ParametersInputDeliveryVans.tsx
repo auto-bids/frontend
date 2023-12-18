@@ -8,6 +8,12 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
+  const [locationVisible, setLocationVisible] = useState(false);
+    
+  const handleLocationVisibleChange = () => {
+    setLocationVisible(!locationVisible);
+    setLocationParams({ position: null, radius: 100000 });
+  };
 
   useEffect(() => {
     setDeliveryVanData(deliveryVanDataJson);
@@ -133,9 +139,15 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
       <label>Capacity:</label>
       <input type="text" placeholder="Capacity from" />
       <input type="text" placeholder="Capacity to" />
-      <label>Location:</label>
-      <LocationInputSearch onLocationChange={handleLocationChange} />
-      </>
+      {
+                locationVisible ? (
+                <button onClick={handleLocationVisibleChange}>Any location</button>
+                ) : (
+                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                )
+            }
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationVisibleChange} />}
+            </>
       )}
       <Link to="/search/delivery-vans">
         <button>Search</button>
