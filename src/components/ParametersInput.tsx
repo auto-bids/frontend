@@ -75,9 +75,29 @@ export default function ParametersInputMain({showAllFields, buyNowOrBid}: {showA
       <><label>Mileage:</label>
       <input type="text" placeholder="Mileage from" />
       <input type="text" placeholder="Mileage to" />
-      <label>Price:</label>
-      <input type="text" placeholder="Price from" />
-      <input type="text" placeholder="Price to" />
+      {buyNowOrBid === "buyNow" ? (
+        <>
+          <label>Price:</label>
+          <input type="text" placeholder="Price from" />
+          <input type="text" placeholder="Price to" />
+        </>
+      ) : (
+        <>
+          <label>Current bid:</label>
+          <input type="text" placeholder="Current bid from" />
+          <input type="text" placeholder="Current bid to" />
+          <label>Seller reserve: </label>
+          <input type="text" placeholder="Seller reserve from" />
+          <input type="text" placeholder="Seller reserve to" />
+          <label>Number of bids:</label>
+          <input type="text" placeholder="Number of bids from" />
+          <input type="text" placeholder="Number of bids to" />
+          <label>End date:</label>
+          <input type="text" placeholder="End date from" />
+          <input type="text" placeholder="End date to" />
+        </>
+      )
+      }
       <label>Fuel Type:</label>
       <select>
         <option value="">Fuel Type</option>
