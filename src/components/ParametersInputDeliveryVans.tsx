@@ -146,7 +146,7 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
                 <button onClick={handleLocationVisibleChange}>Choose location</button>
                 )
             }
-            {locationVisible && <LocationInputSearch onLocationChange={handleLocationVisibleChange} />}
+            {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
       )}
       <Link to="/search/delivery-vans">

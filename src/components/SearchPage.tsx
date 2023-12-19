@@ -11,11 +11,20 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+interface IAuction {
+  isActive: boolean;
+  currentBid: number;
+  numberOfBids: number;
+  sellerReserve: number;
+  endDate: string;
+}
+
 interface IOffer {
   id: string;
   image: string;
   title: string;
-  price: number;
+  price?: number;
+  auction?: IAuction;
   year: number;
 };
 
@@ -56,7 +65,8 @@ export default function SearchPage() {
             <h2>Search parameters</h2>
           </div>
           <div className="search-page-parameters-input">
-            {category === "cars" && <ParametersInput showAllFields={true} />}
+            {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" />}
+            {category === "cars-bids" && <ParametersInput showAllFields={true} buyNowOrBid="bid" />}
             {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} />}
             {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} />}
             {category === "trucks" && <ParametersInputTrucks showAllFields={true} />}
@@ -68,7 +78,7 @@ export default function SearchPage() {
         <div className="search-page-offers">
           {category === "cars" && offerData && offerData[0] &&
             <Link to={`/offer-cars/${offerData[0].id}`}>
-              <OfferElement key={offerData[0].id} image={offerData[0].image} title={offerData[0].title} price={offerData[0].price} year={offerData[0].year} />
+              <OfferElement key={offerData[0].id} image={offerData[0].image} title={offerData[0].title} price={offerData[0].price} year={offerData[0].year} auction={offerData[0].auction} />
             </Link>
           }
           {category === "motorcycles" && offerData && offerData[1] &&

@@ -8,7 +8,7 @@ interface CarData {
   models: string[];
 }
 
-export default function ParametersInputMain({showAllFields}: {showAllFields: boolean}) {
+export default function ParametersInputMain({showAllFields, buyNowOrBid}: {showAllFields: boolean, buyNowOrBid: string}) {
   const [carData, setCarData] = useState<CarData[]>([]);
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
@@ -160,9 +160,15 @@ export default function ParametersInputMain({showAllFields}: {showAllFields: boo
       </>)
       }
 
-      <Link to="/search/cars">
-        <button>Search</button>
-      </Link>
+      {buyNowOrBid === "buyNow" ? (
+        <Link to="/search/cars">
+          <button>Search</button>
+        </Link>
+        ) : (
+          <Link to="/search/cars-bids">
+            <button>Search</button>
+          </Link>
+        )}
     </div>
   );
 }
