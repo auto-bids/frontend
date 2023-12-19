@@ -8,6 +8,7 @@ interface CarData {
 }
 
 export default function NewListing() {
+    const [buyNowOrBid, setBuyNowOrBid] = useState("buyNow");
     const [carData, setCarData] = useState<CarData[]>([]);
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
@@ -64,8 +65,29 @@ export default function NewListing() {
                 <input type='text' placeholder='Year' />
                 <label>Mileage:</label>
                 <input type='text' placeholder='Mileage' />
-                <label>Price:</label>
-                <input type='text' placeholder='Price' />
+                <label>Buy now or bid:</label>
+                <select value={buyNowOrBid} onChange={(event) => setBuyNowOrBid(event.target.value)}>
+                    <option value='buyNow'>Buy now</option>
+                    <option value='bid'>Bid</option>
+                </select>
+                {buyNowOrBid === "buyNow" ? (
+                    <>
+                    <label>Price:</label>
+                    <input type='text' placeholder='Price' />
+                    </>
+                    ) : (
+                        <>
+                        <label>Starting price:</label>
+                        <input type='text' placeholder='Starting price' />
+                        <label>Reserve price:</label>
+                        <input type='text' placeholder='Reserve price' />
+                        <label>End date:</label>
+                        <input type='date' placeholder='End date' />
+                        <label>End time:</label>
+                        <input type='time' placeholder='End time' />
+                        </>
+                )}
+
                 <label>Description:</label>
                 <textarea placeholder='Description' />
                 <label>VIN number:</label>
