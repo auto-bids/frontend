@@ -48,11 +48,14 @@ export default function SearchPage() {
         data[5] = await import("../testJsons/testOfferConstructionMachinery.json");
         data[6] = await import("../testJsons/testOfferTrailers.json");
         data[7] = await import("../testJsons/testOfferAgriculturalMachinery.json");
+        data[8] = await import("../testJsons/testBidOffer.json")
         let offerData: IOffer[] = [];
         for (let i = 1; i < 8; i++) {
           const { id, photos, title, price, year } = data[i].default;
           offerData.push({ id, image: photos.length > 0 ? photos[0] : "", title, price, year });
         }
+        const { id, photos, title, auction, year } = data[8].default;
+        offerData.push({ id, image: photos.length > 0 ? photos[0] : "", title, auction, year });
         setOfferData(offerData);
       };
       fetchData();
@@ -77,7 +80,7 @@ export default function SearchPage() {
         </div>
         <div className="search-page-offers">
           {category === "cars" && offerData && offerData[0] &&
-            <Link to={`/offer-cars/${offerData[0].id}`}>
+            <Link to={`/offer-cars/offer/${offerData[0].id}`}>
               <OfferElement key={offerData[0].id} image={offerData[0].image} title={offerData[0].title} price={offerData[0].price} year={offerData[0].year} auction={offerData[0].auction} />
             </Link>
           }
@@ -111,7 +114,11 @@ export default function SearchPage() {
               <OfferElement key={offerData[6].id} image={offerData[6].image} title={offerData[6].title} price={offerData[6].price} year={offerData[6].year} />
             </Link>
           }
-
+          {category === "cars-bids" && offerData && offerData[7] &&
+            <Link to={`/offer-cars/bid/${offerData[7].id}`}>
+              <OfferElement key={offerData[7].id} image={offerData[7].image} title={offerData[7].title} price={offerData[7].price} year={offerData[7].year} auction={offerData[7].auction} />
+            </Link>
+          }
         </div>
       </div>
     );

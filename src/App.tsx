@@ -37,7 +37,7 @@ function App() {
               <Route path="/new-listing" element={<NewListing />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/offer-cars/:id" element={<OfferPage />} />
+              <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} />
               <Route path="/offer-motorcycles/:id" element={<OfferPageMotorcycles />} />
               <Route path="/offer-delivery-vans/:id" element={<OfferPageDeliveryVans />} />
               <Route path="/offer-trucks/:id" element={<OfferPageTrucks />} />

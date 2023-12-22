@@ -46,7 +46,7 @@ interface IOffer {
 };
 
 export default function OfferPage(){
-
+    const { offerType, id } = useParams<{ offerType: string; id: string }>();
     const [offerData, setOfferData] = useState<IOffer | null>(null);
     const [isOwner, setIsOwner] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -75,6 +75,16 @@ export default function OfferPage(){
     }
     return(
         <div className="offer-page">
+            {offerType ==="bid" && (
+                <h1>
+                    ***bid***
+                </h1>
+            )}
+            {offerType ==="offer" && (
+                <h1>
+                    ***buy now***
+                    </h1>
+                    )}
             <div className="offer-page-top-bar">
                 <h1>{offerData.title}</h1>
                 {!offerData.auction && (
