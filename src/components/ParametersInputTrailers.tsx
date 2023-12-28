@@ -22,10 +22,43 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
         setTrailerMakes(trailersDataJson);
     }, []);
 
+    const [formValues, setFormValues] = useState({
+        make: "",
+        model: "",
+        application: "",
+        yearFrom: "",
+        yearTo: "",
+        priceFrom: "",
+        priceTo: "",
+        condition: "",
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const searchPath = "/search/trailers";
+        const queryParams =  new URLSearchParams();
+        Object.entries(formValues).forEach(([key, value]) => {
+        if (value !== "") {
+            queryParams.append(key, value);
+        }
+        });
+        if (locationParams.position) {
+            queryParams.append("lat", locationParams.position[0].toString());
+            queryParams.append("lng", locationParams.position[1].toString());
+            queryParams.append("radius", locationParams.radius.toString());
+        }
+
+        window.location.href = `${searchPath}?${queryParams.toString()}`;
+    }
+
     return(
-        <div className="parameters-input-main">
+        <form className="parameters-input-main" onSubmit={handleSubmit}>
             <label>Make:</label>
-            <select>
+            <select name="make" value={formValues.make} onChange={handleInputChange}>
                 <option value="">Make</option>
                 {trailerMakes.map((trailer) => (
                     <option key={trailer} value={trailer}>
@@ -34,7 +67,7 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
                 ))}
             </select>
             <label>Model:</label>
-            <input type="text" placeholder="Model" />
+            <input type="text" placeholder="Model" name="model" value={formValues.model} onChange={handleInputChange} />
             <label>Application:</label>
             <select>
                 <option value="">Application</option>
@@ -45,15 +78,15 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
                 <option value="Tanker">Tanker</option>
             </select>
             <label>Year:</label>
-            <input type="text" placeholder="Year from" />
-            <input type="text" placeholder="Year to" />
+            <input type="text" placeholder="Year from" name="yearFrom" value={formValues.yearFrom} onChange={handleInputChange} />
+            <input type="text" placeholder="Year to" name="yearTo" value={formValues.yearTo} onChange={handleInputChange} />
             {showAllFields && (
             <>
             <label>Price:</label>
-            <input type="text" placeholder="Price from" />
-            <input type="text" placeholder="Price to" />
+            <input type="text" placeholder="Price from" name="priceFrom" value={formValues.priceFrom} onChange={handleInputChange} />
+            <input type="text" placeholder="Price to" name="priceTo" value={formValues.priceTo} onChange={handleInputChange} />
             <label>Condition:</label>
-            <select>
+            <select name="condition" value={formValues.condition} onChange={handleInputChange}>
                 <option value="">Condition</option>
                 <option value="New">New</option>
                 <option value="Used">Used</option>
@@ -61,17 +94,15 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
             </select>
             {
                 locationVisible ? (
-                <button onClick={handleLocationVisibleChange}>Any location</button>
+                <button type="button" onClick={handleLocationVisibleChange}>Any location</button>
                 ) : (
-                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                <button type="button" onClick={handleLocationVisibleChange}>Choose location</button>
                 )
             }
             {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
-            <Link to="/search/trailers">
-                <button>Search</button>
-            </Link>
-        </div>
+            <button type="submit">Search</button>
+        </form>
     );
 }
