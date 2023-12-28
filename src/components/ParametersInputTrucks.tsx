@@ -5,8 +5,6 @@ import trucksDataJson from "../testJsons/makeModelTrucks.json";
 
 export default function ParametersInputMainTrucks({showAllFields}: {showAllFields: boolean}) {
     const [trucksData, setTrucksData] = useState(trucksDataJson);
-    const [selectedMake, setSelectedMake] = useState("");
-    const [selectedModel, setSelectedModel] = useState("");
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const [locationVisible, setLocationVisible] = useState(false);
 
@@ -19,19 +17,54 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
         setTrucksData(trucksDataJson);
     }, []);
 
-    const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedMake(event.target.value);
-        setSelectedModel("");
-    };
-
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
     }
 
+    const [formValues, setFormValues] = useState({
+        make: "",
+        model: "",
+        application: "",
+        yearFrom: "",
+        yearTo: "",
+        mileageFrom: "",
+        mileageTo: "",
+        priceFrom: "",
+        priceTo: "",
+        condition: "",
+        fuelType: "",
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    };
+
+    const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setFormValues({ ...formValues, [event.target.name]: event.target.value, model: "" });
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const searchPath = "/search/trucks";
+        const queryParams =  new URLSearchParams();
+        Object.entries(formValues).forEach(([key, value]) => {
+            if (value !== "") {
+                queryParams.append(key, value);
+            }
+        });
+        if (locationParams.position) {
+            queryParams.append("lat", locationParams.position[0].toString());
+            queryParams.append("lng", locationParams.position[1].toString());
+            queryParams.append("radius", locationParams.radius.toString());
+        }
+
+        window.location.href = `${searchPath}?${queryParams.toString()}`;
+    };
+
     return(
-        <div className="parameters-input-main">
+        <form className="parameters-input-main" onSubmit={handleSubmit}>
             <label>Make:</label>
-            <select value={selectedMake} onChange={handleMakeChange}>
+            <select name="make" value={formValues.make} onChange={handleMakeChange}>
                 <option value="">Make</option>
                 {trucksData.map((truck) => (
                     <option key={truck.make} value={truck.make}>
@@ -40,17 +73,17 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
                 ))}
             </select>
             <label>Model:</label>
-            <select value={selectedModel} onChange={(event) => setSelectedModel(event.target.value)}>
+            <select value={formValues.model} name="model" onChange={handleInputChange}>
                 <option value="">Model</option>
                 {trucksData
-                    .find((truck) => truck.make === selectedMake)?.models.map((model) => (
+                    .find((truck) => truck.make === formValues.make)?.models.map((model) => (
                         <option key={model} value={model}>
                             {model}
                         </option>
                     ))}
             </select>
             <label>Application:</label>
-            <select>
+            <select name="application" value={formValues.application} onChange={handleInputChange}>
                 <option value="">Application</option>
                 <option value="Box">Box</option>
                 <option value="Curtain Side">Curtain Side</option>
@@ -62,25 +95,25 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
                 <option value="Other">Other</option>
             </select>
             <label>Year:</label>
-            <input type="text" placeholder="Year from" />
-            <input type="text" placeholder="Year to" />
+            <input type="text" placeholder="Year from" name="yearFrom" value={formValues.yearFrom} onChange={handleInputChange} />
+            <input type="text" placeholder="Year to" name="yearTo" value={formValues.yearTo} onChange={handleInputChange} />
             {showAllFields && (
             <>
             <label>Mileage:</label>
-            <input type="text" placeholder="Mileage from" />
-            <input type="text" placeholder="Mileage to" />
+            <input type="text" placeholder="Mileage from" name="mileageFrom" value={formValues.mileageFrom} onChange={handleInputChange} />
+            <input type="text" placeholder="Mileage to" name="mileageTo" value={formValues.mileageTo} onChange={handleInputChange} />
             <label>Price:</label>
-            <input type="text" placeholder="Price from" />
-            <input type="text" placeholder="Price to" />
+            <input type="text" placeholder="Price from" name="priceFrom" value={formValues.priceFrom} onChange={handleInputChange} />
+            <input type="text" placeholder="Price to" name="priceTo" value={formValues.priceTo} onChange={handleInputChange} />
             <label>Condition:</label>
-            <select>
+            <select name="condition" value={formValues.condition} onChange={handleInputChange}>
                 <option value="">Condition</option>
                 <option value="New">New</option>
                 <option value="Used">Used</option>
                 <option value="Damaged">Damaged</option>
             </select>
             <label>Fuel:</label>
-            <select>
+            <select name="fuelType" value={formValues.fuelType} onChange={handleInputChange}>
                 <option value="">Fuel</option>
                 <option value="Diesel">Diesel</option>
                 <option value="Electric">Electric</option>
@@ -100,10 +133,8 @@ export default function ParametersInputMainTrucks({showAllFields}: {showAllField
             {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
-            <Link to="/search/trucks">
-                <button>Search</button>
-            </Link>
-        </div>
+            <button type="submit" className="search-button">Search</button>
+        </form>
     )
 
 }
