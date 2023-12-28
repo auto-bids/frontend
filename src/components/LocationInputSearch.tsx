@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { on } from "events";
 
 interface LocationInputSearchProps {
     onLocationChange: (params: { position: [number, number] | null; radius: number }) => void;
@@ -41,6 +42,7 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
             const { latitude, longitude } = location.coords;
             setPosition([latitude, longitude]);
             setZoom(15);
+            onLocationChange({ position: [latitude, longitude], radius });
             if (mapRef.current) {
                 mapRef.current.flyTo([latitude, longitude], 15);
             }
@@ -90,7 +92,7 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
             />
             Radius: {radius / 1000} kilometers
         </label>
-        <button onClick={getUserLocation}>Get My Location</button>
+        <button type="button" onClick={getUserLocation}>Get My Location</button>
         </div>
     );
 }

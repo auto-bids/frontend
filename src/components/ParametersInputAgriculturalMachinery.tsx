@@ -99,9 +99,9 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields}
             </select>
             {
                 locationVisible ? (
-                <button onClick={handleLocationVisibleChange}>Any location</button>
+                <button type="button" onClick={handleLocationVisibleChange}>Any location</button>
                 ) : (
-                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                <button type="button" onClick={handleLocationVisibleChange}>Choose location</button>
                 )
             }
             {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}

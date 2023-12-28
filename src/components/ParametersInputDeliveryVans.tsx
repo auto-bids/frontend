@@ -5,8 +5,6 @@ import deliveryVanDataJson from "../testJsons/makeModelDeliveryVans.json";
 
 export default function ParametersInputDeliveryVans({showAllFields}: {showAllFields: boolean}) {
   const [deliveryVanData, setDeliveryVanData] = useState(deliveryVanDataJson);
-  // const [selectedMake, setSelectedMake] = useState("");
-  // const [selectedModel, setSelectedModel] = useState("");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
   const [locationVisible, setLocationVisible] = useState(false);
     
@@ -190,9 +188,9 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
       <input type="text" placeholder="Capacity to" name="capacityTo" value={formValues.capacityTo} onChange={handleInputChange} />
       {
                 locationVisible ? (
-                <button onClick={handleLocationVisibleChange}>Any location</button>
+                <button type="button" onClick={handleLocationVisibleChange}>Any location</button>
                 ) : (
-                <button onClick={handleLocationVisibleChange}>Choose location</button>
+                <button type="button" onClick={handleLocationVisibleChange}>Choose location</button>
                 )
             }
             {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
