@@ -5,8 +5,8 @@ import deliveryVanDataJson from "../testJsons/makeModelDeliveryVans.json";
 
 export default function ParametersInputDeliveryVans({showAllFields}: {showAllFields: boolean}) {
   const [deliveryVanData, setDeliveryVanData] = useState(deliveryVanDataJson);
-  const [selectedMake, setSelectedMake] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
+  // const [selectedMake, setSelectedMake] = useState("");
+  // const [selectedModel, setSelectedModel] = useState("");
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
   const [locationVisible, setLocationVisible] = useState(false);
     
@@ -19,19 +19,67 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
     setDeliveryVanData(deliveryVanDataJson);
   }, []);
 
-  const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedMake(event.target.value);
-    setSelectedModel("");
-  };
-
   const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
     setLocationParams(params);
   };
 
+  const [formValues, setFormValues] = useState({
+    make: "",
+    model: "",
+    yearFrom: "",
+    yearTo: "",
+    mileageFrom: "",
+    mileageTo: "",
+    priceFrom: "",
+    priceTo: "",
+    fuelType: "",
+    transmission: "",
+    drive: "",
+    steering: "",
+    engineCapacityFrom: "",
+    engineCapacityTo: "",
+    powerFrom: "",
+    powerTo: "",
+    condition: "",
+    doors: "",
+    seats: "",
+    pgwFrom: "",
+    pgwTo: "",
+    maximumLoadFrom: "",
+    maximumLoadTo: "",
+    capacityFrom: "",
+    capacityTo: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormValues({ ...formValues, [e.target.name]: e.target.value });
+  };
+
+  const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormValues({ ...formValues, [event.target.name]: event.target.value, model: "" });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const searchPath = "/search/delivery-vans";
+    const queryParams = new URLSearchParams();
+    Object.entries(formValues).forEach(([key, value]) => {
+      if (value !== "") {
+        queryParams.append(key, value);
+      }
+    });
+    if (locationParams.position) {
+      queryParams.append("lat", locationParams.position[0].toString());
+      queryParams.append("lng", locationParams.position[1].toString());
+      queryParams.append("radius", locationParams.radius.toString());
+    }
+    window.location.href = `${searchPath}?${queryParams.toString()}`;
+  };
+
   return (
-    <div className="parameters-input-main">
+    <form className="parameters-input-main" onSubmit={handleSubmit}>
       <label>Make:</label>
-      <select value={selectedMake} onChange={handleMakeChange}>
+      <select value={formValues.make} name="make" onChange={handleMakeChange}>
         <option value="">Make</option>
         {deliveryVanData.map((deliveryVan) => (
           <option key={deliveryVan.make} value={deliveryVan.make}>
@@ -40,28 +88,29 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         ))}
       </select>
       <label>Model:</label>
-      <select value={selectedModel} onChange={(event) => setSelectedModel(event.target.value)}>
+      <select value={formValues.model} name="model" onChange={handleInputChange}>
         <option value="">Model</option>
         {deliveryVanData
-          .find((deliveryVan) => deliveryVan.make === selectedMake)?.models.map((model) => (
+          .find((deliveryVan) => deliveryVan.make === formValues.make)
+          ?.models.map((model) => (
             <option key={model} value={model}>
               {model}
             </option>
           ))}
       </select>
       <label>Year:</label>
-      <input type="text" placeholder="Year from" />
-      <input type="text" placeholder="Year to" />
+      <input type="text" placeholder="Year from" name="yearFrom" value={formValues.yearFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Year to" name="yearTo" value={formValues.yearTo} onChange={handleInputChange} />
       {showAllFields && (
       <>
       <label>Mileage:</label>
-      <input type="text" placeholder="Mileage from" />
-      <input type="text" placeholder="Mileage to" />
+      <input type="text" placeholder="Mileage from" name="mileageFrom" value={formValues.mileageFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Mileage to" name="mileageTo" value={formValues.mileageTo} onChange={handleInputChange} />
       <label>Price:</label>
-      <input type="text" placeholder="Price from" />
-      <input type="text" placeholder="Price to" />
+      <input type="text" placeholder="Price from" name="priceFrom" value={formValues.priceFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Price to" name="priceTo" value={formValues.priceTo} onChange={handleInputChange} />
       <label>Fuel Type:</label>
-      <select>
+      <select name="fuelType" value={formValues.fuelType} onChange={handleInputChange}>
         <option value="">Fuel Type</option>
         <option value="Gasoline">Gasoline</option>
         <option value="Diesel">Diesel</option>
@@ -73,40 +122,40 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         <option value="Ethanol">Ethanol</option>
       </select>
       <label>Transmission:</label>
-      <select>
+      <select name="transmission" value={formValues.transmission} onChange={handleInputChange}>
         <option value="">Transmission</option>
         <option value="Manual">Manual</option>
         <option value="Automatic">Automatic</option>
         <option value="Semi-automatic">Semi-automatic</option>
       </select>
       <label>Drive:</label>
-      <select>
+      <select name="drive" value={formValues.drive} onChange={handleInputChange}>
         <option value="">Drive</option>
         <option value="Front">Front</option>
         <option value="Rear">Rear</option>
         <option value="All">All</option>
       </select>
       <label>Steering:</label>
-      <select>
+      <select name="steering" value={formValues.steering} onChange={handleInputChange}>
         <option value="">Steering</option>
         <option value="Left">Left</option>
         <option value="Right">Right</option>
       </select>
       <label>Engine capacity:</label>
-      <input type="text" placeholder="Engine capacity from" />
-      <input type="text" placeholder="Engine capacity to" />
+      <input type="text" placeholder="Engine capacity from" name="engineCapacityFrom" value={formValues.engineCapacityFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Engine capacity to" name="engineCapacityTo" value={formValues.engineCapacityTo} onChange={handleInputChange} />
       <label>Power:</label>
-      <input type="text" placeholder="Power from" />
-      <input type="text" placeholder="Power to" />
+      <input type="text" placeholder="Power from" name="powerFrom" value={formValues.powerFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Power to" name="powerTo" value={formValues.powerTo} onChange={handleInputChange} />
       <label>Condition:</label>
-      <select>
+      <select name="condition" value={formValues.condition} onChange={handleInputChange}>
         <option value="">Condition</option>
         <option value="New">New</option>
         <option value="Used">Used</option>
         <option value="Damaged">Damaged</option>
       </select>
       <label>Doors:</label>
-      <select>
+      <select name="doors" value={formValues.doors} onChange={handleInputChange}>
         <option value="">Doors</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -118,7 +167,7 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         <option value="8+">8+</option>
       </select>
       <label>Seats:</label>
-      <select>
+      <select name="seats" value={formValues.seats} onChange={handleInputChange}>
         <option value="">Seats</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -131,14 +180,14 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
         <option value='9+'>9+</option>
       </select>
       <label>Permissible Gross Weight</label>
-      <input type="text" placeholder="PGW from" />
-      <input type="text" placeholder="PGW to" />
+      <input type="text" placeholder="PGW from" name="pgwFrom" value={formValues.pgwFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="PGW to" name="pgwTo" value={formValues.pgwTo} onChange={handleInputChange} />
       <label>Maximum Load</label>
-      <input type="text" placeholder="Maximum Load from" />
-      <input type="text" placeholder="Maximum Load to" />
+      <input type="text" placeholder="Maximum Load from" name="maximumLoadFrom" value={formValues.maximumLoadFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Maximum Load to" name="maximumLoadTo" value={formValues.maximumLoadTo} onChange={handleInputChange} />
       <label>Capacity:</label>
-      <input type="text" placeholder="Capacity from" />
-      <input type="text" placeholder="Capacity to" />
+      <input type="text" placeholder="Capacity from" name="capacityFrom" value={formValues.capacityFrom} onChange={handleInputChange} />
+      <input type="text" placeholder="Capacity to" name="capacityTo" value={formValues.capacityTo} onChange={handleInputChange} />
       {
                 locationVisible ? (
                 <button onClick={handleLocationVisibleChange}>Any location</button>
@@ -149,9 +198,7 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
             {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
       )}
-      <Link to="/search/delivery-vans">
-        <button>Search</button>
-      </Link>
-    </div>
+      <button type="submit">Search</button>
+    </form>
   );
 }
