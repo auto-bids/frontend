@@ -12,6 +12,7 @@ export default function NewListingDeliveryVans() {
     const [deliveryVanData, setMakeModelDeliveryVans] = useState<MakeModelDeliveryVans[]>([]);
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
+    const [locationParams, setLocationParams] = useState<{ position: [number, number] | null;}>({ position: null });
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMake(event.target.value);
@@ -21,6 +22,10 @@ export default function NewListingDeliveryVans() {
     useEffect(() => {
         setMakeModelDeliveryVans(makeModelDeliveryVans);
     }, []);
+
+    const handleLocationChange = (params: { position: [number, number] | null}) => {
+        setLocationParams(params);
+    };
 
     return(
         <div className="new-listing-page">
@@ -139,7 +144,7 @@ export default function NewListingDeliveryVans() {
             <input type="text" placeholder="Capacity from" />
             <input type="text" placeholder="Capacity to" />
             <label>Location:</label>
-            <LocationInput />
+            <LocationInput onLocationChange={handleLocationChange} />
             <label>Phone number:</label>
             <input type='text' placeholder='Phone Number' />
             <button>Submit</button>

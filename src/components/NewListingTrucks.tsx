@@ -12,6 +12,7 @@ export default function NewListingTrucks() {
     const [truckData, setMakeModelTrucks] = useState<MakeModelTrucks[]>([]);
     const [selectedMake, setSelectedMake] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
+    const [locationParams, setLocationParams] = useState<{ position: [number, number] | null }>({ position: null });
 
     const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMake(event.target.value);
@@ -21,6 +22,10 @@ export default function NewListingTrucks() {
     useEffect(() => {
         setMakeModelTrucks(makeModelTrucks);
     }, []);
+
+    const handleLocationChange = (params: { position: [number, number] | null }) => {
+        setLocationParams(params);
+    };
 
     return(
         <div className="new-listing-page">
@@ -86,7 +91,7 @@ export default function NewListingTrucks() {
                 <option value="Other">Other</option>
             </select>
             <label>Location:</label>
-            <LocationInput />
+            <LocationInput onLocationChange={handleLocationChange} />
             <label>Phone number:</label>
             <input type='text' placeholder='Phone Number' />
             <button>Submit</button>

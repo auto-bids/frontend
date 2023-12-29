@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { on } from "events";
 
-export default function LocationInput() {
+interface LocationInputProps {
+  onLocationChange: (params: { position: [number, number] | null;}) => void;
+}
+
+export default function LocationInput({ onLocationChange }: LocationInputProps) {
   const [position, setPosition] = useState<[number, number] | null>([52.1141903, 16.9287151]);
   const [zoom, setZoom] = useState<number>(6);
   const mapRef = React.useRef<any>();
@@ -11,6 +16,7 @@ export default function LocationInput() {
   const handleMapClick = (e: any) => {
     const { lat, lng } = e.latlng;
     setPosition([lat, lng]);
+    onLocationChange({ position: [lat, lng]});
   };
 
   const MapEvents = () => {
@@ -27,6 +33,7 @@ export default function LocationInput() {
         (location) => {
           const { latitude, longitude } = location.coords;
           setPosition([latitude, longitude]);
+          onLocationChange({ position: [latitude, longitude]});
           setZoom(15);
           if (mapRef.current) {
             mapRef.current.flyTo([latitude, longitude], 15);
@@ -63,7 +70,7 @@ export default function LocationInput() {
         )}
       </MapContainer>
       <p>{position}</p>
-      <button onClick={getUserLocation}>Get My Location</button>
+      <button type="button" onClick={getUserLocation}>Get My Location</button>
     </div>
   );
 }

@@ -6,12 +6,16 @@ import makeModelAgriculturalMachinery from "../testJsons/makeModelAgriculturalMa
 
 export default function NewListingAgriculturalMachinery(){
     const [agriculturalMachineryMakes, setAgriculturalMachineryMakes] = useState<string[]>([]);
+    const [locationParams, setLocationParams] = useState<{ position: [number, number] | null;}>({ position: null });
 
     useEffect(() => {
         setAgriculturalMachineryMakes(makeModelAgriculturalMachinery);
     }, []);
 
-    
+    const handleLocationChange = (params: { position: [number, number] | null}) => {
+        setLocationParams(params);
+    };
+
     return(
         <div className='new-listing-page'>
             <label>Photos:</label>
@@ -55,7 +59,7 @@ export default function NewListingAgriculturalMachinery(){
             <label>Description:</label>
             <textarea placeholder="Description" />
             <label>Location:</label>
-            <LocationInput />
+            <LocationInput onLocationChange={handleLocationChange} />
             <label>Phone number:</label>
             <input type="text" placeholder="Phone number" />
             <button>Submit</button>

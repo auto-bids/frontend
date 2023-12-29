@@ -5,10 +5,15 @@ import makeModelTrailers from "../testJsons/makeModelTrailers.json";
 
 export default function NewListingTrailers(){
     const [trailerMakes, setTrailerMakes] = useState<string[]>([]);
+    const [locationParams, setLocationParams] = useState<{ position: [number, number] | null;}>({ position: null });
 
     useEffect(() => {
         setTrailerMakes(makeModelTrailers);
     }, []);
+
+    const handleLocationChange = (params: { position: [number, number] | null}) => {
+        setLocationParams(params);
+    }
 
     return(
         <div className='new-listing-page'>
@@ -50,7 +55,7 @@ export default function NewListingTrailers(){
             <label>Description:</label>
             <textarea placeholder="Description" />
             <label>Location:</label>
-            <LocationInput />
+            <LocationInput onLocationChange={handleLocationChange} />
             <label>Phone number:</label>
             <input type="text" placeholder="Phone number" />
             <button>Submit</button>

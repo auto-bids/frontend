@@ -4,10 +4,15 @@ import makeModelConstructionMachinery from "../testJsons/makeModelConstructionMa
 
 export default function NewListingConstructionMachinery() {
     const [constructionMachineryMakes, setConstructionMachineryMakes] = useState<string[]>([]);
+    const [locationParams, setLocationParams] = useState<{ position: [number, number] | null;}>({ position: null });
     
     useEffect(() => {
         setConstructionMachineryMakes(makeModelConstructionMachinery);
     }, []);
+
+    const handleLocationChange = (params: { position: [number, number] | null}) => {
+        setLocationParams(params);
+    };
 
 
     return(
@@ -54,7 +59,7 @@ export default function NewListingConstructionMachinery() {
             <label>Description:</label>
             <textarea placeholder="Description" />
             <label>Location:</label>
-            <LocationInput />
+            <LocationInput onLocationChange={handleLocationChange} />
             <label>Phone number:</label>
             <input type="text" placeholder="Phone number" />
             <button>Submit</button>
