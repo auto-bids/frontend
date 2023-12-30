@@ -1,15 +1,102 @@
 [
-    {
+  {
+      "make": "Chevrolet",
+      "models": ["Express", "City Express", "Van"]
+  },
+  {
+      "make": "Citroen",
+      "models": ["Berlingo", "Jumpy", "Jumper", "Nemo", "Dispatch", "Relay"]
+  },
+  {
+      "make": "Dodge",
+      "models": ["Sprinter", "Ram Van", "Ram Wagon", "Caravan", "Grand Caravan"]
+  },
+  {
+      "make": "Fiat",
+      "models": ["Ducato", "Scudo", "Fiorino", "Doblo", "Strada", "Qubo", "Talento"]
+  },
+  {
       "make": "Ford",
-      "models": ["Transit", "Connect"]
-    },
-    {
+      "models": ["Transit", "Connect", "Tourneo", "Courier", "Custom", "Ranger"]
+  },
+  {
+      "make": "GAZ",
+      "models": ["Gazelle", "Sobol", "Valdai"]
+  },
+  {
+      "make": "Hyundai",
+      "models": ["H-1", "H100", "Starex", "Porter", "Libero", "Grace", "H350"]
+  },
+  {
+      "make": "Isuzu",
+      "models": ["Fargo", "Faster", "Filly", "Fargo", "Grafter", "Hombre", "i-Series", "KB", "P'up", "TF", "TFR", "TFS", "VehiCROSS"]
+  },
+  {
+      "make": "Iveco",
+      "models": ["Daily", "Massif"]
+  },
+  {
+      "make": "LDV",
+      "models": ["Convoy", "Cub", "Maxus", "Pilot", "SHERPA", "400", "200", "100"]
+  },
+  {
+      "make": "Lublin",
+      "models": ["Lublin", "Lublin II", "Lublin III"]
+  },
+  {
+      "make": "Mazda",
+      "models": ["Bongo", "E-Series", "E2000", "E2200", "E2500", "E2700", "E3000", "E4000", "E1800", "E1600", "E1300", "Eunos", "Familia Van", "MPV", "Premacy", "Tribute"]
+  },
+  {
       "make": "Mercedes-Benz",
-      "models": ["Sprinter", "Vito"]
-    },
-    {
+      "models": ["Sprinter", "Vito", "V-Class", "Viano", "Vaneo", "Citan"]
+  },
+  {
+      "make": "Mitsubishi",
+      "models": ["Expo", "L300", "L400", "Delica", "L200"]
+  },
+  {
+      "make": "Nissan",
+      "models": ["NV200", "NV400", "Interstar", "Primastar", "Kubistar", "Trade"]
+  },
+  {
+      "make": "Opel",
+      "models": ["Movano", "Vivaro", "Combo", "Vivaro", "Arena"]
+  },
+  {
+      "make": "Peugeot",
+      "models": ["Partner", "Expert", "Boxer", "Bipper"]
+  },
+  {
+      "make": "Renault",
+      "models": ["Master", "Trafic", "Kangoo", "Express", "Kubistar"]
+  },
+  {
+      "make": "Suzuki",
+      "models": ["Carry", "Every", "Alto", "Supercarry"]
+  },
+  {
+      "make": "Toyota",
+      "models": ["Hiace", "Proace", "Hilux", "Liteace", "Townace", "Dyna"]
+  },
+  {
+      "make": "UAZ",
+      "models": ["Bukhanka", "Pickup", "Cargo", "Simbir", "Profi", "Hunter", "Patriot"]
+  },
+  {
+      "make": "Vauxhall",
+      "models": ["Movano", "Vivaro", "Combo", "Arena"]
+  },
+  {
       "make": "Volkswagen",
-      "models": ["Transporter", "Caddy"]
-    }
-  ]
-  
+      "models": ["Transporter", "Caddy", "LT", "Routan", "Crafter"]
+  },
+  {
+      "make": "Wuling",
+      "models": ["Rongguang", "Sunshine", "Xingwang", "Zhiguang"]
+  },
+  {
+      "make": "FSC",
+      "models": ["Żuk", "Nysa"]
+  }
+]
