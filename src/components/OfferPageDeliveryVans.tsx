@@ -40,7 +40,8 @@ export default function OfferPageDeliveryVans(){
         const [offerData, setOfferData] = useState<IOfferDeliveryVans | null>(null);
         const [isOwner, setIsOwner] = useState<boolean>(true);
         const [isEditing, setIsEditing] = useState<boolean>(false);
-    
+        const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
         // useEffect(() => {
         //     fetch("https://essa.com/api/offer/123")
         //     .then((response) => response.json())
@@ -58,6 +59,10 @@ export default function OfferPageDeliveryVans(){
         const handleSaveChanges = () => {
             setIsEditing(false);
         }
+
+        const handleAddToFavorites = () => {
+            setIsFavorite(!isFavorite);
+        }
     
         if (!offerData) {
             return <div>Loading...</div>;
@@ -66,6 +71,11 @@ export default function OfferPageDeliveryVans(){
             <div className="offer-page">
                 <div className="offer-page-top-bar">
                 <h1>{offerData.title}</h1>
+                {!isOwner && (
+                    <button onClick={handleAddToFavorites}>
+                    {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    </button>
+                )}
                 <p>
                 {isEditing ? (
                     <input

@@ -50,6 +50,7 @@ export default function OfferPage(){
     const [offerData, setOfferData] = useState<IOffer | null>(null);
     const [isOwner, setIsOwner] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
     // useEffect(() => {
     //     fetch("https://essa.com/api/offer/123")
@@ -70,6 +71,10 @@ export default function OfferPage(){
         setIsEditing(false);
     };
 
+    const handleAddToFavorites = () => {
+        setIsFavorite(!isFavorite);
+    };
+
     if (!offerData) {
         return <p>Loading...</p>;
     }
@@ -86,6 +91,11 @@ export default function OfferPage(){
                     </h1>
                     )}
             <div className="offer-page-top-bar">
+                {!isOwner && (
+                    <button onClick={() => handleAddToFavorites()}>
+                        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                    </button>
+                )}
                 <h1>{offerData.title}</h1>
                 {!offerData.auction && (
                     <p>

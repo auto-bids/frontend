@@ -35,6 +35,7 @@ export default function OfferPageMotorcycles(){
         const [offerData, setOfferData] = useState<IOfferMotorcycles | null>(null);
         const [isOwner, setIsOwner] = useState<boolean>(true);
         const [isEditing, setIsEditing] = useState<boolean>(false);
+        const [isFavorite, setIsFavorite] = useState<boolean>(false);
     
         // useEffect(() => {
         //     fetch("https://essa.com/api/offer/123")
@@ -53,6 +54,10 @@ export default function OfferPageMotorcycles(){
         const handleSaveChanges = () => {
             setIsEditing(false);
         };
+
+        const handleAddToFavorites = () => {
+            setIsFavorite(!isFavorite);
+        };
     
         if (!offerData) {
             return <p>Loading...</p>;
@@ -61,6 +66,11 @@ export default function OfferPageMotorcycles(){
             <div className="offer-page">
                 <div className="offer-page-top-bar">
                 <h1>{offerData.title}</h1>
+                {!isOwner &&(
+                    <button onClick={handleAddToFavorites}>
+                        {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    </button>
+                )}
                     <p>
                         {isEditing ? (
                         <input

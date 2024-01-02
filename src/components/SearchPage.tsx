@@ -36,16 +36,16 @@ interface SearchParams {
 export default function SearchPage() {
     const { category } = useParams<SearchParams>();
 
-    const fetchData = async () => {
-      const queryParams = new URLSearchParams(window.location.search);
-      try {
-        const response = await fetch(`http://localhost:3000/api/search?${queryParams.toString()}`);
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // const fetchData = async () => {
+    //   const queryParams = new URLSearchParams(window.location.search);
+    //   try {
+    //     const response = await fetch(`http://localhost:3000/api/search?${queryParams.toString()}`);
+    //     const data = await response.json();
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     //just for testing
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);

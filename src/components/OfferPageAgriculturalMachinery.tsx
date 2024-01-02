@@ -27,6 +27,7 @@ export default function OfferPageAgriculturalMachinery(){
     const [offerData, setOfferData] = useState<IOffer | null>(null);
     const [isOwner, setIsOwner] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
     // useEffect(() => {
     //     fetch("https://essa.com/api/offer/123")
@@ -46,6 +47,10 @@ export default function OfferPageAgriculturalMachinery(){
         setIsEditing(false);
     };
 
+    const handleAddToFavorites = () => {
+        setIsFavorite(!isFavorite);
+    };
+
     if (!offerData) {
         return <p>Loading...</p>;
     }
@@ -53,6 +58,11 @@ export default function OfferPageAgriculturalMachinery(){
         <div className="offer-page">
             <div className="offer-page-top-bar">
                 <h1>{offerData.title}</h1>
+                {!isOwner &&(
+                    <button onClick={() => handleAddToFavorites()}>
+                        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                    </button>
+                )}
                 <p>
                 {isEditing ? (
                     <input
