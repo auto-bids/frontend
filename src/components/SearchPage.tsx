@@ -86,7 +86,7 @@ export default function SearchPage() {
             {category === "trucks" && <ParametersInputTrucks showAllFields={true} />}
             {category === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={true} />}
             {category === "trailers" && <ParametersInputTrailers showAllFields={true} />}
-            {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} />}
+            {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams} />}
           </div>
         </div>
         <div className="search-page-offers">

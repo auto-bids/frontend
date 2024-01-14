@@ -120,7 +120,7 @@ export default function MainPage() {
             {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
             {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields}/>}
             {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields}/>}
-            {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields}/>}
+            {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
             </div>
             <button className="show-all-fields" onClick={() => setShowAllFields(!showAllFields)}>{showAllFields ? "Hide additional fields" : "Show additional fields"}</button>
             {/* <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">

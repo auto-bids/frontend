@@ -4,7 +4,7 @@ import LocationInputSearch from "./LocationInputSearch";
 import { useState, useEffect } from "react";
 import agriculturalMachineryDataJson from "../testJsons/makeModelAgriculturalMachinery.json";
 
-export default function ParametersInputMainAgriculturalMachinery({showAllFields}: {showAllFields: boolean}) {
+export default function ParametersInputMainAgriculturalMachinery({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
     const [agriculturalMachineryMakes, setAgriculturalMachineryMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const [locationVisible, setLocationVisible] = useState(false);
@@ -34,6 +34,22 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields}
         priceTo: "",
         condition: "",
     });
+
+    useEffect(() => {
+        if (searchParameters) {
+          const paramPairs = searchParameters.split("&");
+          const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
+          const [key, value] = pair.split("=");
+            acc[key] = decodeURIComponent(value);
+            return acc;
+          }, {});
+          console.log(decodedSearchParameters);
+          setFormValues((prevFormValues) => ({
+            ...prevFormValues,
+            ...decodedSearchParameters,
+          }));
+        }
+      }, [searchParameters]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });

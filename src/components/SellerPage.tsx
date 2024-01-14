@@ -160,7 +160,7 @@ export default function SellerPage() {
                     {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
                     {selectedCategory === "construction machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields}/>}
                     {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields}/>}
-                    {selectedCategory === "agricultural machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields}/>}
+                    {selectedCategory === "agricultural machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
                     {selectedCategory === "all" &&
                         <>
                             <input type="text" placeholder="Search" />
