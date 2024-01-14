@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LocationInputSearch from "./LocationInputSearch";
 import deliveryVanDataJson from "../testJsons/makeModelDeliveryVans.json";
 
-export default function ParametersInputDeliveryVans({showAllFields}: {showAllFields: boolean}) {
+export default function ParametersInputDeliveryVans({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
   const [deliveryVanData, setDeliveryVanData] = useState(deliveryVanDataJson);
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
   const [locationVisible, setLocationVisible] = useState(false);
@@ -48,6 +48,22 @@ export default function ParametersInputDeliveryVans({showAllFields}: {showAllFie
     capacityFrom: "",
     capacityTo: "",
   });
+
+  useEffect(() => {
+    if (searchParameters) {
+      const paramPairs = searchParameters.split("&");
+      const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
+      const [key, value] = pair.split("=");
+        acc[key] = decodeURIComponent(value);
+        return acc;
+      }, {});
+      console.log(decodedSearchParameters);
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        ...decodedSearchParameters,
+      }));
+    }
+  }, [searchParameters]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
