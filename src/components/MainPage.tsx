@@ -115,7 +115,7 @@ export default function MainPage() {
             )}
             <div className="main-page-parameters-input">
             {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} buyNowOrBid={buyNowOrBid} searchParameters={null}/>}
-            {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields}/>}
+            {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null}/>}
             {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null}/>}
             {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
             {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}

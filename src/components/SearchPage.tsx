@@ -81,7 +81,7 @@ export default function SearchPage() {
           <div className="search-page-parameters-input">
             {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" searchParameters= {searchParams} />}
             {category === "cars-bids" && <ParametersInput showAllFields={true} buyNowOrBid="bid" searchParameters={searchParams} />}
-            {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} />}
+            {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} searchParameters={searchParams} />}
             {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} searchParameters={searchParams} />}
             {category === "trucks" && <ParametersInputTrucks showAllFields={true} />}
             {category === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={true} searchParameters={searchParams} />}

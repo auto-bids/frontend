@@ -155,7 +155,7 @@ export default function SellerPage() {
                         <option value="agricultural machinery">agricultural machinery</option>
                     </select>
                     {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} buyNowOrBid="buyNow" searchParameters= {null} />}
-                    {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields}/>}
+                    {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null} />}
                     {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null}/>}
                     {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
                     {selectedCategory === "construction machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}
