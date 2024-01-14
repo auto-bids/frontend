@@ -118,7 +118,7 @@ export default function MainPage() {
             {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields}/>}
             {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields}/>}
             {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
-            {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields}/>}
+            {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}
             {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields}/>}
             {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
             </div>
