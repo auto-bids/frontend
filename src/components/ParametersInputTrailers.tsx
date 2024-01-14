@@ -4,7 +4,7 @@ import LocationInputSearch from "./LocationInputSearch";
 import { useState, useEffect } from "react";
 import trailersDataJson from "../testJsons/makeModelTrailers.json";
 
-export default function ParametersInputMainTrailers({showAllFields}: {showAllFields: boolean}) {
+export default function ParametersInputMainTrailers({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
     const [trailerMakes, setTrailerMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const [locationVisible, setLocationVisible] = useState(false);
@@ -32,6 +32,22 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
         priceTo: "",
         condition: "",
     });
+
+    useEffect(() => {
+        if (searchParameters) {
+          const paramPairs = searchParameters.split("&");
+          const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
+          const [key, value] = pair.split("=");
+            acc[key] = decodeURIComponent(value);
+            return acc;
+          }, {});
+          console.log(decodedSearchParameters);
+          setFormValues((prevFormValues) => ({
+            ...prevFormValues,
+            ...decodedSearchParameters,
+          }));
+        }
+      }, [searchParameters]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -69,7 +85,7 @@ export default function ParametersInputMainTrailers({showAllFields}: {showAllFie
             <label>Model:</label>
             <input type="text" placeholder="Model" name="model" value={formValues.model} onChange={handleInputChange} />
             <label>Application:</label>
-            <select>
+            <select name="application" value={formValues.application} onChange={handleInputChange}>
                 <option value="">Application</option>
                 <option value="Box">Box</option>
                 <option value="Curtain Side">Curtain Side</option>

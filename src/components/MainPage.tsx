@@ -119,7 +119,7 @@ export default function MainPage() {
             {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null}/>}
             {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields}/>}
             {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}
-            {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields}/>}
+            {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields} searchParameters={null}/>}
             {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
             </div>
             <button className="show-all-fields" onClick={() => setShowAllFields(!showAllFields)}>{showAllFields ? "Hide additional fields" : "Show additional fields"}</button>

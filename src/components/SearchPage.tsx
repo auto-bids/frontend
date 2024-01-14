@@ -85,7 +85,7 @@ export default function SearchPage() {
             {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} searchParameters={searchParams} />}
             {category === "trucks" && <ParametersInputTrucks showAllFields={true} />}
             {category === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={true} searchParameters={searchParams} />}
-            {category === "trailers" && <ParametersInputTrailers showAllFields={true} />}
+            {category === "trailers" && <ParametersInputTrailers showAllFields={true} searchParameters={searchParams} />}
             {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams} />}
           </div>
         </div>
