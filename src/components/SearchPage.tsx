@@ -35,7 +35,7 @@ interface SearchParams {
 
 export default function SearchPage() {
     const { category } = useParams<SearchParams>();
-
+    const searchParams = new URLSearchParams(window.location.search).toString();
     // const fetchData = async () => {
     //   const queryParams = new URLSearchParams(window.location.search);
     //   try {
@@ -79,8 +79,8 @@ export default function SearchPage() {
             <h2>Search parameters</h2>
           </div>
           <div className="search-page-parameters-input">
-            {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" />}
-            {category === "cars-bids" && <ParametersInput showAllFields={true} buyNowOrBid="bid" />}
+            {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" searchParameters= {searchParams} />}
+            {category === "cars-bids" && <ParametersInput showAllFields={true} buyNowOrBid="bid" searchParameters={searchParams} />}
             {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} />}
             {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} />}
             {category === "trucks" && <ParametersInputTrucks showAllFields={true} />}

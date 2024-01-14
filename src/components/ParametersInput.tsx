@@ -7,7 +7,7 @@ interface CarData {
   models: string[];
 }
 
-export default function ParametersInputMain({ showAllFields, buyNowOrBid }: { showAllFields: boolean; buyNowOrBid: string }) {
+export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters }: { showAllFields: boolean; buyNowOrBid: string, searchParameters: any }) {
   const [carData, setCarData] = useState<CarData[]>([]);
 
   useEffect(() => {
@@ -43,6 +43,22 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid }: { sh
     drive: "",
     steering: "",
   });
+
+  useEffect(() => {
+    if (searchParameters) {
+      const paramPairs = searchParameters.split("&");
+      const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
+      const [key, value] = pair.split("=");
+        acc[key] = decodeURIComponent(value);
+        return acc;
+      }, {});
+      console.log(decodedSearchParameters);
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        ...decodedSearchParameters,
+      }));
+    }
+  }, [searchParameters]);
 
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 10000000000 });
   const [locationVisible, setLocationVisible] = useState(false);
