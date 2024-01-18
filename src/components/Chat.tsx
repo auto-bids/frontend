@@ -69,6 +69,7 @@ export default function Chat() {
     <div className="chat">
       <div className="chat-header">
         <h2>Chats</h2>
+        
       </div>
       <div className="chat-tabs">
         {conversations.map((conversation) => (
