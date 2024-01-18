@@ -1,10 +1,12 @@
 import React from "react";
 
+const apiUrl = process.env.API_GATEWAY_URI;
+
 export default function RegisterPage() {
     const onSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         try{
-            const response = await fetch("http://localhost:4000/profiles/create/me", {
+            const response = await fetch(apiUrl+"/profiles/create/me", {
                 method: "GET",
                 mode: "cors",
                 redirect: "follow",
