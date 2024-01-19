@@ -31,7 +31,6 @@ export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
     const [showAllFields, setShowAllFields] = useState(false);
     const [buyNowOrBid, setBuyNowOrBid] = useState("buyNow");
-
     //just for testing
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
     useEffect(() => {
