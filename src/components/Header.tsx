@@ -13,6 +13,9 @@ export default function Header() {
             <Link to='/new-listing'>
                 <button className='new-listing'>New Listing</button>
             </Link>
+            <Link to='/register'>
+                <button className='register'>Register</button>
+            </Link>
         </div>
     )
 }
