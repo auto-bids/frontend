@@ -128,12 +128,12 @@ export default function MainPage() {
             </a> */}
             <div className="promoted-offers">
                 <h1>Promoted Offers</h1>
-                {offerData && buyNowOrBid ==="buyNow" && selectedCategory=="cars" && offerData.map((offer) => (
+                {offerData && buyNowOrBid ==="buyNow" && selectedCategory==="cars" && offerData.map((offer) => (
                     <Link key={offer.id} to={`/offer-${selectedCategory}/offer/${offer.id}`}>
                         <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction} />
                     </Link>
                 ))}
-                {offerData && buyNowOrBid ==="bid" && selectedCategory=="cars" && offerData.map((offer) => (
+                {offerData && buyNowOrBid ==="bid" && selectedCategory==="cars" && offerData.map((offer) => (
                     <Link key={offer.id} to={`/offer-${selectedCategory}/bid/${offer.id}`}>
                         <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                     </Link>
