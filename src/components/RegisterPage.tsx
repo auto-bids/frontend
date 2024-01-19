@@ -30,10 +30,10 @@ export default function RegisterPage() {
     
     return (
         <div>
-            <h1>Register</h1>
+            <h1>Register page</h1>
             <form>
                 <button onClick={onSubmit}>
-                    Register with facebook
+                    Register
                 </button>
             </form>
         </div>
