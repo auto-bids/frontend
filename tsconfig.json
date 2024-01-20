@@ -20,6 +20,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.html"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src"
+  ]
 }
