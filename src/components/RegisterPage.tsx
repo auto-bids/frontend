@@ -1,36 +1,36 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const apiUrl = process.env.API_GATEWAY_URI;
+// const apiUrl = process.env.REACT_APP_API_GATEWAY_URI;
 
 export default function RegisterPage() {
     const navigate = useNavigate();
 
     const onSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        window.location.href = apiUrl + "/profiles/create/me";
-        navigate("/");
-        // try{
-        //     const response = await fetch("API_GATEWAY_URI + "/profiles/create/me";", {
-        //         method: "GET",
-        //         mode: "cors",
-        //         redirect: "follow",
-        //         credentials: "include",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "Access-Control-Allow-Origin": "*",
-        //         },
-        //     });
-        //     if (response.ok){
-        //         console.log("great success");
-        //     }
-        //     else{
-        //         console.log("error");
-        //     }
-        // }
-        // catch(error){
-        //     console.log(error);
-        // }
+        // window.location.href = apiUrl + "/profiles/create/me";
+        // navigate("/");
+        try{
+            const response = await fetch("http://20.91.178.70:4000/profiles/create/me", {
+                method: "GET",
+                mode: "cors",
+                redirect: "follow",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            });
+            if (response.ok){
+                console.log("great success");
+            }
+            else{
+                console.log("error");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
     };
     
     return (
