@@ -1,33 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-// const apiUrl = process.env.REACT_APP_API_GATEWAY_URI;
 
 export default function RegisterPage() {
     const navigate = useNavigate();
 
     const onSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        // window.location.href = apiUrl + "/profiles/create/me";
-        // navigate("/");
+
         try{
-            const response = await fetch("http://20.91.178.70:4000/profiles/create/me", {
+            const response = await fetch("http://localhost:4000/profiles/login/me", {
                 method: "GET",
-                mode: "cors",
-                redirect: "follow",
                 credentials: "include",
                 headers: {
-                    "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
                 },
             });
+
             if (response.ok){
                 console.log("great success");
             }
             else{
                 console.log("error");
             }
+            navigate("/");
+
+            console.log(response.body);
         }
+
         catch(error){
             console.log(error);
         }
@@ -37,10 +38,11 @@ export default function RegisterPage() {
         <div>
             <h1>Register page</h1>
             <form>
+                <a href="http://localhost:4000/profiles/login/me">Google</a>
                 <button onClick={onSubmit}>
-                    Register
+                    TYLKO ARKA GDYNIA
                 </button>
             </form>
         </div>
     );
-}
+    }
