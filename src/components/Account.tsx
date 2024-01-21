@@ -2,6 +2,7 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import Chat from "./Chat";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IOffer {
   id: string;
@@ -14,11 +15,12 @@ interface IOffer {
 
 interface IProfile {
     email: string;
-    name: string;
-    profilePicture: string;
+    user_name: string;
+    profile_picture: string;
 }
 
 export default function Account() {
+    const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState<IProfile | null>(null);
 
@@ -35,6 +37,20 @@ export default function Account() {
     const handleSaveProfile = () => {
       setIsEditing(false);
       setProfileData(editedProfile ? { ...editedProfile } : null);
+      const dataToSend = {
+        profile_image: editedProfile?.profile_picture,
+        user_name: editedProfile?.user_name,
+      };
+      fetch("http://localhost:4000/profiles/edit/me", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+        },
+        body: JSON.stringify(dataToSend),
+      });
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,8 +96,8 @@ export default function Account() {
           console.log(profileData)
           setProfileData({
             email: profileData.data.data.email,
-            name: profileData.data.data.user_name,
-            profilePicture: profileData.data.data.profile_image,
+            user_name: profileData.data.data.user_name,
+            profile_picture: profileData.data.data.profile_image,
           });
         } catch (error) {
           console.error("Error loading offers data:", error);
@@ -89,31 +105,28 @@ export default function Account() {
       };
 
       useEffect(() => {
-        // Promise.all([
-        //   import("../testJsons/profile.json"),
-        // ])
-        //   .then((data) => {
-        //     const [
-        //       profileData,
-        //     ] = data;
-      
-        //     setProfileData({
-        //       email: profileData.default.email,
-        //       name: profileData.default.name,
-        //       profilePicture: profileData.default.profilePicture,
-        //     });
-        //   })
-        //   .catch((error) => console.error("Error loading local data:", error));
         fetchData();
       }, []);
+
+      const handleDeleteProfile = () => {
+        fetch("http://localhost:4000/profiles/delete/me", {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        });
+        navigate("/");
+      };
 
     return(
         <div className="account">
           <div className="account-header">
             <div className="account-header-profile">
-              <img src={profileData?.profilePicture} alt="profile" />
+              <img src={profileData?.profile_picture} alt="profile" />
               <div className="account-header-profile-info">
-                <h2>{profileData?.name}</h2>
+                <h2>{profileData?.user_name}</h2>
                 <p>{profileData?.email}</p>
               </div>
             </div>
@@ -122,17 +135,23 @@ export default function Account() {
             </div>
           </div>
           {isEditing && editedProfile && (
-            <div className="account-edit-profile">
-              <h2>Edit Profile</h2>
-              <label>Name:
-                <input type="text" name="name" value={editedProfile.name} onChange={handleInputChange} />
-              </label>
-              <label>Profile picture:
-                <input type="text" name="profilePicture" value={editedProfile.profilePicture} onChange={handleInputChange} />
-              </label>
-              <div>
-                <button onClick={handleCancelEdit}>Cancel</button>
-                <button onClick={handleSaveProfile}>Save</button>
+            <div className="account-manage-profile">
+              <div className="account-edit-profile">
+                <h2>Edit Profile</h2>
+                <label>Name:
+                  <input type="text" name="name" value={editedProfile.user_name} onChange={handleInputChange} />
+                </label>
+                <label>Profile picture:
+                  <input type="text" name="profile_picture" value={editedProfile.profile_picture} onChange={handleInputChange} />
+                </label>
+                <div>
+                  <button onClick={handleCancelEdit}>Cancel</button>
+                  <button onClick={handleSaveProfile}>Save</button>
+                </div>
+              </div>
+              <div className="account-delete-profile">
+                <h2>Delete Profile</h2>
+                <button onClick={handleDeleteProfile}>Delete</button>
               </div>
             </div>
         )}
