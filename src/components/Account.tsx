@@ -65,22 +65,46 @@ export default function Account() {
       }, []);
 
       const [profileData, setProfileData] = useState<IProfile | null>(null);
+
+      const fetchData = async () => {
+        try {
+          const response = await fetch("http://localhost:4000/profiles/login/me", {
+            method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+          });
+          const profileData = await response.json();
+          console.log(profileData)
+          setProfileData({
+            email: profileData.data.data.email,
+            name: profileData.data.data.user_name,
+            profilePicture: profileData.data.data.profile_image,
+          });
+        } catch (error) {
+          console.error("Error loading offers data:", error);
+        }
+      };
+
       useEffect(() => {
-        Promise.all([
-          import("../testJsons/profile.json"),
-        ])
-          .then((data) => {
-            const [
-              profileData,
-            ] = data;
+        // Promise.all([
+        //   import("../testJsons/profile.json"),
+        // ])
+        //   .then((data) => {
+        //     const [
+        //       profileData,
+        //     ] = data;
       
-            setProfileData({
-              email: profileData.default.email,
-              name: profileData.default.name,
-              profilePicture: profileData.default.profilePicture,
-            });
-          })
-          .catch((error) => console.error("Error loading local data:", error));
+        //     setProfileData({
+        //       email: profileData.default.email,
+        //       name: profileData.default.name,
+        //       profilePicture: profileData.default.profilePicture,
+        //     });
+        //   })
+        //   .catch((error) => console.error("Error loading local data:", error));
+        fetchData();
       }, []);
 
     return(
