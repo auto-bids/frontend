@@ -140,6 +140,27 @@ export default function Account() {
         }
       };
 
+      const handleLogout = async () => {
+        try{
+          const response = await fetch("http://localhost:4000/logout", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+          });
+          if (response.ok){
+            navigate("/");
+          }
+          else{
+            console.log("Error logging out");
+          }
+        } catch (error) {
+          console.error("Error logging out:", error);
+        }
+      };
+
     return(
         <div className="account">
           <div className="account-header">
@@ -151,11 +172,17 @@ export default function Account() {
               </div>
             </div>
             <div className="account-header-buttons">
-              <button onClick={handleEditProfile}>Edit Profile</button>
+              <div className="account-header-buttons-element">
+                <button onClick={handleEditProfile}>Edit Profile</button>
+              <div className="account-header-buttons-element">
+                <button onClick={handleDeleteProfile}>Delete</button>
+              </div>
+              <div className="account-header-buttons-element">
+                <button onClick={handleLogout}>Logout</button>
+              </div>
             </div>
           </div>
           {isEditing && editedProfile && (
-            <div className="account-manage-profile">
               <div className="account-edit-profile">
                 <h2>Edit Profile</h2>
                 <label>Name:
@@ -169,37 +196,33 @@ export default function Account() {
                   <button onClick={handleSaveProfile}>Save</button>
                 </div>
               </div>
-              <div className="account-delete-profile">
-                <h2>Delete Profile</h2>
-                <button onClick={handleDeleteProfile}>Delete</button>
-              </div>
+          )}
+          <div className="account-offers">
+            <h2>Your offers</h2>
+            <div className="account-offers-elements">
+              {offerData && offerData.map((offer) => {
+                      return (
+                          <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                      )
+                  }
+                  )}
             </div>
-        )}
-        <div className="account-offers">
-          <h2>Your offers</h2>
-          <div className="account-offers-elements">
-            {offerData && offerData.map((offer) => {
-                    return (
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                    )
-                }
+          </div><div className="account-saved-offers">
+            <h2>Saved offers</h2>
+            <div className="account-saved-offers-elements">
+              {offerData && offerData.map((offer) => {
+                      return (
+                          <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                      )
+                  }
                 )}
+            </div>
           </div>
-        </div><div className="account-saved-offers">
-          <h2>Saved offers</h2>
-          <div className="account-saved-offers-elements">
-            {offerData && offerData.map((offer) => {
-                    return (
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                    )
-                }
-              )}
-          </div>
-        </div>
-        <div className="account-chat">
-          <h2>Chat</h2>
-          <div className="account-chat-elements">
-            <Chat />
+          <div className="account-chat">
+            <h2>Chat</h2>
+            <div className="account-chat-elements">
+              <Chat />
+            </div>
           </div>
         </div>
       </div>
