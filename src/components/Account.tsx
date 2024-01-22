@@ -2,7 +2,6 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import Chat from "./Chat";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface IOffer {
   id: string;
@@ -19,8 +18,7 @@ interface IProfile {
     profile_picture: string;
 }
 
-export default function Account() {
-    const navigate = useNavigate();
+export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boolean) => void;}) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState<IProfile | null>(null);
 
@@ -93,14 +91,19 @@ export default function Account() {
                 },
           });
           if (response.status === 201) {
+            document.cookie = "isLoggedIn=true";
             window.location.reload();
           }
-          const profileData = await response.json();
-          setProfileData({
-            email: profileData.data.data.email,
-            user_name: profileData.data.data.user_name,
-            profile_picture: profileData.data.data.profile_image,
-          });
+          if(response.status === 200){
+            setIsLoggedIn(true);
+            document.cookie = "isLoggedIn=true";
+            const profileData = await response.json();
+            setProfileData({
+              email: profileData.data.data.email,
+              user_name: profileData.data.data.user_name,
+              profile_picture: profileData.data.data.profile_image,
+            });
+          }
         } catch (error) {
           console.error("Error loading profile data:", error);
         }
@@ -130,7 +133,9 @@ export default function Account() {
             },
           });
           if (response.ok && response2.ok){
-            navigate("/");
+            setIsLoggedIn(false);
+            document.cookie = "isLoggedIn=false";
+            window.location.href = "/";
           }
           else{
             console.log("Error deleting profile");
@@ -151,7 +156,9 @@ export default function Account() {
             },
           });
           if (response.ok){
-            navigate("/");
+            setIsLoggedIn(false);
+            document.cookie = "isLoggedIn=false";
+            window.location.href = "/";
           }
           else{
             console.log("Error logging out");

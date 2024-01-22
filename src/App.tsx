@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import MainPage from './components/MainPage';
@@ -8,7 +9,6 @@ import { Routes, Route } from 'react-router-dom';
 import SearchPage from './components/SearchPage';
 import Account from './components/Account';
 import NewListing from './components/NewListing';
-import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import OfferPage from './components/OfferPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -26,16 +26,17 @@ import OfferPageTrailers from './components/OfferPageTrailers';
 import OfferPageAgriculturalMachinery from './components/OfferPageAgriculturalMachinery';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(document.cookie==="isLoggedIn=true" ? true : false);
+
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header props={isLoggedIn} />
            <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/search/:category" element={<SearchPage />} />
-              <Route path="/account" element={<Account />} />
+              <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/new-listing" element={<NewListing />} />
-              <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} />
               <Route path="/offer-motorcycles/:id" element={<OfferPageMotorcycles />} />

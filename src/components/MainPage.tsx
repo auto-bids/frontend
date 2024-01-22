@@ -34,6 +34,7 @@ export default function MainPage() {
     //just for testing
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
     useEffect(() => {
+        console.log(document.cookie);
         const fetchData = async () => {
             let data;
             if (buyNowOrBid === "bid") {
