@@ -53,10 +53,18 @@ interface IOffer {
         year: number;
     };
 };
+
+interface ISeller {
+  email: string;
+  user_name: string;
+  profile_picture: string;
+}
+
 export default function SellerPage() {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [showAllFields, setShowAllFields] = useState(false);
     const [showContactOrOffer, setShowContactOrOffer] = useState("offer");
+    const [sellerData, setSellerData] = useState<ISeller | null>(null);
 
     //just for testing
     const [offerData, setOfferData] = useState<IOffer | null>(null);
@@ -129,13 +137,40 @@ export default function SellerPage() {
           .catch((error) => console.error("Error loading local data:", error));
       }, []);
 
+      const fetchData = async () => {
+        try {
+          const response = await fetch("http://localhost:4000/profiles/user/" + window.location.pathname.split("/")[2], {
+            method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+          });
+          if (response.ok) {
+            const profileData = await response.json();
+            setSellerData({
+              email: profileData.data.data.email,
+              user_name: profileData.data.data.user_name,
+              profile_picture: profileData.data.data.profile_image,
+            });
+          }
+        } catch (error) {
+          console.error("Error loading profile data:", error);
+        }
+      };
+
+      useEffect(() => {
+        fetchData();
+      }, []);
+
     
     return(
         <div className="seller-page">
             <div className="seller-page-header">
-                <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fkomistysiak.otomoto.pl%2Finventory&psig=AOvVaw1A94HXl-39484qJOVhXmjS&ust=1699967179105000&source=images&cd=vfe&opi=89978449&ved=0CA8QjRxqFwoTCPiaj7GFwYIDFQAAAAAdAAAAABAD" alt="avatar" />
-                <h1>Komis tysiak bemowo</h1>
-                <h2>Warszawa Bemowo</h2>
+                <img src={sellerData?.profile_picture} alt="seller profile picture" />
+                <h1>{sellerData?.user_name}</h1>
+                <h2>{sellerData?.email}</h2>
             </div>
             <div className="seller-page-buttons">
                 <button onClick={() => setShowContactOrOffer("offer")}>Offers</button>
@@ -184,13 +219,11 @@ export default function SellerPage() {
             </div>}
             {showContactOrOffer === "contact" &&
             <div className="seller-page-contact">
-                <h3>Komis tysiak bemowo</h3>
+                <h1>Contact</h1>
                 <div className="seller-page-contact-info">
-                    <p>Phone number</p>
-                    <p>Email</p>
-                    <p>City</p>
-                    <p>Street</p>
-                    <p>Post code</p>
+                    <h2>Phone number</h2>
+                    <h2>Address</h2>
+                    <h2>{sellerData?.email}</h2>
                 </div>
             </div>}
         </div>
