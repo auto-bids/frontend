@@ -92,15 +92,17 @@ export default function Account() {
                     "Access-Control-Allow-Credentials": "true",
                 },
           });
+          if (response.status === 201) {
+            window.location.reload();
+          }
           const profileData = await response.json();
-          console.log(profileData)
           setProfileData({
             email: profileData.data.data.email,
             user_name: profileData.data.data.user_name,
             profile_picture: profileData.data.data.profile_image,
           });
         } catch (error) {
-          console.error("Error loading offers data:", error);
+          console.error("Error loading profile data:", error);
         }
       };
 
@@ -108,16 +110,34 @@ export default function Account() {
         fetchData();
       }, []);
 
-      const handleDeleteProfile = () => {
-        fetch("http://localhost:4000/profiles/delete/me", {
+      const handleDeleteProfile = async () => {
+        try{
+          const response = await fetch("http://localhost:4000/profiles/delete/me", {
           method: "DELETE",
           credentials: "include",
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Credentials": "true",
           },
-        });
-        navigate("/");
+          });
+
+          const response2 = await fetch("http://localhost:4000/logout", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+          });
+          if (response.ok && response2.ok){
+            navigate("/");
+          }
+          else{
+            console.log("Error deleting profile");
+          }
+        } catch (error) {
+          console.error("Error deleting profile:", error);
+        }
       };
 
     return(
@@ -139,7 +159,7 @@ export default function Account() {
               <div className="account-edit-profile">
                 <h2>Edit Profile</h2>
                 <label>Name:
-                  <input type="text" name="name" value={editedProfile.user_name} onChange={handleInputChange} />
+                  <input type="text" name="user_name" value={editedProfile.user_name} onChange={handleInputChange} />
                 </label>
                 <label>Profile picture:
                   <input type="text" name="profile_picture" value={editedProfile.profile_picture} onChange={handleInputChange} />
