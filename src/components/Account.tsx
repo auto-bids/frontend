@@ -114,34 +114,38 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       }, []);
 
       const handleDeleteProfile = async () => {
-        try{
-          const response = await fetch("http://localhost:4000/profiles/delete/me", {
-          method: "DELETE",
-          credentials: "include",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": "true",
-          },
-          });
+        const confirmed = window.confirm("Are you sure you want to delete your account?");
 
-          const response2 = await fetch("http://localhost:4000/logout", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-          });
-          if (response.ok && response2.ok){
-            setIsLoggedIn(false);
-            document.cookie = "isLoggedIn=false";
-            window.location.href = "/";
+        if (confirmed) {
+          try {
+            const response = await fetch("http://localhost:4000/profiles/delete/me", {
+              method: "DELETE",
+              credentials: "include",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": "true",
+              },
+            });
+      
+            const response2 = await fetch("http://localhost:4000/logout", {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": "true",
+              },
+            });
+      
+            if (response.ok && response2.ok) {
+              setIsLoggedIn(false);
+              document.cookie = "isLoggedIn=false";
+              window.location.href = "/";
+            } else {
+              console.log("Error deleting profile");
+            }
+          } catch (error) {
+            console.error("Error deleting profile:", error);
           }
-          else{
-            console.log("Error deleting profile");
-          }
-        } catch (error) {
-          console.error("Error deleting profile:", error);
         }
       };
 
