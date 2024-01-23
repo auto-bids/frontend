@@ -18,12 +18,12 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     make: "",
     model: "",
     type: "",
-    yearFrom: "",
-    yearTo: "",
-    mileageFrom: "",
-    mileageTo: "",
-    priceFrom: "",
-    priceTo: "",
+    year_min: "",
+    year_max: "",
+    mileage_min: "",
+    mileage_max: "",
+    price_min: "",
+    price_max: "",
     currentBidFrom: "",
     currentBidTo: "",
     sellerReserveFrom: "",
@@ -32,13 +32,13 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     numberOfBidsTo: "",
     endDateFrom: "",
     endDateTo: "",
-    fuelType: "",
+    fuel: "",
     condition: "",
     doors: "",
-    engineCapacityFrom: "",
-    engineCapacityTo: "",
-    powerFrom: "",
-    powerTo: "",
+    engine_capacity_min: "",
+    engine_capacity_max: "",
+    power_min: "",
+    power_max: "",
     gearbox: "",
     drive: "",
     steering: "",
@@ -52,7 +52,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         acc[key] = decodeURIComponent(value);
         return acc;
       }, {});
-      console.log(decodedSearchParameters);
+      // console.log(decodedSearchParameters);
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
         ...decodedSearchParameters,
@@ -95,7 +95,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       queryParams.append("radius", locationParams.radius.toString());
     }
 
-    window.location.href = `${searchPath}?${queryParams.toString()}`;
+    window.location.href = `${searchPath}?${queryParams.toString()}/1`;
   };
 
   return (
@@ -134,19 +134,19 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         <option value="Other">Other</option>
       </select>
       <label>Year:</label>
-      <input type="text" name="yearFrom" placeholder="Year from" value={formValues.yearFrom} onChange={handleInputChange} />
-      <input type="text" name="yearTo" placeholder="Year to" value={formValues.yearTo} onChange={handleInputChange} />
+      <input type="text" name="year_min" placeholder="Year from" value={formValues.year_min} onChange={handleInputChange} />
+      <input type="text" name="year_max" placeholder="Year to" value={formValues.year_max} onChange={handleInputChange} />
 
       {showAllFields && (
         <>
         <label>Mileage:</label>
-        <input type="text" name="mileageFrom" placeholder="Mileage from" value={formValues.mileageFrom} onChange={handleInputChange} />
-        <input type="text" name="mileageTo" placeholder="Mileage to" value={formValues.mileageTo} onChange={handleInputChange} />
+        <input type="text" name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
+        <input type="text" name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
         {buyNowOrBid === "Buy Now" && (
           <>
           <label>Price:</label>
-          <input type="text" name="priceFrom" placeholder="Price from" value={formValues.priceFrom} onChange={handleInputChange} />
-          <input type="text" name="priceTo" placeholder="Price to" value={formValues.priceTo} onChange={handleInputChange} />
+          <input type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
+          <input type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
           </>
         )}
         {buyNowOrBid === "Bid" && (
@@ -166,7 +166,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           </>
         )}
         <label>Fuel Type:</label>
-        <select name="fuelType" value={formValues.fuelType} onChange={handleInputChange}>
+        <select name="fuel" value={formValues.fuel} onChange={handleInputChange}>
           <option value="">Fuel Type</option>
           <option value="Gasoline">Gasoline</option>
           <option value="Diesel">Diesel</option>
@@ -193,11 +193,11 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <option value='Other'>Other</option>
         </select>
         <label>Engine Capacity:</label>
-        <input type="text" name="engineCapacityFrom" placeholder="Engine Capacity from" value={formValues.engineCapacityFrom} onChange={handleInputChange} />
-        <input type="text" name="engineCapacityTo" placeholder="Engine Capacity to" value={formValues.engineCapacityTo} onChange={handleInputChange} />
+        <input type="text" name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
+        <input type="text" name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
         <label>Power:</label>
-        <input type="text" name="powerFrom" placeholder="Power from" value={formValues.powerFrom} onChange={handleInputChange} />
-        <input type="text" name="powerTo" placeholder="Power to" value={formValues.powerTo} onChange={handleInputChange} />
+        <input type="text" name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
+        <input type="text" name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
         <label>Gearbox:</label>
         <select name="gearbox" value={formValues.gearbox} onChange={handleInputChange}>
           <option value="">Gearbox</option>
