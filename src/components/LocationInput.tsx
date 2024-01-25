@@ -5,11 +5,11 @@ import "leaflet/dist/leaflet.css";
 import { on } from "events";
 
 interface LocationInputProps {
-  onLocationChange: (params: { position: [number, number] | null;}) => void;
+  onLocationChange: (params: { position: [number, number] ;}) => void;
 }
 
 export default function LocationInput({ onLocationChange }: LocationInputProps) {
-  const [position, setPosition] = useState<[number, number] | null>([52.1141903, 16.9287151]);
+  const [position, setPosition] = useState<[number, number]>([52.1141903, 16.9287151]);
   const [zoom, setZoom] = useState<number>(6);
   const mapRef = React.useRef<any>();
 
