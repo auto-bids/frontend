@@ -18,13 +18,30 @@ interface IAuction {
   endDate: string;
 }
 
+// interface IOffer {
+//   id: string;
+//   image: string;
+//   title: string;
+//   price?: number;
+//   auction?: IAuction;
+//   year: number;
+// };
+
 interface IOffer {
-  id: string;
-  image: string;
-  title: string;
-  price?: number;
-  auction?: IAuction;
-  year: number;
+  data:[
+    {
+      car:{
+        photos: string[];
+        title: string;
+        price?: number;
+        // auction?: IAuction;
+        year: number;
+      
+      },
+      id: string;
+      user_email: string;
+    }
+  ]
 };
 
 
@@ -66,18 +83,24 @@ export default function SearchPage() {
             body: JSON.stringify(decodedSearchParameters),
           });
         const data = await response.json();
-        console.log(data);
-        if (data.length > 0) {
-          setOfferData(data);
+        if (data.data.data.length > 0) {
+          setOfferData(data.data.data);
         }
       } catch (error) {
         console.log(error);
       }
     }
 
+    // useEffect(() => {
+    //   if (offerData === null){
+    //     fetchData();
+    //   }
+    // }, [offerData]);
+
     useEffect(() => {
       fetchData();
-    }, []);
+    }
+    , []);
 
     return (
       <div className="search-page">
@@ -101,17 +124,19 @@ export default function SearchPage() {
             <h2>Offers</h2>
           </div>
           <div className="search-page-offers-list">
-            {offerData && offerData.map((offer) => (
-              <Link to={`/offer-cars/${category}/${offer.id}`} key={offer.id}>
-                <OfferElement
-                  image={offer.image}
-                  title={offer.title}
-                  price={offer.price}
-                  auction={offer.auction}
-                  year={offer.year}
-                />
-              </Link>
-            ))}
+            {offerData && offerData.map((offer: any) => {
+              return (
+                <Link to={`/offer/${offer.id}`} key={offer.id}>
+                  <OfferElement
+                    image={offer.car.photos[0]}
+                    title={offer.car.title}
+                    price={offer.car.price}
+                    auction={offer.car.auction}
+                    year={offer.car.year}
+                  />
+                </Link>
+              );
+            })}
           </div>
         </div>
         <div className="search-page-pagination">
