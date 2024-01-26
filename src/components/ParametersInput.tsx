@@ -64,6 +64,16 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   const [locationVisible, setLocationVisible] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (e.target.name === "price_min" || e.target.name === "price_max" || e.target.name === "currentBidFrom" || e.target.name === "currentBidTo" || e.target.name === "sellerReserveFrom" || e.target.name === "sellerReserveTo" || e.target.name === "numberOfBidsFrom" || e.target.name === "numberOfBidsTo" || e.target.name === "mileage_min" || e.target.name === "mileage_max" || e.target.name === "year_min" || e.target.name === "year_max" || e.target.name === "engine_capacity_min" || e.target.name === "engine_capacity_max" || e.target.name === "power_min" || e.target.name === "power_max") {
+      if (typeof e.target.value === "string" && e.target.value !== "") {
+        const number = parseInt(e.target.value);
+        if (!isNaN(number)) {
+          setFormValues({ ...formValues, [e.target.name]: number });
+        }
+      } else {
+        setFormValues({ ...formValues, [e.target.name]: "" });
+      }
+    }
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
@@ -142,7 +152,12 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         <label>Mileage:</label>
         <input type="text" name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
         <input type="text" name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
-        {buyNowOrBid === "Buy Now" && (
+        <>
+          <label>Price:</label>
+          <input type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
+          <input type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
+          </>
+        {/* {buyNowOrBid === "Buy Now" && (
           <>
           <label>Price:</label>
           <input type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
@@ -164,7 +179,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <input type="text" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
           <input type="text" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
           </>
-        )}
+        )} */}
         <label>Fuel Type:</label>
         <select name="fuel" value={formValues.fuel} onChange={handleInputChange}>
           <option value="">Fuel Type</option>

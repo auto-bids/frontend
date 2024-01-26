@@ -9,6 +9,7 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { decode } from "punycode";
 
 interface IAuction {
   isActive: boolean;
@@ -68,9 +69,17 @@ export default function SearchPage() {
       const paramPairs = searchParams.split("&");
       const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
       const [key, value] = pair.split("=");
-        acc[key] = decodeURIComponent(value);
+        const thisKey = decodeURIComponent(key);
+        if (thisKey === "price_min" || thisKey === "price_max" || thisKey === "year_min" || thisKey === "year_max" || thisKey === "mileage_min" || thisKey === "mileage_max" || thisKey === "engine_capacity_min" || thisKey === "engine_capacity_max" || thisKey === "power_min" || thisKey === "power_max" || thisKey === "doors" || thisKey=== "seats"){
+          acc[key] = parseInt(decodeURIComponent(value));
+        }
+        else{
+          acc[key] = decodeURIComponent(value);
+        }
         return acc;
       }, {});
+
+      console.log(decodedSearchParameters);
       try {
         const response = await fetch(`http://localhost:4000/cars/page/${page}`,
           {
