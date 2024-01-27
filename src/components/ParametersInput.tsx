@@ -9,6 +9,7 @@ interface CarData {
 
 export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters }: { showAllFields: boolean; buyNowOrBid: string, searchParameters: any }) {
   const [carData, setCarData] = useState<CarData[]>([]);
+  const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 10000000000 });
 
   useEffect(() => {
     setCarData(carDataJson);
@@ -57,10 +58,17 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         ...prevFormValues,
         ...decodedSearchParameters,
       }));
+
+      if (decodedSearchParameters["lat"] && decodedSearchParameters["lng"]) {
+        setLocationParams({
+          position: [parseFloat(decodedSearchParameters["lat"]), parseFloat(decodedSearchParameters["lng"])],
+          radius: parseFloat(decodedSearchParameters["radius"]),
+        });
+      }
     }
   }, [searchParameters]);
 
-  const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 10000000000 });
+  
   const [locationVisible, setLocationVisible] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -99,6 +107,10 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         queryParams.append(key, value);
       }
     });
+    queryParams.delete("lat");
+    queryParams.delete("lng");
+    queryParams.delete("radius");
+
     if (locationParams.position) {
       queryParams.append("lat", locationParams.position[0].toString());
       queryParams.append("lng", locationParams.position[1].toString());

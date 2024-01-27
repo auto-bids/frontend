@@ -73,13 +73,26 @@ export default function SearchPage() {
         if (thisKey === "price_min" || thisKey === "price_max" || thisKey === "year_min" || thisKey === "year_max" || thisKey === "mileage_min" || thisKey === "mileage_max" || thisKey === "engine_capacity_min" || thisKey === "engine_capacity_max" || thisKey === "power_min" || thisKey === "power_max" || thisKey === "doors" || thisKey=== "seats"){
           acc[key] = parseInt(decodeURIComponent(value));
         }
+        if (thisKey === "lat" || thisKey === "lng" || thisKey === "radius"){
+          acc[key] = parseFloat(decodeURIComponent(value));
+        }
         else{
           acc[key] = decodeURIComponent(value);
         }
         return acc;
       }, {});
 
+      decodedSearchParameters["location"] = {
+        "type": "Point",
+        "coordinates": [decodedSearchParameters["lng"], decodedSearchParameters["lat"]]
+      };
+      delete decodedSearchParameters["lat"];
+      delete decodedSearchParameters["lng"];
+      decodedSearchParameters["distance"] = decodedSearchParameters["radius"];
+      delete decodedSearchParameters["radius"];
+
       console.log(decodedSearchParameters);
+      
       try {
         const response = await fetch(`http://localhost:4000/cars/page/${page}`,
           {
@@ -89,9 +102,11 @@ export default function SearchPage() {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Credentials": "true",
             },
-            body: JSON.stringify(decodedSearchParameters),
+            // body: JSON.stringify(decodedSearchParameters),
+            body: JSON.stringify(decodedSearchParameters)
           });
         const data = await response.json();
+        console.log(data);
         if (data.data.data.length > 0) {
           setOfferData(data.data.data);
         }
