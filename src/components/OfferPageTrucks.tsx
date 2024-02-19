@@ -147,7 +147,6 @@ export default function OfferPageTrucks(){
                     </div>
                     <div className="offer-page-main-seller">
                     <SellerElement
-                        name={offerData.seller.name}
                         phone={offerData.seller.phone}
                         email={offerData.seller.email}
                         x={offerData.seller.x}

@@ -229,7 +229,7 @@ export default function OfferPage(){
                     )}
                 </div>
                 <div className="offer-page-main-seller">
-                    {/* <SellerElement name={offerData.seller.name} phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/> */}
+                    <SellerElement phone={offerData.car.telephone_number} email={offerData.user_email} x={offerData.car.location.coordinates[0]} y= {offerData.car.location.coordinates[1]} />
                 </div>
                 <div className="offer-page-buttons">
                     {isOwner && !isEditing && (

@@ -167,7 +167,7 @@ export default function OfferPageMotorcycles(){
                         )}
                     </div>
                     <div className="offer-page-main-seller">
-                        <SellerElement name={offerData.seller.name} phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/>
+                        <SellerElement phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/>
                     </div>
                 </div>
                 <div className="offer-page-buttons">
