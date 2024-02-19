@@ -38,7 +38,8 @@ function App() {
               <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn} />} />
               <Route path="/new-listing" element={<NewListing />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} />
+              {/* <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} /> */}
+              <Route path="/cars/offer/:id" element={<OfferPage />} />
               <Route path="/offer-motorcycles/:id" element={<OfferPageMotorcycles />} />
               <Route path="/offer-delivery-vans/:id" element={<OfferPageDeliveryVans />} />
               <Route path="/offer-trucks/:id" element={<OfferPageTrucks />} />

@@ -14,58 +14,75 @@ interface IAuction{
 
 interface IOffer {
     id: string;
-    photos: string[];
-    title: string;
-    price?: number;
-    auction?: IAuction;
-    make: string;
-    model: string;
-    type: string;
-    year: number;
-    mileage: number;
-    engineCapacity: number;
-    fuel: string;
-    power: number;
-    transmission: string;
-    drive: string;
-    steering: string;
-    doors: number;
-    seats: number;
-    registrationNumber: string;
-    firstRegistration: number;
-    condition: string;
-    vinNumber: string;
-    description: string;
-    seller: {
-        name: string;
-        phone: string;
-        email: string;
-        x: number;
-        y: number;
+    user_email: string;
+    car: {
+        title: string;
+        make: string;
+        model: string;
+        price: number;
+        description: string;
+        photos: string[];
+        year: number;
+        mileage: number;
+        vin_number: string;
+        engine_capacity: number;
+        fuel: string;
+        transmission: string;
+        steering: string;
+        type: string;
+        power: number;
+        drive: string;
+        doors: number;
+        seats: number;
+        registration_number: string;
+        first_registration: string;
+        condition: string;
+        telephone_number: string;
+        location: {
+            type: string;
+            coordinates: [number, number];
+        };
     };
 };
 
 export default function OfferPage(){
-    const { offerType, id } = useParams<{ offerType: string; id: string }>();
+    // const { offerType, id } = useParams<{ offerType: string; id: string }>();
+    const { id } = useParams<{ id: string }>();
     const [offerData, setOfferData] = useState<IOffer | null>(null);
     const [isOwner, setIsOwner] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-    // useEffect(() => {
-    //     fetch("https://essa.com/api/offer/123")
-    //     .then((response) => response.json())
-    //     .then((data) => setOfferData(data))
-    //     .catch((error) => console.error("Error fetching data:", error));
-    // }, []);
+    const fetchOfferData = async () => {
+        try{
+            const response = await fetch(`http://localhost:4000/cars/offer/${id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            });
+            const data = await response.json();
+            console.log(data);
+            setOfferData(data.data.data);
+            console.log(offerData);
+        } catch (error){
+            console.error("Error loading data:", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchOfferData();
+      }, [id]);
 
     //code below is for testing purposes only, it will be replaced with the code above
-    useEffect(() => {
-        import("../testJsons/testBidOffer.json")
-        // import("../testJsons/testOffer.json")
-          .then((data) => setOfferData(data.default))
-          .catch((error) => console.error("Error loading local data:", error));
-      }, []);
+    // useEffect(() => {
+    //     import("../testJsons/testBidOffer.json")
+    //     // import("../testJsons/testOffer.json")
+    //       .then((data) => setOfferData(data.default))
+    //       .catch((error) => console.error("Error loading local data:", error));
+    //   }, []);
 
     const handleSaveChanges = () => {
         setIsEditing(false);
@@ -80,7 +97,7 @@ export default function OfferPage(){
     }
     return(
         <div className="offer-page">
-            {offerType ==="bid" && (
+            {/* {offerType ==="bid" && (
                 <h1>
                     ***bid***
                 </h1>
@@ -89,15 +106,16 @@ export default function OfferPage(){
                 <h1>
                     ***buy now***
                     </h1>
-                    )}
+                    )} */}
             <div className="offer-page-top-bar">
                 {!isOwner && (
                     <button onClick={() => handleAddToFavorites()}>
                         {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
                     </button>
                 )}
-                <h1>{offerData.title}</h1>
-                {!offerData.auction && (
+                <h1>{offerData.car.title}</h1>
+                <p>{offerData.car.price}</p>
+                {/* {!offerData.auction && (
                     <p>
                         {isEditing ? (
                         <input
@@ -111,11 +129,11 @@ export default function OfferPage(){
                             }
                         />
                         ) : (
-                        offerData.price
+                        offerData.car.price
                         )}
                     </p>
-                )}
-                {offerData.auction &&(
+                )} */}
+                {/* {offerData.auction &&(
                     <div className="offer-page-main-bid">
                         <BidElement
                             isActive={offerData.auction.isActive}
@@ -125,7 +143,7 @@ export default function OfferPage(){
                             endDate={new Date(offerData.auction.endDate)}
                         />
                     </div>
-                )}
+                )} */}
             </div>
             <div className="offer-page-main">
                 <div className="offer-page-main-images">
@@ -133,8 +151,8 @@ export default function OfferPage(){
                         <img src="/test.jpeg" alt="offer" />
                     </div>
                     <div className="offer-images-other-images">
-                        {offerData.photos.map((photo) => (
-                            <img src={photo} alt="offer" />
+                        {offerData.car.photos.map((photo) => (
+                            <img src={photo} alt="offer" key={photo} />
                         ))}
                     </div>
                     {isOwner && isEditing ? (
@@ -147,71 +165,71 @@ export default function OfferPage(){
                 </div>
                 <div className="offer-page-main-details">
                     <label>Make:</label>
-                    <p>{offerData.make}</p>
+                    <p>{offerData.car.make}</p>
                     <label>Model:</label>
-                    <p>{offerData.model}</p>
+                    <p>{offerData.car.model}</p>
                     <label>Type:</label>
-                    <p>{offerData.type}</p>
+                    <p>{offerData.car.type}</p>
                     <label>Year:</label>
-                    <p>{offerData.year}</p>
+                    <p>{offerData.car.year}</p>
                     <label>Mileage:</label>
                     {isEditing ? (
                         <input
-                        type="number"
-                        value={offerData.mileage}
-                        onChange={(event) =>
-                            setOfferData({
-                            ...offerData,
-                            mileage: Number(event.target.value),
-                            })
-                        }
+                            type="number"
+                            value={offerData.car.mileage}
+                            onChange={(event) =>
+                                setOfferData({
+                                    ...offerData,
+                                    mileage: Number(event.target.value),
+                                } as IOffer)
+                            }
                         />
                     ) : (
-                        <p>{offerData.mileage}</p>
+                        <p>{offerData.car.mileage}</p>
                     )}
                     <label>Engine Capacity:</label>
-                    <p>{offerData.engineCapacity}</p>
+                    <p>{offerData.car.engine_capacity}</p>
                     <label>Fuel:</label>
-                    <p>{offerData.fuel}</p>
+                    <p>{offerData.car.fuel}</p>
                     <label>Power:</label>
-                    <p>{offerData.power}</p>
+                    <p>{offerData.car.power}</p>
                     <label>Transmission:</label>
-                    <p>{offerData.drive}</p>
+                    <p>{offerData.car.transmission}</p>
                     <label>Drive:</label>
-                    <p>{offerData.drive}</p>
+                    <p>{offerData.car.drive}</p>
                     <label>Steering:</label>
-                    <p>{offerData.steering}</p>
+                    <p>{offerData.car.steering}</p>
                     <label>Doors:</label>
-                    <p>{offerData.doors}</p>
+                    <p>{offerData.car.doors}</p>
                     <label>Seats:</label>
-                    <p>{offerData.seats}</p>
+                    <p>{offerData.car.seats}</p>
                     <label>Registration Number:</label>
-                    <p>{offerData.registrationNumber}</p>
+                    <p>{offerData.car.registration_number}</p>
                     <label>First Registration:</label>
-                    <p>{offerData.firstRegistration}</p>
+                    <p>{offerData.car.first_registration}</p>
                     <label>Condition:</label>
-                    <p>{offerData.condition}</p>
+                    <p>{offerData.car.condition}</p>
                     <label>VIN Number:</label>
-                    <p>{offerData.vinNumber}</p>
+                    <p>{offerData.car.vin_number}</p>
                 </div>
                 <div className="offer-page-main-description">
                     <h2>Description</h2>
                     {isEditing ? (
                         <textarea
-                        value={offerData.description}
-                        onChange={(event) =>
-                            setOfferData({
-                            ...offerData,
-                            description: event.target.value,
-                            })
-                        }
+                            value={offerData.car.description}
+                            onChange={(event) =>
+                                setOfferData((prevState: IOffer | null) => ({
+                                    ...offerData,
+                                    description: event.target.value,
+                                }))
+                            }
                         />
                     ) : (
-                        <p>{offerData.description}</p>
+                        <p>{offerData.car.description}</p>
                     )}
                 </div>
                 <div className="offer-page-main-seller">
-                    <SellerElement name={offerData.seller.name} phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/>
+                    {/* <SellerElement name={offerData.seller.name} phone={offerData.seller.phone} email={offerData.seller.email} x={offerData.seller.x} y={offerData.seller.y}/> */}
                 </div>
                 <div className="offer-page-buttons">
                     {isOwner && !isEditing && (

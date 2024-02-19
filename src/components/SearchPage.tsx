@@ -150,7 +150,7 @@ export default function SearchPage() {
           <div className="search-page-offers-list">
             {offerData && offerData.map((offer: any) => {
               return (
-                <Link to={`/offer/${offer.id}`} key={offer.id}>
+                <Link to={`/${category}/offer/${offer.id}`} key={offer.id} >
                   <OfferElement
                     image={offer.car.photos[0]}
                     title={offer.car.title}
