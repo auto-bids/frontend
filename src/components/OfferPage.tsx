@@ -3,6 +3,10 @@ import BidElement from "./BidElement";
 import SellerElement from "./SellerElement";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 interface IAuction{
     isActive: boolean;
@@ -52,6 +56,14 @@ export default function OfferPage(){
     const [isOwner, setIsOwner] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
+    
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
 
     const fetchOfferData = async () => {
         try{
@@ -64,9 +76,7 @@ export default function OfferPage(){
                 },
             });
             const data = await response.json();
-            console.log(data);
             setOfferData(data.data.data);
-            console.log(offerData);
         } catch (error){
             console.error("Error loading data:", error);
         }
@@ -146,23 +156,22 @@ export default function OfferPage(){
                 )} */}
             </div>
             <div className="offer-page-main">
-                <div className="offer-page-main-images">
-                    <div className="offer-images-current-image">
-                        <img src="/test.jpeg" alt="offer" />
-                    </div>
-                    <div className="offer-images-other-images">
-                        {offerData.car.photos.map((photo) => (
-                            <img src={photo} alt="offer" key={photo} />
+            <div className="offer-page-main-images">
+                {offerData.car.photos.length === 1 && <p>No photos available</p>}
+                {offerData.car.photos.length === 2 && (
+                    <img src={offerData
+                    .car.photos[0]} alt="offer" />
+                )}
+                {offerData.car.photos.length > 2 && (
+                    <Slider {...settings}>
+                        {offerData.car.photos.map((photo, index) => (
+                            <div key={index}>
+                                <img src={photo} alt="offer" />
+                            </div>
                         ))}
-                    </div>
-                    {isOwner && isEditing ? (
-                        <div className="offer-images-add-image">
-                            <input type="file" accept="image/*" />
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                </div>
+                    </Slider>
+                )}
+            </div>
                 <div className="offer-page-main-details">
                     <label>Make:</label>
                     <p>{offerData.car.make}</p>

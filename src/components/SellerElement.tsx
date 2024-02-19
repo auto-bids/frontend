@@ -16,10 +16,14 @@ export default function SellerElement({phone, email, x, y }: SellerElementProps)
         <p>{phone}</p>
         <p>{email}</p>
       </div>
-      <div id="map" style={{ height: "400px", width: "100%" }}></div>
-      <div className="seller-test-map">
-        <MapComponent x={x} y={y} />
-      </div>
+      {x && y ? 
+        <>
+          <div id="map" style={{ height: "400px", width: "100%" }}></div>
+          <div className="seller-test-map">
+            <MapComponent x={x} y={y} />
+          </div>
+        </>
+        : null}
     </div>
   );
 }

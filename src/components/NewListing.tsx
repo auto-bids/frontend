@@ -11,7 +11,8 @@ export default function NewListing() {
     const [buyNowOrBid, setBuyNowOrBid] = useState("buyNow");
     const [carData, setCarData] = useState<CarData[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number]}>({ position: [0,0]});
-    
+    const [photoLinks, setPhotoLinks] = useState<string[]>([""]);
+
     useEffect(() => {
         setCarData(makeModelCarsDataJson);
     }, []);
@@ -74,6 +75,8 @@ export default function NewListing() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        setFormValues({ ...formValues, photos: photoLinks })
+
         const fetchData = async () => {
             try{
                 const response = await fetch(`http://localhost:4000/cars/add/me`, {
@@ -97,19 +100,47 @@ export default function NewListing() {
         fetchData();
     };
 
+    const handlePhotoInputChange = (index: number, value: string) => {
+        const newPhotoLinks = [...photoLinks];
+        newPhotoLinks[index] = value;
+        setPhotoLinks(newPhotoLinks);
+    };
+
+    const handleAddInput = () => {
+        setPhotoLinks([...photoLinks, ""]);
+    };
+
+    const handleRemoveInput = (index: number) => {
+        const newPhotoLinks = [...photoLinks];
+        newPhotoLinks.splice(index, 1);
+        setPhotoLinks(newPhotoLinks);
+    };
+
+
     return(
         <div className='new-listing-page'>
             <h1>New Listing</h1>
             {/* <form className='new-listing-form' name="newListingForm" onSubmit={handleSubmit} encType="multipart/form-data"> */}
             <form className='new-listing-form' name="newListingForm" onSubmit={handleSubmit}>
-                <label>Photos:</label>
-                {/* <input type='file' multiple accept="image/*" /> */}
-                <textarea
-                placeholder='Enter photo links (separated by commas)'
-                name="photos"
-                value={formValues.photos}
-                onChange={handleInputChange}
-                />
+            <label>Photos:</label>
+                {photoLinks.map((link, index) => (
+                    <div key={index} className="photo-input">
+                        <input
+                            type="text"
+                            placeholder="Enter photo link"
+                            value={link}
+                            onChange={(e) => handlePhotoInputChange(index, e.target.value)}
+                        />
+                        {index > 0 && (
+                            <button type="button" onClick={() => handleRemoveInput(index)}>
+                                Remove
+                            </button>
+                        )}
+                    </div>
+                ))}
+                <button type="button" onClick={handleAddInput}>
+                    Add Photo
+                </button>
                 <label>Title:</label>
                 <input type='text' placeholder='Title' name="title" value={formValues.title} onChange={handleInputChange} />
                 <label>Make:</label>

@@ -91,7 +91,7 @@ export default function SearchPage() {
       decodedSearchParameters["distance"] = decodedSearchParameters["radius"];
       delete decodedSearchParameters["radius"];
 
-      console.log(decodedSearchParameters);
+      // console.log(decodedSearchParameters);
       
       try {
         const response = await fetch(`http://localhost:4000/cars/page/${page}`,
@@ -106,7 +106,7 @@ export default function SearchPage() {
             body: JSON.stringify(decodedSearchParameters)
           });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (data.data.data.length > 0) {
           setOfferData(data.data.data);
         }
