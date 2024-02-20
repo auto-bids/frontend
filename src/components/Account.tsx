@@ -32,6 +32,25 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       setEditedProfile(null);
     };
 
+    const handleDeleteAllOffers = () => {
+      const confirmed = window.confirm("Are you sure you want to delete all your offers?");
+      if (confirmed) {
+        try{
+          fetch("http://localhost:4000/cars/delete/all/me", {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+          });
+        } catch (error) {
+          console.error("Error deleting all offers:", error);
+        }
+      }
+    };
+
     const handleSaveProfile = () => {
       setIsEditing(false);
       setProfileData(editedProfile ? { ...editedProfile } : null);
@@ -210,6 +229,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           )}
           <div className="account-offers">
             <h2>Your offers</h2>
+            <button onClick={handleDeleteAllOffers}>Delete all offers</button>
             <div className="account-offers-elements">
               {offerData && offerData.map((offer) => {
                       return (
