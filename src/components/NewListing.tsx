@@ -75,7 +75,8 @@ export default function NewListing() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setFormValues({ ...formValues, photos: photoLinks })
+        // setFormValues({ ...formValues, photos: photoLinks })
+        // console.log(formValues);
 
         const fetchData = async () => {
             try{
@@ -104,6 +105,7 @@ export default function NewListing() {
         const newPhotoLinks = [...photoLinks];
         newPhotoLinks[index] = value;
         setPhotoLinks(newPhotoLinks);
+        setFormValues({ ...formValues, photos: newPhotoLinks });
     };
 
     const handleAddInput = () => {
@@ -114,6 +116,7 @@ export default function NewListing() {
         const newPhotoLinks = [...photoLinks];
         newPhotoLinks.splice(index, 1);
         setPhotoLinks(newPhotoLinks);
+        setFormValues({ ...formValues, photos: newPhotoLinks });
     };
 
 

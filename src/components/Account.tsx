@@ -137,6 +137,24 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
         if (confirmed) {
           try {
+            const response = await fetch("http://localhost:4000/cars/delete/all/me", {
+              method: "DELETE",
+              credentials: "include",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": "true",
+              },
+            });
+      
+            if (response.ok) {
+              console.log("All offers deleted");
+            } else {
+              console.log("Error deleting all offers");
+            }
+          } catch (error) {
+            console.error("Error deleting all offers:", error);
+          }
+          try {
             const response = await fetch("http://localhost:4000/profiles/delete/me", {
               method: "DELETE",
               credentials: "include",
