@@ -20,11 +20,18 @@ interface IAuction {
 
 interface IOffer {
     id: string;
-    image: string;
-    title: string;
+    image?: string;
+    title?: string;
     price?: number;
-    year: number;
     auction?: IAuction;
+    year?: number;
+    car?: {
+        photos: string[];
+        title: string;
+        price?: number;
+        auction?: IAuction;
+        year: number;
+    };
 };
 
 export default function MainPage() {
@@ -33,6 +40,26 @@ export default function MainPage() {
     const [buyNowOrBid, setBuyNowOrBid] = useState("buyNow");
     //just for testing
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
+
+    const fetchOffers = async (type: string) => {
+        try {
+            const response = await fetch(`http://localhost:4000/${type}/page/1`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+                body: JSON.stringify({}),
+            });
+
+            const data = await response.json();
+            console.log(data.data.data);
+            setOfferData(data.data.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     useEffect(() => {
         const fetchData = async () => {
             let data;
@@ -46,7 +73,7 @@ export default function MainPage() {
             }
             switch (selectedCategory) {
                 case "cars":
-                    data = await import("../testJsons/testOffer.json");
+                    fetchOffers("cars");
                     break;
                 case "motorcycles":
                     data = await import("../testJsons/testOfferMotorcycles.json");
@@ -70,7 +97,7 @@ export default function MainPage() {
                     data = null;
             }
 
-            if (data) {
+            if (data && selectedCategory !== "cars") {
                 if (buyNowOrBid === "buyNow") {
                     const { id, photos, title, price, year } = data.default;
                     setOfferData([{ id, image: photos.length > 0 ? photos[0] : "", title, price, year }]);
@@ -127,7 +154,12 @@ export default function MainPage() {
             </a> */}
             <div className="promoted-offers">
                 <h1>Promoted Offers</h1>
-                {offerData && buyNowOrBid ==="buyNow" && selectedCategory==="cars" && offerData.map((offer) => (
+                {offerData && offerData[0].car && offerData.map((offer) => (
+                    <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`}>
+                        <OfferElement key={offer.id} image={offer.car?.photos[0] || ""} title={offer.car?.title || ""} price={offer.car?.price || 0} year={offer.car?.year || 0} auction={offer.car?.auction} />
+                    </Link>
+                ))}
+                {/* {offerData && buyNowOrBid ==="buyNow" && selectedCategory==="cars" && offerData.map((offer) => (
                     <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`}>
                         <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction} />
                     </Link>
@@ -141,7 +173,7 @@ export default function MainPage() {
                     <Link key={offer.id} to={`/${selectedCategory}/${offer.id}`}>
                         <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                     </Link>
-                ))}
+                ))} */}
             </div>
         </div>
     )

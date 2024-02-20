@@ -157,7 +157,11 @@ export default function OfferPage(){
             </div>
             <div className="offer-page-main">
             <div className="offer-page-main-images">
-                {offerData.car.photos.length === 1 && <p>No photos available</p>}
+                {offerData.car.photos.length === 1 && offerData.car.photos[0]==="" && <p>No photos available</p>}
+                {offerData.car.photos.length === 1 && offerData.car.photos[0]!=="" && (
+                    <img src={offerData
+                    .car.photos[0]} alt="offer" />
+                )}
                 {offerData.car.photos.length === 2 && (
                     <img src={offerData
                     .car.photos[0]} alt="offer" />

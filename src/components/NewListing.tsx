@@ -219,7 +219,7 @@ export default function NewListing() {
                     <option value="Other">Other</option>
                 </select>
                 <label>Engine power:</label>
-                <input type='text' placeholder='Engine power' name="power" value={formValues.power} onChange={handleInputChange} />
+                <input type='number' placeholder='Engine power' name="power" value={formValues.power} onChange={handleInputChange} />
                 <label>Transmission:</label>
                 <select name="transmission" value={formValues.transmission} onChange={handleInputChange}>
                     <option value=''>Transmission</option>
