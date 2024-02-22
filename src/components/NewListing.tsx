@@ -54,7 +54,7 @@ const validationSchema = Yup.object().shape({
     doors: Yup.number().min(0, "Doors must be greater than 0").max(10, "Doors must be less than 10"),
     seats: Yup.number().min(0, "Seats must be greater than 0").max(10, "Seats must be less than 10"),
     registration_number: Yup.string().max(10, "Registration number must be less than 10 characters").min(3, "Registration number must be greater than 3 characters"),
-    first_registration: Yup.string(),
+    first_registration: Yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, "First registration must be in format YYYY-MM-DD"),
     condition: Yup.string(),
     telephone_number: Yup.string().min(9, "Telephone number must be at least 9 characters").max(15, "Telephone number must be less than 15 characters"),
     location: Yup.object().shape({
@@ -302,13 +302,15 @@ export default function NewListing() {
         />
         {formik.errors.engine_capacity ? <div>{formik.errors.engine_capacity}</div> : null}
         <label htmlFor="fuel">Fuel</label>
-        <input
-          id="fuel"
-          name="fuel"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.fuel}
-        />
+        <select id="fuel" name="fuel" onChange={formik.handleChange} value={formik.values.fuel}>
+            <option value="">Select fuel</option>
+            <option value="Gasoline">Gasoline</option>
+            <option value="Diesel">Diesel</option>
+            <option value="LPG">LPG</option>
+            <option value="Electric">Electric</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Other">Other</option>
+        </select>
         {formik.errors.fuel ? <div>{formik.errors.fuel}</div> : null}
         <label htmlFor="transmission">Transmission</label>
         <select

@@ -54,7 +54,7 @@ export default function MainPage() {
             });
 
             const data = await response.json();
-            console.log(data.data.data);
+            // console.log(data.data.data);
             setOfferData(data.data.data);
         } catch (error) {
             console.error(error);

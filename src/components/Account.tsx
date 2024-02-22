@@ -2,6 +2,7 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import Chat from "./Chat";
 import { useEffect, useState } from "react";
+import * as Yup from "yup";
 
 interface IOffer {
   id: string;
@@ -17,6 +18,16 @@ interface IProfile {
     user_name: string;
     profile_picture: string;
 }
+
+const AccountSchema = Yup.object().shape({
+  user_name: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  profile_picture: Yup.string()
+    .url("Invalid URL")
+    .required("Required"),
+});
 
 export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boolean) => void;}) {
     const [isEditing, setIsEditing] = useState(false);
@@ -50,24 +61,39 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       }
     };
+    
 
     const handleSaveProfile = () => {
-      setIsEditing(false);
-      setProfileData(editedProfile ? { ...editedProfile } : null);
-      const dataToSend = {
-        profile_image: editedProfile?.profile_picture,
-        user_name: editedProfile?.user_name,
-      };
-      fetch("http://localhost:4000/profiles/edit/me", {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-        },
-        body: JSON.stringify(dataToSend),
-      });
+      AccountSchema.validate(editedProfile)
+        .then(() => {
+          setIsEditing(false);
+          setProfileData(editedProfile ? { ...editedProfile } : null);
+          const dataToSend = {
+            profile_image: editedProfile?.profile_picture,
+            user_name: editedProfile?.user_name,
+          };
+          fetch("http://localhost:4000/profiles/edit/me", {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+            body: JSON.stringify(dataToSend),
+          });
+        })
+        .catch((error) => {
+          console.error("Error validating profile data:", error);
+          if (error instanceof Yup.ValidationError) {
+            if (error.path === "user_name") {
+              alert("Name must be between 2 and 50 characters long");
+            }
+            if (error.path === "profile_picture") {
+              alert("Profile picture must be a valid URL");
+            }
+          }
+        });
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
