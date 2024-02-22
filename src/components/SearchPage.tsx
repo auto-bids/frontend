@@ -68,52 +68,52 @@ export default function SearchPage() {
     const fetchData = async () => {
       const paramPairs = searchParams.split("&");
       const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
-      const [key, value] = pair.split("=");
+        const [key, value] = pair.split("=");
         const thisKey = decodeURIComponent(key);
-        if (thisKey === "price_min" || thisKey === "price_max" || thisKey === "year_min" || thisKey === "year_max" || thisKey === "mileage_min" || thisKey === "mileage_max" || thisKey === "engine_capacity_min" || thisKey === "engine_capacity_max" || thisKey === "power_min" || thisKey === "power_max" || thisKey === "doors" || thisKey=== "seats"){
-          acc[key] = parseInt(decodeURIComponent(value));
+    
+        if (
+          ["price_min", "price_max", "year_min", "year_max", "mileage_min", "mileage_max", "engine_capacity_min", "engine_capacity_max", "power_min", "power_max", "doors", "seats"].includes(thisKey)
+        ) {
+          acc[thisKey] = parseInt(decodeURIComponent(value), 10);
+        } else if (["lat", "lng", "radius"].includes(thisKey)) {
+          acc[thisKey] = parseFloat(decodeURIComponent(value));
+        } else {
+          acc[thisKey] = decodeURIComponent(value);
         }
-        if (thisKey === "lat" || thisKey === "lng" || thisKey === "radius"){
-          acc[key] = parseFloat(decodeURIComponent(value));
-        }
-        else{
-          acc[key] = decodeURIComponent(value);
-        }
+    
         return acc;
       }, {});
-
+    
       decodedSearchParameters["location"] = {
-        "type": "Point",
-        "coordinates": [decodedSearchParameters["lng"], decodedSearchParameters["lat"]]
+        type: "Point",
+        coordinates: [decodedSearchParameters["lng"], decodedSearchParameters["lat"]],
       };
       delete decodedSearchParameters["lat"];
       delete decodedSearchParameters["lng"];
       decodedSearchParameters["distance"] = decodedSearchParameters["radius"];
       delete decodedSearchParameters["radius"];
-
-      // console.log(decodedSearchParameters);
-      
+    
+      console.log(decodedSearchParameters);
+    
       try {
-        const response = await fetch(`http://localhost:4000/cars/page/${page}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-            // body: JSON.stringify(decodedSearchParameters),
-            body: JSON.stringify(decodedSearchParameters)
-          });
+        const response = await fetch(`http://localhost:4000/cars/page/${page}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true",
+          },
+          body: JSON.stringify(decodedSearchParameters),
+        });
         const data = await response.json();
-        // console.log(data);
+    
         if (data.data.data.length > 0) {
           setOfferData(data.data.data);
         }
       } catch (error) {
         console.log(error);
       }
-    }
+    };
 
     // useEffect(() => {
     //   if (offerData === null){
