@@ -129,56 +129,7 @@ export default function NewListing() {
   return (
     <div className="new-listing-page">
       <h1>New Listing</h1>
-      <Formik 
-        initialValues={{
-            title: "",
-            make: "",
-            model: "",
-            price: 0,
-            description: "",
-            photos: [],
-            year: 0,
-            mileage: 0,
-            vin_number: "",
-            engine_capacity: 0,
-            fuel: "",
-            transmission: "",
-            steering: "",
-            type: "",
-            power: 0,
-            drive: "",
-            doors: 0,
-            seats: 0,
-            registration_number: "",
-            first_registration: "",
-            condition: "",
-            telephone_number: "",
-            location: {
-                type: "Point",
-                coordinates: [0, 0],
-            },
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-            console.log(values);
-            try{
-                fetch("http://localhost:4000/cars/add/me", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Credentials": "true",
-                    },
-                    body: JSON.stringify(values),
-                });
-            }
-            catch(error){
-                console.error("Error:", error);
-            }
-        }}
-        >
-
-      <Form className="new-listing-form" onSubmit={formik.handleSubmit}>
+      <form className="new-listing-form" onSubmit={formik.handleSubmit}>
         <label htmlFor="title">Title</label>
         <input
           id="title"
@@ -430,8 +381,7 @@ export default function NewListing() {
           onLocationChange={handleLocationChange}
         />
         <button type="submit">Submit</button>
-      </Form>
-      </Formik>
+      </form>
     </div>
   );
 };
