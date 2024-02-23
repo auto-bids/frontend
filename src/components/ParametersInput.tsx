@@ -49,8 +49,10 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     if (searchParameters) {
       const paramPairs = searchParameters.split("&");
       const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
-      const [key, value] = pair.split("=");
-        acc[key] = decodeURIComponent(value);
+        const [key, encodedValue] = pair.split("=");
+        const sanitizedValue = encodedValue.replace(/\+/g, ' ');
+        const value = decodeURIComponent(sanitizedValue);
+        acc[key] = value;
         return acc;
       }, {});
       // console.log(decodedSearchParameters);
@@ -58,7 +60,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         ...prevFormValues,
         ...decodedSearchParameters,
       }));
-
+  
       if (decodedSearchParameters["lat"] && decodedSearchParameters["lng"]) {
         setLocationParams({
           position: [parseFloat(decodedSearchParameters["lat"]), parseFloat(decodedSearchParameters["lng"])],
@@ -164,19 +166,14 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         <label>Mileage:</label>
         <input type="text" name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
         <input type="text" name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
-        <>
-          <label>Price:</label>
-          <input type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
-          <input type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
-          </>
-        {/* {buyNowOrBid === "Buy Now" && (
+        {buyNowOrBid === "buyNow" && (
           <>
           <label>Price:</label>
           <input type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
           <input type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
           </>
         )}
-        {buyNowOrBid === "Bid" && (
+        {buyNowOrBid === "bid" && (
           <>
           <label>Current Bid:</label>
           <input type="text" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} />
@@ -191,7 +188,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <input type="text" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
           <input type="text" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
           </>
-        )} */}
+        )}
         <label>Fuel Type:</label>
         <select name="fuel" value={formValues.fuel} onChange={handleInputChange}>
           <option value="">Fuel Type</option>
@@ -257,7 +254,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
         </>
       )}
-
       <button type="submit">Search</button>
     </form>
   );
