@@ -47,7 +47,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       const confirmed = window.confirm("Are you sure you want to delete all your offers?");
       if (confirmed) {
         try{
-          fetch("http://localhost:4000/cars/delete/all/me", {
+          fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
@@ -72,7 +72,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             profile_image: editedProfile?.profile_picture,
             user_name: editedProfile?.user_name,
           };
-          fetch("http://localhost:4000/profiles/edit/me", {
+          fetch(`${process.env.REACT_APP_PROFILE_EDIT_ENDPOINT}`, {
             method: "PUT",
             credentials: "include",
             headers: {
@@ -127,7 +127,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       const fetchData = async () => {
         try {
-          const response = await fetch("http://localhost:4000/profiles/login/me", {
+          const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
             method: "GET",
                 credentials: "include",
                 headers: {
@@ -163,7 +163,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
         if (confirmed) {
           try {
-            const response = await fetch("http://localhost:4000/cars/delete/all/me", {
+            const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ALL_USER_CARS_ENDPOINT}`, {
               method: "DELETE",
               credentials: "include",
               headers: {
@@ -181,7 +181,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             console.error("Error deleting all offers:", error);
           }
           try {
-            const response = await fetch("http://localhost:4000/profiles/delete/me", {
+            const response = await fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
               method: "DELETE",
               credentials: "include",
               headers: {
@@ -190,7 +190,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               },
             });
       
-            const response2 = await fetch("http://localhost:4000/logout", {
+            const response2 = await fetch(`${process.env.REACT_APP_LOGOUT_ENDPOINT}`, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -214,7 +214,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       const handleLogout = async () => {
         try{
-          const response = await fetch("http://localhost:4000/logout", {
+          const response = await fetch(`${process.env.REACT_APP_LOGOUT_ENDPOINT}`, {
             method: "POST",
             credentials: "include",
             headers: {

@@ -139,7 +139,7 @@ export default function SellerPage() {
 
       const fetchData = async () => {
         try {
-          const response = await fetch("http://localhost:4000/profiles/user/" + window.location.pathname.split("/")[2], {
+          const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}` + window.location.pathname.split("/")[2], {
             method: "GET",
                 credentials: "include",
                 headers: {

@@ -9,7 +9,6 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { decode } from "punycode";
 
 interface IAuction {
   isActive: boolean;
@@ -54,13 +53,13 @@ export default function SearchPage() {
 
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
 
-    const handleNextPage = () => {
-      window.location.href = `http://localhost:3000/search/${category}?${searchParams}/${parseInt(page) + 1}`;
+    const handleNextPage = async () => {
+      window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${parseInt(page) + 1}`;
     }
 
     const handlePreviousPage = () => {
       if (parseInt(page) > 1) {
-        window.location.href = `http://localhost:3000/search/${category}?${searchParams}/${parseInt(page) - 1}`;
+        window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${parseInt(page) - 1}`;
       }
     }
 
@@ -78,7 +77,9 @@ export default function SearchPage() {
         } else if (["lat", "lng", "radius"].includes(thisKey)) {
           acc[thisKey] = parseFloat(decodeURIComponent(value));
         } else {
-          acc[thisKey] = decodeURIComponent(value.replace(/\+/g, ' '));
+          if (value) {
+            acc[thisKey] = decodeURIComponent(value.replace(/\+/g, ' '));
+          }
         }
     
         return acc;
@@ -96,7 +97,7 @@ export default function SearchPage() {
       // console.log(decodedSearchParameters);
     
       try {
-        const response = await fetch(`http://localhost:4000/cars/page/${page}`, {
+        const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/${page}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

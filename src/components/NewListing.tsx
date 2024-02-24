@@ -97,7 +97,7 @@ export default function NewListing() {
     onSubmit: (values) => {
         console.log(values);
         try{
-            fetch("http://localhost:4000/cars/add/me", {
+            fetch(`${process.env.REACT_APP_CARS_ADD_ENDPOINT}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
