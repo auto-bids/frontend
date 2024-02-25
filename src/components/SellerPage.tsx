@@ -10,49 +10,13 @@ import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalM
 import { useState } from "react";
 
 interface IOffer {
-    agriculturalMachinery: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
-    generalOffer: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
-    constructionMachinery: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
-    deliveryVans: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
-    motorcycles: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
-    trailers: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
-    trucks: {
-        photos: string[];
-        title: string;
-        price: number;
-        year: number;
-    };
+  id: string;
+  image: string;
+  title: string;
+  price: number;
+  year: number;
 };
+
 
 interface ISeller {
   email: string;
@@ -65,81 +29,34 @@ export default function SellerPage() {
     const [showAllFields, setShowAllFields] = useState(false);
     const [showContactOrOffer, setShowContactOrOffer] = useState("offer");
     const [sellerData, setSellerData] = useState<ISeller | null>(null);
+    const [offerData, setOfferData] = useState<IOffer [] | null>(null);
 
-    //just for testing
-    const [offerData, setOfferData] = useState<IOffer | null>(null);
-    useEffect(() => {
-        Promise.all([
-          import("../testJsons/testOfferAgriculturalMachinery.json"),
-          import("../testJsons/testOffer.json"),
-          import("../testJsons/testOfferConstructionMachinery.json"),
-          import("../testJsons/testOfferDeliveryVans.json"),
-          import("../testJsons/testOfferMotorcycles.json"),
-          import("../testJsons/testOfferTrailers.json"),
-          import("../testJsons/testOfferTrucks.json"),
-        ])
-          .then((data) => {
-            const [
-              agriculturalMachineryData,
-              offerData,
-              constructionMachineryData,
-              deliveryVansData,
-              motorcyclesData,
-              trailersData,
-              trucksData,
-            ] = data;
-      
-            setOfferData({
-              agriculturalMachinery: {
-                photos: agriculturalMachineryData.default.photos,
-                title: agriculturalMachineryData.default.title,
-                price: agriculturalMachineryData.default.price,
-                year: agriculturalMachineryData.default.year,
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}` + window.location.pathname.split("/")[2], {
+          method: "GET",
+              credentials: "include",
+              headers: {
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": "true",
               },
-              generalOffer: {
-                photos: offerData.default.photos,
-                title: offerData.default.title,
-                price: offerData.default.price,
-                year: offerData.default.year,
-              },
-              constructionMachinery: {
-                photos: constructionMachineryData.default.photos,
-                title: constructionMachineryData.default.title,
-                price: constructionMachineryData.default.price,
-                year: constructionMachineryData.default.year,
-              },
-              deliveryVans: {
-                photos: deliveryVansData.default.photos,
-                title: deliveryVansData.default.title,
-                price: deliveryVansData.default.price,
-                year: deliveryVansData.default.year,
-              },
-              motorcycles: {
-                photos: motorcyclesData.default.photos,
-                title: motorcyclesData.default.title,
-                price: motorcyclesData.default.price,
-                year: motorcyclesData.default.year,
-              },
-              trailers: {
-                photos: trailersData.default.photos,
-                title: trailersData.default.title,
-                price: trailersData.default.price,
-                year: trailersData.default.year,
-              },
-              trucks: {
-                photos: trucksData.default.photos,
-                title: trucksData.default.title,
-                price: trucksData.default.price,
-                year: trucksData.default.year,
-              },
-            });
-          })
-          .catch((error) => console.error("Error loading local data:", error));
-      }, []);
+        });
+        if (response.ok) {
+          const profileData = await response.json();
+          setSellerData({
+            email: profileData.data.data.email,
+            user_name: profileData.data.data.user_name,
+            profile_picture: profileData.data.data.profile_image,
+          });
+        }
+      } catch (error) {
+        console.error("Error loading profile data:", error);
+      }
+    };
 
-      const fetchData = async () => {
+      const fetchOfferData = async () => {
         try {
-          const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}` + window.location.pathname.split("/")[2], {
+          const response = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/` + window.location.pathname.split("/")[2]+'/1', {
             method: "GET",
                 credentials: "include",
                 headers: {
@@ -148,20 +65,28 @@ export default function SellerPage() {
                 },
           });
           if (response.ok) {
-            const profileData = await response.json();
-            setSellerData({
-              email: profileData.data.data.email,
-              user_name: profileData.data.data.user_name,
-              profile_picture: profileData.data.data.profile_image,
+            const offers = await response.json();
+            const offerData: IOffer[] = [];
+            offers.data.data.forEach((offer: any) => {
+              offerData.push({
+                id: offer.id,
+                image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
+                title: offer.car.title,
+                price: offer.car.price,
+                year: offer.car.year,
+              });
             });
+            setOfferData(offerData);
           }
         } catch (error) {
-          console.error("Error loading profile data:", error);
+          console.error("Error loading offer data:", error
+          );
         }
-      };
+      }
 
       useEffect(() => {
         fetchData();
+        fetchOfferData();
       }, []);
 
     
@@ -206,15 +131,12 @@ export default function SellerPage() {
                 </div>
                 <h1>Offers</h1>
                 <div className="seller-page-offers-offers">
-                    ?{offerData?.generalOffer.photos.map((photo) => (
-                        <OfferElement
-                            key={photo}
-                            image={photo}
-                            title={offerData?.generalOffer.title}
-                            price={offerData?.generalOffer.price}
-                            year={offerData?.generalOffer.year}
-                        />
-                    ))}
+                  {offerData && offerData.map((offer) => {
+                        return (
+                            <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                        )
+                    }
+                    )}
                 </div>
             </div>}
             {showContactOrOffer === "contact" &&
@@ -227,6 +149,6 @@ export default function SellerPage() {
                 </div>
             </div>}
         </div>
+      
     )
-
 }
