@@ -32,6 +32,7 @@ const AccountSchema = Yup.object().shape({
 export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boolean) => void;}) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState<IProfile | null>(null);
+    const [pageNumber, setPageNumber] = useState(1);
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -101,29 +102,17 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       setEditedProfile(editedProfile ? { ...editedProfile, [name]: value } : null);
     };
 
-    //just for testing
     const [offerData, setOfferData] = useState<IOffer []| null>(null);
-    useEffect(() => {
-      const fetchData = async () => {
-        let data: any[] = [];
-        data[1] = await import("../testJsons/testOffer.json");
-        data[2] = await import("../testJsons/testOfferMotorcycles.json");
-        data[3] = await import("../testJsons/testOfferDeliveryVans.json");
-        data[4] = await import("../testJsons/testOfferTrucks.json");
-        data[5] = await import("../testJsons/testOfferConstructionMachinery.json");
-        data[6] = await import("../testJsons/testOfferTrailers.json");
-        data[7] = await import("../testJsons/testOfferAgriculturalMachinery.json");
-        let offerData: IOffer[] = [];
-        for (let i = 1; i < 8; i++) {
-          const { id, photos, title, price, year } = data[i].default;
-          offerData.push({ id, image: photos.length > 0 ? photos[0] : "", title, price, year });
-        }
-        setOfferData(offerData);
-      };
-      fetchData();
-      }, []);
+    const [profileData, setProfileData] = useState<IProfile | null>(null);
 
-      const [profileData, setProfileData] = useState<IProfile | null>(null);
+    const handleNextPage = () => {
+      setPageNumber(pageNumber + 1);
+    }
+    const handlePreviousPage = () => {
+      if (pageNumber > 1) {
+        setPageNumber(pageNumber - 1);
+      }
+    }
 
       const fetchData = async () => {
         try {
@@ -154,9 +143,45 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       };
 
+      const fetchUsersOffers = async () => {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_PROFILE_CARS_ENDPOINT}${pageNumber}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+          });
+          if (response.ok) {
+            const offers = await response.json();
+            const offerData: IOffer[] = [];
+            offers.data.data.forEach((offer: any) => {
+              offerData.push({
+                id: offer.id,
+                image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
+                title: offer.car.title,
+                price: offer.car.price,
+                year: offer.car.year,
+              });
+            });
+            setOfferData(offerData);
+          } else {
+            console.log("Error fetching offers");
+          }
+        } catch (error) {
+          console.error("Error fetching offers:", error);
+        }
+      }
+
       useEffect(() => {
         fetchData();
+        // fetchUsersOffers();
       }, []);
+
+      useEffect(() => {
+        fetchUsersOffers();
+      }, [pageNumber]);
 
       const handleDeleteProfile = async () => {
         const confirmed = window.confirm("Are you sure you want to delete your account?");
@@ -235,6 +260,30 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       };
 
+      const handleDeleteOffer = async (id: string) => {
+        const confirmed = window.confirm("Are you sure you want to delete this offer?");
+        if (confirmed) {
+          try {
+            const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ENDPOINT}`, {
+              method: "DELETE",
+              credentials: "include",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": "true",
+              },
+              body: JSON.stringify({ id }),
+            });
+            if (response.ok) {
+              fetchUsersOffers();
+            } else {
+              console.log("Error deleting offer");
+            }
+          } catch (error) {
+            console.error("Error deleting offer:", error);
+          }
+        }
+      }
+
     return(
         <div className="account">
           <div className="account-header">
@@ -277,10 +326,16 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             <div className="account-offers-elements">
               {offerData && offerData.map((offer) => {
                       return (
-                          <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                        <React.Fragment key={offer.id}>
+                          <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                          <button onClick={() => handleDeleteOffer(offer.id)}>Delete</button>
+                        </React.Fragment>
                       )
                   }
                   )}
+              <br />
+              <button onClick={handlePreviousPage}>Previous</button>
+              <button onClick={handleNextPage}>Next</button>
             </div>
           </div><div className="account-saved-offers">
             <h2>Saved offers</h2>
