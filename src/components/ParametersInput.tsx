@@ -123,138 +123,236 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   };
 
   return (
-    <form className="parameters-input-main" onSubmit={handleSubmit}>
-      <label>Make:</label>
-      <select name="make" value={formValues.make} onChange={handleMakeInputChange}>
-        <option value="">Make</option>
-        {carData.map((car) => (
-          <option key={car.make} value={car.make}>
-            {car.make}
-          </option>
-        ))}
-      </select>
-
-      <label>Model:</label>
-      <select name="model" value={formValues.model} onChange={handleInputChange}>
-        <option value="">Model</option>
-        {carData
-          .find((car) => car.make === formValues.make)?.models.map((model) => (
-            <option key={model} value={model}>
-              {model}
-            </option>
-          ))}
-      </select>
-
-      <label>Type:</label>
-      <select name="type" value={formValues.type} onChange={handleInputChange}>
-        <option value="">Type</option>
-        <option value="Sedan">Sedan</option>
-        <option value="Station Wagon">Station Wagon</option>
-        <option value="Hatchback">Hatchback</option>
-        <option value="SUV">SUV</option>
-        <option value="Van">Van</option>
-        <option value="Cabriolet">Cabriolet</option>
-        <option value="Coupe">Coupe</option>
-        <option value="Other">Other</option>
-      </select>
-      <label>Year:</label>
-      <input type="text" name="year_min" placeholder="Year from" value={formValues.year_min} onChange={handleInputChange} />
-      <input type="text" name="year_max" placeholder="Year to" value={formValues.year_max} onChange={handleInputChange} />
-
+    <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+  
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">Make:</label>
+          <select
+            name="make"
+            value={formValues.make}
+            onChange={handleMakeInputChange}
+            className="form-select border rounded p-2 full block w-full mt-1">
+            <option value="">Make</option>
+            {carData.map((car) => (
+              <option key={car.make} value={car.make}>
+                {car.make}
+              </option>
+            ))}
+          </select>
+        </div>
+  
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">Model:</label>
+          <select
+            name="model"
+            value={formValues.model}
+            onChange={handleInputChange}
+            className="form-select border rounded p-2 full block w-full mt-1">
+            <option value="">Model</option>
+            {carData
+              .find((car) => car.make === formValues.make)?.models.map((model) => (
+                <option key={model} value={model}>
+                  {model}
+                </option>
+              ))}
+          </select>
+        </div>
+  
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">Type:</label>
+          <select
+            name="type"
+            value={formValues.type}
+            onChange={handleInputChange}
+            className="form-select border rounded p-2 full block w-full mt-1">
+            <option value="">Type</option>
+            <option value="Sedan">Sedan</option>
+            <option value="Station Wagon">Station Wagon</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="SUV">SUV</option>
+            <option value="Van">Van</option>
+            <option value="Cabriolet">Cabriolet</option>
+            <option value="Coupe">Coupe</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+  
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Year:</label>
+        <div className="grid grid-cols-2 gap-4">
+          <input
+            type="text"
+            name="year_min"
+            placeholder="Year from"
+            value={formValues.year_min}
+            onChange={handleInputChange}
+            className="form-input border rounded p-2 full"
+          />
+          <input
+            type="text"
+            name="year_max"
+            placeholder="Year to"
+            value={formValues.year_max}
+            onChange={handleInputChange}
+            className="form-input border rounded p-2 full"
+          />
+        </div>
+      </div>
+  
       {showAllFields && (
-        <>
-        <label>Mileage:</label>
-        <input type="text" name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
-        <input type="text" name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
-        {buyNowOrBid === "buyNow" && (
-          <>
-          <label>Price:</label>
-          <input type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
-          <input type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
-          </>
-        )}
-        {buyNowOrBid === "bid" && (
-          <>
-          <label>Current Bid:</label>
-          <input type="text" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} />
-          <input type="text" name="currentBidTo" placeholder="Current Bid to" value={formValues.currentBidTo} onChange={handleInputChange} />
-          <label>Seller Reserve:</label>
-          <input type="text" name="sellerReserveFrom" placeholder="Seller Reserve from" value={formValues.sellerReserveFrom} onChange={handleInputChange} />
-          <input type="text" name="sellerReserveTo" placeholder="Seller Reserve to" value={formValues.sellerReserveTo} onChange={handleInputChange} />
-          <label>Number of Bids:</label>
-          <input type="text" name="numberOfBidsFrom" placeholder="Number of Bids from" value={formValues.numberOfBidsFrom} onChange={handleInputChange} />
-          <input type="text" name="numberOfBidsTo" placeholder="Number of Bids to" value={formValues.numberOfBidsTo} onChange={handleInputChange} />
-          <label>End Date:</label>
-          <input type="text" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
-          <input type="text" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
-          </>
-        )}
-        <label>Fuel Type:</label>
-        <select name="fuel" value={formValues.fuel} onChange={handleInputChange}>
-          <option value="">Fuel Type</option>
-          <option value="Gasoline">Gasoline</option>
-          <option value="Diesel">Diesel</option>
-          <option value="LPG">LPG</option>
-          <option value="Electric">Electric</option>
-          <option value="Hybrid">Hybrid</option>
-          <option value="Other">Other</option>
-        </select>
-        <label>Condition:</label>
-        <select name="condition" value={formValues.condition} onChange={handleInputChange}>
-          <option value="">Condition</option>
-          <option value="New">New</option>
-          <option value="Used">Used</option>
-          <option value="Damaged">Damaged</option>
-        </select>
-        <label>Doors:</label>
-        <select name="doors" value={formValues.doors} onChange={handleInputChange}>
-          <option value="">Doors</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value='6'>6</option>
-          <option value='Other'>Other</option>
-        </select>
-        <label>Engine Capacity:</label>
-        <input type="text" name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
-        <input type="text" name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
-        <label>Power:</label>
-        <input type="text" name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
-        <input type="text" name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
-        <label>Gearbox:</label>
-        <select name="gearbox" value={formValues.gearbox} onChange={handleInputChange}>
-          <option value="">Gearbox</option>
-          <option value="Manual">Manual</option>
-          <option value="Automatic">Automatic</option>
-          <option value="Semi-automatic">Semi-automatic</option>
-          <option value="CVT">CVT</option>
-          <option value="Other">Other</option>
-        </select>
-        <label>Drive:</label>
-        <select name="drive" value={formValues.drive} onChange={handleInputChange}>
-          <option value="">Drive</option>
-          <option value="Front">Front</option>
-          <option value="Rear">Rear</option>
-          <option value="All">All</option>
-        </select>
-        <label>Steering:</label>
-        <select name="steering" value={formValues.steering} onChange={handleInputChange}>
-          <option value="">Steering</option>
-          <option value="Left">Left</option>
-          <option value="Right">Right</option>
-        </select>
-        {
-          locationVisible ? (
-            <button type="button" onClick={handleLocationVisibleChange}>Any location</button>
-          ) : (
-            <button type="button" onClick={handleLocationVisibleChange}>Choose location</button>
-          )
-        }
-        {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
-        </>
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Mileage:</label>
+            <div className="flex space-x-2">
+              <input className="form-input border rounded p-2 full" type="text" name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="text" name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
+            </div>
+          </div>
+  
+          {buyNowOrBid === "buyNow" && (
+            <div className="flex flex-col space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Price:</label>
+              <div className="flex space-x-2">
+                <input className="form-input border rounded p-2 full" type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
+                <input className="form-input border rounded p-2 full" type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
+              </div>
+            </div>
+          )}
+  
+          {buyNowOrBid === "bid" && (
+            <>
+              <div className="flex flex-col space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Current Bid:</label>
+                <div className="flex space-x-2">
+                  <input className="form-input border rounded p-2 full" type="text" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" type="text" name="currentBidTo" placeholder="Current Bid to" value={formValues.currentBidTo} onChange={handleInputChange} />
+                </div>
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Seller Reserve:</label>
+                <div className="flex space-x-2">
+                  <input className="form-input border rounded p-2 full" type="text" name="sellerReserveFrom" placeholder="Seller Reserve from" value={formValues.sellerReserveFrom} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" type="text" name="sellerReserveTo" placeholder="Seller Reserve to" value={formValues.sellerReserveTo} onChange={handleInputChange} />
+                </div>
+              </div>
+            
+              <div className="flex flex-col space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Number of Bids:</label>
+                <div className="flex space-x-2">
+                  <input className="form-input border rounded p-2 full" type="text" name="numberOfBidsFrom" placeholder="Number of Bids from" value={formValues.numberOfBidsFrom} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" type="text" name="numberOfBidsTo" placeholder="Number of Bids to" value={formValues.numberOfBidsTo} onChange={handleInputChange} />
+                </div>
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <label className="block text-sm font-medium text-gray-700">End Date:</label>
+                <div className="flex space-x-2">
+                  <input className="form-input border rounded p-2 full" type="text" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" type="text" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
+                </div>
+              </div>
+            </>
+          )}
+
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Fuel Type:</label>
+            <select className="form-select border rounded p-2 full" name="fuel" value={formValues.fuel} onChange={handleInputChange}>
+              <option value="">Fuel Type</option>
+              <option value="Gasoline">Gasoline</option>
+              <option value="Diesel">Diesel</option>
+              <option value="LPG">LPG</option>
+              <option value="Electric">Electric</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Condition:</label>
+            <select className="form-select border rounded p-2 full" name="condition" value={formValues.condition} onChange={handleInputChange}>
+              <option value="">Condition</option>
+              <option value="New">New</option>
+              <option value="Used">Used</option>
+              <option value="Damaged">Damaged</option>
+            </select>
+          </div>
+          
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Doors:</label>
+            <select className="form-select border rounded p-2 full" name="doors" value={formValues.doors} onChange={handleInputChange}>
+              <option value="">Doors</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value='6'>6</option>
+              <option value='Other'>Other</option>
+            </select>
+          </div>
+          
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Engine Capacity:</label>
+            <div className="flex space-x-2">
+              <input className="form-input border rounded p-2 full" type="text" name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="text" name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
+            </div>
+          </div>
+            
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Power:</label>
+            <div className="flex space-x-2">
+              <input className="form-input border rounded p-2 full" type="text" name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="text" name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
+            </div>
+          </div>
+  
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Gearbox:</label>
+            <select className="form-select border rounded p-2 full" name="gearbox" value={formValues.gearbox} onChange={handleInputChange}>
+              <option value="">Gearbox</option>
+              <option value="Manual">Manual</option>
+              <option value="Automatic">Automatic</option>
+              <option value="Semi-automatic">Semi-automatic</option>
+              <option value="CVT">CVT</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+  
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Drive:</label>
+            <select className="form-select border rounded p-2 full" name="drive" value={formValues.drive} onChange={handleInputChange}>
+              <option value="">Drive</option>
+              <option value="Front">Front</option>
+              <option value="Rear">Rear</option>
+              <option value="All">All</option>
+            </select>
+          </div>
+  
+          <div className="flex flex-col space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Steering:</label>
+            <select className="form-select border rounded p-2 full" name="steering" value={formValues.steering} onChange={handleInputChange}>
+              <option value="">Steering</option>
+              <option value="Left">Left</option>
+              <option value="Right">Right</option>
+            </select>
+          </div>
+  
+          
+        </div>
       )}
-      <button type="submit">Search</button>
+      <div className="mb-4">
+        {locationVisible ? (
+              <button className="form-button border rounded p-2 full" type="button" onClick={handleLocationVisibleChange}>Any location</button>
+            ) : (
+              <button className="form-button border rounded p-2 full" type="button" onClick={handleLocationVisibleChange}>Choose location</button>
+            )}
+        {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
+      </div>
+      <button type="submit" className="form-button border-2 rounded p-4 full font-bold">Search</button>
     </form>
   );
+  
 }

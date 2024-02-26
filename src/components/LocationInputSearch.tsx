@@ -92,7 +92,7 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
             />
             Radius: {radius / 1000} kilometers
         </label>
-        <button type="button" onClick={getUserLocation}>Get My Location</button>
+        <button className="border rounded p-2 full" type="button" onClick={getUserLocation}>Get My Location</button>
         </div>
     );
 }
