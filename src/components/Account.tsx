@@ -285,77 +285,112 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       }
 
-    return(
-        <div className="account">
-          <div className="account-header">
-            <div className="account-header-profile">
-              <img src={profileData?.profile_picture} alt="profile" />
+      return (
+        <div className="account p-4">
+          <div className="account-header flex justify-between items-center">
+            <div className="account-header-profile flex items-center">
+              <img src={profileData?.profile_picture} alt="profile" className="w-12 h-12 rounded-full mr-4" />
               <div className="account-header-profile-info">
-                <h2>{profileData?.user_name}</h2>
+                <h2 className="text-xl font-bold">{profileData?.user_name}</h2>
                 <p>{profileData?.email}</p>
               </div>
             </div>
-            <div className="account-header-buttons">
-              <div className="account-header-buttons-element">
-                <button onClick={handleEditProfile}>Edit Profile</button>
-              <div className="account-header-buttons-element">
-                <button onClick={handleDeleteProfile}>Delete</button>
+            <div className="account-header-buttons flex">
+              <div className="account-header-buttons-element mr-4">
+                <button onClick={handleEditProfile} className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Edit Profile
+                </button>
+              </div>
+              <div className="account-header-buttons-element mr-4">
+                <button onClick={handleDeleteProfile} className="bg-red-500 text-white px-4 py-2 rounded">
+                  Delete
+                </button>
               </div>
               <div className="account-header-buttons-element">
-                <button onClick={handleLogout}>Logout</button>
+                <button onClick={handleLogout} className="bg-gray-500 text-white px-4 py-2 rounded">
+                  Logout
+                </button>
               </div>
             </div>
           </div>
           {isEditing && editedProfile && (
-              <div className="account-edit-profile">
-                <h2>Edit Profile</h2>
-                <label>Name:
-                  <input type="text" name="user_name" value={editedProfile.user_name} onChange={handleInputChange} />
-                </label>
-                <label>Profile picture:
-                  <input type="text" name="profile_picture" value={editedProfile.profile_picture} onChange={handleInputChange} />
-                </label>
-                <div>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                  <button onClick={handleSaveProfile}>Save</button>
-                </div>
+            <div className="account-edit-profile mt-4 p-4 border border-gray-300 rounded">
+              <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+              <label className="block mb-2">
+                Name:
+                <input
+                  type="text"
+                  name="user_name"
+                  value={editedProfile.user_name}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-2 rounded w-full"
+                />
+              </label>
+              <label className="block mb-4">
+                Profile picture:
+                <input
+                  type="text"
+                  name="profile_picture"
+                  value={editedProfile.profile_picture}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 p-2 rounded w-full"
+                />
+              </label>
+              <div className="flex justify-end">
+                <button onClick={handleCancelEdit} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+                  Cancel
+                </button>
+                <button onClick={handleSaveProfile} className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Save
+                </button>
               </div>
-          )}
-          <div className="account-offers">
-            <h2>Your offers</h2>
-            <button onClick={handleDeleteAllOffers}>Delete all offers</button>
-            <div className="account-offers-elements">
-              {offerData && offerData.map((offer) => {
-                      return (
-                        <Link to={`/cars/offer/${offer.id}`} key={offer.id}>
-                          <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                          <button onClick={() => handleDeleteOffer(offer.id)}>Delete</button>
-                        </Link>
-                      )
-                  }
-                  )}
-              <br />
-              <button onClick={handlePreviousPage}>Previous</button>
-              <button onClick={handleNextPage}>Next</button>
             </div>
-          </div><div className="account-saved-offers">
-            <h2>Saved offers</h2>
-            <div className="account-saved-offers-elements">
-              {offerData && offerData.map((offer) => {
-                      return (
-                          <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                      )
-                  }
-                )}
+          )}
+          <div className="account-offers mt-4">
+            <h2 className="text-xl font-bold mb-4">Your offers</h2>
+            <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded">
+              Delete all offers
+            </button>
+            <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {offerData &&
+                offerData.map((offer) => (
+                  <div key={offer.id} className="border p-4 rounded">
+                    <Link to={`/cars/offer/${offer.id}`}>
+                      <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                    </Link>
+                    <button onClick={() => handleDeleteOffer(offer.id)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
+                      Delete
+                    </button>
+                  </div>
+                ))}
+            </div>
+            <div className="mt-4 flex justify-between">
+              <button onClick={handlePreviousPage} className="bg-gray-500 text-white px-4 py-2 rounded">
+                Previous
+              </button>
+              <button onClick={handleNextPage} className="bg-gray-500 text-white px-4 py-2 rounded">
+                Next
+              </button>
             </div>
           </div>
-          <div className="account-chat">
-            <h2>Chat</h2>
+          <div className="account-saved-offers mt-4">
+            <h2 className="text-xl font-bold mb-4">Saved offers</h2>
+            <div className="account-saved-offers-elements grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {offerData &&
+                offerData.map((offer) => (
+                  <div key={offer.id} className="border p-4 rounded">
+                    <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                  </div>
+                ))}
+            </div>
+          </div>
+          <div className="account-chat mt-4">
+            <h2 className="text-xl font-bold mb-4">Chat</h2>
             <div className="account-chat-elements">
               <Chat />
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+      
 }
