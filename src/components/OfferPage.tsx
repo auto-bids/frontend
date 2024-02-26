@@ -105,26 +105,31 @@ export default function OfferPage(){
     if (!offerData) {
         return <p>Loading...</p>;
     }
+
+    const renderDetail = (label: string, value: string | number) => {
+        if (value) {
+            return (
+                <div className={`offer-page-main-details-${label.toLowerCase().replace(/\s+/g, '-')} border shadow-md bg-neutral-50`}>
+                    <label className="offer-label font-bold">{label}:</label>
+                    <p className="offer-value">{value?.toString()}</p>
+                </div>
+            );
+        }
+    };
+
     return(
-        <div className="offer-page">
-            {/* {offerType ==="bid" && (
-                <h1>
-                    ***bid***
-                </h1>
-            )}
-            {offerType ==="offer" && (
-                <h1>
-                    ***buy now***
-                    </h1>
-                    )} */}
-            <div className="offer-page-top-bar">
-                {!isOwner && (
-                    <button onClick={() => handleAddToFavorites()}>
-                        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-                    </button>
-                )}
-                <h1>{offerData.car.title}</h1>
-                <p>{offerData.car.price}</p>
+        <div className="offer-page bg-gray-100">
+            <div className="offer-page-top-bar flex justify-between items-center p-4 bg-gray-400">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold">{offerData.car.title}</h1>
+                    <p>{offerData.car.price}</p>
+                </div>
+                <button
+                onClick={() => handleAddToFavorites()}
+                className="bg-teal-500 text-white px-4 py-2 rounded"
+                >
+                {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                </button>
                 {/* {!offerData.auction && (
                     <p>
                         {isEditing ? (
@@ -155,7 +160,7 @@ export default function OfferPage(){
                     </div>
                 )} */}
             </div>
-            <div className="offer-page-main">
+            <div className="offer-page-main grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
             <div className="offer-page-main-images">
                 {offerData.car.photos.length === 1 && offerData.car.photos[0]==="" && <p>No photos available</p>}
                 {offerData.car.photos.length === 1 && offerData.car.photos[0]!=="" && (
@@ -176,59 +181,30 @@ export default function OfferPage(){
                     </Slider>
                 )}
             </div>
-                <div className="offer-page-main-details">
-                    <label>Make:</label>
-                    <p>{offerData.car.make}</p>
-                    <label>Model:</label>
-                    <p>{offerData.car.model}</p>
-                    <label>Type:</label>
-                    <p>{offerData.car.type}</p>
-                    <label>Year:</label>
-                    <p>{offerData.car.year}</p>
-                    <label>Mileage:</label>
-                    {isEditing ? (
-                        <input
-                            type="number"
-                            value={offerData.car.mileage}
-                            onChange={(event) =>
-                                setOfferData({
-                                    ...offerData,
-                                    mileage: Number(event.target.value),
-                                } as IOffer)
-                            }
-                        />
-                    ) : (
-                        <p>{offerData.car.mileage}</p>
-                    )}
-                    <label>Engine Capacity:</label>
-                    <p>{offerData.car.engine_capacity}</p>
-                    <label>Fuel:</label>
-                    <p>{offerData.car.fuel}</p>
-                    <label>Power:</label>
-                    <p>{offerData.car.power}</p>
-                    <label>Transmission:</label>
-                    <p>{offerData.car.transmission}</p>
-                    <label>Drive:</label>
-                    <p>{offerData.car.drive}</p>
-                    <label>Steering:</label>
-                    <p>{offerData.car.steering}</p>
-                    <label>Doors:</label>
-                    <p>{offerData.car.doors}</p>
-                    <label>Seats:</label>
-                    <p>{offerData.car.seats}</p>
-                    <label>Registration Number:</label>
-                    <p>{offerData.car.registration_number}</p>
-                    <label>First Registration:</label>
-                    <p>{offerData.car.first_registration}</p>
-                    <label>Condition:</label>
-                    <p>{offerData.car.condition}</p>
-                    <label>VIN Number:</label>
-                    <p>{offerData.car.vin_number}</p>
-                </div>
-                <div className="offer-page-main-description">
-                    <h2>Description</h2>
+            <div className="offer-page-main-details grid grid-cols-1 md:grid-cols-2 gap-4">
+                {renderDetail("Make", offerData.car.make)}
+                {renderDetail("Model", offerData.car.model)}
+                {renderDetail("Type", offerData.car.type)}
+                {renderDetail("Year", offerData.car.year)}
+                {renderDetail("Mileage", offerData.car.mileage)}
+                {renderDetail("Engine Capacity", offerData.car.engine_capacity)}
+                {renderDetail("Fuel", offerData.car.fuel)}
+                {renderDetail("Power", offerData.car.power)}
+                {renderDetail("Transmission", offerData.car.transmission)}
+                {renderDetail("Drive", offerData.car.drive)}
+                {renderDetail("Steering", offerData.car.steering)}
+                {renderDetail("Doors", offerData.car.doors)}
+                {renderDetail("Seats", offerData.car.seats)}
+                {renderDetail("Registration Number", offerData.car.registration_number)}
+                {renderDetail("First Registration", offerData.car.first_registration)}
+                {renderDetail("Condition", offerData.car.condition)}
+                {renderDetail("VIN Number", offerData.car.vin_number)}
+            </div>
+                <div className="offer-page-main-description border p-2 w-full mt-4 shadow-md bg-neutral-50">
+                    <h2 className="offer-page-main-description-header font-bold">Description</h2>
                     {isEditing ? (
                         <textarea
+                            className="offer-page-main-description-textarea border p-2 w-full"
                             value={offerData.car.description}
                             onChange={(event) =>
                                 setOfferData((prevState: IOffer | null) => ({
@@ -238,10 +214,10 @@ export default function OfferPage(){
                             }
                         />
                     ) : (
-                        <p>{offerData.car.description}</p>
+                        <p className="offer-page-main-description-description">{offerData.car.description}</p>
                     )}
                 </div>
-                <div className="offer-page-main-seller">
+                <div className="offer-page-main-seller bg-neutral-50 mt-4 shadow-md">
                     <SellerElement phone={offerData.car.telephone_number} email={offerData.user_email} x={offerData.car.location.coordinates[0]} y= {offerData.car.location.coordinates[1]} />
                 </div>
                 <div className="offer-page-buttons">
