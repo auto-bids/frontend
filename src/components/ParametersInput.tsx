@@ -351,7 +351,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             )}
         {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
       </div>
-      <button type="submit" className="form-button border-2 rounded p-4 full font-bold">Search</button>
+      <button type="submit" className="form-button border rounded p-4 full font-bold bg-teal-500">Search</button>
     </form>
   );
   

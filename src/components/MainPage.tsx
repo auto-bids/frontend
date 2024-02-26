@@ -120,60 +120,70 @@ export default function MainPage() {
     };
 
     return (
-        <div className='main-page'>
-            <div className='main-page-buy-now-or-bid'>
-                <button onClick={()=> setBuyNowOrBid("buyNow")} className="buy-now-button">Buy now</button>
-                <button onClick={()=> handleBidButtonClick()} className="bid-button">Bid</button>
+        <div className="main-page">
+            <div className="main-page-buy-now-or-bid flex mt-2 ml-4">
+            <button onClick={() => setBuyNowOrBid("buyNow")} className={`buy-now-button p-2 rounded border mr-5 ${buyNowOrBid === 'buyNow' ? 'bg-teal-500 text-white' : 'bg-gray-200'}`}>Buy Now</button>
+            <button onClick={() => handleBidButtonClick()} className={`bid-button p-2 rounded border ${buyNowOrBid === 'bid' ? 'bg-teal-500 text-white' : 'bg-gray-200'}`}>Bid</button>
             </div>
+
+
             {buyNowOrBid !== "bid" && (
-            <div className="main-page-choose-category">
-                <h1>Choose category</h1>
-                <div className="main-page-choose-category-buttons">
-                    <button onClick={() => handleCategoryChange("cars")}>cars</button>
-                    <button onClick={() => handleCategoryChange("motorcycles")}>motorcycles</button>
-                    <button onClick={() => handleCategoryChange("delivery-vans")}>delivery vans</button>
-                    <button onClick={() => handleCategoryChange("trucks")}>trucks</button>
-                    <button onClick={() => handleCategoryChange("construction-machinery")}>construction machinery</button>
-                    <button onClick={() => handleCategoryChange("trailers")}>trailers</button>
-                    <button onClick={() => handleCategoryChange("agricultural-machinery")}>agricultural machinery</button>
+            <div className="main-page-choose-category mt-2">
+                <div className="main-page-choose-category-buttons flex flex-wrap justify-center ">
+                {["cars","motorcycles","delivery-vans","trucks","construction-machinery","trailers","agricultural-machinery"].map((categoryName) => (
+                    <button
+                    key={categoryName}
+                    onClick={() => handleCategoryChange(categoryName)}
+                    className={`category-button ${
+                        selectedCategory === categoryName
+                        ? 'bg-teal-500 text-white'
+                        : 'bg-gray-200 text-black'
+                    } px-3 py-1 rounded m-2`}
+                    >
+                    {categoryName}
+                    </button>
+                ))}
                 </div>
             </div>
             )}
-            <div className="main-page-parameters-input">
-            {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} buyNowOrBid={buyNowOrBid} searchParameters={null}/>}
-            {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null}/>}
-            {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null}/>}
-            {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields} searchParameters={null}/> }
-            {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}
-            {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields} searchParameters={null}/>}
-            {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
+
+            <div className="main-page-parameters-input mt-4">
+            {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} buyNowOrBid={buyNowOrBid} searchParameters={null} />}
+            {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null} />}
+            {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null} />}
+            {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields} searchParameters={null} />}
+            {selectedCategory === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null} />}
+            {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields} searchParameters={null} />}
+            {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null} />}
             </div>
-            <button className="show-all-fields" onClick={() => setShowAllFields(!showAllFields)}>{showAllFields ? "Hide additional fields" : "Show additional fields"}</button>
-            {/* <a className="ad" href='http://weed.pl/' target="_blank" rel="noreferrer">
-                <img src='/ad.jpeg' alt='offer' />
-            </a> */}
-            <div className="promoted-offers">
-                <h1>Promoted Offers</h1>
-                {offerData && offerData[0].car && offerData.map((offer) => (
-                    <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`}>
-                        <OfferElement key={offer.id} image={offer.car?.photos[0] || ""} title={offer.car?.title || ""} price={offer.car?.price || 0} year={offer.car?.year || 0} auction={offer.car?.auction} />
-                    </Link>
-                ))}
-                {/* {offerData && buyNowOrBid ==="buyNow" && selectedCategory==="cars" && offerData.map((offer) => (
-                    <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`}>
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction} />
-                    </Link>
-                ))}
-                {offerData && buyNowOrBid ==="bid" && selectedCategory==="cars" && offerData.map((offer) => (
-                    <Link key={offer.id} to={`/${selectedCategory}/bid/${offer.id}`}>
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                    </Link>
-                ))}
-                {offerData && selectedCategory !== "cars" && offerData.map((offer) => (
-                    <Link key={offer.id} to={`/${selectedCategory}/${offer.id}`}>
-                        <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                    </Link>
-                ))} */}
+
+            <button className="show-all-fields mb-4 p-2 bg-gray-300 rounded" onClick={() => setShowAllFields(!showAllFields)}>
+                {showAllFields ? "Hide additional fields" : "Show additional fields"}
+            </button>
+            <div className="promoted-offers mt-4">
+                <h1 className="text-2xl font-bold mb-2">Promoted Offers</h1>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {offerData && offerData[0].car && offerData.map((offer) => (
+                            <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`} className="block p-4 transition duration-300 hover:shadow-md">
+                                <OfferElement key={offer.id} image={offer.car?.photos[0] || ""} title={offer.car?.title || ""} price={offer.car?.price || 0} year={offer.car?.year || 0} auction={offer.car?.auction} />
+                            </Link>
+                        ))}
+                        {/* {offerData && buyNowOrBid ==="buyNow" && selectedCategory==="cars" && offerData.map((offer) => (
+                            <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`}>
+                                <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction} />
+                            </Link>
+                        ))}
+                        {offerData && buyNowOrBid ==="bid" && selectedCategory==="cars" && offerData.map((offer) => (
+                            <Link key={offer.id} to={`/${selectedCategory}/bid/${offer.id}`}>
+                                <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                            </Link>
+                        ))}
+                        {offerData && selectedCategory !== "cars" && offerData.map((offer) => (
+                            <Link key={offer.id} to={`/${selectedCategory}/${offer.id}`}>
+                                <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                            </Link>
+                        ))} */}
+                    </div>
             </div>
         </div>
     )

@@ -129,12 +129,12 @@ export default function SearchPage() {
 
     return (
       <div className="search-page">
-        <div className="search-page-parameters">
+        <div className="search-page-parameters bg-gray-100 p-4">
           <div className="search-page-parameters-title">
-            <h2>Search parameters</h2>
+            <h2 className="text-2xl font-bold mb-4">Search parameters</h2>
           </div>
           <div className="search-page-parameters-input">
-            {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" searchParameters= {searchParams} />}
+            {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" searchParameters={searchParams} />}
             {category === "cars-bids" && <ParametersInput showAllFields={true} buyNowOrBid="bid" searchParameters={searchParams} />}
             {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} searchParameters={searchParams} />}
             {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} searchParameters={searchParams} />}
@@ -144,32 +144,41 @@ export default function SearchPage() {
             {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams} />}
           </div>
         </div>
-        <div className="search-page-offers">
+        <div className="search-page-offers bg-white p-4">
           <div className="search-page-offers-title">
-            <h2>Offers</h2>
+            <h2 className="text-2xl font-bold mb-4">Offers</h2>
           </div>
-          <div className="search-page-offers-list">
-            {offerData && offerData.map((offer: any) => {
-              return (
-                <Link to={`/${category}/offer/${offer.id}`} key={offer.id} >
-                  <OfferElement
-                    image={offer.car.photos[0]}
-                    title={offer.car.title}
-                    price={offer.car.price}
-                    auction={offer.car.auction}
-                    year={offer.car.year}
-                  />
-                </Link>
-              );
-            })}
+          <div className="search-page-offers-list gap-4">
+            {offerData && offerData.map((offer: any) => (
+              <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
+                <OfferElement
+                  image={offer.car.photos[0]}
+                  title={offer.car.title}
+                  price={offer.car.price}
+                  auction={offer.car.auction}
+                  year={offer.car.year}
+                />
+              </Link>
+            ))}
           </div>
         </div>
-        <div className="search-page-pagination">
+        <div className="search-page-pagination mt-4">
           <div className="search-page-pagination-buttons">
-            <button onClick={handlePreviousPage}>Previous</button>
-            <button onClick={handleNextPage}>Next</button>
+            <button
+              onClick={handlePreviousPage}
+              className="form-button border-2 rounded p-2 mr-2 hover:bg-gray-200 transition duration-300"
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNextPage}
+              className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
     );
+    
 }

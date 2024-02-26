@@ -3,6 +3,7 @@ import OfferElement from "./OfferElement";
 import Chat from "./Chat";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 interface IOffer {
   id: string;
@@ -326,10 +327,10 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             <div className="account-offers-elements">
               {offerData && offerData.map((offer) => {
                       return (
-                        <React.Fragment key={offer.id}>
+                        <Link to={`/cars/offer/${offer.id}`} key={offer.id}>
                           <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                           <button onClick={() => handleDeleteOffer(offer.id)}>Delete</button>
-                        </React.Fragment>
+                        </Link>
                       )
                   }
                   )}
