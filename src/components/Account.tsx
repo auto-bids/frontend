@@ -297,17 +297,17 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             </div>
             <div className="account-header-buttons flex">
               <div className="account-header-buttons-element mr-4">
-                <button onClick={handleEditProfile} className="bg-blue-500 text-white px-4 py-2 rounded">
+                <button onClick={handleEditProfile} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
                   Edit Profile
                 </button>
               </div>
               <div className="account-header-buttons-element mr-4">
-                <button onClick={handleDeleteProfile} className="bg-red-500 text-white px-4 py-2 rounded">
+                <button onClick={handleDeleteProfile} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
                   Delete
                 </button>
               </div>
               <div className="account-header-buttons-element">
-                <button onClick={handleLogout} className="bg-gray-500 text-white px-4 py-2 rounded">
+                <button onClick={handleLogout} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
                   Logout
                 </button>
               </div>
@@ -337,10 +337,10 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 />
               </label>
               <div className="flex justify-end">
-                <button onClick={handleCancelEdit} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+                <button onClick={handleCancelEdit} className="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-600 transition duration-300">
                   Cancel
                 </button>
-                <button onClick={handleSaveProfile} className="bg-blue-500 text-white px-4 py-2 rounded">
+                <button onClick={handleSaveProfile} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
                   Save
                 </button>
               </div>
@@ -348,7 +348,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           )}
           <div className="account-offers mt-4">
             <h2 className="text-xl font-bold mb-4">Your offers</h2>
-            <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded">
+            <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
               Delete all offers
             </button>
             <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -358,17 +358,17 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                     <Link to={`/cars/offer/${offer.id}`}>
                       <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                     </Link>
-                    <button onClick={() => handleDeleteOffer(offer.id)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded">
+                    <button onClick={() => handleDeleteOffer(offer.id)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
                       Delete
                     </button>
                   </div>
                 ))}
             </div>
             <div className="mt-4 flex justify-between">
-              <button onClick={handlePreviousPage} className="bg-gray-500 text-white px-4 py-2 rounded">
+              <button onClick={handlePreviousPage} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
                 Previous
               </button>
-              <button onClick={handleNextPage} className="bg-gray-500 text-white px-4 py-2 rounded">
+              <button onClick={handleNextPage} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
                 Next
               </button>
             </div>

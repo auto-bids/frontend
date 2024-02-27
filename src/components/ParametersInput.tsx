@@ -345,13 +345,13 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       )}
       <div className="mb-4">
         {locationVisible ? (
-              <button className="form-button border rounded p-2 full" type="button" onClick={handleLocationVisibleChange}>Any location</button>
+              <button className="form-button border rounded p-2 full bg-neutral-50 hover:bg-neutral-200 transition duration-300" type="button" onClick={handleLocationVisibleChange}>Any location</button>
             ) : (
-              <button className="form-button border rounded p-2 full" type="button" onClick={handleLocationVisibleChange}>Choose location</button>
+              <button className="form-button border rounded p-2 full bg-neutral-50 hover:bg-neutral-200 transition duration-300" type="button" onClick={handleLocationVisibleChange}>Choose location</button>
             )}
         {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
       </div>
-      <button type="submit" className="form-button border rounded p-4 full font-bold bg-teal-500">Search</button>
+      <button type="submit" className="form-button border rounded p-4 full font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">Search</button>
     </form>
   );
   

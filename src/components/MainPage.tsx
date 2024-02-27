@@ -122,8 +122,8 @@ export default function MainPage() {
     return (
         <div className="main-page">
             <div className="main-page-buy-now-or-bid flex mt-2 ml-4">
-            <button onClick={() => setBuyNowOrBid("buyNow")} className={`buy-now-button p-2 rounded border mr-5 ${buyNowOrBid === 'buyNow' ? 'bg-teal-500 text-white' : 'bg-gray-200'}`}>Buy Now</button>
-            <button onClick={() => handleBidButtonClick()} className={`bid-button p-2 rounded border ${buyNowOrBid === 'bid' ? 'bg-teal-500 text-white' : 'bg-gray-200'}`}>Bid</button>
+            <button onClick={() => setBuyNowOrBid("buyNow")} className={`buy-now-button p-2 rounded border mr-5  ${buyNowOrBid === 'buyNow' ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300' : 'bg-gray-200 hover:bg-gray-300 transition duration-300'}`}>Buy Now</button>
+            <button onClick={() => handleBidButtonClick()} className={`bid-button p-2 rounded border ${buyNowOrBid === 'bid' ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300' : 'bg-gray-200 hover:bg-gray-300 transition duration-300'}`}>Bid</button>
             </div>
 
 
@@ -136,8 +136,8 @@ export default function MainPage() {
                     onClick={() => handleCategoryChange(categoryName)}
                     className={`category-button ${
                         selectedCategory === categoryName
-                        ? 'bg-teal-500 text-white'
-                        : 'bg-gray-200 text-black'
+                        ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300'
+                        : 'bg-gray-200 text-black hover:bg-gray-300 transition duration-300'
                     } px-3 py-1 rounded m-2`}
                     >
                     {categoryName}
@@ -157,7 +157,7 @@ export default function MainPage() {
             {selectedCategory === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null} />}
             </div>
 
-            <button className="show-all-fields mb-4 p-2 bg-gray-300 rounded" onClick={() => setShowAllFields(!showAllFields)}>
+            <button className="show-all-fields mb-4 p-2 bg-gray-300 rounded hover:bg-gray-400 transition duration-300" onClick={() => setShowAllFields(!showAllFields)}>
                 {showAllFields ? "Hide additional fields" : "Show additional fields"}
             </button>
             <div className="promoted-offers mt-4">
