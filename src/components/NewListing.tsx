@@ -71,7 +71,7 @@ export default function NewListing() {
         model: "",
         price: 0,
         description: "",
-        photos: [],
+        photos: [""],
         year: 0,
         mileage: 0,
         vin_number: "",
@@ -127,22 +127,24 @@ export default function NewListing() {
   };
 
   return (
-    <div className="new-listing-page">
-      <h1>New Listing</h1>
+    <div className="new-listing-page p-4">
+      <h1 className="text-2xl font-bold mb-4">New Listing</h1>
       <form className="new-listing-form" onSubmit={formik.handleSubmit}>
-        <label htmlFor="title">Title</label>
+        <label htmlFor="title" className="block mb-1 font-bold">Title</label>
         <input
           id="title"
           name="title"
           type="text"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.title}
         />
-        {formik.errors.title ? <div>{formik.errors.title}</div> : null}
-        <label htmlFor="make">Make</label>
+        {formik.errors.title && <div className="text-red-500">{formik.errors.title}</div>}
+        <label htmlFor="make" className="block mb-1 font-bold">Make</label>
         <select
           id="make"
           name="make"
+          className="w-full border p-2 mb-2"
           onChange={handleMakeChange}
           value={formik.values.make}
         >
@@ -153,11 +155,12 @@ export default function NewListing() {
             </option>
           ))}
         </select>
-        {formik.errors.make ? <div>{formik.errors.make}</div> : null}
-        <label htmlFor="model">Model</label>
+        {formik.errors.make ? <div className="text-red-500">{formik.errors.make}</div> : null}
+        <label htmlFor="model" className="block mb-1 font-bold">Model</label>
         <select
           id="model"
           name="model"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.model}
         >
@@ -170,37 +173,40 @@ export default function NewListing() {
               </option>
             ))}
         </select>
-        {formik.errors.model ? <div>{formik.errors.model}</div> : null}
-        <label htmlFor="price">Price</label>
+        {formik.errors.model ? <div className="text-red-500">{formik.errors.model}</div> : null}
+        <label htmlFor="price" className="block mb-1 font-bold">Price</label>
         <input
           id="price"
           name="price"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.price}
         />
-        {formik.errors.price ? <div>{formik.errors.price}</div> : null}
-        <label htmlFor="description">Description</label>
+        {formik.errors.price ? <div className="text-red-500">{formik.errors.price}</div> : null}
+        <label htmlFor="description" className="block mb-1 font-bold">Description</label>
         <textarea
           id="description"
           name="description"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.description}
         />
-        {formik.errors.description ? <div>{formik.errors.description}</div> : null}
-        <label htmlFor="photos">Photos</label>
+        {formik.errors.description ? <div className="text-red-500">{formik.errors.description}</div> : null}
+        <label htmlFor="photos" className="block mb-1 font-bold">Photos</label>
         {formik.values.photos.map((photo, index) => (
             <>
                 <input
                 key={index}
                 type="text"
                 value={photo}
+                className="w-full border p-2 mb-2"
                 onChange={(event) => {
                     const newPhotos = formik.values.photos.slice();
                     newPhotos[index] = event.target.value;
                     formik.setFieldValue("photos", newPhotos);
                 } } />
-                <button type="button" onClick={() => {
+                <button type="button" className="border rounded p-3" onClick={() => {
                     const newPhotos = formik.values.photos.slice();
                     newPhotos.splice(index, 1);
                     formik.setFieldValue("photos", newPhotos);
@@ -209,51 +215,56 @@ export default function NewListing() {
         ))}
         <button
             type="button"
+            className="border rounded p-3"
             onClick={() => {
                 formik.setFieldValue("photos", formik.values.photos.concat(""));
             }}
         >
         +
         </button>
-        {formik.errors.photos ? <div>{formik.errors.photos}</div> : null}
-        <label htmlFor="year">Year</label>
+        {formik.errors.photos ? <div className="text-red-500">{formik.errors.photos}</div> : null}
+        <label htmlFor="year" className="block mb-1 font-bold">Year</label>
         <input
           id="year"
           name="year"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.year}
         />
-        {formik.errors.year ? <div>{formik.errors.year}</div> : null}
-        <label htmlFor="mileage">Mileage</label>
+        {formik.errors.year ? <div className="text-red-500">{formik.errors.year}</div> : null}
+        <label className="block mb-1 font-bold" htmlFor="mileage">Mileage</label>
         <input
           id="mileage"
           name="mileage"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.mileage}
         />
-        {formik.errors.mileage ? <div>{formik.errors.mileage}</div> : null}
-        <label htmlFor="vin_number">VIN number</label>
+        {formik.errors.mileage ? <div className="text-red-500">{formik.errors.mileage}</div> : null}
+        <label htmlFor="vin_number" className="block mb-1 font-bold">VIN number</label>
         <input
           id="vin_number"
           name="vin_number"
           type="text"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.vin_number}
         />
-        {formik.errors.vin_number ? <div>{formik.errors.vin_number}</div> : null}
-        <label htmlFor="engine_capacity">Engine capacity</label>
+        {formik.errors.vin_number ? <div className="text-red-500">{formik.errors.vin_number}</div> : null}
+        <label htmlFor="engine_capacity" className="block mb-1 font-bold">Engine capacity</label>
         <input
           id="engine_capacity"
           name="engine_capacity"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.engine_capacity}
         />
-        {formik.errors.engine_capacity ? <div>{formik.errors.engine_capacity}</div> : null}
-        <label htmlFor="fuel">Fuel</label>
-        <select id="fuel" name="fuel" onChange={formik.handleChange} value={formik.values.fuel}>
+        {formik.errors.engine_capacity ? <div className="text-red-500">{formik.errors.engine_capacity}</div> : null}
+        <label htmlFor="fuel" className="block mb-1 font-bold">Fuel</label>
+        <select id="fuel" name="fuel" className="w-full border p-2 mb-2" onChange={formik.handleChange} value={formik.values.fuel}>
             <option value="">Select fuel</option>
             <option value="Gasoline">Gasoline</option>
             <option value="Diesel">Diesel</option>
@@ -262,11 +273,12 @@ export default function NewListing() {
             <option value="Hybrid">Hybrid</option>
             <option value="Other">Other</option>
         </select>
-        {formik.errors.fuel ? <div>{formik.errors.fuel}</div> : null}
-        <label htmlFor="transmission">Transmission</label>
+        {formik.errors.fuel ? <div className="text-red-500">{formik.errors.fuel}</div> : null}
+        <label htmlFor="transmission" className="block mb-1 font-bold">Transmission</label>
         <select
             id="transmission"
             name="transmission"
+            className="w-full border p-2 mb-2"
             onChange={formik.handleChange}
             value={formik.values.transmission}
         >
@@ -277,20 +289,22 @@ export default function NewListing() {
             <option value="CVT">CVT</option>
             <option value="other">Other</option>
         </select>
-        {formik.errors.transmission ? <div>{formik.errors.transmission}</div> : null}
-        <label htmlFor="steering">Steering</label>
+        {formik.errors.transmission ? <div className="text-red-500">{formik.errors.transmission}</div> : null}
+        <label htmlFor="steering" className="block mb-1 font-bold">Steering</label>
         <input
           id="steering"
           name="steering"
           type="text"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.steering}
         />
-        {formik.errors.steering ? <div>{formik.errors.steering}</div> : null}
-        <label htmlFor="type">Type</label>
+        {formik.errors.steering ? <div className="text-red-500">{formik.errors.steering}</div> : null}
+        <label htmlFor="type" className="block mb-1 font-bold">Type</label>
         <select
             id="type"
             name="type"
+            className="w-full border p-2 mb-2"
             onChange={formik.handleChange}
             value={formik.values.type}
         >
@@ -304,62 +318,68 @@ export default function NewListing() {
             <option value="Pickup">Pickup</option>
             <option value="Other">Other</option>
         </select>
-        {formik.errors.type ? <div>{formik.errors.type}</div> : null}
-        <label htmlFor="power">Power</label>
+        {formik.errors.type ? <div className="text-red-500">{formik.errors.type}</div> : null}
+        <label htmlFor="power" className="block mb-1 font-bold">Power</label>
         <input
           id="power"
           name="power"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.power}
         />
-        {formik.errors.power ? <div>{formik.errors.power}</div> : null}
-        <label htmlFor="drive">Drive</label>
-        <select id="drive" name="drive" onChange={formik.handleChange} value={formik.values.drive}>
+        {formik.errors.power ? <div className="text-red-500">{formik.errors.power}</div> : null}
+        <label htmlFor="drive" className="block mb-1 font-bold">Drive</label>
+        <select id="drive" name="drive" className="w-full border p-2 mb-2" onChange={formik.handleChange} value={formik.values.drive}>
             <option value="">Drive</option>
             <option value="Front">Front</option>
             <option value="Rear">Rear</option>
             <option value="All">All</option>
         </select>
-        <label htmlFor="doors">Doors</label>
+        <label htmlFor="doors" className="block mb-1 font-bold">Doors</label>
         <input
           id="doors"
           name="doors"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.doors}
         />
-        {formik.errors.doors ? <div>{formik.errors.doors}</div> : null}
-        <label htmlFor="seats">Seats</label>
+        {formik.errors.doors ? <div className="text-red-500">{formik.errors.doors}</div> : null}
+        <label htmlFor="seats" className="block mb-1 font-bold">Seats</label>
         <input
           id="seats"
           name="seats"
           type="number"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.seats}
         />
-        {formik.errors.seats ? <div>{formik.errors.seats}</div> : null}
-        <label htmlFor="registration_number">Registration number</label>
+        {formik.errors.seats ? <div className="text-red-500">{formik.errors.seats}</div> : null}
+        <label htmlFor="registration_number" className="block mb-1 font-bold">Registration number</label>
         <input
           id="registration_number"
           name="registration_number"
           type="text"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.registration_number}
         />
-        {formik.errors.registration_number ? <div>{formik.errors.registration_number}</div> : null}
-        <label htmlFor="first_registration">First registration</label>
+        {formik.errors.registration_number ? <div className="text-red-500">{formik.errors.registration_number}</div> : null}
+        <label htmlFor="first_registration" className="block mb-1 font-bold">First registration</label>
         <input
           id="first_registration"
           name="first_registration"
           type="date"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.first_registration}
         />
-        <label htmlFor="condition">Condition</label>
+        <label htmlFor="condition" className="block mb-1 font-bold">Condition</label>
         <select
             id="condition"
             name="condition"
+            className="w-full border p-2 mb-2"
             onChange={formik.handleChange}
             value={formik.values.condition}
         >
@@ -368,19 +388,20 @@ export default function NewListing() {
             <option value="Used">Used</option>
             <option value="Damaged">Damaged</option>
         </select>
-        <label htmlFor="telephone_number">Telephone number</label>
+        <label htmlFor="telephone_number" className="block mb-1 font-bold">Telephone number</label>
         <input
           id="telephone_number"
           name="telephone_number"
           type="text"
+          className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.telephone_number}
         />
-        {formik.errors.telephone_number ? <div>{formik.errors.telephone_number}</div> : null}
+        {formik.errors.telephone_number ? <div className="text-red-500">{formik.errors.telephone_number}</div> : null}
         <LocationInput
           onLocationChange={handleLocationChange}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" className="border rounded p-2 bg-teal-500 text-black hover:bg-teal-600 transition duration-300 w-full font-bold">Submit</button>
       </form>
     </div>
   );

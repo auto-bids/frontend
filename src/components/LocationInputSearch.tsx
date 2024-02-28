@@ -79,19 +79,21 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
                 <Popup>Your selected location</Popup>
             </Marker>
             )}
-            <Circle center={circleCenter} radius={radius} />
+            <Circle center={circleCenter} radius={radius} className="circle" fillColor="teal" fillOpacity={0.2} color="teal" />
         </MapContainer>
         <p>Latitude: {circleCenter[0]}, Longitude: {circleCenter[1]}</p>
-        <label>
+        <label className="block w-full" htmlFor="radius">
             <input
             type="range"
             min={100}
             max={400000}
             value={radius}
             onChange={handleRadiusChange}
+            className="accent-teal-500 w-full rounded p-2"
             />
             Radius: {radius / 1000} kilometers
         </label>
+        <br />
         <button className="border rounded p-2 full" type="button" onClick={getUserLocation}>Get My Location</button>
         </div>
     );
