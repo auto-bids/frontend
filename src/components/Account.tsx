@@ -4,8 +4,12 @@ import Chat from "./Chat";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import EditOffer from "./EditOffer";
 
 interface IOffer {
+  mileage: number;
+  photos: string[];
+  description: string;
   id: string;
   image: string;
   title: string;
@@ -34,6 +38,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [isEditing, setIsEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState<IProfile | null>(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [editingOfferId, setEditingOfferId] = useState<string | null>(null)
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -164,6 +169,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 title: offer.car.title,
                 price: offer.car.price,
                 year: offer.car.year,
+                description: offer.car.description,
+                mileage: offer.car.mileage,
+                photos: offer.car.photos,
               });
             });
             setOfferData(offerData);
@@ -285,6 +293,10 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       }
 
+      const handleEditOffer = (id: string) => {
+        setEditingOfferId(id);
+      }
+
       return (
         <div className="account p-4">
           <div className="account-header flex justify-between items-center">
@@ -352,18 +364,52 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               Delete all offers
             </button>
             <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {offerData &&
-                offerData.map((offer) => (
-                  <div key={offer.id} className="border p-4 rounded">
+            {offerData &&
+              offerData.map((offer) => (
+                <div key={offer.id} className="border p-4 rounded">
+                  {editingOfferId === offer.id ? (
+                    <EditOffer
+                      id={offer.id}
+                      title={offer.title}
+                      description={offer.description}
+                      price={offer.price}
+                      mileage={offer.mileage}
+                      photos={offer.photos}
+                    />
+                  ) : (
                     <Link to={`/cars/offer/${offer.id}`}>
-                      <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                      <OfferElement
+                        image={offer.image}
+                        title={offer.title}
+                        price={offer.price}
+                        year={offer.year}
+                      />
                     </Link>
-                    <button onClick={() => handleDeleteOffer(offer.id)} className="mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
-                      Delete
+                  )}
+                  <button
+                    onClick={() => handleDeleteOffer(offer.id)}
+                    className="mt-2 bg-red-500 text-white px-4 py-2 mr-2 rounded hover:bg-red-600 transition duration-300"
+                  >
+                    Delete
+                  </button>
+                  {editingOfferId === offer.id ? ( 
+                    <button
+                      onClick={() => handleEditOffer('')}
+                      className="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                    >
+                      Cancel
                     </button>
-                  </div>
-                ))}
-            </div>
+                  ) : (
+                    <button
+                      onClick={() => handleEditOffer(offer.id)}
+                      className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                    >
+                      Edit
+                    </button>
+                  )}
+                </div>
+              ))}
+          </div>
             <div className="mt-4 flex justify-between">
               <button onClick={handlePreviousPage} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
                 Previous
