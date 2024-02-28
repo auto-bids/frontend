@@ -195,7 +195,7 @@ export default function NewListing() {
         {formik.errors.description ? <div className="text-red-500">{formik.errors.description}</div> : null}
         <label htmlFor="photos" className="block mb-1 font-bold">Photos</label>
         {formik.values.photos.map((photo, index) => (
-            <>
+            <div key={index} className="flex mb-2">
                 <input
                 key={index}
                 type="text"
@@ -206,16 +206,18 @@ export default function NewListing() {
                     newPhotos[index] = event.target.value;
                     formik.setFieldValue("photos", newPhotos);
                 } } />
-                <button type="button" className="border rounded p-3" onClick={() => {
+                <button type="button" 
+                className="border rounded p-3 mb-2 bg-red-500 text-white hover:bg-red-600 transition duration-300"
+                onClick={() => {
                     const newPhotos = formik.values.photos.slice();
                     newPhotos.splice(index, 1);
                     formik.setFieldValue("photos", newPhotos);
                 } }>x</button>
-            </>
+            </div>
         ))}
         <button
             type="button"
-            className="border rounded p-3"
+            className="border rounded p-3 mb-3 bg-green-500 text-white hover:bg-green-600 transition duration-300"
             onClick={() => {
                 formik.setFieldValue("photos", formik.values.photos.concat(""));
             }}
@@ -291,14 +293,17 @@ export default function NewListing() {
         </select>
         {formik.errors.transmission ? <div className="text-red-500">{formik.errors.transmission}</div> : null}
         <label htmlFor="steering" className="block mb-1 font-bold">Steering</label>
-        <input
-          id="steering"
-          name="steering"
-          type="text"
-          className="w-full border p-2 mb-2"
-          onChange={formik.handleChange}
-          value={formik.values.steering}
-        />
+        <select
+            id="steering"
+            name="steering"
+            className="w-full border p-2 mb-2"
+            onChange={formik.handleChange}
+            value={formik.values.steering}
+        >
+            <option value="">Select steering</option>
+            <option value="Left">Left</option>
+            <option value="Right">Right</option>
+        </select>
         {formik.errors.steering ? <div className="text-red-500">{formik.errors.steering}</div> : null}
         <label htmlFor="type" className="block mb-1 font-bold">Type</label>
         <select

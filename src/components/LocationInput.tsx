@@ -68,7 +68,7 @@ export default function LocationInput({ onLocationChange }: LocationInputProps) 
           </Marker>
         )}
       </MapContainer>
-      <p>{position}</p>
+      <p>Latitude: {position[0]}, Longitude: {position[1]}</p>
       <button type="button" className="border p-2 rounded mt-2 mb-4 bg-neutral-600 text-white hover:bg-teal-500 hover:text-black transition-colors duration-300 ease-in-out"
       onClick={getUserLocation}>Get my location</button>
     </div>
