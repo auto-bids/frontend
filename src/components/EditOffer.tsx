@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 interface IOffer {
+  setEditingOfferId: (id: string) => void;
   id: string;
   title: string;
   description: string;
@@ -12,10 +13,10 @@ interface IOffer {
 }
 
 const offerSchema = Yup.object().shape({
-  description: Yup.string().required("Description is required"),
-  price: Yup.number().required("Price is required"),
-  mileage: Yup.number().required("Mileage is required"),
-  photos: Yup.array().of(Yup.string().required("Photo is required")),
+  description: Yup.string().required("Description is required").max(3000, "Description must be at most 3000 characters"),
+  price: Yup.number().required("Price is required").min(1, "Price must be at least 1").integer("Price must be an integer"),
+  mileage: Yup.number().required("Mileage is required").min(0, "Mileage must be at least 0").integer("Mileage must be an integer"),
+  photos: Yup.array().of(Yup.string().required("Photo is required")).min(1, "You must have at least one photo").max(10, "You can have at most 10 photos")
 });
 
 export default function EditOffer(props: IOffer) {
@@ -30,8 +31,25 @@ export default function EditOffer(props: IOffer) {
         photos: props.photos,
         },
         validationSchema: offerSchema,
-        onSubmit: (values) => {
-        console.log(values);
+        onSubmit: async (values) => {
+            try{
+                const response = await fetch(`${process.env.REACT_APP_CARS_EDIT_ENDPOINT}`, {
+                    method: "PUT",
+                    credentials: "include",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                    },
+                    body: JSON.stringify(values),
+                });
+                if (response.ok) {
+                    props.setEditingOfferId("");
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+            }
         },
     });
 
@@ -41,8 +59,13 @@ export default function EditOffer(props: IOffer) {
 
     const handleRemovePhoto = (index: number) => {
         const photos = formik.values.photos;
-        photos.splice(index, 1);
-        formik.setFieldValue("photos", photos);
+        if (photos.length > 1) {
+            photos.splice(index, 1);
+            formik.setFieldValue("photos", photos);
+        }
+        else {
+            window.alert("You must have at least one photo");
+        }
     }
 
     return (

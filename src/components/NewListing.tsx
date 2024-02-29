@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik, Formik, Form, Field, FormikHelpers } from "formik";
+import { useFormik} from "formik";
 import LocationInput from "./LocationInput";
 import makeModelCarsDataJson from "../testJsons/makeModelCars.json";
 import * as Yup from "yup";
@@ -38,21 +38,21 @@ const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required").max(100, "Title must be less than 100 characters"),
     make: Yup.string().required("Required"),
     model: Yup.string().required("Required"),
-    price: Yup.number().required("Required").min(0, "Price must be greater than 0").max(100000000, "Price must be less than 100000000"),
+    price: Yup.number().required("Required").min(0, "Price must be greater than 0").max(100000000, "Price must be less than 100000000").integer("Price must be an integer"),
     description: Yup.string().required("Required").max(3000, "Description must be less than 3000 characters"),
     photos: Yup.array().of(Yup.string().required("Required")).max(10, "Maximum 10 photos"),
-    year: Yup.number().required("Required").min(1900, "Year must be greater than 1900").max(new Date().getFullYear(), "Year must be less than current year"),
-    mileage: Yup.number().min(0, "Mileage must be greater than 0").max(1000000, "Mileage must be less than 1000000"),
+    year: Yup.number().required("Required").min(1900, "Year must be greater than 1900").max(new Date().getFullYear(), "Year must be less than current year").integer("Year must be an integer"),
+    mileage: Yup.number().min(0, "Mileage must be greater than 0").max(1000000, "Mileage must be less than 1000000").integer("Mileage must be an integer"),
     vin_number: Yup.string().max(17, "VIN number must be 17 characters"),
-    engine_capacity: Yup.number().min(0, "Engine capacity must be greater than 0").max(10000, "Engine capacity must be less than 10000"),
+    engine_capacity: Yup.number().min(0, "Engine capacity must be greater than 0").max(10000, "Engine capacity must be less than 10000").integer("Engine capacity must be an integer"),
     fuel: Yup.string(),
     transmission: Yup.string(),
     steering: Yup.string(),
     type: Yup.string(),
-    power: Yup.number().min(0, "Power must be greater than 0").max(1000, "Power must be less than 1500"),
+    power: Yup.number().min(0, "Power must be greater than 0").max(1000, "Power must be less than 1500").integer("Power must be an integer"),
     drive: Yup.string(),
-    doors: Yup.number().min(0, "Doors must be greater than 0").max(10, "Doors must be less than 10"),
-    seats: Yup.number().min(0, "Seats must be greater than 0").max(10, "Seats must be less than 10"),
+    doors: Yup.number().min(0, "Doors must be greater than 0").max(10, "Doors must be less than 10").integer("Doors must be an integer"),
+    seats: Yup.number().min(0, "Seats must be greater than 0").max(10, "Seats must be less than 10").integer("Seats must be an integer"),
     registration_number: Yup.string().max(10, "Registration number must be less than 10 characters").min(3, "Registration number must be greater than 3 characters"),
     first_registration: Yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, "First registration must be in format YYYY-MM-DD"),
     condition: Yup.string(),

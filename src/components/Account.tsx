@@ -185,12 +185,11 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       useEffect(() => {
         fetchData();
-        // fetchUsersOffers();
       }, []);
 
       useEffect(() => {
         fetchUsersOffers();
-      }, [pageNumber]);
+      }, [pageNumber, editingOfferId]);
 
       const handleDeleteProfile = async () => {
         const confirmed = window.confirm("Are you sure you want to delete your account?");
@@ -369,6 +368,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 <div key={offer.id} className="border p-4 rounded">
                   {editingOfferId === offer.id ? (
                     <EditOffer
+                      setEditingOfferId={setEditingOfferId}
                       id={offer.id}
                       title={offer.title}
                       description={offer.description}
