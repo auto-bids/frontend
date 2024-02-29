@@ -3,6 +3,7 @@ import { useFormik} from "formik";
 import LocationInput from "./LocationInput";
 import makeModelCarsDataJson from "../testJsons/makeModelCars.json";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 interface FormValues {
     title: string;
@@ -63,7 +64,7 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-export default function NewListing() {
+export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Element {
   const formik = useFormik({
     initialValues: {
         title: "",
@@ -126,7 +127,8 @@ export default function NewListing() {
     formik.setFieldValue("model", "");
   };
 
-  return (
+  if (isLoggedIn) {
+    return (
     <div className="new-listing-page p-4">
       <h1 className="text-2xl font-bold mb-4">New Listing</h1>
       <form className="new-listing-form" onSubmit={formik.handleSubmit}>
@@ -409,5 +411,15 @@ export default function NewListing() {
         <button type="submit" className="border rounded p-2 bg-teal-500 text-black hover:bg-teal-600 transition duration-300 w-full font-bold">Submit</button>
       </form>
     </div>
-  );
+  )
+  }else {
+    return (
+      <div className="new-listing-page p-4 h-screen flex flex-col justify-center items-center">
+        <h1 className="text-2xl font-bold mb-4">New Listing</h1>
+        <Link to="/register" className="border rounded p-2 bg-teal-500 text-white hover:bg-teal-600 transition duration-300 font-bold w-auto">
+          Login or register to add new listing
+        </Link>
+      </div>
+    );
+  }
 };

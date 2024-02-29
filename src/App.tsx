@@ -36,7 +36,7 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/search/:category" element={<SearchPage />} />
               <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/new-listing" element={<NewListing />} />
+              <Route path="/new-listing" element={<NewListing isLoggedIn={isLoggedIn} />} />
               <Route path="/register" element={<RegisterPage />} />
               {/* <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} /> */}
               <Route path="/cars/offer/:id" element={<OfferPage />} />
