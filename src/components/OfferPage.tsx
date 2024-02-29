@@ -49,6 +49,29 @@ interface IOffer {
     };
 };
 
+function MyPrevPageArrow(props: any) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} my-custom-prev-arrow`}
+            style={{ ...style, position: "absolute", left: "0", height: "100%", width: "5%", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0, 0, 0, 0.2)" }}
+            onClick={onClick}
+        />
+    );
+}
+
+function MyNextPageArrow(props: any) {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} my-custom-next-arrow`}
+            style={{ ...style, position: "absolute", right: "0", height: "100%", width: "5%", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0, 0, 0, 0.2)" }}
+            onClick={onClick}
+        />
+    );
+}
+
+
 export default function OfferPage(){
     // const { offerType, id } = useParams<{ offerType: string; id: string }>();
     const { id } = useParams<{ id: string }>();
@@ -56,13 +79,15 @@ export default function OfferPage(){
     const [isOwner, setIsOwner] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
-    
+
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        nextArrow: <MyNextPageArrow />,
+        prevArrow: <MyPrevPageArrow />,
     };
 
     const fetchOfferData = async () => {
@@ -85,14 +110,6 @@ export default function OfferPage(){
     useEffect(() => {
         fetchOfferData();
       }, [id]);
-
-    //code below is for testing purposes only, it will be replaced with the code above
-    // useEffect(() => {
-    //     import("../testJsons/testBidOffer.json")
-    //     // import("../testJsons/testOffer.json")
-    //       .then((data) => setOfferData(data.default))
-    //       .catch((error) => console.error("Error loading local data:", error));
-    //   }, []);
 
     const handleSaveChanges = () => {
         setIsEditing(false);
