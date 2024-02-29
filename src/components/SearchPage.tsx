@@ -9,6 +9,7 @@ import React from "react";
 import OfferElement from "./OfferElement";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PaginationButton from "./PaginationButton";
 
 interface IAuction {
   isActive: boolean;
@@ -18,14 +19,6 @@ interface IAuction {
   endDate: string;
 }
 
-// interface IOffer {
-//   id: string;
-//   image: string;
-//   title: string;
-//   price?: number;
-//   auction?: IAuction;
-//   year: number;
-// };
 
 interface IOffer {
   data:[
@@ -49,20 +42,52 @@ export default function SearchPage() {
     const url = window.location.href;
     const category = url.split("/")[4].split("?")[0];
     const searchParams = url.split("?")[1].split("/")[0];
-    const page = url.split("?")[1].split("/")[1];
+    const currentPage = url.split("?")[1].split("/")[1];
 
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
+    const [numberOfPages, setNumberOfPages] = useState<number>(0);
+    const [pageArray, setPageArray] = useState<number[]>([]);
+    
 
     const handleNextPage = async () => {
-      window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${parseInt(page) + 1}`;
+      window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${parseInt(currentPage) + 1}`;
     }
 
     const handlePreviousPage = () => {
-      if (parseInt(page) > 1) {
-        window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${parseInt(page) - 1}`;
+      if (parseInt(currentPage) > 1) {
+        window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${parseInt(currentPage) - 1}`;
       }
     }
 
+    const handlePageChange = (page: number) => {
+      window.location.href = `${process.env.REACT_APP_FRONT_SEARCH_ENDPOINT}/${category}?${searchParams}/${page}`;
+    }
+
+    const maxVisiblePages = 10;
+
+    const generatePageArray = (numberOfPages: number) => {
+      const pageArray = [];
+      if (numberOfPages <= maxVisiblePages) {
+        for (let i = 1; i <= numberOfPages; i++) {
+          pageArray.push(i);
+        }
+      } else {
+        if (parseInt(currentPage) <= maxVisiblePages / 2) {
+          for (let i = 1; i <= maxVisiblePages; i++) {
+            pageArray.push(i);
+          }
+        } else if (parseInt(currentPage) >= numberOfPages - maxVisiblePages / 2) {
+          for (let i = numberOfPages - maxVisiblePages + 1; i <= numberOfPages; i++) {
+            pageArray.push(i);
+          }
+        } else {
+          for (let i = parseInt(currentPage) - maxVisiblePages / 2; i <= parseInt(currentPage) + maxVisiblePages / 2; i++) {
+            pageArray.push(i);
+          }
+        }
+      }
+      return pageArray;
+    };
 
     const fetchData = async () => {
       const paramPairs = searchParams.split("&");
@@ -97,7 +122,7 @@ export default function SearchPage() {
       // console.log(decodedSearchParameters);
     
       try {
-        const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/${page}`, {
+        const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/${currentPage}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -110,17 +135,13 @@ export default function SearchPage() {
     
         if (data.data.data.length > 0) {
           setOfferData(data.data.data);
+          setNumberOfPages(data.data.number_of_pages+1);
+          setPageArray(generatePageArray(data.data.number_of_pages+1));
         }
       } catch (error) {
         console.log(error);
       }
     };
-    
-    // useEffect(() => {
-    //   if (offerData === null){
-    //     fetchData();
-    //   }
-    // }, [offerData]);
 
     useEffect(() => {
       fetchData();
@@ -162,22 +183,34 @@ export default function SearchPage() {
             ))}
           </div>
         </div>
-        <div className="search-page-pagination mt-4">
-          <div className="search-page-pagination-buttons">
+        <div className="search-page-pagination mt-1 mb-4">
+        <div className="search-page-pagination-buttons">
+          {currentPage !== "1" && (
             <button
               onClick={handlePreviousPage}
-              className="form-button border-2 rounded p-2 mr-2 hover:bg-gray-200 transition duration-300"
+              className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300 mr-2"
             >
               Previous
             </button>
+          )}
+          {pageArray.map((page) => (
+            <PaginationButton
+              key={page}
+              page={page}
+              isActive={page.toString() === currentPage}
+              handleClick={() => handlePageChange(page)}
+            />
+          ))}
+          {currentPage !== numberOfPages.toString() && (
             <button
               onClick={handleNextPage}
               className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
             >
               Next
             </button>
-          </div>
+          )}
         </div>
+      </div>
       </div>
     );
     
