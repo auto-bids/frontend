@@ -296,6 +296,10 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         setEditingOfferId(id);
       }
 
+      if (!profileData) {
+        return <p>Loading...</p>;
+      }
+
       return (
         <div className="account p-4">
           <div className="account-header flex justify-between items-center">
