@@ -47,6 +47,8 @@ export default function SearchPage() {
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
     const [numberOfPages, setNumberOfPages] = useState<number>(0);
     const [pageArray, setPageArray] = useState<number[]>([]);
+
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     
 
     const handleNextPage = async () => {
@@ -132,13 +134,23 @@ export default function SearchPage() {
           body: JSON.stringify(decodedSearchParameters),
         });
         const data = await response.json();
-    
-        if (data.data.data.length > 0) {
+
+        if (data.data.number_of_pages === 0) {
+          setIsLoading(false);
+          setOfferData([]);
+          setNumberOfPages(0);
+          setPageArray([]);
+          setIsLoading(false);
+        }
+        else if (data.data.data.length > 0) {
+          setIsLoading(false);
           setOfferData(data.data.data);
           setNumberOfPages(data.data.number_of_pages+1);
           setPageArray(generatePageArray(data.data.number_of_pages+1));
+          console.log(data.data.number_of_pages);
         }
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     };
@@ -147,6 +159,15 @@ export default function SearchPage() {
       fetchData();
     }
     , []);
+
+    if (isLoading){
+      return(
+        <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+                <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                >Loading...</h1>
+        </div>
+      )
+    }
 
     return (
       <div className="search-page">
@@ -165,52 +186,56 @@ export default function SearchPage() {
             {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams} />}
           </div>
         </div>
-        <div className="search-page-offers bg-white p-4">
-          <div className="search-page-offers-title">
-            <h2 className="text-2xl font-bold mb-4">Offers</h2>
+          <div className="search-page-offers bg-white p-4">
+            <div className="search-page-offers-title">
+              <h2 className="text-2xl font-bold mb-4">Offers</h2>
+            </div>
+            <div className="search-page-offers-list gap-4">
+              {offerData && offerData.map((offer: any) => (
+                <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
+                  <OfferElement
+                    image={offer.car.photos[0]}
+                    title={offer.car.title}
+                    price={offer.car.price}
+                    auction={offer.car.auction}
+                    year={offer.car.year}
+                  />
+                </Link>
+              ))}
+              {offerData && offerData.length === 0 && (
+                <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                >No offers found</h1>
+              )}
+            </div>
           </div>
-          <div className="search-page-offers-list gap-4">
-            {offerData && offerData.map((offer: any) => (
-              <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
-                <OfferElement
-                  image={offer.car.photos[0]}
-                  title={offer.car.title}
-                  price={offer.car.price}
-                  auction={offer.car.auction}
-                  year={offer.car.year}
-                />
-              </Link>
+          <div className="search-page-pagination mt-1 mb-4">
+          {offerData && offerData.length!==0 && numberOfPages>1 && <div className="search-page-pagination-buttons">
+            {currentPage !== "1" && (
+              <button
+                onClick={handlePreviousPage}
+                className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300 mr-2"
+              >
+                Previous
+              </button>
+            )}
+            {pageArray.map((page) => (
+              <PaginationButton
+                key={page}
+                page={page}
+                isActive={page.toString() === currentPage}
+                handleClick={() => handlePageChange(page)}
+              />
             ))}
+            {currentPage !== numberOfPages.toString() && (
+              <button
+                onClick={handleNextPage}
+                className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
+              >
+                Next
+              </button>
+            )}
           </div>
-        </div>
-        <div className="search-page-pagination mt-1 mb-4">
-        <div className="search-page-pagination-buttons">
-          {currentPage !== "1" && (
-            <button
-              onClick={handlePreviousPage}
-              className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300 mr-2"
-            >
-              Previous
-            </button>
-          )}
-          {pageArray.map((page) => (
-            <PaginationButton
-              key={page}
-              page={page}
-              isActive={page.toString() === currentPage}
-              handleClick={() => handlePageChange(page)}
-            />
-          ))}
-          {currentPage !== numberOfPages.toString() && (
-            <button
-              onClick={handleNextPage}
-              className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
-            >
-              Next
-            </button>
-          )}
-        </div>
-      </div>
+      }</div>
       </div>
     );
     

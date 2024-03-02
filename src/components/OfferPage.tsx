@@ -126,7 +126,12 @@ export default function OfferPage(){
     };
 
     if (!offerData) {
-        return <p>Loading...</p>;
+        return (
+            <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+                <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                >Loading...</h1>
+            </div>
+        )
     }
 
     const renderDetail = (label: string, value: string | number) => {
