@@ -297,7 +297,17 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       }
 
       if (!profileData) {
-        return <p>Loading...</p>;
+        return(
+          <div className="account p-4">
+            <h2 className="text-xl font-bold">Loading...</h2>
+            <div className="account-header-buttons-element">
+                <p className="text-gray-700">If it takes too long, try logging in again</p>
+                <button onClick={handleLogout} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
+                  Logout
+                </button>
+              </div>
+          </div>
+        )
       }
 
       return (
@@ -381,7 +391,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                       photos={offer.photos}
                     />
                   ) : (
-                    <Link to={`/cars/offer/${offer.id}`}>
+                    <Link to={`/cars/offer/${offer.id}`} className="block rounded p-4 transition duration-300 hover:shadow-md">
                       <OfferElement
                         image={offer.image}
                         title={offer.title}

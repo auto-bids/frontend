@@ -18,7 +18,7 @@ interface OfferElementProps {
 
 export default function OfferElement(props: OfferElementProps) {
     return (
-        <div className={`offer-element ${window.innerWidth > 1000 ? 'grid' : 'flex'} ${window.innerWidth > 1000 ? 'grid-cols-3' : ''} border p-4 rounded-md mb-4 shadow-md`}>
+        <div className={`offer-element ${window.innerWidth > 1000 ? 'grid' : 'flex'} ${window.innerWidth > 1000 ? 'grid-cols-3' : ''} border p-4 rounded-md mb-4 shadow-md `}>
           {window.innerWidth > 1000 ? (
             <>
               <div className="offer-element-image col-span-1">
