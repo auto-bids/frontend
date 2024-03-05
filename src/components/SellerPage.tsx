@@ -32,6 +32,8 @@ export default function SellerPage() {
     const [sellerData, setSellerData] = useState<ISeller | null>(null);
     const [offerData, setOfferData] = useState<IOffer [] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [numberOfPages, setNumberOfPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchData = async () => {
       try {
@@ -58,7 +60,7 @@ export default function SellerPage() {
 
       const fetchOfferData = async () => {
         try {
-          const response = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/` + window.location.pathname.split("/")[2]+'/1', {
+          const response = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/` + window.location.pathname.split("/")[2]+`/${currentPage}`, {
             method: "GET",
                 credentials: "include",
                 headers: {
@@ -78,6 +80,7 @@ export default function SellerPage() {
                 year: offer.car.year,
               });
             });
+            setNumberOfPages(offers.data.number_of_pages);
             setOfferData(offerData);
             setIsLoading(false);
           }
@@ -90,7 +93,7 @@ export default function SellerPage() {
       useEffect(() => {
         fetchData();
         fetchOfferData();
-      }, []);
+      }, [currentPage]);
 
     
     return(
@@ -151,6 +154,7 @@ export default function SellerPage() {
               >Loading...</h1>
             </div>
           ) : offerData && offerData.length > 0 ? (
+            <>
             <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {offerData.map((offer) => (
                 <Link to={`/cars/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
@@ -158,6 +162,15 @@ export default function SellerPage() {
                 </Link>
               ))}
             </div>
+            <div className="seller-page-offers-pagination mt-4 flex justify-center">
+              {currentPage > 1 && (
+                <button onClick={() => setCurrentPage(currentPage - 1)} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-l hover:bg-gray-400 transition duration-300 focus:outline-none">Previous</button>
+              )}
+              {currentPage < numberOfPages && numberOfPages>1 && (
+                <button onClick={() => setCurrentPage(currentPage + 1)} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-r hover:bg-gray-400 transition duration-300 focus:outline-none">Next</button>
+              )}
+            </div>
+            </>
           ) : (
             <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
                 <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
@@ -167,7 +180,7 @@ export default function SellerPage() {
         </div>
       )}
       {showContactOrOffer === "contact" && (
-        <div className="seller-page-contact mt-4">
+        <div className="seller-page-contact mt-4 h-screen">
           <h1 className="text-2xl font-bold">Contact</h1>
           <div className="seller-page-contact-info mt-4 space-y-2">
             <div>
