@@ -31,6 +31,7 @@ export default function SellerPage() {
     const [showContactOrOffer, setShowContactOrOffer] = useState("offer");
     const [sellerData, setSellerData] = useState<ISeller | null>(null);
     const [offerData, setOfferData] = useState<IOffer [] | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {
       try {
@@ -78,10 +79,11 @@ export default function SellerPage() {
               });
             });
             setOfferData(offerData);
+            setIsLoading(false);
           }
         } catch (error) {
-          console.error("Error loading offer data:", error
-          );
+          console.error("Error loading offer data:", error);
+          setIsLoading(false);
         }
       }
 
@@ -143,21 +145,25 @@ export default function SellerPage() {
             )}
           </div>
           <h1 className="text-2xl font-bold mt-4">Offers</h1>
-          <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {offerData &&
-              offerData.map((offer) => {
-                return (
-                  <Link to={`/cars/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
-                    <OfferElement
-                        image={offer.image}
-                        title={offer.title}
-                        price={offer.price}
-                        year={offer.year}
-                      />
-                  </Link>
-                )
-              })}
-          </div>
+          {isLoading ? (
+            <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+              <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+              >Loading...</h1>
+            </div>
+          ) : offerData && offerData.length > 0 ? (
+            <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {offerData.map((offer) => (
+                <Link to={`/cars/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
+                  <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+                <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                >No offers found</h1>
+            </div>
+          )}
         </div>
       )}
       {showContactOrOffer === "contact" && (

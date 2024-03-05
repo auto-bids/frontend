@@ -92,48 +92,56 @@ export default function SearchPage() {
     };
 
     const fetchData = async () => {
-      const paramPairs = searchParams.split("&");
-      const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
-        const [key, value] = pair.split("=");
-        const thisKey = decodeURIComponent(key);
+      // const paramPairs = searchParams.split("&");
+      // const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
+      //   const [key, value] = pair.split("=");
+      //   const thisKey = decodeURIComponent(key);
     
-        if (
-          ["price_min", "price_max", "year_min", "year_max", "mileage_min", "mileage_max", "engine_capacity_min", "engine_capacity_max", "power_min", "power_max", "doors", "seats"].includes(thisKey)
-        ) {
-          acc[thisKey] = parseInt(decodeURIComponent(value), 10);
-        } else if (["lat", "lng", "radius"].includes(thisKey)) {
-          acc[thisKey] = parseFloat(decodeURIComponent(value));
-        } else {
-          if (value) {
-            acc[thisKey] = decodeURIComponent(value.replace(/\+/g, ' '));
-          }
-        }
+      //   if (
+      //     ["price_min", "price_max", "year_min", "year_max", "mileage_min", "mileage_max", "engine_capacity_min", "engine_capacity_max", "power_min", "power_max", "doors", "seats"].includes(thisKey)
+      //   ) {
+      //     acc[thisKey] = parseInt(decodeURIComponent(value), 10);
+      //   } else if (["lat", "lng", "radius"].includes(thisKey)) {
+      //     acc[thisKey] = parseFloat(decodeURIComponent(value));
+      //   } else {
+      //     if (value) {
+      //       acc[thisKey] = decodeURIComponent(value.replace(/\+/g, ' '));
+      //     }
+      //   }
     
-        return acc;
-      }, {});
+      //   return acc;
+      // }, {});
     
-      decodedSearchParameters["location"] = {
-        type: "Point",
-        coordinates: [decodedSearchParameters["lng"], decodedSearchParameters["lat"]],
-      };
-      delete decodedSearchParameters["lat"];
-      delete decodedSearchParameters["lng"];
-      decodedSearchParameters["distance"] = decodedSearchParameters["radius"];
-      delete decodedSearchParameters["radius"];
-    
-      // console.log(decodedSearchParameters);
+      // decodedSearchParameters["location"] = {
+      //   type: "Point",
+      //   coordinates: [decodedSearchParameters["lng"], decodedSearchParameters["lat"]],
+      // };
+      // delete decodedSearchParameters["lat"];
+      // delete decodedSearchParameters["lng"];
+      // decodedSearchParameters["distance"] = decodedSearchParameters["radius"];
+      // delete decodedSearchParameters["radius"];
+
+      // console.log(decodedSearchParameters["location"]);
+      // if (decodedSearchParameters["location"].coordinates[0] === undefined && decodedSearchParameters["location"].coordinates[1] === undefined) {
+      //   delete decodedSearchParameters["location"];
+      //   delete decodedSearchParameters["distance"];
+      // }
     
       try {
-        const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/${currentPage}`, {
-          method: "POST",
+        // const filters = Object.keys(decodedSearchParameters)
+        // .map((key) => `${key}=${encodeURIComponent(decodedSearchParameters[key])}`)
+        // .join("&");
+        const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/${currentPage}?${searchParams}`, {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Credentials": "true",
           },
-          body: JSON.stringify(decodedSearchParameters),
         });
         const data = await response.json();
+
+        console.log(data.data.number_of_pages);
 
         if (data.data.number_of_pages === 0) {
           setIsLoading(false);
@@ -145,9 +153,8 @@ export default function SearchPage() {
         else if (data.data.data.length > 0) {
           setIsLoading(false);
           setOfferData(data.data.data);
-          setNumberOfPages(data.data.number_of_pages+1);
-          setPageArray(generatePageArray(data.data.number_of_pages+1));
-          console.log(data.data.number_of_pages);
+          setNumberOfPages(data.data.number_of_pages);
+          setPageArray(generatePageArray(data.data.number_of_pages));
         }
       } catch (error) {
         setIsLoading(false);

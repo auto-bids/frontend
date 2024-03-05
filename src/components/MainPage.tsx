@@ -38,23 +38,20 @@ export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
     const [showAllFields, setShowAllFields] = useState(false);
     const [buyNowOrBid, setBuyNowOrBid] = useState("buyNow");
-    //just for testing
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
 
     const fetchOffers = async (type: string) => {
         try {
-            const response = await fetch(`http://localhost:4000/${type}/page/1`, {
-                method: "POST",
+            const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/1`, {
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": "true",
                 },
-                body: JSON.stringify({}),
             });
 
             const data = await response.json();
-            // console.log(data.data.data);
             setOfferData(data.data.data);
         } catch (error) {
             console.error(error);
