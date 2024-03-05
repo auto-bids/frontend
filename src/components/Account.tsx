@@ -39,6 +39,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [editedProfile, setEditedProfile] = useState<IProfile | null>(null);
     const [pageNumber, setPageNumber] = useState(1);
     const [editingOfferId, setEditingOfferId] = useState<string | null>(null)
+    const [numberOfPages, setNumberOfPages] = useState(0);
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -112,7 +113,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [profileData, setProfileData] = useState<IProfile | null>(null);
 
     const handleNextPage = () => {
-      setPageNumber(pageNumber + 1);
+      if (pageNumber < numberOfPages) {
+        setPageNumber(pageNumber + 1);
+      }
     }
     const handlePreviousPage = () => {
       if (pageNumber > 1) {
@@ -162,6 +165,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           if (response.ok) {
             const offers = await response.json();
             const offerData: IOffer[] = [];
+            setNumberOfPages(offers.data.number_of_pages);
             offers.data.data.forEach((offer: any) => {
               offerData.push({
                 id: offer.id,
