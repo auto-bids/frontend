@@ -26,14 +26,14 @@ interface ISeller {
 }
 
 export default function SellerPage() {
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [showAllFields, setShowAllFields] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState("cars");
     const [showContactOrOffer, setShowContactOrOffer] = useState("offer");
     const [sellerData, setSellerData] = useState<ISeller | null>(null);
     const [offerData, setOfferData] = useState<IOffer [] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchPhrase, setSearchPhrase] = useState("");
 
     const fetchData = async () => {
       try {
@@ -59,14 +59,15 @@ export default function SellerPage() {
     };
 
       const fetchOfferData = async () => {
+        console.log(`${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}`);
         try {
-          const response = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/` + window.location.pathname.split("/")[2]+`/${currentPage}`, {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}`, {
             method: "GET",
-                credentials: "include",
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Credentials": "true",
-                },
+            credentials: "include",
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
           });
           if (response.ok) {
             const offers = await response.json();
@@ -96,6 +97,12 @@ export default function SellerPage() {
       }, [currentPage]);
 
     
+
+  function handleSearch() {
+    setIsLoading(true);
+    fetchOfferData();
+  }
+
     return(
       <div className="seller-page p-4">
       <div className="seller-page-header flex items-center">
@@ -125,27 +132,8 @@ export default function SellerPage() {
               <option value="trailers">trailers</option>
               <option value="agricultural machinery">agricultural machinery</option>
             </select>
-            {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} buyNowOrBid="buyNow" searchParameters={null} />}
-            {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null} />}
-            {selectedCategory === "delivery vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null} />}
-            {selectedCategory === "trucks" && <ParametersInputTrucks showAllFields={showAllFields} searchParameters={null} />}
-            {selectedCategory === "construction machinery" && <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null} />}
-            {selectedCategory === "trailers" && <ParametersInputTrailers showAllFields={showAllFields} searchParameters={null} />}
-            {selectedCategory === "agricultural machinery" && <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null} />}
-            {selectedCategory === "all" && (
-              <>
-                <input type="text" placeholder="Search" className="px-4 py-2 border border-gray-300 rounded focus:outline-none" />
-                <button className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300">Search</button>
-              </>
-            )}
-            {selectedCategory !== "all" && (
-              <button
-                onClick={() => setShowAllFields(!showAllFields)}
-                className='show-all-fields mb-4 p-2 bg-gray-300 rounded hover:bg-gray-400 transition duration-300'
-              >
-                {showAllFields ? "Hide additional fields" : "Show additional fields"}
-              </button>
-            )}
+            <input type="text" placeholder="Search" className="px-4 py-2 border border-gray-300 rounded focus:outline-none" onChange={(e) => setSearchPhrase('search_phrase='+e.target.value)} />
+            <button className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300" onClick={handleSearch} >Search</button>
           </div>
           <h1 className="text-2xl font-bold mt-4">Offers</h1>
           {isLoading ? (
