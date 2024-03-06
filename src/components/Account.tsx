@@ -303,7 +303,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       if (!profileData) {
         return(
-          <div className="account p-4">
+          <div className="account p-4 h-screen">
             <h2 className="text-xl font-bold">Loading...</h2>
             <div className="account-header-buttons-element">
                 <p className="text-gray-700">If it takes too long, try logging in again</p>
@@ -376,7 +376,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               </div>
             </div>
           )}
-          <div className="account-component-selection mt-4">
+          <div className="account-component-selection mt-4 bg-gray-100">
             <button onClick={() => setSelectedComponent("yourOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "yourOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
               Your offers
             </button>
@@ -388,7 +388,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             </button>
           </div>
           {selectedComponent === "yourOffers" &&
-          <div className="account-offers mt-4 p-4">
+          <div className="account-offers p-4 bg-gray-100">
             <h2 className="text-xl font-bold mb-4">Your offers</h2>
             <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
               Delete all offers
@@ -396,7 +396,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {offerData &&
               offerData.map((offer) => (
-                <div key={offer.id} className="border p-4 rounded">
+                <div key={offer.id} className="border p-4 rounded bg-white">
                   {editingOfferId === offer.id ? (
                     <EditOffer
                       setEditingOfferId={setEditingOfferId}
@@ -408,7 +408,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                       photos={offer.photos}
                     />
                   ) : (
-                    <Link to={`/cars/offer/${offer.id}`} className="block rounded p-4 transition duration-300 hover:shadow-md">
+                    <Link to={`/cars/offer/${offer.id}`} className="block rounded p-4">
                       <OfferElement
                         image={offer.image}
                         title={offer.title}

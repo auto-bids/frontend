@@ -193,13 +193,13 @@ export default function SearchPage() {
             {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams} />}
           </div>
         </div>
-          <div className="search-page-offers bg-white p-4">
+          <div className="search-page-offers bg-gray-100 p-4">
             <div className="search-page-offers-title">
               <h2 className="text-2xl font-bold mb-4">Offers</h2>
             </div>
             <div className="search-page-offers-list gap-4">
               {offerData && offerData.map((offer: any) => (
-                <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
+                <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="">
                   <OfferElement
                     image={offer.car.photos[0]}
                     title={offer.car.title}
@@ -215,7 +215,7 @@ export default function SearchPage() {
               )}
             </div>
           </div>
-          <div className="search-page-pagination mt-1 mb-4">
+          <div className="search-page-pagination pt-3 pb-3 shadow-md">
           {offerData && offerData.length!==0 && numberOfPages>1 && <div className="search-page-pagination-buttons">
             {currentPage !== "1" && (
               <button

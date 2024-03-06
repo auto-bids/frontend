@@ -39,6 +39,7 @@ export default function MainPage() {
     const [showAllFields, setShowAllFields] = useState(false);
     const [buyNowOrBid, setBuyNowOrBid] = useState("buyNow");
     const [offerData, setOfferData] = useState<IOffer[] | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchOffers = async (type: string) => {
         try {
@@ -52,7 +53,8 @@ export default function MainPage() {
             });
 
             const data = await response.json();
-            setOfferData(data.data.data);
+            setOfferData(data.data.data.slice(0, data.data.data.length - 1));
+            setIsLoading(false);
         } catch (error) {
             console.error(error);
         }
@@ -117,15 +119,15 @@ export default function MainPage() {
     };
 
     return (
-        <div className="main-page">
-            <div className="main-page-buy-now-or-bid flex mt-2 ml-4">
+        <div className="main-page bg-gray-100">
+            <div className="main-page-buy-now-or-bid flex mt-2 ml-4 bg-white">
             <button onClick={() => setBuyNowOrBid("buyNow")} className={`buy-now-button p-2 rounded border mr-5  ${buyNowOrBid === 'buyNow' ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300' : 'bg-gray-200 hover:bg-gray-300 transition duration-300'}`}>Buy Now</button>
             <button onClick={() => handleBidButtonClick()} className={`bid-button p-2 rounded border ${buyNowOrBid === 'bid' ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300' : 'bg-gray-200 hover:bg-gray-300 transition duration-300'}`}>Bid</button>
             </div>
 
 
             {buyNowOrBid !== "bid" && (
-            <div className="main-page-choose-category mt-2">
+            <div className="main-page-choose-category bg-white p-4">
                 <div className="main-page-choose-category-buttons flex flex-wrap justify-center ">
                 {["cars","motorcycles","delivery-vans","trucks","construction-machinery","trailers","agricultural-machinery"].map((categoryName) => (
                     <button
@@ -144,7 +146,7 @@ export default function MainPage() {
             </div>
             )}
 
-            <div className="main-page-parameters-input mt-4">
+            <div className="main-page-parameters-input">
             {selectedCategory === "cars" && <ParametersInput showAllFields={showAllFields} buyNowOrBid={buyNowOrBid} searchParameters={null} />}
             {selectedCategory === "motorcycles" && <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null} />}
             {selectedCategory === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null} />}
@@ -157,11 +159,12 @@ export default function MainPage() {
             <button className="show-all-fields mb-4 p-2 bg-gray-300 rounded hover:bg-gray-400 transition duration-300" onClick={() => setShowAllFields(!showAllFields)}>
                 {showAllFields ? "Hide additional fields" : "Show additional fields"}
             </button>
-            <div className="promoted-offers mt-4">
+            {!isLoading ? (
+                <div className="promoted-offers mt-4 pb-3">
                 <h1 className="text-2xl font-bold mb-2">Promoted Offers</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {offerData && offerData[0].car && offerData.map((offer) => (
-                            <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`} className="block p-4 transition duration-300 hover:shadow-md">
+                            <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`} className="block p-4">
                                 <OfferElement key={offer.id} image={offer.car?.photos[0] || ""} title={offer.car?.title || ""} price={offer.car?.price || 0} year={offer.car?.year || 0} auction={offer.car?.auction} />
                             </Link>
                         ))}
@@ -182,6 +185,12 @@ export default function MainPage() {
                         ))} */}
                     </div>
             </div>
+            ) : (
+                <div className="main-page flex justify-center items-center">
+                    <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                    >Loading...</h1>
+                </div>
+            )}
         </div>
     )
 }

@@ -135,7 +135,7 @@ export default function SellerPage() {
             <input type="text" placeholder="Search" className="px-4 py-2 border border-gray-300 rounded focus:outline-none" onChange={(e) => setSearchPhrase('search_phrase='+e.target.value)} />
             <button className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300" onClick={handleSearch} >Search</button>
           </div>
-          <h1 className="text-2xl font-bold mt-4">Offers</h1>
+          <h1 className="text-2xl font-bold mt-4 bg-gray-100">Offers</h1>
           {isLoading ? (
             <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
               <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
@@ -143,9 +143,9 @@ export default function SellerPage() {
             </div>
           ) : offerData && offerData.length > 0 ? (
             <>
-            <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3">
               {offerData.map((offer) => (
-                <Link to={`/cars/offer/${offer.id}`} key={offer.id} className="block border border-gray-300 rounded p-4 transition duration-300 hover:shadow-md">
+                <Link to={`/cars/offer/${offer.id}`} key={offer.id} className="block rounded p-1">
                   <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                 </Link>
               ))}
