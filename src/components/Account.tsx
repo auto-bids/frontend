@@ -40,6 +40,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [pageNumber, setPageNumber] = useState(1);
     const [editingOfferId, setEditingOfferId] = useState<string | null>(null)
     const [numberOfPages, setNumberOfPages] = useState(0);
+    const [selectedComponent, setSelectedComponent] = useState("yourOffers");
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -315,8 +316,8 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       }
 
       return (
-        <div className="account p-4">
-          <div className="account-header flex justify-between items-center">
+        <div className="account">
+          <div className="account-header flex justify-between items-center bg-gray-400 p-4">
             <div className="account-header-profile flex items-center">
               <img src={profileData?.profile_picture} alt="profile" className="w-12 h-12 rounded-full mr-4" />
               <div className="account-header-profile-info">
@@ -375,7 +376,19 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               </div>
             </div>
           )}
-          <div className="account-offers mt-4">
+          <div className="account-component-selection mt-4">
+            <button onClick={() => setSelectedComponent("yourOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "yourOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
+              Your offers
+            </button>
+            <button onClick={() => setSelectedComponent("savedOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "savedOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
+              Saved offers
+            </button>
+            <button onClick={() => setSelectedComponent("chat")} className={`px-4 py-2 focus:outline-none border rounded ${selectedComponent === "chat" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
+              Chat
+            </button>
+          </div>
+          {selectedComponent === "yourOffers" &&
+          <div className="account-offers mt-4 p-4">
             <h2 className="text-xl font-bold mb-4">Your offers</h2>
             <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
               Delete all offers
@@ -437,7 +450,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               </button>
             </div>
           </div>
-          <div className="account-saved-offers mt-4">
+          }
+          {selectedComponent === "savedOffers" &&
+          <div className="account-saved-offers mt-4 p-4">
             <h2 className="text-xl font-bold mb-4">Saved offers</h2>
             <div className="account-saved-offers-elements grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {offerData &&
@@ -448,12 +463,15 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 ))}
             </div>
           </div>
-          <div className="account-chat mt-4">
+          }
+          {selectedComponent === "chat" &&
+          <div className="account-chat mt-4 p-4">
             <h2 className="text-xl font-bold mb-4">Chat</h2>
             <div className="account-chat-elements">
               <Chat />
             </div>
           </div>
+          }
         </div>
       );
       
