@@ -43,6 +43,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     gearbox: "",
     drive: "",
     steering: "",
+    sortBy: "",
   });
 
   useEffect(() => {
@@ -351,7 +352,26 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             )}
         {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
       </div>
-      <button type="submit" className="form-button border rounded p-4 full font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">Search</button>
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="col-span-1">
+        </div>
+        <div className="col-span-1 flex items-center justify-center">
+          <button type="submit" className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
+            Search
+          </button>
+        </div>
+        <div className="col-span-1 flex items-center justify-end">
+          <select name="sortBy" value={formValues.sortBy} onChange={handleInputChange} className="form-select border rounded p-2">
+            <option value="">Sort by</option>
+            <option value="price_asc">Price Asc</option>
+            <option value="price_desc">Price Desc</option>
+            <option value="year_asc">Year Asc</option>
+            <option value="year_desc">Year Desc</option>
+            <option value="mileage_asc">Mileage Asc</option>
+            <option value="mileage_desc">Mileage Desc</option>
+          </select>
+        </div>
+      </div>
     </form>
   );
   
