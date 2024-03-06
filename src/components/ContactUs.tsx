@@ -23,19 +23,34 @@ export default function ContactUs() {
     };
 
     return (
-        <div className='contact-us'>
-            <h1>Contact Us</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Email:
-                    <input type="email" value={email} onChange={handleEmailChange} />
-                </label>
-                <br />
-                <label>Description:
-                    <textarea value={description} onChange={handleDescriptionChange} />
-                </label>
-                <br />
-                <button type="submit">Submit</button>
-            </form>
+        <div className="contact-us p-4 h-screen">
+          <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
+          <form onSubmit={handleSubmit} className="mb-4">
+            <label className="block mb-2">
+              Email:
+              <input
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                className="block w-full border border-gray-300 p-2 rounded"
+              />
+            </label>
+            <label className="block mb-2">
+              Description:
+              <textarea
+                value={description}
+                onChange={handleDescriptionChange}
+                className="block w-full border border-gray-300 p-2 rounded"
+              />
+            </label>
+            <button
+              type="submit"
+              className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition duration-300"
+            >
+              Submit
+            </button>
+          </form>
         </div>
-    );
+      );
+      
 }
