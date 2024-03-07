@@ -120,7 +120,7 @@ export default function MainPage() {
 
     return (
         <div className="main-page bg-gray-100">
-            <div className="main-page-buy-now-or-bid flex mt-2 ml-4 bg-white">
+            <div className="main-page-buy-now-or-bid flex mt-2 pl-4 bg-white">
             <button onClick={() => setBuyNowOrBid("buyNow")} className={`buy-now-button p-2 rounded border mr-5  ${buyNowOrBid === 'buyNow' ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300' : 'bg-gray-200 hover:bg-gray-300 transition duration-300'}`}>Buy Now</button>
             <button onClick={() => handleBidButtonClick()} className={`bid-button p-2 rounded border ${buyNowOrBid === 'bid' ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300' : 'bg-gray-200 hover:bg-gray-300 transition duration-300'}`}>Bid</button>
             </div>

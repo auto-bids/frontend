@@ -376,7 +376,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               </div>
             </div>
           )}
-          <div className="account-component-selection mt-4 bg-gray-100">
+          <div className="account-component-selection bg-gray-100 pt-2">
             <button onClick={() => setSelectedComponent("yourOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "yourOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
               Your offers
             </button>
@@ -452,12 +452,12 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           </div>
           }
           {selectedComponent === "savedOffers" &&
-          <div className="account-saved-offers mt-4 p-4">
+          <div className="account-saved-offers pt-4 p-4 bg-gray-100">
             <h2 className="text-xl font-bold mb-4">Saved offers</h2>
             <div className="account-saved-offers-elements grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {offerData &&
                 offerData.map((offer) => (
-                  <div key={offer.id} className="border p-4 rounded">
+                  <div key={offer.id} className="border p-4 rounded bg-white">
                     <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                   </div>
                 ))}
@@ -465,7 +465,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           </div>
           }
           {selectedComponent === "chat" &&
-          <div className="account-chat mt-4 p-4">
+          <div className="account-chat pt-4 p-4 bg-gray-100">
             <h2 className="text-xl font-bold mb-4">Chat</h2>
             <div className="account-chat-elements">
               <Chat />

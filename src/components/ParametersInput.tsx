@@ -43,7 +43,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     gearbox: "",
     drive: "",
     steering: "",
-    sortBy: "",
+    filter_by: "",
+    sort_direction: "",
   });
 
   useEffect(() => {
@@ -100,6 +101,11 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     setLocationVisible(!locationVisible);
     setLocationParams({ position: null, radius: 100000 });
   };
+
+  const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const [filter_by, sort_direction] = e.target.value.split("_");
+    setFormValues({ ...formValues, filter_by, sort_direction });
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -361,14 +367,14 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           </button>
         </div>
         <div className="col-span-1 flex items-center justify-end">
-          <select name="sortBy" value={formValues.sortBy} onChange={handleInputChange} className="form-select border rounded p-2">
+          <select name="filter_by" className="form-select border rounded p-2" onChange={handleSortByChange} value={`${formValues.filter_by}_${formValues.sort_direction}`} >
             <option value="">Sort by</option>
-            <option value="price_asc">Price Asc</option>
-            <option value="price_desc">Price Desc</option>
-            <option value="year_asc">Year Asc</option>
-            <option value="year_desc">Year Desc</option>
-            <option value="mileage_asc">Mileage Asc</option>
-            <option value="mileage_desc">Mileage Desc</option>
+            <option value="price_1">Price Asc</option>
+            <option value="price_-1">Price Desc</option>
+            <option value="year_1">Year Asc</option>
+            <option value="year_-1">Year Desc</option>
+            <option value="mileage_1">Mileage Asc</option>
+            <option value="mileage_-1">Mileage Desc</option>
           </select>
         </div>
       </div>
