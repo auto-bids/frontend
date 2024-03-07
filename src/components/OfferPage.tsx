@@ -84,7 +84,6 @@ export default function OfferPage(){
     const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
 
     const openModal = (index: number) => {
-        console.log("opening modal");
         setSelectedPhotoIndex(index);
         setIsModalOpen(true);
     };
@@ -97,6 +96,7 @@ export default function OfferPage(){
         slidesToScroll: 1,
         nextArrow: <MyNextPageArrow />,
         prevArrow: <MyPrevPageArrow />,
+        adaptiveHeight: true,
     };
 
     const fetchOfferData = async () => {
@@ -166,14 +166,17 @@ export default function OfferPage(){
                             position: 'fixed',
                             background: 'white',
                             width: 'auto',
-                            height: '75%',
-                            top: '40%',
+                            height: 'auto',
+                            top: '50%',
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             borderRadius: '20px',
+                            maxWidth: '100%',
+                            maxHeight: '90%',
+                            overflow: 'auto', 
                         },
                     }}
                 >
@@ -234,13 +237,13 @@ export default function OfferPage(){
                     onClick={() => openModal(0)}
                     />
                 )}
-                {offerData.car.photos.length === 2 && (
+                {/* {offerData.car.photos.length === 2 && (
                     <img src={offerData
                     .car.photos[0]} alt="offer"
                     onClick={() => openModal(0)}
                     />
-                )}
-                {offerData.car.photos.length > 2 && (
+                )} */}
+                {offerData.car.photos.length >= 2 && (
                     <Slider {...settings}>
                         {offerData.car.photos.map((photo, index) => (
                             <div key={index} className="offer-page-main-image" onClick={() => openModal(index)}>

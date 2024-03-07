@@ -16,11 +16,12 @@ const offerSchema = Yup.object().shape({
   description: Yup.string().required("Description is required").max(3000, "Description must be at most 3000 characters"),
   price: Yup.number().required("Price is required").min(1, "Price must be at least 1").integer("Price must be an integer"),
   mileage: Yup.number().required("Mileage is required").min(0, "Mileage must be at least 0").integer("Mileage must be an integer"),
-  photos: Yup.array().of(Yup.string().required("Photo is required")).min(1, "You must have at least one photo").max(10, "You can have at most 10 photos")
+  //photos: Yup.array().of(Yup.string().required("Photo is required")).min(1, "You must have at least one photo").max(10, "You can have at most 10 photos")
 });
 
 export default function EditOffer(props: IOffer) {
     const [activeInput, setActiveInput] = useState("description");
+    const [tempPhotos, setTempPhotos] = useState<File[]>([]);
 
     const formik = useFormik({
         initialValues: {
@@ -32,26 +33,52 @@ export default function EditOffer(props: IOffer) {
         },
         validationSchema: offerSchema,
         onSubmit: async (values) => {
-            try{
-                const response = await fetch(`${process.env.REACT_APP_CARS_EDIT_ENDPOINT}`, {
-                    method: "PUT",
-                    credentials: "include",
-                    headers: {
+        await handleSubmit();
+        props.setEditingOfferId("");
+        },
+    });
+
+    const handleSubmit = async () => {
+        try {
+            const nonEmptyTempPhotos = tempPhotos.filter(file => file instanceof File);
+            const uploadedPhotoUrls = await Promise.all(
+                nonEmptyTempPhotos.map(async (file) => {
+                    const formData = new FormData();
+                    formData.append("file", file);
+                    formData.append("upload_preset", `${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`);
+                    const response = await fetch(`${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                        method: "POST",
+                        body: formData,
+                    });
+                    const data = await response.json();
+                    return data.secure_url;
+                })
+            );
+
+            const photos = formik.values.photos.filter(photo => photo !== "");
+    
+            const valuesWithPhotos = {
+                ...formik.values,
+                photos: [...photos, ...uploadedPhotoUrls],
+            };
+    
+            await fetch(`${process.env.REACT_APP_CARS_EDIT_ENDPOINT}`, {
+                method: "PUT",
+                credentials: "include",
+                headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": "true",
-                    },
-                    body: JSON.stringify(values),
-                });
-                if (response.ok) {
-                    props.setEditingOfferId("");
-                }
-            }
-            catch (error) {
-                console.error("Error:", error);
-            }
-        },
-    });
+                },
+                body: JSON.stringify(valuesWithPhotos),
+            });
+    
+            setTempPhotos([]);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+    
 
     const handleAddPhoto = () => {
         formik.setFieldValue("photos", [...formik.values.photos, ""]);
@@ -59,6 +86,13 @@ export default function EditOffer(props: IOffer) {
 
     const handleRemovePhoto = (index: number) => {
         const photos = formik.values.photos;
+        if (tempPhotos[index]) {
+            setTempPhotos((prevPhotos) => {
+                const newPhotos = [...prevPhotos];
+                newPhotos.splice(index, 1);
+                return newPhotos;
+            });
+        }
         if (photos.length > 1) {
             photos.splice(index, 1);
             formik.setFieldValue("photos", photos);
@@ -67,6 +101,17 @@ export default function EditOffer(props: IOffer) {
             window.alert("You must have at least one photo");
         }
     }
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const file = event.target.files?.[0];
+        if (file) {
+          setTempPhotos((prevPhotos) => {
+            const newPhotos = [...prevPhotos];
+            newPhotos[index] = file;
+            return newPhotos;
+          });
+        }
+      };
 
     return (
         <form onSubmit={formik.handleSubmit} className="max-w-xl mx-auto">
@@ -178,14 +223,12 @@ export default function EditOffer(props: IOffer) {
           </label>
           {formik.values.photos.map((photo, index) => (
             <div key={index} className="flex items-center mb-2">
-              <input
-                id={`photo-${index}`}
-                name={`photos[${index}]`}
-                type="text"
-                onChange={formik.handleChange}
-                value={photo}
-                className={`border px-4 py-2 w-full`}
-              />
+                {photo !== "" && (
+              <img src={photo} alt={`Photo ${index + 1}`} className="w-16 h-16 object-cover rounded" />
+                )}
+                {photo === "" && (
+                    <input type="file" onChange={(event) => handleFileChange(event, index)} />
+                )}
               <button type="button" onClick={() => handleRemovePhoto(index)} className="ml-2 bg-red-500 text-white px-2 py-1 rounded">
                 Remove
               </button>

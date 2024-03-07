@@ -273,10 +273,26 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       };
 
-      const handleDeleteOffer = async (id: string) => {
+      const handleDeleteOffer = async (id: string, photoUrls: string[]) => {
         const confirmed = window.confirm("Are you sure you want to delete this offer?");
         if (confirmed) {
           try {
+            await Promise.all(
+              photoUrls.map(async (photoUrl) => {
+                const publicId = photoUrl.split("/").slice(-1)[0].split(".")[0];
+                await fetch(`${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/delete_by_token`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    public_ids: [publicId],
+                    token: process.env.REACT_APP_CLOUDINARY_DELETE_TOKEN,
+                  }),
+                });
+              })
+            );
+      
             const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ENDPOINT}`, {
               method: "DELETE",
               credentials: "include",
@@ -286,6 +302,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               },
               body: JSON.stringify({ id }),
             });
+      
             if (response.ok) {
               fetchUsersOffers();
             } else {
@@ -295,7 +312,8 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             console.error("Error deleting offer:", error);
           }
         }
-      }
+      };
+      
 
       const handleEditOffer = (id: string) => {
         setEditingOfferId(id);
@@ -418,7 +436,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                     </Link>
                   )}
                   <button
-                    onClick={() => handleDeleteOffer(offer.id)}
+                    onClick={() => handleDeleteOffer(offer.id, offer.photos)}
                     className="mt-2 bg-red-500 text-white px-4 py-2 mr-2 rounded hover:bg-red-600 transition duration-300"
                   >
                     Delete
