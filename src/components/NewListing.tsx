@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik} from "formik";
 import LocationInput from "./LocationInput";
 import makeModelCarsDataJson from "../testJsons/makeModelCars.json";
@@ -41,7 +41,7 @@ const validationSchema = Yup.object().shape({
     model: Yup.string().required("Required"),
     price: Yup.number().required("Required").min(0, "Price must be greater than 0").max(100000000, "Price must be less than 100000000").integer("Price must be an integer"),
     description: Yup.string().required("Required").max(3000, "Description must be less than 3000 characters"),
-    photos: Yup.array().of(Yup.string().required("Required")).max(10, "Maximum 10 photos"),
+    // photos: Yup.array().of(Yup.string().url("Invalid URL")),
     year: Yup.number().required("Required").min(1900, "Year must be greater than 1900").max(new Date().getFullYear(), "Year must be less than current year").integer("Year must be an integer"),
     mileage: Yup.number().min(0, "Mileage must be greater than 0").max(1000000, "Mileage must be less than 1000000").integer("Mileage must be an integer"),
     vin_number: Yup.string().max(17, "VIN number must be 17 characters"),
@@ -65,6 +65,8 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Element {
+  const [tempPhotos, setTempPhotos] = useState<File[]>([]);
+
   const formik = useFormik({
     initialValues: {
         title: "",
@@ -96,22 +98,7 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     } as FormValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-        console.log(values);
-        try{
-            fetch(`${process.env.REACT_APP_CARS_ADD_ENDPOINT}`, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Credentials": "true",
-                },
-                body: JSON.stringify(values),
-            });
-        }
-        catch(error){
-            console.error("Error:", error);
-        }
+        handleSubmit();
     }
   });
 
@@ -125,6 +112,63 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     formik.setFieldValue("make", event.target.value);
     formik.setFieldValue("model", "");
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const uploadedPhotoUrls = await Promise.all(
+        tempPhotos.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", `${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`);
+          const response = await fetch(`${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          return data.secure_url;
+        })
+      );
+
+      const valuesWithPhotos = { ...formik.values, photos: uploadedPhotoUrls };
+      await fetch(`${process.env.REACT_APP_CARS_ADD_ENDPOINT}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+        },
+        body: JSON.stringify(valuesWithPhotos),
+      });
+
+      setTempPhotos([]);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setTempPhotos((prevPhotos) => {
+        const newPhotos = [...prevPhotos];
+        newPhotos[index] = file;
+        return newPhotos;
+      });
+    }
+  };
+
+  const handleRemoveTempPhoto = (index: number) => {
+    setTempPhotos((prevPhotos) => {
+      const newPhotos = [...prevPhotos];
+      newPhotos.splice(index, 1);
+      return newPhotos;
+    });
+  };
+
+  const handleAddTempPhoto = () => {
+    setTempPhotos((prevPhotos) => [...prevPhotos, new File([""], `temp${prevPhotos.length}`)]);
   };
 
   if (isLoggedIn) {
@@ -196,33 +240,23 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
         />
         {formik.errors.description ? <div className="text-red-500">{formik.errors.description}</div> : null}
         <label htmlFor="photos" className="block mb-1 font-bold">Photos</label>
-        {formik.values.photos.map((photo, index) => (
+        {tempPhotos.map((photo, index) => (
             <div key={index} className="flex mb-2">
                 <input
-                key={index}
-                type="text"
-                value={photo}
+                type="file"
                 className="w-full border p-2 mb-2"
-                onChange={(event) => {
-                    const newPhotos = formik.values.photos.slice();
-                    newPhotos[index] = event.target.value;
-                    formik.setFieldValue("photos", newPhotos);
-                } } />
+                onChange={(event) => handleFileChange(event, index)}
+                />
                 <button type="button" 
                 className="border rounded p-3 mb-2 bg-red-500 text-white hover:bg-red-600 transition duration-300"
-                onClick={() => {
-                    const newPhotos = formik.values.photos.slice();
-                    newPhotos.splice(index, 1);
-                    formik.setFieldValue("photos", newPhotos);
-                } }>x</button>
+                onClick={() => handleRemoveTempPhoto(index)}>
+                x</button>
             </div>
         ))}
         <button
             type="button"
             className="border rounded p-3 mb-3 bg-green-500 text-white hover:bg-green-600 transition duration-300"
-            onClick={() => {
-                formik.setFieldValue("photos", formik.values.photos.concat(""));
-            }}
+            onClick={handleAddTempPhoto}
         >
         +
         </button>
@@ -315,14 +349,14 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
             onChange={formik.handleChange}
             value={formik.values.type}
         >
-            <option value="">Select type</option>
+            <option value="">Type</option>
             <option value="Sedan">Sedan</option>
+            <option value="Station Wagon">Station Wagon</option>
             <option value="Hatchback">Hatchback</option>
             <option value="SUV">SUV</option>
-            <option value="Convertible">Convertible</option>
-            <option value="Wagon">Wagon</option>
             <option value="Van">Van</option>
-            <option value="Pickup">Pickup</option>
+            <option value="Cabriolet">Cabriolet</option>
+            <option value="Coupe">Coupe</option>
             <option value="Other">Other</option>
         </select>
         {formik.errors.type ? <div className="text-red-500">{formik.errors.type}</div> : null}
