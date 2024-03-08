@@ -52,24 +52,35 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       setEditedProfile(null);
     };
 
-    const handleDeleteAllOffers = () => {
+    const handleDeleteAllOffers = async () => {
       const confirmed = window.confirm("Are you sure you want to delete all your offers?");
+      offerData?.forEach((offer) => {
+        offer.photos.forEach((photo) => {
+          removePhotoFromCloudinary(photo);
+        });
+      });
+
       if (confirmed) {
-        try{
-          fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ALL_USER_CARS_ENDPOINT}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
-              "Content-Type": "application/json",
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Credentials": "true",
             },
           });
+    
+          if (response.ok) {
+            fetchUsersOffers();
+          } else {
+            console.log("Error deleting all offers");
+          }
         } catch (error) {
           console.error("Error deleting all offers:", error);
         }
       }
-    };
+    }
     
 
     const handleSaveProfile = () => {
@@ -248,6 +259,11 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         const confirmed = window.confirm("Are you sure you want to delete your account?");
 
         if (confirmed) {
+          offerData?.forEach((offer) => {
+            offer.photos.forEach((photo) => {
+              removePhotoFromCloudinary(photo);
+            });
+          });
           try {
             const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ALL_USER_CARS_ENDPOINT}`, {
               method: "DELETE",
