@@ -22,6 +22,7 @@ const offerSchema = Yup.object().shape({
 export default function EditOffer(props: IOffer) {
     const [activeInput, setActiveInput] = useState("description");
     const [tempPhotos, setTempPhotos] = useState<File[]>([]);
+    const [photosToDelete, setPhotosToDelete] = useState<string[]>([]);
 
     const formik = useFormik({
         initialValues: {
@@ -40,6 +41,8 @@ export default function EditOffer(props: IOffer) {
 
     const handleSubmit = async () => {
         try {
+            await Promise.all(photosToDelete.map((photo) => removePhotoFromCloudinary(photo)));
+            
             const nonEmptyTempPhotos = tempPhotos.filter(file => file instanceof File);
             const uploadedPhotoUrls = await Promise.all(
                 nonEmptyTempPhotos.map(async (file) => {
@@ -84,21 +87,62 @@ export default function EditOffer(props: IOffer) {
         formik.setFieldValue("photos", [...formik.values.photos, ""]);
     }
 
-    const handleRemovePhoto = (index: number) => {
-        const photos = formik.values.photos;
-        if (tempPhotos[index]) {
-            setTempPhotos((prevPhotos) => {
-                const newPhotos = [...prevPhotos];
-                newPhotos.splice(index, 1);
-                return newPhotos;
+    const sha1 = async (string: string) => {
+        const buffer = new TextEncoder().encode(string);
+        const hash = await crypto.subtle.digest("SHA-1", buffer);
+        const hexCodes = [];
+        const view = new DataView(hash);
+        for (let i = 0; i < view.byteLength; i += 4) {
+            const value = view.getUint32(i);
+            const stringValue = value.toString(16);
+            const padding = "00000000";
+            const paddedValue = (padding + stringValue).slice(-padding.length);
+            hexCodes.push(paddedValue);
+        }
+        return hexCodes.join("");
+    };
+    
+    const removePhotoFromCloudinary = async (photo: string) => {
+    
+        const timestamp = new Date().getTime();
+        const publicId = photo.split("/").slice(-1)[0].split(".")[0];
+        const apiSecret = process.env.REACT_APP_CLOUDINARY_API_SECRET;
+        const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+        const apiKey = process.env.REACT_APP_CLOUDINARY_API_KEY;
+
+        const stringToSign = `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+        const signature = await sha1(stringToSign);
+
+        const formData = new FormData();
+        formData.append('public_id', publicId);
+        formData.append('signature', signature);
+        if (apiKey) {
+            formData.append('api_key', apiKey);
+        }
+        formData.append('timestamp', timestamp.toString());
+        try {
+            const response = await fetch(`${cloudName}/image/destroy`, {
+                method: 'POST',
+                body: formData,
             });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            } else {
+                console.log('Error deleting image');
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
-        if (photos.length > 1) {
-            photos.splice(index, 1);
-            formik.setFieldValue("photos", photos);
-        }
-        else {
-            window.alert("You must have at least one photo");
+    }
+
+    const handleRemovePhoto = (index: number) => {
+        const photos = formik.values.photos.filter((photo, i) => i !== index);
+        const photoToDelete = formik.values.photos[index];
+        formik.setFieldValue("photos", photos);
+        if (photoToDelete !== "") {
+            setPhotosToDelete((prevPhotos) => [...prevPhotos, photoToDelete]);
         }
     }
 

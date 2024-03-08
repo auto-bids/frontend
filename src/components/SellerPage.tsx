@@ -59,7 +59,6 @@ export default function SellerPage() {
     };
 
       const fetchOfferData = async () => {
-        console.log(`${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}`);
         try {
           const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}`, {
             method: "GET",
