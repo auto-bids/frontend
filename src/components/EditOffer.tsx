@@ -87,22 +87,22 @@ export default function EditOffer(props: IOffer) {
         formik.setFieldValue("photos", [...formik.values.photos, ""]);
     }
 
-    const sha1 = async (string: string) => {
-        const buffer = new TextEncoder().encode(string);
-        const hash = await crypto.subtle.digest("SHA-1", buffer);
-        const hexCodes = [];
-        const view = new DataView(hash);
-        for (let i = 0; i < view.byteLength; i += 4) {
-            const value = view.getUint32(i);
-            const stringValue = value.toString(16);
-            const padding = "00000000";
-            const paddedValue = (padding + stringValue).slice(-padding.length);
-            hexCodes.push(paddedValue);
-        }
-        return hexCodes.join("");
-    };
     
     const removePhotoFromCloudinary = async (photo: string) => {
+        const sha1 = async (string: string) => {
+            const buffer = new TextEncoder().encode(string);
+            const hash = await crypto.subtle.digest("SHA-1", buffer);
+            const hexCodes = [];
+            const view = new DataView(hash);
+            for (let i = 0; i < view.byteLength; i += 4) {
+                const value = view.getUint32(i);
+                const stringValue = value.toString(16);
+                const padding = "00000000";
+                const paddedValue = (padding + stringValue).slice(-padding.length);
+                hexCodes.push(paddedValue);
+            }
+            return hexCodes.join("");
+        };
     
         const timestamp = new Date().getTime();
         const publicId = photo.split("/").slice(-1)[0].split(".")[0];
