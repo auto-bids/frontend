@@ -84,6 +84,10 @@ export default function EditOffer(props: IOffer) {
     
 
     const handleAddPhoto = () => {
+        if (formik.values.photos.length >= 10) {
+            alert("You can have at most 10 photos");
+            return;
+        }
         formik.setFieldValue("photos", [...formik.values.photos, ""]);
     }
 
@@ -148,6 +152,11 @@ export default function EditOffer(props: IOffer) {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const file = event.target.files?.[0];
+        const allowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+        if (!file || !allowedFileTypes.includes(file.type)) {
+            alert("Invalid file type. Please upload a JPEG or PNG image.");
+            return;
+        }
         if (file) {
           setTempPhotos((prevPhotos) => {
             const newPhotos = [...prevPhotos];

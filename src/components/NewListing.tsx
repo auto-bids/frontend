@@ -41,7 +41,6 @@ const validationSchema = Yup.object().shape({
     model: Yup.string().required("Required"),
     price: Yup.number().required("Required").min(0, "Price must be greater than 0").max(100000000, "Price must be less than 100000000").integer("Price must be an integer"),
     description: Yup.string().required("Required").max(3000, "Description must be less than 3000 characters"),
-    // photos: Yup.array().of(Yup.string().url("Invalid URL")),
     year: Yup.number().required("Required").min(1900, "Year must be greater than 1900").max(new Date().getFullYear(), "Year must be less than current year").integer("Year must be an integer"),
     mileage: Yup.number().min(0, "Mileage must be greater than 0").max(1000000, "Mileage must be less than 1000000").integer("Mileage must be an integer"),
     vin_number: Yup.string().max(17, "VIN number must be 17 characters"),
@@ -150,6 +149,11 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = event.target.files?.[0];
+    const allowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!file || !allowedFileTypes.includes(file.type)) {
+      alert("Invalid file type. Please upload a JPEG or PNG image.");
+      return;
+    }
     if (file) {
       setTempPhotos((prevPhotos) => {
         const newPhotos = [...prevPhotos];
@@ -168,6 +172,10 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   };
 
   const handleAddTempPhoto = () => {
+    if (tempPhotos.length >= 10) {
+      alert("Maximum 10 photos allowed");
+      return;
+    }
     setTempPhotos((prevPhotos) => [...prevPhotos, new File([""], `temp${prevPhotos.length}`)]);
   };
 
