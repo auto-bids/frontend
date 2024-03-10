@@ -42,6 +42,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [editingOfferId, setEditingOfferId] = useState<string | null>(null)
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [selectedComponent, setSelectedComponent] = useState("yourOffers");
+    const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -84,13 +85,29 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     }
     
 
-    const handleSaveProfile = () => {
+    const handleSaveProfile = async () => {
+      const uploadedProfilePicture = newProfilePicture ? await (async () => {
+        const formData = new FormData();
+        formData.append("file", newProfilePicture);
+        formData.append("upload_preset", `${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`);
+        const response = await fetch(`${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+        return data.secure_url;
+      })() : null;
+
+      if (uploadedProfilePicture !== null && profileData?.profile_picture) {
+        await removePhotoFromCloudinary(profileData.profile_picture);
+      }
+
       AccountSchema.validate(editedProfile)
         .then(() => {
           setIsEditing(false);
           setProfileData(editedProfile ? { ...editedProfile } : null);
           const dataToSend = {
-            profile_image: editedProfile?.profile_picture,
+            profile_image: uploadedProfilePicture || profileData?.profile_picture,
             user_name: editedProfile?.user_name,
           };
           fetch(`${process.env.REACT_APP_PROFILE_EDIT_ENDPOINT}`, {
@@ -104,14 +121,14 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             body: JSON.stringify(dataToSend),
           });
         })
+        .then(() => {
+          fetchData();
+        })
         .catch((error) => {
           console.error("Error validating profile data:", error);
           if (error instanceof Yup.ValidationError) {
             if (error.path === "user_name") {
               alert("Name must be between 2 and 50 characters long");
-            }
-            if (error.path === "profile_picture") {
-              alert("Profile picture must be a valid URL");
             }
           }
         });
@@ -341,7 +358,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         <div className="account">
           <div className="account-header flex justify-between items-center bg-gray-400 p-4">
             <div className="account-header-profile flex items-center">
-              <img src={profileData?.profile_picture} alt="profile" className="w-12 h-12 rounded-full mr-4" />
+              <img src={profileData?.profile_picture} alt="profile" className="w-20 h-20 rounded-full mr-4" />
               <div className="account-header-profile-info">
                 <h2 className="text-xl font-bold">{profileData?.user_name}</h2>
                 <p>{profileData?.email}</p>
@@ -381,10 +398,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               <label className="block mb-4">
                 Profile picture:
                 <input
-                  type="text"
+                  type = "file"
                   name="profile_picture"
-                  value={editedProfile.profile_picture}
-                  onChange={handleInputChange}
+                  onChange={(e) => setNewProfilePicture(e.target.files ? e.target.files[0] : null)}
                   className="border border-gray-300 p-2 rounded w-full"
                 />
               </label>

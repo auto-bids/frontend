@@ -105,7 +105,7 @@ export default function SellerPage() {
     return(
       <div className="seller-page p-4">
       <div className="seller-page-header flex items-center">
-        <img src={sellerData?.profile_picture} alt="seller profile picture" className="w-12 h-12 rounded-full object-cover mr-4" />
+        <img src={sellerData?.profile_picture} alt="seller profile picture" className="w-20 h-20 rounded-full object-cover mr-4" />
         <div>
           <h1 className="text-2xl font-bold">{sellerData?.user_name}</h1>
           <h2>{sellerData?.email}</h2>
