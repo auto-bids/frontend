@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import removePhotoFromCloudinary from '../utils/cloudinaryApi';
+import LoadingOverlay from "./LoadingOverlay";
 
 interface IOffer {
   setEditingOfferId: (id: string) => void;
@@ -24,6 +25,7 @@ export default function EditOffer(props: IOffer) {
     const [activeInput, setActiveInput] = useState("description");
     const [tempPhotos, setTempPhotos] = useState<File[]>([]);
     const [photosToDelete, setPhotosToDelete] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -41,6 +43,7 @@ export default function EditOffer(props: IOffer) {
     });
 
     const handleSubmit = async () => {
+        setLoading(true);
         try {
             await Promise.all(photosToDelete.map((photo) => removePhotoFromCloudinary(photo)));
             
@@ -81,6 +84,9 @@ export default function EditOffer(props: IOffer) {
         } catch (error) {
             console.error("Error:", error);
         }
+        finally {
+            setLoading(false);
+        }
     };
     
 
@@ -117,6 +123,12 @@ export default function EditOffer(props: IOffer) {
           });
         }
       };
+
+    if (
+        loading
+      ) {
+        return <LoadingOverlay />;
+      }
 
     return (
         <form onSubmit={formik.handleSubmit} className="max-w-xl mx-auto">

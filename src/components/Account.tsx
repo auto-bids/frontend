@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import EditOffer from "./EditOffer";
 import removePhotoFromCloudinary from '../utils/cloudinaryApi';
+import LoadingOverlay from "./LoadingOverlay";
 
 interface IOffer {
   mileage: number;
@@ -43,6 +44,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [selectedComponent, setSelectedComponent] = useState("yourOffers");
     const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -86,6 +88,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     
 
     const handleSaveProfile = async () => {
+      setLoading(true);
       const uploadedProfilePicture = newProfilePicture ? await (async () => {
         const formData = new FormData();
         formData.append("file", newProfilePicture);
@@ -131,6 +134,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               alert("Name must be between 2 and 50 characters long");
             }
           }
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
 
@@ -229,6 +235,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         const confirmed = window.confirm("Are you sure you want to delete your account?");
 
         if (confirmed) {
+          setLoading(true);
           offerData?.forEach((offer) => {
             offer.photos.forEach((photo) => {
               removePhotoFromCloudinary(photo);
@@ -281,6 +288,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           } catch (error) {
             console.error("Error deleting profile:", error);
           }
+          finally {
+            setLoading(false);
+          }
         }
       };
 
@@ -310,6 +320,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       const handleDeleteOffer = async (id: string, photoUrls: string[]) => {
         const confirmed = window.confirm("Are you sure you want to delete this offer?");
         if (confirmed) {
+          setLoading(true);
           try {
             photoUrls.forEach((photo) => {
               removePhotoFromCloudinary(photo);
@@ -331,6 +342,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             }
           } catch (error) {
             console.error("Error deleting offer:", error);
+          }
+          finally {
+            setLoading(false);
           }
         }
       };
@@ -354,8 +368,10 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         )
       }
 
+
       return (
         <div className="account">
+          {loading && <LoadingOverlay />}
           <div className="account-header flex justify-between items-center bg-gray-400 p-4">
             <div className="account-header-profile flex items-center">
               <img src={profileData?.profile_picture} alt="profile" className="w-20 h-20 rounded-full mr-4" />
