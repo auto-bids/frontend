@@ -4,6 +4,7 @@ import LocationInput from "./LocationInput";
 import makeModelCarsDataJson from "../testJsons/makeModelCars.json";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import LoadingOverlay from "./LoadingOverlay";
 
 interface FormValues {
     title: string;
@@ -65,6 +66,7 @@ const validationSchema = Yup.object().shape({
 
 export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Element {
   const [tempPhotos, setTempPhotos] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -114,9 +116,11 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const uploadedPhotoUrls = await Promise.all(
         tempPhotos.map(async (file) => {
+          if (file instanceof File) {
           const formData = new FormData();
           formData.append("file", file);
           formData.append("upload_preset", `${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`);
@@ -126,10 +130,11 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           });
           const data = await response.json();
           return data.secure_url;
+          }
         })
       );
-
-      const valuesWithPhotos = { ...formik.values, photos: uploadedPhotoUrls };
+      const filteredUploadedPhotoUrls = uploadedPhotoUrls.filter((photo) => photo !== undefined);
+      const valuesWithPhotos = { ...formik.values, photos: filteredUploadedPhotoUrls };
       await fetch(`${process.env.REACT_APP_CARS_ADD_ENDPOINT}`, {
         method: "POST",
         credentials: "include",
@@ -144,6 +149,10 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
       setTempPhotos([]);
     } catch (error) {
       console.error("Error:", error);
+    }
+    finally {
+      setLoading(false);
+      window.location.href = "/";
     }
   };
 
@@ -182,6 +191,7 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   if (isLoggedIn) {
     return (
     <div className="new-listing-page p-4">
+      {loading && <LoadingOverlay />}
       <h1 className="text-2xl font-bold mb-4">New Listing</h1>
       <form className="new-listing-form" onSubmit={formik.handleSubmit}>
         <label htmlFor="title" className="block mb-1 font-bold">Title</label>
@@ -234,6 +244,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           name="price"
           type="number"
           className="w-full border p-2 mb-2"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          onWheel={(e) => e.currentTarget.blur()}
           onChange={formik.handleChange}
           value={formik.values.price}
         />
@@ -274,6 +287,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           id="year"
           name="year"
           type="number"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          onWheel={(e) => e.currentTarget.blur()}
           className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.year}
@@ -284,6 +300,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           id="mileage"
           name="mileage"
           type="number"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          onWheel={(e) => e.currentTarget.blur()}
           className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.mileage}
@@ -304,6 +323,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           id="engine_capacity"
           name="engine_capacity"
           type="number"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          onWheel={(e) => e.currentTarget.blur()}
           className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.engine_capacity}
@@ -373,6 +395,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           id="power"
           name="power"
           type="number"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          onWheel={(e) => e.currentTarget.blur()}
           className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.power}
@@ -390,6 +415,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
           id="doors"
           name="doors"
           type="number"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          onWheel={(e) => e.currentTarget.blur()}
           className="w-full border p-2 mb-2"
           onChange={formik.handleChange}
           value={formik.values.doors}
