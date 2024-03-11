@@ -132,7 +132,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   return (
     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
   
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
         <div>
           <label className="block text-gray-700 text-sm font-bold mb-2">Make:</label>
           <select
@@ -190,17 +190,23 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         <label className="block text-gray-700 text-sm font-bold mb-2">Year:</label>
         <div className="grid grid-cols-2 gap-4">
           <input
-            type="text"
             name="year_min"
             placeholder="Year from"
+            type="number"
+            pattern="[0-9]*"
+            inputMode="numeric"
+            onWheel={(e) => e.currentTarget.blur()}
             value={formValues.year_min}
             onChange={handleInputChange}
             className="form-input border rounded p-2 full"
           />
           <input
-            type="text"
             name="year_max"
             placeholder="Year to"
+            type="number"
+            pattern="[0-9]*"
+            inputMode="numeric"
+            onWheel={(e) => e.currentTarget.blur()}
             value={formValues.year_max}
             onChange={handleInputChange}
             className="form-input border rounded p-2 full"
@@ -209,12 +215,12 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       </div>
   
       {showAllFields && (
-        <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Mileage:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="text" name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="text" name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
             </div>
           </div>
   
@@ -222,8 +228,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             <div className="flex flex-col space-y-2">
               <label className="block text-sm font-medium text-gray-700">Price:</label>
               <div className="flex space-x-2">
-                <input className="form-input border rounded p-2 full" type="text" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} />
-                <input className="form-input border rounded p-2 full" type="text" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} />
+                <input className="form-input border rounded p-2 full" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
+                <input className="form-input border rounded p-2 full" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
               </div>
             </div>
           )}
@@ -233,8 +239,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
               <div className="flex flex-col space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Current Bid:</label>
                 <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="text" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="text" name="currentBidTo" placeholder="Current Bid to" value={formValues.currentBidTo} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} />
+                  <input className="form-input border rounded p-2 full" name="currentBidTo" placeholder="Current Bid to" value={formValues.currentBidTo} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} />
                 </div>
               </div>
 
@@ -257,8 +263,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
               <div className="flex flex-col space-y-2">
                 <label className="block text-sm font-medium text-gray-700">End Date:</label>
                 <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="text" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="text" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" type="date" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
+                  <input className="form-input border rounded p-2 full" type="date" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
                 </div>
               </div>
             </>
@@ -303,16 +309,16 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Engine Capacity:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="text" name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="text" name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
             </div>
           </div>
             
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Power:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="text" name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="text" name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
+              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
             </div>
           </div>
   
