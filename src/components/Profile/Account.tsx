@@ -1,12 +1,12 @@
 import React from "react";
-import OfferElement from "./OfferElement";
+import OfferElement from "../Other/OfferElement";
 import Chat from "./Chat";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import EditOffer from "./EditOffer";
-import removePhotoFromCloudinary from '../utils/cloudinaryApi';
-import LoadingOverlay from "./LoadingOverlay";
+import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
+import LoadingOverlay from "../Other/LoadingOverlay";
 
 interface IOffer {
   mileage: number;

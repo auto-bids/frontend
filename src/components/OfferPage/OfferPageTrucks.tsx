@@ -39,7 +39,7 @@ export default function OfferPageTrucks(){
     
         //code below is for testing purposes only, it will be replaced with the code above
         useEffect(() => {
-            import("../testJsons/testOfferTrucks.json")
+            import("../../testJsons/testOfferTrucks.json")
             .then((data) => setOfferData(data.default))
             .catch((error) => console.error("Error loading local data:", error));
         }, []);

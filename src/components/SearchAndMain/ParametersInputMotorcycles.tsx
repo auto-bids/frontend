@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import LocationInputSearch from "./LocationInputSearch";
-import motorcycleDataJson from "../testJsons/makeModelMotorcycles.json";
+import LocationInputSearch from "../Map/LocationInputSearch";
+import motorcycleDataJson from "../../testJsons/makeModelMotorcycles.json";
 
 interface MotorcycleData {
   make: string;

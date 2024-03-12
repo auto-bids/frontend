@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import LocationInput from "./LocationInput";
-import makeModelConstructionMachinery from "../testJsons/makeModelConstructionMachinery.json";
+import LocationInput from "../Map/LocationInput";
+import makeModelConstructionMachinery from "../../testJsons/makeModelConstructionMachinery.json";
 
 export default function NewListingConstructionMachinery() {
     const [constructionMachineryMakes, setConstructionMachineryMakes] = useState<string[]>([]);

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useFormik} from "formik";
-import LocationInput from "./LocationInput";
-import makeModelCarsDataJson from "../testJsons/makeModelCars.json";
+import LocationInput from "../Map/LocationInput";
+import makeModelCarsDataJson from "../../testJsons/makeModelCars.json";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import LoadingOverlay from "./LoadingOverlay";
+import LoadingOverlay from "../Other/LoadingOverlay";
 
 interface FormValues {
     title: string;

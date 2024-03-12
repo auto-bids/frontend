@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import LocationInput from "./LocationInput";
-import makeModelDeliveryVans from "../testJsons/makeModelDeliveryVans.json";
+import LocationInput from "../Map/LocationInput";
+import makeModelDeliveryVans from "../../testJsons/makeModelDeliveryVans.json";
 
 interface MakeModelDeliveryVans {
     make: string;

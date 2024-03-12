@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import LocationInputSearch from "./LocationInputSearch";
-import carDataJson from "../testJsons/makeModelCars.json";
+import LocationInputSearch from "../Map/LocationInputSearch";
+import carDataJson from "../../testJsons/makeModelCars.json";
 
 interface CarData {
   make: string;

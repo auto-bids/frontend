@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import LocationInputSearch from "./LocationInputSearch";
-import deliveryVanDataJson from "../testJsons/makeModelDeliveryVans.json";
+import LocationInputSearch from "../Map/LocationInputSearch";
+import deliveryVanDataJson from "../../testJsons/makeModelDeliveryVans.json";
 
 export default function ParametersInputDeliveryVans({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
   const [deliveryVanData, setDeliveryVanData] = useState(deliveryVanDataJson);

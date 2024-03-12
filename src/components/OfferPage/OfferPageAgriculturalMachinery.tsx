@@ -38,7 +38,7 @@ export default function OfferPageAgriculturalMachinery(){
 
     //code below is for testing purposes only, it will be replaced with the code above
     useEffect(() => {
-        import("../testJsons/testOfferAgriculturalMachinery.json")
+        import("../../testJsons/testOfferAgriculturalMachinery.json")
           .then((data) => setOfferData(data.default))
           .catch((error) => console.error("Error loading local data:", error));
       }, []);

@@ -51,7 +51,7 @@ export default function OfferPageDeliveryVans(){
     
         //code below is for testing purposes only, it will be replaced with the code above
         useEffect(() => {
-            import("../testJsons/testOfferDeliveryVans.json")
+            import("../../testJsons/testOfferDeliveryVans.json")
             .then((data) => setOfferData(data.default))
             .catch((error) => console.error("Error loading local data:", error));
         }, []);

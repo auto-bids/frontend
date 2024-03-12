@@ -46,7 +46,7 @@ export default function OfferPageMotorcycles(){
     
         //code below is for testing purposes only, it will be replaced with the code above
         useEffect(() => {
-            import("../testJsons/testOfferMotorcycles.json")
+            import("../../testJsons/testOfferMotorcycles.json")
             .then((data) => setOfferData(data.default))
             .catch((error) => console.error("Error loading local data:", error));
         }, []);

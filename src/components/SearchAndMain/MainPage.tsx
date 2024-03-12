@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import ParametersInput from "./ParametersInput";
 import ParametersInputMotorcycles from "./ParametersInputMotorcycles";
-import OfferElement from "./OfferElement";
+import OfferElement from "../Other/OfferElement";
 import ParametersInputDeliveryVans from "./ParametersInputDeliveryVans";
 import ParametersInputTrucks from "./ParametersInputTrucks";
 import ParametersInputConstructionMachinery from "./ParametersInputConstructionMachinery";
@@ -63,7 +63,7 @@ export default function MainPage() {
         const fetchData = async () => {
             let data;
             if (buyNowOrBid === "bid") {
-                data = await import("../testJsons/testBidOffer.json");
+                data = await import("../../testJsons/testBidOffer.json");
                 if (data.default.auction) {
                     const { id, photos, title, year, auction } = data.default;
                     setOfferData([{ id, image: photos.length > 0 ? photos[0] : "", title, year, auction }]);
@@ -75,22 +75,22 @@ export default function MainPage() {
                     fetchOffers("cars");
                     break;
                 case "motorcycles":
-                    data = await import("../testJsons/testOfferMotorcycles.json");
+                    data = await import("../../testJsons/testOfferMotorcycles.json");
                     break;
                 case "delivery-vans":
-                    data = await import("../testJsons/testOfferDeliveryVans.json");
+                    data = await import("../../testJsons/testOfferDeliveryVans.json");
                     break;
                 case "trucks":
-                    data = await import("../testJsons/testOfferTrucks.json");
+                    data = await import("../../testJsons/testOfferTrucks.json");
                     break;
                 case "construction-machinery":
-                    data = await import("../testJsons/testOfferConstructionMachinery.json");
+                    data = await import("../../testJsons/testOfferConstructionMachinery.json");
                     break;
                 case "trailers":
-                    data = await import("../testJsons/testOfferTrailers.json");
+                    data = await import("../../testJsons/testOfferTrailers.json");
                     break;
                 case "agricultural-machinery":
-                    data = await import("../testJsons/testOfferAgriculturalMachinery.json");
+                    data = await import("../../testJsons/testOfferAgriculturalMachinery.json");
                     break;
                 default:
                     data = null;

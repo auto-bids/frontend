@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import MapComponent from "./MapComponent";
+import MapComponent from "../Map/MapComponent";
 import { Link } from "react-router-dom";
 
 interface SellerElementProps {

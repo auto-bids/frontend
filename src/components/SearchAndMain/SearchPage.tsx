@@ -6,10 +6,10 @@ import ParametersInputConstructionMachinery from "./ParametersInputConstructionM
 import ParametersInputTrailers from "./ParametersInputTrailers";
 import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
 import React from "react";
-import OfferElement from "./OfferElement";
+import OfferElement from "../Other/OfferElement";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import PaginationButton from "./PaginationButton";
+import PaginationButton from "../Other/PaginationButton";
 
 interface IAuction {
   isActive: boolean;

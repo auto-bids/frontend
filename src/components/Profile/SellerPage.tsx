@@ -1,12 +1,12 @@
 import React, {useEffect} from "react";
-import ParametersInput from "./ParametersInput";
-import ParametersInputMotorcycles from "./ParametersInputMotorcycles";
-import OfferElement from "./OfferElement";
-import ParametersInputDeliveryVans from "./ParametersInputDeliveryVans";
-import ParametersInputTrucks from "./ParametersInputTrucks";
-import ParametersInputConstructionMachinery from "./ParametersInputConstructionMachinery";
-import ParametersInputTrailers from "./ParametersInputTrailers";
-import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
+import ParametersInput from "../SearchAndMain/ParametersInput";
+import ParametersInputMotorcycles from "../SearchAndMain/ParametersInputMotorcycles";
+import OfferElement from "../Other/OfferElement";
+import ParametersInputDeliveryVans from "../SearchAndMain/ParametersInputDeliveryVans";
+import ParametersInputTrucks from "../SearchAndMain/ParametersInputTrucks";
+import ParametersInputConstructionMachinery from "../SearchAndMain/ParametersInputConstructionMachinery";
+import ParametersInputTrailers from "../SearchAndMain/ParametersInputTrailers";
+import ParametersInputAgriculturalMachinery from "../SearchAndMain/ParametersInputAgriculturalMachinery";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

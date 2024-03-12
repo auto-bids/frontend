@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import LocationInputSearch from "./LocationInputSearch";
-import { useState, useEffect } from "react";
-import constructionMachineryDataJson from "../testJsons/makeModelConstructionMachinery.json";
+import LocationInputSearch from "../Map/LocationInputSearch";
+import trucksDataJson from "../../testJsons/makeModelTrucks.json";
 
 export default function ParametersInputMainTrucks({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
-    const [constructionMachineryMakes, setConstructionMachineryMakes] = useState<string[]>([]);
+    const [trucksData, setTrucksData] = useState(trucksDataJson);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const [locationVisible, setLocationVisible] = useState(false);
-    
+
     const handleLocationVisibleChange = () => {
         setLocationVisible(!locationVisible);
         setLocationParams({ position: null, radius: 100000 });
     };
-    const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
-        setLocationParams(params);
-    };
 
     useEffect(() => {
-        setConstructionMachineryMakes(constructionMachineryDataJson);
+        setTrucksData(trucksDataJson);
     }, []);
+
+    const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
+        setLocationParams(params);
+    }
 
     const [formValues, setFormValues] = useState({
         make: "",
@@ -27,13 +27,14 @@ export default function ParametersInputMainTrucks({showAllFields, searchParamete
         application: "",
         yearFrom: "",
         yearTo: "",
-        operatingHoursFrom: "",
-        operatingHoursTo: "",
+        mileageFrom: "",
+        mileageTo: "",
         priceFrom: "",
         priceTo: "",
         condition: "",
+        fuelType: "",
     });
-    
+
     useEffect(() => {
         if (searchParameters) {
           const paramPairs = searchParameters.split("&");
@@ -49,61 +50,74 @@ export default function ParametersInputMainTrucks({showAllFields, searchParamete
           }));
         }
       }, [searchParameters]);
-    
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
     };
 
+    const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setFormValues({ ...formValues, [event.target.name]: event.target.value, model: "" });
+    };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const searchPath = "/search/construction-machinery";
-        const queryParams = new URLSearchParams();
+        const searchPath = "/search/trucks";
+        const queryParams =  new URLSearchParams();
         Object.entries(formValues).forEach(([key, value]) => {
             if (value !== "") {
-              queryParams.append(key, value);
+                queryParams.append(key, value);
             }
         });
         if (locationParams.position) {
-            queryParams.append("latitude", locationParams.position[0].toString());
-            queryParams.append("longitude", locationParams.position[1].toString());
+            queryParams.append("lat", locationParams.position[0].toString());
+            queryParams.append("lng", locationParams.position[1].toString());
             queryParams.append("radius", locationParams.radius.toString());
         }
+
         window.location.href = `${searchPath}?${queryParams.toString()}`;
-    }
+    };
 
     return(
         <form className="parameters-input-main" onSubmit={handleSubmit}>
             <label>Make:</label>
-            <select name="make" value={formValues.make} onChange={handleInputChange}>
+            <select name="make" value={formValues.make} onChange={handleMakeChange}>
                 <option value="">Make</option>
-                {constructionMachineryMakes.map((constructionMachinery) => (
-                    <option key={constructionMachinery} value={constructionMachinery}>
-                        {constructionMachinery}
+                {trucksData.map((truck) => (
+                    <option key={truck.make} value={truck.make}>
+                        {truck.make}
                     </option>
                 ))}
             </select>
             <label>Model:</label>
-            <input type="text" placeholder="Model" name="model" value={formValues.model} onChange={handleInputChange}/>
+            <select value={formValues.model} name="model" onChange={handleInputChange}>
+                <option value="">Model</option>
+                {trucksData
+                    .find((truck) => truck.make === formValues.make)?.models.map((model) => (
+                        <option key={model} value={model}>
+                            {model}
+                        </option>
+                    ))}
+            </select>
             <label>Application:</label>
             <select name="application" value={formValues.application} onChange={handleInputChange}>
                 <option value="">Application</option>
-                <option value="Articulated Dump Truck">Articulated Dump Truck</option>
-                <option value="Backhoe Loader">Backhoe Loader</option>
-                <option value="Crawler Dozer">Crawler Dozer</option>
-                <option value="Excavator">Excavator</option>
-                <option value="Motor Grader">Motor Grader</option>
-                <option value="Skid Steer Loader">Skid Steer Loader</option>
-                <option value="Wheel Loader">Wheel Loader</option>
+                <option value="Box">Box</option>
+                <option value="Curtain Side">Curtain Side</option>
+                <option value="Flatbed">Flatbed</option>
+                <option value="Refrigerated">Refrigerated</option>
+                <option value="Tanker">Tanker</option>
+                <option value="Tipper">Tipper</option>
+                <option value="Bus">Bus</option>
+                <option value="Other">Other</option>
             </select>
-            {showAllFields && (
-            <>
             <label>Year:</label>
             <input type="text" placeholder="Year from" name="yearFrom" value={formValues.yearFrom} onChange={handleInputChange} />
             <input type="text" placeholder="Year to" name="yearTo" value={formValues.yearTo} onChange={handleInputChange} />
-            <label>Operating Hours:</label>
-            <input type="text" placeholder="Operating Hours from" name="operatingHoursFrom" value={formValues.operatingHoursFrom} onChange={handleInputChange} />
-            <input type="text" placeholder="Operating Hours to" name="operatingHoursTo" value={formValues.operatingHoursTo} onChange={handleInputChange} />
+            {showAllFields && (
+            <>
+            <label>Mileage:</label>
+            <input type="text" placeholder="Mileage from" name="mileageFrom" value={formValues.mileageFrom} onChange={handleInputChange} />
+            <input type="text" placeholder="Mileage to" name="mileageTo" value={formValues.mileageTo} onChange={handleInputChange} />
             <label>Price:</label>
             <input type="text" placeholder="Price from" name="priceFrom" value={formValues.priceFrom} onChange={handleInputChange} />
             <input type="text" placeholder="Price to" name="priceTo" value={formValues.priceTo} onChange={handleInputChange} />
@@ -113,6 +127,17 @@ export default function ParametersInputMainTrucks({showAllFields, searchParamete
                 <option value="New">New</option>
                 <option value="Used">Used</option>
                 <option value="Damaged">Damaged</option>
+            </select>
+            <label>Fuel:</label>
+            <select name="fuelType" value={formValues.fuelType} onChange={handleInputChange}>
+                <option value="">Fuel</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+                <option value="LPG">LPG</option>
+                <option value="CNG">CNG</option>
+                <option value="LNG">LNG</option>
+                <option value="Gasoline">Gasoline</option>
+                <option value="Other">Other</option>
             </select>
             {
                 locationVisible ? (
@@ -124,7 +149,8 @@ export default function ParametersInputMainTrucks({showAllFields, searchParamete
             {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
             </>
             )}
-            <button type="submit">Search</button>
+            <button type="submit" className="search-button">Search</button>
         </form>
-    );
+    )
+
 }

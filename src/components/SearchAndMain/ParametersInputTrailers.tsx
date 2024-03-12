@@ -1,25 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LocationInputSearch from "./LocationInputSearch";
+import LocationInputSearch from "../Map/LocationInputSearch";
 import { useState, useEffect } from "react";
-import agriculturalMachineryDataJson from "../testJsons/makeModelAgriculturalMachinery.json";
+import trailersDataJson from "../../testJsons/makeModelTrailers.json";
 
-export default function ParametersInputMainAgriculturalMachinery({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
-    const [agriculturalMachineryMakes, setAgriculturalMachineryMakes] = useState<string[]>([]);
+export default function ParametersInputMainTrailers({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
+    const [trailerMakes, setTrailerMakes] = useState<string[]>([]);
     const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
     const [locationVisible, setLocationVisible] = useState(false);
+    
+    const handleLocationVisibleChange = () => {
+      setLocationVisible(!locationVisible);
+      setLocationParams({ position: null, radius: 100000 });
+    };
 
     const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
         setLocationParams(params);
     };
 
-    const handleLocationVisibleChange = () => {
-        setLocationVisible(!locationVisible);
-        setLocationParams({ position: null, radius: 100000 });
-    };
-
     useEffect(() => {
-        setAgriculturalMachineryMakes(agriculturalMachineryDataJson);
+        setTrailerMakes(trailersDataJson);
     }, []);
 
     const [formValues, setFormValues] = useState({
@@ -28,8 +28,6 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields,
         application: "",
         yearFrom: "",
         yearTo: "",
-        operatingHoursFrom: "",
-        operatingHoursTo: "",
         priceFrom: "",
         priceTo: "",
         condition: "",
@@ -57,18 +55,19 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields,
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const searchPath = "/search/agricultural-machinery";
-        const queryParams = new URLSearchParams();
+        const searchPath = "/search/trailers";
+        const queryParams =  new URLSearchParams();
         Object.entries(formValues).forEach(([key, value]) => {
-            if (value !== "") {
-              queryParams.append(key, value);
-            }
+        if (value !== "") {
+            queryParams.append(key, value);
+        }
         });
         if (locationParams.position) {
-            queryParams.append("latitude", locationParams.position[0].toString());
-            queryParams.append("longitude", locationParams.position[1].toString());
+            queryParams.append("lat", locationParams.position[0].toString());
+            queryParams.append("lng", locationParams.position[1].toString());
             queryParams.append("radius", locationParams.radius.toString());
         }
+
         window.location.href = `${searchPath}?${queryParams.toString()}`;
     }
 
@@ -77,32 +76,28 @@ export default function ParametersInputMainAgriculturalMachinery({showAllFields,
             <label>Make:</label>
             <select name="make" value={formValues.make} onChange={handleInputChange}>
                 <option value="">Make</option>
-                {agriculturalMachineryMakes.map((agriculturalMachinery) => (
-                    <option key={agriculturalMachinery} value={agriculturalMachinery}>
-                        {agriculturalMachinery}
+                {trailerMakes.map((trailer) => (
+                    <option key={trailer} value={trailer}>
+                        {trailer}
                     </option>
                 ))}
             </select>
             <label>Model:</label>
-            <input type="text" placeholder="model" name="model" value={formValues.model} onChange={handleInputChange}/>
+            <input type="text" placeholder="Model" name="model" value={formValues.model} onChange={handleInputChange} />
             <label>Application:</label>
             <select name="application" value={formValues.application} onChange={handleInputChange}>
                 <option value="">Application</option>
-                <option value="Tractor">Tractor</option>
-                <option value="Combine Harvester">Combine Harvester</option>
-                <option value="Forage Harvester">Forage Harvester</option>
-                <option value="Sprayer">Sprayer</option>
-                <option value="Seeder">Seeder</option>
-                <option value="Other">Other</option>
+                <option value="Box">Box</option>
+                <option value="Curtain Side">Curtain Side</option>
+                <option value="Flatbed">Flatbed</option>
+                <option value="Refrigerated">Refrigerated</option>
+                <option value="Tanker">Tanker</option>
             </select>
-            {showAllFields && (
-            <>
             <label>Year:</label>
             <input type="text" placeholder="Year from" name="yearFrom" value={formValues.yearFrom} onChange={handleInputChange} />
             <input type="text" placeholder="Year to" name="yearTo" value={formValues.yearTo} onChange={handleInputChange} />
-            <label>Operating Hours:</label>
-            <input type="text" placeholder="Operating Hours from" name="operatingHoursFrom" value={formValues.operatingHoursFrom} onChange={handleInputChange} />
-            <input type="text" placeholder="Operating Hours to" name="operatingHoursTo" value={formValues.operatingHoursTo} onChange={handleInputChange} />
+            {showAllFields && (
+            <>
             <label>Price:</label>
             <input type="text" placeholder="Price from" name="priceFrom" value={formValues.priceFrom} onChange={handleInputChange} />
             <input type="text" placeholder="Price to" name="priceTo" value={formValues.priceTo} onChange={handleInputChange} />

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import removePhotoFromCloudinary from '../utils/cloudinaryApi';
-import LoadingOverlay from "./LoadingOverlay";
+import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
+import LoadingOverlay from "../Other/LoadingOverlay";
 
 interface IOffer {
   setEditingOfferId: (id: string) => void;
