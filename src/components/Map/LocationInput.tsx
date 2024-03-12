@@ -8,6 +8,7 @@ interface LocationInputProps {
 }
 
 export default function LocationInput({ onLocationChange }: LocationInputProps) {
+  const [search, setSearch] = useState<string>("");
   const [position, setPosition] = useState<[number, number]>([52.1141903, 16.9287151]);
   const [zoom, setZoom] = useState<number>(6);
   const mapRef = React.useRef<any>();
@@ -25,6 +26,28 @@ export default function LocationInput({ onLocationChange }: LocationInputProps) 
 
     return null;
   };
+
+  const handleSearch = async (query: string) => {
+    try {
+      const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${process.env.REACT_APP_OPENCAGEDATA_API_KEY}`);
+      const data = await response.json();
+
+      if (data.results.length > 0) {
+        const { lat, lng } = data.results[0].geometry;
+        setPosition([lat, lng]);
+        onLocationChange({ position: [lat, lng] });
+        setZoom(15);
+        if (mapRef.current) {
+          mapRef.current.flyTo([lat, lng], 15);
+        }
+      } else {
+        console.error("No results found");
+      }
+    } catch (error: any) {
+      console.error("Error fetching geocoding data:", error.message);
+    }
+  }
+
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -48,14 +71,27 @@ export default function LocationInput({ onLocationChange }: LocationInputProps) 
   };
 
   const customIcon = new L.Icon({
-    iconUrl: require('./../profile-picture.jpg'),
-    iconSize: [32, 32],
+    iconUrl: require('../../red.png'),
+    iconSize: [32, 42],
     iconAnchor: [16, 32],
     popupAnchor: [0, -32],
   });
 
   return (
     <div className="location-input">
+      <br />
+      <h1 className="block mb-1 font-bold">Location</h1>
+      <div className="flex items-center">
+        <input
+          type="text"
+          placeholder="Search for a location (eg. Wroniecka 9, 61-763 Poznań, Poland)"
+          className="w-full border p-2 mb-2"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button type="button" className="border p-2 mb-2 rounded ml-2 bg-neutral-600 text-white hover:bg-teal-500 hover:text-black transition-colors duration-300 ease-in-out"
+        onClick={() => handleSearch(search)}>Search</button>
+      </div>
       <MapContainer ref={mapRef} center={[52.1141903, 16.9287151]} zoom={zoom} style={{ height: "400px", width: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

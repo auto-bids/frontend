@@ -57,8 +57,8 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
     };
 
     const customIcon = new L.Icon({
-        iconUrl: require('./../profile-picture.jpg'),
-        iconSize: [32, 32],
+        iconUrl: require('../../red.png'),
+        iconSize: [32, 42],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32],
     });

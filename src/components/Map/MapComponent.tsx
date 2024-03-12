@@ -13,8 +13,8 @@ const MapComponent: React.FC<MapComponentProps> = ({ x, y }) => {
     const map = L.map("map").setView([x,y], 15);
 
     const mapIcon = L.icon({
-        iconUrl: require('./../profile-picture.jpg'),
-        iconSize: [62, 62],
+        iconUrl: require('../../red.png'),
+        iconSize: [62, 92],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32],
       });
