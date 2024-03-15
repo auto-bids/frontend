@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { on } from "events";
 
 interface LocationInputSearchProps {
     onLocationChange: (params: { position: [number, number] | null; radius: number }) => void;
