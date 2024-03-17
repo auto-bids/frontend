@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LocationInputSearch from "../Map/LocationInputSearch";
 import carDataJson from "../../testJsons/makeModelCars.json";
+import Autosuggest from 'react-autosuggest';
 
 interface CarData {
   make: string;
@@ -10,6 +11,10 @@ interface CarData {
 export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters }: { showAllFields: boolean; buyNowOrBid: string, searchParameters: any }) {
   const [carData, setCarData] = useState<CarData[]>([]);
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 10000000000 });
+  const [tempMake, setTempMake] = useState("");
+  const [tempModel, setTempModel] = useState("");
+  const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
+  const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
 
   useEffect(() => {
     setCarData(carDataJson);
@@ -129,43 +134,114 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     window.location.href = `${searchPath}?${queryParams.toString()}/1`;
   };
 
+  const getMakeSuggestions = (value: string) => {
+    if (value === "") {
+      return carData.map((car) => car.make);
+    }
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    return inputLength === 0 ? carData.map((car) => car.make) : carData.map((car) => car.make).filter((make) => make.toLowerCase().slice(0, inputLength) === inputValue);
+  };
+
+  const getModelSuggestions = (value: string) => {
+    if (value === "") {
+      return carData.find((car) => car.make === formValues.make)?.models || [];
+    }
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    return inputLength === 0 ? carData.find((car) => car.make === formValues.make)?.models || [] : carData.find((car) => car.make === formValues.make)?.models.filter((model) => model.toLowerCase().slice(0, inputLength) === inputValue) || [];
+  };
+
+  const getSuggestionValue = (suggestion: string) => suggestion;
+
+  const renderMakeSuggestion = (suggestion: string) => <div onClick={() => setFormValues({ ...formValues, make: suggestion, model: "" })}>{suggestion}</div>;
+  const renderModelSuggestion = (suggestion: string) => <div onClick={() => setFormValues({ ...formValues, model: suggestion })}>{suggestion}</div>;
+
+  const handleResetMake = () => {
+    setFormValues({ ...formValues, make: "", model: "" });
+    setTempMake("");
+    setTempModel("");
+  }
+
+  const handleResetModel = () => {
+    setFormValues({ ...formValues, model: "" });
+    setTempModel("");
+  }
+
   return (
     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
   
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        <div>
-          <label className="block text-gray-700 text-sm font-bold mb-2">Make:</label>
-          <select
-            name="make"
-            value={formValues.make}
-            onChange={handleMakeInputChange}
-            className="form-select border rounded p-2 full block w-full mt-1">
-            <option value="">Make</option>
-            {carData.map((car) => (
-              <option key={car.make} value={car.make}>
-                {car.make}
-              </option>
-            ))}
-          </select>
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">Make:</label>
+        <div className="relative">
+          <Autosuggest
+            suggestions={getMakeSuggestions(tempMake)}
+            onSuggestionsFetchRequested={({ value }) => setTempMake(value)}
+            onSuggestionsClearRequested={() => setTempMake("")}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderMakeSuggestion}
+            inputProps={{
+              placeholder: "Make",
+              value: formValues.make ? formValues.make : tempMake,
+              onChange: (e, { newValue }) => setTempMake(newValue),
+              name: "make",
+              className: "form-input border rounded p-2 w-full",
+              onFocus: () => { setRenderMakeSuggestions(true); setRenderModelSuggestions(false) },
+              onBlur: () => { setRenderMakeSuggestions(false); setRenderModelSuggestions(false); setTempModel("") },
+            }}
+            alwaysRenderSuggestions={renderMakeSuggestions}
+            theme={{
+              container: "relative",
+              input: "form-input border rounded p-2 w-full",
+              suggestionsContainer: "absolute z-10 bg-white w-full max-h-60 overflow-y-auto",
+              suggestionsList: "p-2 bg-gray-100",
+              suggestion: "p-2 cursor-pointer hover:bg-gray-200",
+              
+            }}
+          />
+          {formValues.make && (
+            <button onClick={handleResetMake} className="absolute inset-y-0 right-0 px-4 text-gray-400 hover:text-red-600 focus:outline-none justify-center items-center">
+              X
+            </button>
+          )}
         </div>
-  
+      </div>
         <div>
           <label className="block text-gray-700 text-sm font-bold mb-2">Model:</label>
-          <select
-            name="model"
-            value={formValues.model}
-            onChange={handleInputChange}
-            className="form-select border rounded p-2 full block w-full mt-1">
-            <option value="">Model</option>
-            {carData
-              .find((car) => car.make === formValues.make)?.models.map((model) => (
-                <option key={model} value={model}>
-                  {model}
-                </option>
-              ))}
-          </select>
+          <div className="relative">
+            <Autosuggest
+              suggestions={getModelSuggestions(tempModel)}
+              onSuggestionsFetchRequested={({ value }) => setTempMake(value)}
+              onSuggestionsClearRequested={() => setTempMake("")}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderModelSuggestion}
+              inputProps={{
+                placeholder: "Model",
+                value: formValues.model? formValues.model : tempModel,
+                onChange: (e, { newValue }) => setTempModel(newValue),
+                name: "model",
+                className: "form-input border rounded p-2 w-full",
+                onFocus: () => setRenderModelSuggestions(true),
+                onBlur: () => setRenderModelSuggestions(false),
+                disabled: formValues.make === "",
+              }}
+              alwaysRenderSuggestions={renderModelSuggestions}
+              theme={{
+                container: "relative",
+                input: "form-input border rounded p-2 w-full",
+                suggestionsContainer: "absolute z-10 bg-white w-full max-h-60 overflow-y-auto",
+                suggestionsList: "p-2 bg-gray-100",
+                suggestion: "p-2 cursor-pointer hover:bg-gray-200",
+              }}
+            />
+            {formValues.model && (
+              <button onClick={handleResetModel} className="absolute inset-y-0 right-0 px-4 text-gray-400 hover:text-red-600 focus:outline-none">
+                X
+              </button>
+            )}
+          </div>
         </div>
-  
         <div>
           <label className="block text-gray-700 text-sm font-bold mb-2">Type:</label>
           <select
