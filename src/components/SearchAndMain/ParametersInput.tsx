@@ -62,7 +62,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         acc[key] = value;
         return acc;
       }, {});
-      // console.log(decodedSearchParameters);
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
         ...decodedSearchParameters,
@@ -94,9 +93,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
-  const handleMakeInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value, model: "" });
-  }
 
   const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
     setLocationParams(params);

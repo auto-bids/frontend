@@ -5,6 +5,7 @@ import makeModelCarsDataJson from "../../testJsons/makeModelCars.json";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import LoadingOverlay from "../Other/LoadingOverlay";
+import Autosuggest from "react-autosuggest";
 
 interface FormValues {
     title: string;
@@ -67,6 +68,10 @@ const validationSchema = Yup.object().shape({
 export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Element {
   const [tempPhotos, setTempPhotos] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [tempMake, setTempMake] = useState("");
+  const [tempModel, setTempModel] = useState("");
+  const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
+  const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -188,6 +193,62 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     setTempPhotos((prevPhotos) => [...prevPhotos, new File([""], `temp${prevPhotos.length}`)]);
   };
 
+  const getMakeSuggestions = (value: string) => {
+    if (value === "") {
+      return makeModelCarsDataJson.map((make) => make.make);
+    }
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    return inputLength === 0
+      ? []
+      : makeModelCarsDataJson
+          .map((make) => make.make)
+          .filter((make) => make.toLowerCase().slice(0, inputLength) === inputValue);
+  };
+
+  const getModelSuggestions = (value: string) => {
+    if (value === "") {
+      return makeModelCarsDataJson
+        .filter((make) => make.make === formik.values.make)
+        .map((model) => model.models)
+        .flat();
+    }
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    return inputLength === 0
+      ? []
+      : makeModelCarsDataJson
+          .filter((make) => make.make === formik.values.make)
+          .map((model) => model.models)
+          .flat()
+          .filter((model) => model.toLowerCase().slice(0, inputLength) === inputValue);
+  };
+
+  const getSuggestionValue = (suggestion: string) => suggestion;
+
+  const renderMakeSuggestion = (suggestion: string) => (
+    <div onClick={() => {formik.setFieldValue("make", suggestion); formik.setFieldValue("model", "")}}>
+      {suggestion}
+    </div>
+  );
+
+  const renderModelSuggestion = (suggestion: string) => (
+    <div onClick={() => formik.setFieldValue("model", suggestion)}>
+      {suggestion}
+    </div>
+  );
+
+  const handleResetMake = (): void => {
+    setTempMake("");
+    setTempModel("");
+    formik.setFieldValue("make", "");
+  }
+
+  const handleResetModel = (): void => {
+    setTempModel("");
+    formik.setFieldValue("model", "");
+  }
+
   if (isLoggedIn) {
     return (
     <div className="new-listing-page p-4">
@@ -205,38 +266,75 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
         />
         {formik.errors.title && <div className="text-red-500">{formik.errors.title}</div>}
         <label htmlFor="make" className="block mb-1 font-bold">Make</label>
-        <select
-          id="make"
-          name="make"
-          className="w-full border p-2 mb-2"
-          onChange={handleMakeChange}
-          value={formik.values.make}
-        >
-          <option value="">Select make</option>
-          {makeModelCarsDataJson.map((make) => (
-            <option key={make.make} value={make.make}>
-              {make.make}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <Autosuggest
+            suggestions={getMakeSuggestions(tempMake)}
+            onSuggestionsFetchRequested={({ value }) => setTempMake(value)}
+            onSuggestionsClearRequested={() => setTempMake("")}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderMakeSuggestion}
+            inputProps={{
+              placeholder: "Make",
+              name: "make",
+              value: formik.values.make? formik.values.make : tempMake,
+              className: "w-full border p-2 mb-2",
+              onChange: (e, { newValue }) => setTempMake(newValue),
+              onFocus: () => { setRenderMakeSuggestions(true); setRenderModelSuggestions(false)},
+              onBlur: () => { setRenderMakeSuggestions(false); setRenderModelSuggestions(false); setTempModel("") },
+            }}
+            alwaysRenderSuggestions={renderMakeSuggestions}
+            theme={{
+              container: "relative",
+              input: "form-input border rounded p-2 w-full",
+              suggestionsContainer: "absolute z-10 bg-white w-full max-h-60 overflow-y-auto",
+              suggestionsList: "p-2 bg-gray-100",
+              suggestion: "p-2 cursor-pointer hover:bg-gray-200",
+              
+            }}
+          />
+          {formik.values.make && (
+            <button onClick={handleResetMake} className="absolute inset-y-0 right-0 px-2 text-gray-400 hover:text-red-600 focus:outline-none justify-center items-center">
+            X
+            </button>
+          )}
+        </div>
         {formik.errors.make ? <div className="text-red-500">{formik.errors.make}</div> : null}
         <label htmlFor="model" className="block mb-1 font-bold">Model</label>
-        <select
-          id="model"
-          name="model"
-          className="w-full border p-2 mb-2"
-          onChange={formik.handleChange}
-          value={formik.values.model}
-        >
-          <option value="">Select model</option>
-          {makeModelCarsDataJson
-            .find((make) => make.make === formik.values.make)
-            ?.models.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
-        </select>
+        <div className="relative">
+          <Autosuggest
+            suggestions={getModelSuggestions(tempModel)}
+            onSuggestionsFetchRequested={({ value }) => setTempModel(value)}
+            onSuggestionsClearRequested={() => setTempModel("")}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderModelSuggestion}
+            inputProps={{
+              placeholder: "Model",
+              name: "model",
+              value: formik.values.model? formik.values.model : tempModel,
+              className: "w-full border p-2 mb-2",
+              onChange: (e, { newValue }) => setTempModel(newValue),
+              onFocus: () => { setRenderModelSuggestions(true); setRenderMakeSuggestions(false)},
+              onBlur: () => { setRenderModelSuggestions(false); setRenderMakeSuggestions(false) },
+            }}
+            alwaysRenderSuggestions={renderModelSuggestions}
+            theme={{
+              container: "relative",
+              input: "form-input border rounded p-2 w-full",
+              suggestionsContainer: "absolute z-10 bg-white w-full max-h-60 overflow-y-auto",
+              suggestionsList: "p-2 bg-gray-100",
+              suggestion: "p-2 cursor-pointer hover:bg-gray-200",
+            }}
+          />
+          {formik.values.model && (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 px-2 text-gray-400 hover:text-red-600 focus:outline-none justify-center items-center"
+              onClick={handleResetModel}
+            >
+              X
+            </button>
+          )}
+        </div>
         {formik.errors.model ? <div className="text-red-500">{formik.errors.model}</div> : null}
         <label htmlFor="price" className="block mb-1 font-bold">Price</label>
         <input
