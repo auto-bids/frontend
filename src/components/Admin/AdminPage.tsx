@@ -1,8 +1,8 @@
 import LoadingOverlay from "../Other/LoadingOverlay";
 import React, {useState, useEffect} from "react";
-import { Doughnut } from "react-chartjs-2";
-import {Chart, ArcElement} from 'chart.js'
-Chart.register(ArcElement);
+import {Bar, Chart, Pie} from "react-chartjs-2";
+import {Chart as ChartJS, ArcElement} from "chart.js/auto";
+ChartJS.register(ArcElement);
 
 export default function AdminPage() {
     const [category, setCategory] = useState("users");
@@ -51,18 +51,55 @@ export default function AdminPage() {
             console.error(error);
         }
     }
+
+    const chartData = {
+        labels: ["Users", "Offers"],
+        datasets: [
+            {
+                label: "Users and Offers",
+                data: [10, 25],
+                backgroundColor: ["#14b8a6", "#737373"],
+                hoverBackgroundColor: ["#14b8a6", "#737373"],
+            },
+        ],
+    };
+
+    const chartData2 = {
+        labels: ["Cars", "Bids", "Motorcycles", "Delivery Vans", "Trucks", "Trailers", "Construction Machinery", "Agricultural Machinery"],
+        datasets: [
+            {
+                label: "Offers",
+                data: [20, 10, 15, 5, 10, 5, 10, 5],
+                backgroundColor: ["#14b8a6", "#737373", "#14b8a6", "#737373", "#14b8a6", "#737373", "#14b8a6", "#737373"],
+                hoverBackgroundColor: ["#14b8a6", "#737373", "#14b8a6", "#737373", "#14b8a6", "#737373", "#14b8a6", "#737373"],
+            },
+        ],
+    };
+
+    const options2 = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: "Offers by category",
+            },
+        },
+    };
     
     return(
         <div className="h-screen">
             {loading && <LoadingOverlay />}
             <div className="page-buttons flex justify-center items-center h-1/6 space-x-4">
-                <button className="bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 rounded transition duration-300" onClick={() => setCategory("users")}>
+                <button className={`bg-${category === "users" ? "teal-500" : "gray-400"} hover:bg-${category === "users" ? "blue" : "teal"}-700 text-white py-2 px-4 rounded transition duration-300`} onClick={() => setCategory("users")}>
                     Users
                 </button>
-                <button className="bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 rounded transition duration-300" onClick={() => setCategory("offers")}>
+                <button className={`bg-${category === "offers" ? "teal-500" : "gray-400"} hover:bg-${category === "offers" ? "blue" : "teal"}-700 text-white py-2 px-4 rounded transition duration-300`} onClick={() => setCategory("offers")}>
                     Offers
                 </button>
-                <button className="bg-teal-500 hover:bg-teal-700 text-white py-2 px-4 rounded transition duration-300" onClick={() => setCategory("statistics")}>
+                <button className={`bg-${category === "statistics" ? "teal-500" : "gray-400"} hover:bg-${category === "statistics" ? "blue" : "teal"}-700 text-white py-2 px-4 rounded transition duration-300`} onClick={() => setCategory("statistics")}>
                     Statistics
                 </button>
             </div>
@@ -90,30 +127,13 @@ export default function AdminPage() {
                 {category === "statistics" && (
                     <div>
                         <h1 className="text-2xl font-bold pb-3">Statistics</h1>
-                        <div style={{ maxWidth: "300px", margin: "0 auto" }}>
-                            <Doughnut
-                                data={{
-                                    labels: ["Users", "Offers"],
-                                    datasets: [
-                                        {
-                                            label: "Users and Offers",
-                                            data: [10, 20],
-                                            backgroundColor: ["#14b8a6", "#737373"],
-                                            hoverBackgroundColor: ["#14b8a6", "#737373"],
-                                        },
-                                    ],
-                                }} 
-                                options={{
-                                    plugins: {
-                                        legend: {
-                                            display: true,
-                                            labels: {
-                                                color: 'rgb(255, 99, 132)'
-                                            }
-                                        },
-                                    },  
-                                }}
-                            />
+                        <div className="flex justify-center items-center space-x-4 pb-4">
+                            <div className="w-2/5 max-h-96">
+                                <Pie data={chartData} />
+                            </div>
+                            <div className="w-3/5 max-h-96">
+                                <Bar data={chartData2} options={options2} />
+                            </div>
                         </div>
                     </div>
                 )}
