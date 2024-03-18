@@ -125,13 +125,14 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
         <label className="block w-full" htmlFor="radius">
             <input
             type="range"
-            min={100}
+            min={1000}
             max={400000}
             value={radius}
+            step={1000}
             onChange={handleRadiusChange}
             className="accent-teal-500 w-full rounded p-2"
             />
-            Radius: {radius / 1000} kilometers
+            Radius: {radius / 1000} {radius / 1000 === 1 ? "kilometer" : "kilometers"}
         </label>
         <br />
         <button className="border rounded p-2 full" type="button" onClick={getUserLocation}>Get My Location</button>

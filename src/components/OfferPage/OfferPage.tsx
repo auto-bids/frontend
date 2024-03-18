@@ -234,8 +234,9 @@ export default function OfferPage(){
                 {offerData.car.photos.length === 1 && offerData.car.photos[0]==="" && <p>No photos available</p>}
                 {offerData.car.photos.length === 1 && offerData.car.photos[0]!=="" && (
                     <img src={offerData
-                    .car.photos[0]} alt="offer" 
+                    .car.photos[0]} alt="offer"
                     onClick={() => openModal(0)}
+                    className="object-center h-auto w-full cursor-pointer w-full h-screen object-cover"
                     />
                 )}
                 {/* {offerData.car.photos.length === 2 && (
@@ -247,9 +248,7 @@ export default function OfferPage(){
                 {offerData.car.photos.length >= 2 && (
                     <Slider {...settings}>
                         {offerData.car.photos.map((photo, index) => (
-                            <div key={index} className="offer-page-main-image" onClick={() => openModal(index)}>
-                                <img src={photo} alt="offer" />
-                            </div>
+                            <img key={index} src={photo} alt="offer" className="object-center h-auto w-full cursor-pointer w-full h-screen object-cover" onClick={() => openModal(index)}/>             
                         ))}
                     </Slider>
                 )}

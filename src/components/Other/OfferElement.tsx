@@ -22,7 +22,7 @@ export default function OfferElement(props: OfferElementProps) {
           {window.innerWidth > 1000 ? (
             <>
               <div className="offer-element-image col-span-1">
-                <img src={props.image} alt={props.title} className="w-full h-auto" />
+                <img src={props.image} alt={props.title} className="w-full h-auto object-cover sm:max-h-48 md:max-h-48 lg:max-h-64" />
               </div>
               <div className="offer-element-details col-span-2 mt-4">
                 <h3 className="text-lg font-bold mb-2">{props.title}</h3>
