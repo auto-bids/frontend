@@ -13,42 +13,56 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(false);
 
     const handleBanUser = async () => {
-        setLoading(true);
-        try {
-            await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: usersEmail,
-                    reason: usersReason,
-                }),
-            });
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            console.error(error);
+        if (!usersEmail || !usersReason) {
+            alert("Please fill in all fields");
+            return;
+        }
+        const confirmBan = window.confirm("Are you sure you want to ban this user?");
+        if (confirmBan) {
+            setLoading(true);
+            try {
+                await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: usersEmail,
+                        reason: usersReason,
+                    }),
+                });
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                console.error(error);
+            }
         }
     }
 
     const handleBanOffer = async () => {
-        setLoading(true);
-        try {
-            await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    offerID: offerID,
-                    reason: offersReason,
-                }),
-            });
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            console.error(error);
+        if (!offerID || !offersReason) {
+            alert("Please fill in all fields");
+            return;
+        }
+        const confirmBan = window.confirm("Are you sure you want to ban this offer?");
+        if (confirmBan) {
+            setLoading(true);
+            try {
+                await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        id: offerID,
+                        reason: offersReason,
+                    }),
+                });
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                console.error(error);
+            }
         }
     }
 

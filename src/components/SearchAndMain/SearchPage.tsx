@@ -141,8 +141,6 @@ export default function SearchPage() {
         });
         const data = await response.json();
 
-        console.log(data.data.number_of_pages);
-
         if (data.data.number_of_pages === 0) {
           setIsLoading(false);
           setOfferData([]);

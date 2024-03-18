@@ -315,6 +315,7 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
               onChange: (e, { newValue }) => setTempModel(newValue),
               onFocus: () => { setRenderModelSuggestions(true); setRenderMakeSuggestions(false)},
               onBlur: () => { setRenderModelSuggestions(false); setRenderMakeSuggestions(false) },
+              disabled: !formik.values.make,
             }}
             alwaysRenderSuggestions={renderModelSuggestions}
             theme={{
