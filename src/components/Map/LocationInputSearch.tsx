@@ -73,7 +73,15 @@ export default function LocationInputSearch({ onLocationChange }: LocationInputS
             console.error("No results found");
         }
         } catch (error: any) {
-          console.error("Error fetching geocoding data:", error.message);
+            if(error.instanceOf(Error) && error.message.includes("429")){
+                alert("Too many requests. Please try again later.");
+            }
+            if(error.instanceOf(Error) && error.message.includes("400")){
+                alert("Invalid request. Please try again.");
+            }
+            else{
+                console.error("Error fetching geocoding data:", error.message);
+            }
         }
       }
 
