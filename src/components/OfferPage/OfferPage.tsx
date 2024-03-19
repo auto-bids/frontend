@@ -188,7 +188,7 @@ export default function OfferPage(){
                     className="w-full h-auto"
                     src={offerData.car.photos[selectedPhotoIndex]} alt="offer" />
             </Modal>
-            <div className="offer-page-top-bar flex justify-between items-center p-4 bg-gray-400">
+            <div className="offer-page-top-bar flex justify-between items-center p-4 bg-gray-400 shadow-md shadow-gray-300">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold">{offerData.car.title}</h1>
                     <p>{offerData.car.price}</p>

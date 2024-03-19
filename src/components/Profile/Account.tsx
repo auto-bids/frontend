@@ -370,9 +370,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
 
       return (
-        <div className="account">
+        <div className="account bg-gray-100">
           {loading && <LoadingOverlay />}
-          <div className="account-header flex justify-between items-center bg-gray-400 p-4">
+          <div className="account-header flex justify-between items-center bg-gray-400 p-4 shadow-md shadow-gray-300">
             <div className="account-header-profile flex items-center">
               <img src={profileData?.profile_picture} alt="profile" className="w-20 h-20 rounded-full mr-4" />
               <div className="account-header-profile-info">
@@ -430,7 +430,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               </div>
             </div>
           )}
-          <div className="account-component-selection bg-gray-100 pt-2">
+          <div className="account-component-selection pt-2">
             <button onClick={() => setSelectedComponent("yourOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "yourOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
               Your offers
             </button>
