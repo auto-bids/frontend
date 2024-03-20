@@ -21,15 +21,13 @@ export default function AdminPage() {
         if (confirmBan) {
             setLoading(true);
             try {
-                await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}`, {
-                    method: "POST",
+                await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}${usersEmail}`, {
+                    method: "DELETE",
+                    credentials: "include",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
                     },
-                    body: JSON.stringify({
-                        email: usersEmail,
-                        reason: usersReason,
-                    }),
                 });
                 setLoading(false);
             } catch (error) {
@@ -48,15 +46,13 @@ export default function AdminPage() {
         if (confirmBan) {
             setLoading(true);
             try {
-                await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}`, {
-                    method: "POST",
+                await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}${offerID}`, {
+                    method: "DELETE",
+                    credentials: "include",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
                     },
-                    body: JSON.stringify({
-                        id: offerID,
-                        reason: offersReason,
-                    }),
                 });
                 setLoading(false);
             } catch (error) {
