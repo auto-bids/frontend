@@ -136,6 +136,7 @@ export default function EditOffer(props: IOffer) {
         <div className="flex mb-4 justify-between">
             <button
             type="button"
+            id="description"
             onClick={() => setActiveInput("description")}
             className={`${
                 activeInput === "description"
@@ -147,6 +148,7 @@ export default function EditOffer(props: IOffer) {
             </button>
             <button
             type="button"
+            id="price"
             onClick={() => setActiveInput("price")}
             className={`${
                 activeInput === "price"
@@ -158,6 +160,7 @@ export default function EditOffer(props: IOffer) {
             </button>
             <button
             type="button"
+            id="mileage"
             onClick={() => setActiveInput("mileage")}
             className={`${
                 activeInput === "mileage"
@@ -169,6 +172,7 @@ export default function EditOffer(props: IOffer) {
             </button>
             <button
             type="button"
+            id="photos"
             onClick={() => setActiveInput("photos")}
             className={`${
                 activeInput === "photos"

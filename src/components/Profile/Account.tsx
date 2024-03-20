@@ -474,6 +474,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                   <button
                     onClick={() => handleDeleteOffer(offer.id, offer.photos)}
                     className="mt-2 bg-red-500 text-white px-4 py-2 mr-2 rounded hover:bg-red-600 transition duration-300"
+                    id="deleteOfferButton"
                   >
                     Delete
                   </button>
@@ -481,6 +482,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                     <button
                       onClick={() => handleEditOffer('')}
                       className="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                      id="cancelEditOfferButton"
                     >
                       Cancel
                     </button>
@@ -488,6 +490,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                     <button
                       onClick={() => handleEditOffer(offer.id)}
                       className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                      id="editOfferButton"
                     >
                       Edit
                     </button>
