@@ -1,6 +1,7 @@
 import LoadingOverlay from "../Other/LoadingOverlay";
 import React, {useState, useEffect} from "react";
 import {Bar, Chart, Pie} from "react-chartjs-2";
+import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import {Chart as ChartJS, ArcElement} from "chart.js/auto";
 ChartJS.register(ArcElement);
 
@@ -46,6 +47,27 @@ export default function AdminPage() {
         if (confirmBan) {
             setLoading(true);
             try {
+                const response = await fetch(`${process.env.REACT_APP_CARS_OFFER_ID_ENDPOINT}/${offerID}`, {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error("Failed to fetch offer data");
+                }
+                const offerData = await response.json();
+                
+                await Promise.all(offerData.data.data.car.photos.map(async (photo: string) => {
+                    try {
+                        await removePhotoFromCloudinary(photo);
+                    } catch (error) {
+                        console.error(`Failed to delete photo ${photo} from cloud:`, error);
+                    }
+                }));
+    
                 await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}${offerID}`, {
                     method: "DELETE",
                     credentials: "include",
