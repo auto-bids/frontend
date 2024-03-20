@@ -370,7 +370,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
 
       return (
-        <div className="account bg-gray-100">
+        <div className="account bg-gray-100 min-h-screen">
           {loading && <LoadingOverlay />}
           <div className="account-header flex justify-between items-center bg-gray-400 p-4 shadow-md shadow-gray-300">
             <div className="account-header-profile flex items-center">

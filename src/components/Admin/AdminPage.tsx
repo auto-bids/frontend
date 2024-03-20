@@ -22,6 +22,57 @@ export default function AdminPage() {
         if (confirmBan) {
             setLoading(true);
             try {
+                const offerDataFirstPage = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/${usersEmail}/1`, {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                });
+                if (!offerDataFirstPage.ok) {
+                    throw new Error("Failed to fetch offer data");
+                }
+                const offerData = await offerDataFirstPage.json();
+                console.log(offerData); 
+                const offers = offerData.data.data;
+                const numberOfPages = offerData.data.number_of_pages;
+                if (numberOfPages > 1) {
+                    for (let i = 2; i <= numberOfPages; i++) {
+                        const response = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}${usersEmail}/${i}`, {
+                            method: "GET",
+                            credentials: "include",
+                            headers: {
+                                "Access-Control-Allow-Origin": "*",
+                                "Access-Control-Allow-Credentials": "true",
+                            },
+                        });
+                        if (!response.ok) {
+                            throw new Error("Failed to fetch offer data");
+                        }
+                        const data = await response.json();
+                        offers.data.data.offers.push(...data.data.data.offers);
+                    }
+                }
+                await Promise.all(offers.map(async (offer: any) => {
+                    await Promise.all(offer.car.photos.map(async (photo: string) => {
+                        try {
+                            await removePhotoFromCloudinary(photo);
+                        } catch (error) {
+                            console.error(`Failed to delete photo ${photo} from cloud:`, error);
+                        }
+                    }));
+                }));
+                await Promise.all(offers.map(async (offer: any) => {
+                    await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}${offer.id}`, {
+                        method: "DELETE",
+                        credentials: "include",
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Credentials": "true",
+                        },
+                    });
+                }));
                 await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}${usersEmail}`, {
                     method: "DELETE",
                     credentials: "include",
@@ -31,7 +82,8 @@ export default function AdminPage() {
                     },
                 });
                 setLoading(false);
-            } catch (error) {
+            }
+            catch (error) {
                 setLoading(false);
                 console.error(error);
             }
