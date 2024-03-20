@@ -92,12 +92,13 @@ export default function LocationInput({ onLocationChange }: LocationInputProps) 
       <div className="flex items-center">
         <input
           type="text"
+          name="location"
           placeholder="Search for a location (eg. Wroniecka 9, 61-763 Poznań, Poland)"
           className="w-full border p-2 mb-2"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button type="button" className="border p-2 mb-2 rounded ml-2 bg-neutral-600 text-white hover:bg-teal-500 hover:text-black transition-colors duration-300 ease-in-out"
+        <button type="button" name="location" className="border p-2 mb-2 rounded ml-2 bg-neutral-600 text-white hover:bg-teal-500 hover:text-black transition-colors duration-300 ease-in-out"
         onClick={() => handleSearch(search)}>Search</button>
       </div>
       <MapContainer ref={mapRef} center={[52.1141903, 16.9287151]} zoom={zoom} style={{ height: "400px", width: "100%" }}>
