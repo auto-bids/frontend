@@ -73,6 +73,25 @@ export default function AdminPage() {
                         },
                     });
                 }));
+                const profileData = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}${usersEmail}`, {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                        },
+                        }
+                 );
+                if (!profileData.ok) {
+                    throw new Error("Failed to fetch profile data");
+                }
+                const profile = await profileData.json();
+                try{
+                    removePhotoFromCloudinary(profile.data.data.profile_image);
+                }
+                catch (error) {
+                    console.error(`Failed to delete photo ${profile.data.data.profile_image} from cloud:`, error);
+                }
                 await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}${usersEmail}`, {
                     method: "DELETE",
                     credentials: "include",

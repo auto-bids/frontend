@@ -241,23 +241,31 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               removePhotoFromCloudinary(photo);
             });
           });
-          try {
-            const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ALL_USER_CARS_ENDPOINT}`, {
-              method: "DELETE",
-              credentials: "include",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": "true",
-              },
-            });
-      
-            if (response.ok) {
-              console.log("All offers deleted");
-            } else {
-              console.log("Error deleting all offers");
+          if (numberOfPages > 1) {
+            for (let i = 2; i <= numberOfPages; i++) {
+              const response = await fetch(`${process.env.REACT_APP_PROFILE_CARS_ENDPOINT}${i}`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": "true",
+                },
+              });
+              if (response.ok) {
+                const offers = await response.json();
+                offers.data.data.forEach((offer: any) => {
+                  offer.car.photos.forEach((photo: string) => {
+                    removePhotoFromCloudinary(photo);
+                  });
+                });
+              }
             }
-          } catch (error) {
-            console.error("Error deleting all offers:", error);
+          }
+          try{
+            removePhotoFromCloudinary(profileData?.profile_picture || "");
+          }
+          catch (error) {
+            console.error("Error removing profile picture from cloudinary:", error);
           }
           try {
             const response = await fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
