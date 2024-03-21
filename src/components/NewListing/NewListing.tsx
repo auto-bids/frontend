@@ -115,11 +115,6 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     });
   };
 
-  const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    formik.setFieldValue("make", event.target.value);
-    formik.setFieldValue("model", "");
-  };
-
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -156,6 +151,7 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
       console.error("Error:", error);
     }
     finally {
+      await new Promise(resolve => setTimeout(resolve, 2000));
       setLoading(false);
       window.location.href = "/";
     }
@@ -227,13 +223,13 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   const getSuggestionValue = (suggestion: string) => suggestion;
 
   const renderMakeSuggestion = (suggestion: string) => (
-    <div onClick={() => {formik.setFieldValue("make", suggestion); formik.setFieldValue("model", "")}}>
+    <div onClick={() => {formik.setFieldValue("make", suggestion); formik.setFieldValue("model", ""); setTempMake(suggestion)}}>
       {suggestion}
     </div>
   );
 
   const renderModelSuggestion = (suggestion: string) => (
-    <div onClick={() => formik.setFieldValue("model", suggestion)}>
+    <div onClick={() => {formik.setFieldValue("model", suggestion); setTempModel(suggestion); setRenderModelSuggestions(false)}}>
       {suggestion}
     </div>
   );

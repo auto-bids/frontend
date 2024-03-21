@@ -63,6 +63,26 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           removePhotoFromCloudinary(photo);
         });
       });
+      if (numberOfPages > 1) {
+        for (let i = 2; i <= numberOfPages; i++) {
+          const response = await fetch(`${process.env.REACT_APP_PROFILE_CARS_ENDPOINT}${i}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": "true",
+            },
+          });
+          if (response.ok) {
+            const offers = await response.json();
+            offers.data.data.forEach((offer: any) => {
+              offer.car.photos.forEach((photo: string) => {
+                removePhotoFromCloudinary(photo);
+              });
+            });
+          }
+        }
+      }
 
       if (confirmed) {
         try {
