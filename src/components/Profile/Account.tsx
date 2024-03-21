@@ -190,12 +190,16 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 },
           });
           if (response.status === 201) {
-            document.cookie = "isLoggedIn=true";
+            if (document.cookie !== "isLoggedIn=true") {
+              document.cookie = "isLoggedIn=true";
+            }
             window.location.reload();
           }
           if(response.status === 200){
             setIsLoggedIn(true);
-            document.cookie = "isLoggedIn=true";
+            if (document.cookie !== "isLoggedIn=true") {
+              document.cookie = "isLoggedIn=true";
+            }
             const profileData = await response.json();
             setProfileData({
               email: profileData.data.data.email,
@@ -308,7 +312,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       
             if (response.ok && response2.ok) {
               setIsLoggedIn(false);
-              document.cookie = "isLoggedIn=false";
+              if (document.cookie !== "isLoggedIn=false") {
+                document.cookie = "isLoggedIn=false";
+              }
               window.location.href = "/";
             } else {
               console.log("Error deleting profile");
@@ -334,7 +340,9 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           });
           if (response.ok){
             setIsLoggedIn(false);
-            document.cookie = "isLoggedIn=false";
+            if (document.cookie !== "isLoggedIn=false") {
+              document.cookie = "isLoggedIn=false";
+            }
             window.location.href = "/";
           }
           else{

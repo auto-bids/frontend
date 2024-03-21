@@ -27,6 +27,7 @@ import OfferPageAgriculturalMachinery from './components/OfferPage/OfferPageAgri
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(document.cookie==="isLoggedIn=true" ? true : false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <div className="App">

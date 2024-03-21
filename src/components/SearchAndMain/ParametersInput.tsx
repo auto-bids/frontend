@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LocationInputSearch from "../Map/LocationInputSearch";
 import carDataJson from "../../testJsons/makeModelCars.json";
 import Autosuggest from 'react-autosuggest';
+import { useNavigate } from 'react-router-dom';
 
 interface CarData {
   make: string;
@@ -15,6 +16,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   const [tempModel, setTempModel] = useState("");
   const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
   const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCarData(carDataJson);
@@ -127,7 +130,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       queryParams.append("radius", locationParams.radius.toString());
     }
 
-    window.location.href = `${searchPath}?${queryParams.toString()}/1`;
+    const newUrl = `${searchPath}?${queryParams.toString()}/1`;
+    navigate(newUrl);
   };
 
   const getMakeSuggestions = (value: string) => {
@@ -291,8 +295,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Mileage:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
             </div>
           </div>
   
@@ -300,8 +304,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             <div className="flex flex-col space-y-2">
               <label className="block text-sm font-medium text-gray-700">Price:</label>
               <div className="flex space-x-2">
-                <input className="form-input border rounded p-2 full" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
-                <input className="form-input border rounded p-2 full" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
+                <input className="form-input border rounded pb-2 pt-2 pl-1 full" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
+                <input className="form-input border rounded pb-2 pt-2 pl-1 full" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
               </div>
             </div>
           )}
@@ -381,16 +385,16 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Engine Capacity:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
             </div>
           </div>
             
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Power:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
             </div>
           </div>
   
