@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import LoadingOverlay from "../Other/LoadingOverlay";
 import Autosuggest from "react-autosuggest";
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
     title: string;
@@ -72,6 +73,8 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   const [tempModel, setTempModel] = useState("");
   const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
   const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -153,7 +156,7 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     finally {
       await new Promise(resolve => setTimeout(resolve, 2000));
       setLoading(false);
-      window.location.href = "/";
+      navigate("/");
     }
   };
 

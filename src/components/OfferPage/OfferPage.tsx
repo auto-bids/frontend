@@ -78,7 +78,6 @@ export default function OfferPage(){
     // const { offerType, id } = useParams<{ offerType: string; id: string }>();
     const { id } = useParams<{ id: string }>();
     const [offerData, setOfferData] = useState<IOffer | null>(null);
-    const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -121,9 +120,6 @@ export default function OfferPage(){
         Modal.setAppElement('#root');
       }, [id]);
 
-    const handleAddToFavorites = () => {
-        setIsFavorite(!isFavorite);
-    };
 
     if (!offerData) {
         return (
@@ -193,12 +189,6 @@ export default function OfferPage(){
                     <h1 className="text-2xl font-bold">{offerData.car.title}</h1>
                     <p>{offerData.car.price}</p>
                 </div>
-                <button
-                onClick={() => handleAddToFavorites()}
-                className="bg-teal-500 text-white px-4 py-2 rounded"
-                >
-                {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-                </button>
                 {/* {!offerData.auction && (
                     <p>
                         {isEditing ? (

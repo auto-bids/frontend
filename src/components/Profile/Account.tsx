@@ -483,9 +483,6 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             <button onClick={() => setSelectedComponent("yourOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "yourOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
               Your offers
             </button>
-            <button onClick={() => setSelectedComponent("savedOffers")} className={`mr-2 px-4 py-2 focus:outline-none border rounded ${selectedComponent === "savedOffers" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
-              Saved offers
-            </button>
             <button onClick={() => setSelectedComponent("chat")} className={`px-4 py-2 focus:outline-none border rounded ${selectedComponent === "chat" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
               Chat
             </button>
@@ -551,19 +548,6 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               <button onClick={handleNextPage} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
                 Next
               </button>
-            </div>
-          </div>
-          }
-          {selectedComponent === "savedOffers" &&
-          <div className="account-saved-offers pt-4 p-4 bg-gray-100">
-            <h2 className="text-xl font-bold mb-4">Saved offers</h2>
-            <div className="account-saved-offers-elements grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {offerData &&
-                offerData.map((offer) => (
-                  <div key={offer.id} className="border p-4 rounded bg-white">
-                    <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                  </div>
-                ))}
             </div>
           </div>
           }

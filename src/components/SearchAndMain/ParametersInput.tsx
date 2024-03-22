@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import LocationInputSearch from "../Map/LocationInputSearch";
 import carDataJson from "../../testJsons/makeModelCars.json";
 import Autosuggest from 'react-autosuggest';
-import { useNavigate } from 'react-router-dom';
 
 interface CarData {
   make: string;
@@ -16,8 +15,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   const [tempModel, setTempModel] = useState("");
   const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
   const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCarData(carDataJson);
@@ -131,7 +128,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     }
 
     const newUrl = `${searchPath}?${queryParams.toString()}/1`;
-    navigate(newUrl);
+    window.location.href = newUrl;
   };
 
   const getMakeSuggestions = (value: string) => {
