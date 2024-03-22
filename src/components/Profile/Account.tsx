@@ -112,6 +112,19 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       const uploadedProfilePicture = newProfilePicture ? await (async () => {
         const formData = new FormData();
         formData.append("file", newProfilePicture);
+
+        if (!newProfilePicture.type.startsWith('image/')) {
+          alert("Please upload an image file.");
+          setLoading(false);
+          return null;
+        }
+
+        if (newProfilePicture.size > 10 * 1024 * 1024) {
+          alert("File size must be less than 10MB.");
+          setLoading(false);
+          return null;
+        }
+
         formData.append("upload_preset", `${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`);
         const response = await fetch(`${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
           method: "POST",

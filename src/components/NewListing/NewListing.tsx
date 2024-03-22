@@ -164,6 +164,10 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
       alert("Invalid file type. Please upload a JPEG or PNG image.");
       return;
     }
+    if (file.size > 10 * 1024 * 1024) {
+      alert("File size too large. Please upload a file smaller than 10MB.");
+      return;
+    }
     if (file) {
       setTempPhotos((prevPhotos) => {
         const newPhotos = [...prevPhotos];

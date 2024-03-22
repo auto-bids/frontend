@@ -16,8 +16,8 @@ interface IOffer {
 
 const offerSchema = Yup.object().shape({
   description: Yup.string().required("Description is required").max(3000, "Description must be at most 3000 characters"),
-  price: Yup.number().required("Price is required").min(1, "Price must be at least 1").integer("Price must be an integer"),
-  mileage: Yup.number().required("Mileage is required").min(0, "Mileage must be at least 0").integer("Mileage must be an integer"),
+  price: Yup.number().required("Price is required").min(1, "Price must be at least 1").integer("Price must be an integer").max(100000000, "Price must be at most 100000000"),
+  mileage: Yup.number().required("Mileage is required").min(0, "Mileage must be at least 0").integer("Mileage must be an integer").max(1000000, "Mileage must be less than 1000000"),
   //photos: Yup.array().of(Yup.string().required("Photo is required")).min(1, "You must have at least one photo").max(10, "You can have at most 10 photos")
 });
 
@@ -113,6 +113,10 @@ export default function EditOffer(props: IOffer) {
         const allowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
         if (!file || !allowedFileTypes.includes(file.type)) {
             alert("Invalid file type. Please upload a JPEG or PNG image.");
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+            alert("File size must be less than 10MB");
             return;
         }
         if (file) {
