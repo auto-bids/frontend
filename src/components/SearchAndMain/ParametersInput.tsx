@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import LocationInputSearch from "../Map/LocationInputSearch";
 import carDataJson from "../../testJsons/makeModelCars.json";
 import Autosuggest from 'react-autosuggest';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {Browser} from "leaflet";
 
 interface CarData {
   make: string;
@@ -128,9 +129,9 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       queryParams.append("lng", locationParams.position[1].toString());
       queryParams.append("radius", locationParams.radius.toString());
     }
-    const newUrl = `${searchPath}?${queryParams.toString()}/1`;
+    window.location.href = `${searchPath}?${queryParams.toString()}/1`;
 
-    navigate(newUrl);
+
   };
 
   const getMakeSuggestions = (value: string) => {

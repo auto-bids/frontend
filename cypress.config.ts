@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 module.exports = defineConfig({
+  projectId: "am9ioh",
   video: false,
   screenshotOnRunFailure: true,
   e2e: {
