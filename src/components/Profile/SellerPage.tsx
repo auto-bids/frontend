@@ -94,6 +94,24 @@ export default function SellerPage() {
     fetchOfferData();
   }
 
+    if (!sellerData && !isLoading) {
+      return (
+        <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+          <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+          >Seller not found</h1>
+        </div>
+      );
+    }
+
+    if (isLoading) {
+      return (
+        <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+          <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+          >Loading...</h1>
+        </div>
+      );
+    }
+
     return(
       <div className="seller-page">
       <div className="seller-page-header flex items-center p-4">
@@ -138,8 +156,8 @@ export default function SellerPage() {
           ) : offerData && offerData.length > 0 ? (
             <>
             <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3">
-              {offerData.map((offer) => (
-                <Link to={`/cars/offer/${offer.id}`} key={offer.id} className="block rounded p-1">
+              {offerData.map((offer, index) => (
+                <Link to={`/cars/offer/${offer.id}`} key={offer.id} className={`block rounded p-1 ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
                   <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                 </Link>
               ))}

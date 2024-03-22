@@ -498,8 +498,8 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             </button>
             <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {offerData &&
-              offerData.map((offer) => (
-                <div key={offer.id} className="border p-4 rounded bg-white">
+              offerData.map((offer, index) => (
+                <div key={offer.id} className={`border p-4 rounded bg-white ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
                   {editingOfferId === offer.id ? (
                     <EditOffer
                       setEditingOfferId={setEditingOfferId}
