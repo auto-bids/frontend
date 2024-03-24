@@ -17,7 +17,7 @@ interface IOffer {
   title: string;
   price: number;
   year: number;
-};
+}
 
 
 interface IProfile {
@@ -162,7 +162,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       const fetchData = async () => {
         try {
           const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
-            method: "GET",
+            method: "POST",
                 credentials: "include",
                 headers: {
                     "Access-Control-Allow-Origin": "*",
