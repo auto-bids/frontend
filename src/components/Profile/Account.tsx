@@ -17,7 +17,7 @@ interface IOffer {
   title: string;
   price: number;
   year: number;
-};
+}
 
 
 interface IProfile {
@@ -195,7 +195,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       const fetchData = async () => {
         try {
           const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
-            method: "GET",
+            method: "POST",
                 credentials: "include",
                 headers: {
                     "Access-Control-Allow-Origin": "*",
@@ -555,7 +555,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           <div className="account-chat pt-4 p-4 bg-gray-100">
             <h2 className="text-xl font-bold mb-4">Chat</h2>
             <div className="account-chat-elements">
-              <Chat />
+              <Chat receiverEmail={""}/>
             </div>
           </div>
           }
