@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import useWebSocket from 'react-use-websocket';
 
-
-interface IChatPopup {
+interface IChat {
     receiverEmail: string;
 }
 
-export default function ChatPopup(props: IChatPopup){
+export default function Chat(props: IChat) {
     const [senderEmail, setSenderEmail] = React.useState<string>("");
+    const [receiverEmail, setReceiverEmail] = React.useState<string>("");
 
     const fetchData = async () => {
         try {
@@ -28,11 +29,44 @@ export default function ChatPopup(props: IChatPopup){
     }
 
     React.useEffect(() => {
-        fetchData().then(r => setSenderEmail(r.email));
+        fetchData().then(r => {
+            setSenderEmail(r.email);
+        });
+
+        return () => {
+            const websocket = getWebSocket();
+            if (websocket) {
+                console.log("closing websocket")
+                websocket.close();
+            }
+        }
     }, []);
 
+    const webSocketUrl = `${process.env.REACT_APP_CHAT_CREATE_ENDPOINT}${senderEmail}`;
+    const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(senderEmail ? webSocketUrl : null);
 
-    if(props.receiverEmail != "") {
+    const createChat = (destination: string) => {
+        sendMessage(JSON.stringify({
+            options: "create",
+            message: "test",
+            destination: destination,
+        }));
+    }
+
+    useEffect(() => {
+        if (lastMessage !== null) {
+            console.log(lastMessage.data);
+        }
+    }, [lastMessage]);
+
+
+    useEffect(() => {
+        if (readyState === 1) {
+            createChat(props.receiverEmail);
+        }
+    }, [readyState]);
+
+    if (props.receiverEmail != "") {
         return (
             <div>
                 <h1>Chat Popup</h1>
@@ -43,9 +77,9 @@ export default function ChatPopup(props: IChatPopup){
     } else {
         return (
             <div>
-                <h1>Chat Popup</h1>
+                <h1>Chat</h1>
                 <p>Sender: {senderEmail}</p>
-                <p>Receiver: No receiver</p>
+                <p> List Of Receivers</p>
             </div>
         );
     }

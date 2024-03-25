@@ -200,7 +200,7 @@ export default function SellerPage() {
                         >No offers found</h1>
                     </div>
                 )}
-                <Modal isOpen={chatModalIsOpen}>
+                <Modal isOpen={chatModalIsOpen} appElement={document.getElementById('root') as HTMLElement}>
                     <Chat receiverEmail={window.location.pathname.split("/")[2]}/>
                     <button
                         className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300"
