@@ -1,6 +1,6 @@
 import React from "react";
 import OfferElement from "../Other/OfferElement";
-import Chat from "./Chat";
+import ChatPopup from "./ChatPopup";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -555,7 +555,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           <div className="account-chat pt-4 p-4 bg-gray-100">
             <h2 className="text-xl font-bold mb-4">Chat</h2>
             <div className="account-chat-elements">
-              <Chat receiverEmail={""}/>
+              {/*<Chat receiverEmail={""} closeChat={}/>*/}
             </div>
           </div>
           }

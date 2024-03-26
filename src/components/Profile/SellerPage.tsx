@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import OfferElement from "../Other/OfferElement";
 import {useState} from "react";
 import {Link} from "react-router-dom";
-import Chat from "./Chat";
+import ChatPopup from "./ChatPopup";
 import Modal from "react-modal";
 
 interface IOffer {
@@ -201,7 +201,7 @@ export default function SellerPage() {
                     </div>
                 )}
                 <Modal isOpen={chatModalIsOpen} appElement={document.getElementById('root') as HTMLElement}>
-                    <Chat receiverEmail={window.location.pathname.split("/")[2]}/>
+                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[2]}/>}
                     <button
                         className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300"
                         onClick={handleModal}
