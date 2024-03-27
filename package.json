@@ -26,6 +26,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-cookie": "^7.0.1",
     "react-dom": "^18.2.0",
+    "react-lazy-load-image-component": "^1.6.0",
     "react-leaflet": "^4.2.1",
     "react-modal": "^3.16.1",
     "react-oauth": "0.0.1",
@@ -69,6 +70,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/leaflet": "^1.9.8",
     "@types/node": "^16.18.73",
+    "@types/react-lazy-load-image-component": "^1.6.3",
     "@types/react-modal": "^3.16.3",
     "@types/react-slick": "^0.23.13",
     "gh-pages": "^6.1.1"

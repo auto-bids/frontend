@@ -200,13 +200,30 @@ export default function SellerPage() {
                         >No offers found</h1>
                     </div>
                 )}
-                <Modal isOpen={chatModalIsOpen} appElement={document.getElementById('root') as HTMLElement}>
-                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[2]}/>}
+                <Modal isOpen={chatModalIsOpen} appElement={document.getElementById('root') as HTMLElement} style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.25)'
+                    },
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '60%',
+                        height: '80%',
+                        borderRadius: '30px',
+                        paddingTop: '8px'
+                    }
+
+                }}>
                     <button
-                        className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300"
+                        className="px-4 py-2 bg-red-400 text-white rounded focus:outline-none hover:bg-red-500 transition duration-300 absolute top-4 right-4 backdrop-blur-0"
                         onClick={handleModal}
-                    >Close chat
+                    >X
                     </button>
+                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[2]}/>}
                 </Modal>
             </div>
         </div>
