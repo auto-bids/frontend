@@ -1,12 +1,12 @@
 import React from "react";
 import OfferElement from "../Other/OfferElement";
-import ChatPopup from "./ChatPopup";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import EditOffer from "./EditOffer";
 import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import LoadingOverlay from "../Other/LoadingOverlay";
+import ChatList from "./ChatList";
 
 interface IOffer {
   mileage: number;
@@ -94,7 +94,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               "Access-Control-Allow-Credentials": "true",
             },
           });
-    
+
           if (response.ok) {
             fetchUsersOffers();
           } else {
@@ -105,7 +105,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
         }
       }
     }
-    
+
 
     const handleSaveProfile = async () => {
       setLoading(true);
@@ -313,7 +313,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 "Access-Control-Allow-Credentials": "true",
               },
             });
-      
+
             const response2 = await fetch(`${process.env.REACT_APP_LOGOUT_ENDPOINT}`, {
               method: "POST",
               credentials: "include",
@@ -322,7 +322,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                 "Access-Control-Allow-Credentials": "true",
               },
             });
-      
+
             if (response.ok && response2.ok) {
               setIsLoggedIn(false);
               if (document.cookie !== "isLoggedIn=false") {
@@ -383,7 +383,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               },
               body: JSON.stringify({ id }),
             });
-      
+
             if (response.ok) {
               fetchUsersOffers();
             } else {
@@ -397,7 +397,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           }
         }
       };
-      
+
 
       const handleEditOffer = (id: string) => {
         setEditingOfferId(id);
@@ -523,7 +523,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                   >
                     Delete
                   </button>
-                  {editingOfferId === offer.id ? ( 
+                  {editingOfferId === offer.id ? (
                     <button
                       onClick={() => handleEditOffer('')}
                       className="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
@@ -553,13 +553,13 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           }
           {selectedComponent === "chat" &&
           <div className="account-chat pt-4 p-4 bg-gray-100">
-            <h2 className="text-xl font-bold mb-4">Chat</h2>
+            <h2 className="text-xl font-bold mb-4">Chats</h2>
             <div className="account-chat-elements">
-              {/*<Chat receiverEmail={""} closeChat={}/>*/}
+              <ChatList receiverEmail={profileData.email}/>
             </div>
           </div>
           }
         </div>
       );
-      
+
 }

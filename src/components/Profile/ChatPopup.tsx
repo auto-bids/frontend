@@ -67,6 +67,7 @@ export default function ChatPopup(props: IChat) {
 
                     }
                     if (idPattern.test(message) && !subscribed) {
+                        // eslint-disable-next-line
                         subscribed = true;
                         newWs.send(JSON.stringify({
                             options: "subscribe",
@@ -182,11 +183,13 @@ export default function ChatPopup(props: IChat) {
         fetchReceiverPicture().then(r => {
             setReceiverPicture(r);
         });
+        // eslint-disable-next-line
     }, []);
 
     React.useEffect(() => {
         if (subscriptionId !== "")
-            fetchHistoricalMessages()
+            fetchHistoricalMessages().then();
+        // eslint-disable-next-line
     }, [subscriptionId]);
 
 
@@ -215,7 +218,7 @@ export default function ChatPopup(props: IChat) {
                                     </div>
                                 </div>
                                 <div key={index + "message"} style={{display: 'inline-block'}}
-                                     className="mt-5 ml-3 border-teal-400 border-2 rounded-full pr-2 bg-teal-200 text-right px-2 py-1 mb-4">{message.message}</div>
+                                     className="mt-5 ml-3 border-teal-400 border-2 rounded-2xl pr-2 bg-teal-200 px-2 py-1 mb-4 text-left">{message.message}</div>
                             </div> :
                             <div key={index + "div"}>
                                 <div key={index + "sender"} className="flex justify-end mb-[-5px]">
