@@ -11,12 +11,50 @@ interface Conversation {
     email: string;
     id: string;
     profilePicture: string;
-    lastMessage: { Sender: string, Message: string, Time: string }
+    lastMessage: { Sender: string, Message: string, Time: number }
+    newMessages: boolean;
 }
 
 export default function ChatList(props: IChat) {
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [selectedConversation, setSelectedConversation] = useState<string>("");
+
+    const ws = new WebSocket(`${process.env.REACT_APP_CHAT_CREATE_ENDPOINT}${props.receiverEmail}`);
+
+    ws.onopen = () => {
+        conversations.forEach((conversation) =>
+        ws.send(JSON.stringify({
+            options: "subscribe",
+            message: "subscribe",
+            destination: conversation.id,
+        }))
+        )
+    };
+
+    ws.onmessage = (event) => {
+        const idPattern = /^[0-9a-fA-F]{24}$/;
+
+        if (!idPattern.test(event.data)) {
+            const message = JSON.parse(event.data);
+            const newLastMessage = {
+                Sender: message.sender,
+                Message: message.message,
+                Time: Date.now()
+            }
+            const updatedConversations = conversations.map((conversation) => {
+                if (conversation.id === message.destination) {
+                    return {
+                        ...conversation,
+                        newMessages: true,
+                        lastMessage: newLastMessage
+                    }
+                }
+                return conversation;
+            })
+
+            setConversations(updatedConversations);
+        }
+    }
 
     const fetchConversations = async () => {
         try {
@@ -31,9 +69,14 @@ export default function ChatList(props: IChat) {
                             email: room.email,
                             id: room.id,
                             profilePicture: profilePicture,
-                            lastMessage: lastMessage
+                            lastMessage: {
+                                Sender: lastMessage.Sender,
+                                Message: lastMessage.Message,
+                                Time: lastMessage.Time ? lastMessage.Time*1000 : ""
+                            },
+                            }
                         }
-                    }));
+                    ));
                     setConversations(conversationsWithPictures);
                 }
             }
@@ -49,6 +92,12 @@ export default function ChatList(props: IChat) {
 
     const handleModal = () => {
         setSelectedConversation("");
+        setConversations(conversations.map((conversation) => {
+            return {
+                ...conversation,
+                newMessages: false
+            }
+        }))
     }
 
     const fetchUsersProfilePicture = async (email: string) => {
@@ -97,6 +146,12 @@ export default function ChatList(props: IChat) {
                         return (
                             <button key={conversation.id} onClick={() => {
                                 setSelectedConversation(conversation.email)
+                                setConversations(conversations.map((conversation) => {
+                                        return {
+                                            ...conversation,
+                                            newMessages: false
+                                        }
+                                }))
                             }}>
                                 <div className="border-neutral-500 border-2 h-[75px] flex items-center mb-2 rounded-md">
                                     <LazyLoadImage
@@ -106,11 +161,27 @@ export default function ChatList(props: IChat) {
                                         effect="blur"
                                     />
                                     <div className="flex flex-col ml-3 text-left">
-                                        <p className="font-semibold text-lg">{conversation.email}</p>
-                                        <p className="ml-2 text-teal-600">{conversation.lastMessage.Message ? (conversation.lastMessage.Message.toString().length > 132) ?
-                                            conversation.lastMessage.Message.substring(0, 132) + "..." : conversation.lastMessage.Message
-                                            : "No messages yet ..."}</p>
+                                        <div className="flex justify-between">
+                                            <p className="font-semibold text-lg">{conversation.email}{conversation.newMessages && (
+                                                <span
+                                                    className="text-left bg-red-500 text-white rounded-full px-2 py-[2px] text-xs ml-2">New</span>
+                                            )}</p>
+
+                                        </div>
+                                        <p className="ml-2 text-teal-600">
+                                            {conversation.lastMessage.Message
+                                                ? conversation.lastMessage.Message.toString().length > 132
+                                                    ? conversation.lastMessage.Message.substring(0, 132) + "..."
+                                                    : conversation.lastMessage.Message
+                                                : "No messages yet ..."}
+                                            {conversation.lastMessage.Time && (
+                                                <span className="text-xs text-gray-500 ml-2">
+                                                    {new Date(conversation.lastMessage.Time).toLocaleString()}
+                                                </span>
+                                            )}
+                                        </p>
                                     </div>
+
                                 </div>
                             </button>
                         );

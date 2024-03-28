@@ -10,7 +10,8 @@ interface IMessage {
     message: string;
     sender: string;
     destination: string;
-    options: string
+    options: string;
+    time: number;
 }
 
 interface IMessageBackend {
@@ -19,7 +20,7 @@ interface IMessageBackend {
     data: {
         data: {
             messages: {
-                Sender: string, Message: string
+                Sender: string, Message: string, Time: number
             }
         }[]
     }
@@ -38,9 +39,9 @@ export default function ChatPopup(props: IChat) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-            if (messagesEndRef.current) {
-                messagesEndRef.current.scrollIntoView({behavior: "smooth"});
-            }
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({behavior: "smooth"});
+        }
     }, [messages]);
 
     useEffect(() => {
@@ -63,7 +64,14 @@ export default function ChatPopup(props: IChat) {
                     const idPattern = /^[0-9a-fA-F]{24}$/;
 
                     if (!idPattern.test(message)) {
-                        setMessages((prevMessages) => [...prevMessages, JSON.parse(message)]);
+                        const newMessage = {
+                            message: JSON.parse(message).message,
+                            sender: JSON.parse(message).sender,
+                            destination: JSON.parse(message).destination,
+                            options: JSON.parse(message).options,
+                            time: Date.now()
+                        }
+                        setMessages((prevMessages) => [...prevMessages, newMessage]);
 
                     }
                     if (idPattern.test(message) && !subscribed) {
@@ -72,7 +80,7 @@ export default function ChatPopup(props: IChat) {
                         newWs.send(JSON.stringify({
                             options: "subscribe",
                             message: "subscribe",
-                            destination: message
+                            destination: message,
                         }));
                         setSubscriptionId(message);
                     }
@@ -94,8 +102,7 @@ export default function ChatPopup(props: IChat) {
         }
         ,
         [senderEmail, ws]
-    )
-    ;
+    );
 
     const sendMessage = () => {
         if (ws && message !== "" && subscriptionId !== "") {
@@ -126,10 +133,11 @@ export default function ChatPopup(props: IChat) {
                         message: message.messages.Message,
                         sender: message.messages.Sender,
                         destination: "",
-                        options: ""
+                        options: "",
+                        time: message.messages.Time * 1000
                     }
                 });
-                setMessages(messagesData.reverse().concat(messages));
+                setMessages((prevMessages) => [...messagesData.reverse(), ...prevMessages]);
                 page.current++;
             }
         } catch (error) {
@@ -218,7 +226,10 @@ export default function ChatPopup(props: IChat) {
                                     </div>
                                 </div>
                                 <div key={index + "message"} style={{display: 'inline-block'}}
-                                     className="mt-5 ml-3 border-teal-400 border-2 rounded-2xl pr-2 bg-teal-200 px-2 py-1 mb-4 text-left">{message.message}</div>
+                                     className="mt-5 ml-3 border-teal-400 border-2 rounded-2xl pr-2 bg-teal-200 px-2 py-1 mb-4 text-left">{message.message}
+                                </div>
+                                <span
+                                    className="text-xs text-gray-500 ml-2">{new Date(message.time).toLocaleString()}</span>
                             </div> :
                             <div key={index + "div"}>
                                 <div key={index + "sender"} className="flex justify-end mb-[-5px]">
@@ -233,9 +244,13 @@ export default function ChatPopup(props: IChat) {
                                     </div>
                                 </div>
                                 <div className="text-right mr-3">
+                                    <span
+                                        className="text-xs text-gray-500 mr-2">{new Date(message.time).toLocaleString()}</span>
                                     <div key={index + "sendM"} style={{display: 'inline-block'}}
-                                         className="mt-5 mb-10 border-teal-400 border-2 rounded-full pr-2 bg-teal-200 text-right px-2 py-1">{message.message}</div>
+                                         className="mt-5 mb-10 border-teal-400 border-2 rounded-full pr-2 bg-teal-200 text-right px-2 py-1">{message.message}
+                                    </div>
                                 </div>
+
                             </div>
                     ))}
                     <div ref={messagesEndRef}/>
