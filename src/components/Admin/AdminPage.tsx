@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import {Bar, Chart, Pie} from "react-chartjs-2";
 import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import {Chart as ChartJS, ArcElement} from "chart.js/auto";
+import emailjs from "@emailjs/browser";
 ChartJS.register(ArcElement);
 
 export default function AdminPage() {
@@ -13,6 +14,27 @@ export default function AdminPage() {
     const [offersReason, setOffersReason] = useState("");
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY || ''), []);
+
+    const handleSendEmail = async () => {
+        const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID ?? '';
+        const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID ?? '';
+        try {
+            setLoading(true);
+            await emailjs.send(serviceId, templateId, {
+                name: usersEmail,
+                recipient: usersEmail,
+                reason: category === "users" ? usersReason : offersReason,
+                category: category,
+            });
+            alert("email successfully sent");
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const handleBanUser = async () => {
         if (!usersEmail || !usersReason) {
             alert("Please fill in all fields");
@@ -22,6 +44,7 @@ export default function AdminPage() {
         if (confirmBan) {
             setLoading(true);
             try {
+                await handleSendEmail();
                 const offerDataFirstPage = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/${usersEmail}/1`, {
                     method: "GET",
                     credentials: "include",
@@ -138,6 +161,9 @@ export default function AdminPage() {
                         console.error(`Failed to delete photo ${photo} from cloud:`, error);
                     }
                 }));
+
+                setUsersEmail(offerData.data.data.user.email);
+                await handleSendEmail();
     
                 await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}${offerID}`, {
                     method: "DELETE",
