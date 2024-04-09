@@ -23,13 +23,19 @@ interface IAuction {
 interface IOffer {
   data:[
     {
-      car:{
+      car?: {
         photos: string[];
         title: string;
         price?: number;
         // auction?: IAuction;
         year: number;
       
+      },
+      motorcycle?:{
+        photos: string[];
+        title: string;
+        price?: number;
+        year: number;
       },
       id: string;
       user_email: string;
@@ -131,7 +137,7 @@ export default function SearchPage() {
         // const filters = Object.keys(decodedSearchParameters)
         // .map((key) => `${key}=${encodeURIComponent(decodedSearchParameters[key])}`)
         // .join("&");
-        const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/${currentPage}?${searchParams}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/${currentPage}?${searchParams}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

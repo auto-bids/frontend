@@ -66,7 +66,7 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Element {
+export default function NewListing() {
   const [tempPhotos, setTempPhotos] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [tempMake, setTempMake] = useState("");
@@ -252,7 +252,6 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     formik.setFieldValue("model", "");
   }
 
-  if (isLoggedIn) {
     return (
     <div className="new-listing-page p-4">
       {loading && <LoadingOverlay />}
@@ -583,15 +582,5 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
         <button type="submit" className="border rounded p-2 bg-teal-500 text-black hover:bg-teal-600 transition duration-300 w-full font-bold">Submit</button>
       </form>
     </div>
-  )
-  }else {
-    return (
-      <div className="new-listing-page p-4 h-screen flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mb-4">New Listing</h1>
-        <Link to="/register" className="border rounded p-2 bg-teal-500 text-white hover:bg-teal-600 transition duration-300 font-bold w-auto">
-          Login or register to add new listing
-        </Link>
-      </div>
-    );
-  }
+  );
 };

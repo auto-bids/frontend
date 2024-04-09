@@ -43,7 +43,7 @@ export default function MainPage() {
 
     const fetchOffers = async (type: string) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_CARS_PAGE_ENDPOINT}/1`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${type}/search/1`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

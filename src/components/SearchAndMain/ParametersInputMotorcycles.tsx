@@ -434,7 +434,10 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
             )}
         {locationVisible && <LocationInputSearch onLocationChange={handleLocationChange} />}
       </div>
-      <div className="col-span-1 flex items-center justify-center">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="col-span-1">
+        </div>
+        <div className="col-span-1 flex items-center justify-center">
           <button type="submit" className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
             Search
           </button>
@@ -450,6 +453,7 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
             <option value="mileage_-1">Mileage Desc</option>
           </select>
         </div>
+      </div>
     </form>
   );
 }

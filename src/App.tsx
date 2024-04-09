@@ -8,7 +8,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import SearchPage from './components/SearchAndMain/SearchPage';
 import Account from './components/Profile/Account';
-import NewListing from './components/NewListing/NewListing';
+import NewListingGeneral from './components/NewListing/NewListingGeneral';
 import RegisterPage from './components/Profile/RegisterPage';
 import OfferPage from './components/OfferPage/OfferPage';
 import PrivacyPolicy from './components/Footer/PrivacyPolicy';
@@ -37,7 +37,7 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/search/:category" element={<SearchPage />} />
               <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/new-listing" element={<NewListing isLoggedIn={isLoggedIn} />} />
+              <Route path="/new-listing" element={<NewListingGeneral isLoggedIn={isLoggedIn} />} />
               <Route path="/register" element={<RegisterPage />} />
               {/* <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} /> */}
               <Route path="/cars/offer/:id" element={<OfferPage />} />
