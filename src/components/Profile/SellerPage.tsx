@@ -64,12 +64,19 @@ export default function SellerPage() {
             const offers = await response.json();
             const offerData: IOffer[] = [];
             offers.data.data.forEach((offer: any) => {
-              offerData.push({
+              selectedCategory === "cars" && offerData.push({
                 id: offer.id,
                 image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
                 title: offer.car.title,
                 price: offer.car.price,
                 year: offer.car.year,
+              });
+              selectedCategory === "motorcycles" && offerData.push({
+                id: offer.id,
+                image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
+                title: offer.motorcycle.title,
+                price: offer.motorcycle.price,
+                year: offer.motorcycle.year,
               });
             });
             setNumberOfPages(offers.data.number_of_pages);
@@ -85,7 +92,7 @@ export default function SellerPage() {
       useEffect(() => {
         fetchData();
         fetchOfferData();
-      }, [currentPage]);
+      }, [currentPage, selectedCategory]);
 
     
 
@@ -136,7 +143,6 @@ export default function SellerPage() {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
             >
-              <option value="all">all</option>
               <option value="cars">cars</option>
               <option value="motorcycles">motorcycles</option>
               <option value="delivery vans">delivery vans</option>
@@ -157,7 +163,7 @@ export default function SellerPage() {
             <>
             <div className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3">
               {offerData.map((offer, index) => (
-                <Link to={`/cars/offer/${offer.id}`} key={offer.id} className={`block rounded p-1 ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
+                <Link to={`/${selectedCategory}/offer/${offer.id}`} key={offer.id} className={`block rounded p-1 ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
                   <OfferElement image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
                 </Link>
               ))}
