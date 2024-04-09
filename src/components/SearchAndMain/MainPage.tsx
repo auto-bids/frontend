@@ -32,6 +32,13 @@ interface IOffer {
         auction?: IAuction;
         year: number;
     };
+    motorcycle?: {
+        photos: string[];
+        title: string;
+        price?: number;
+        auction?: IAuction;
+        year: number;
+    };
 };
 
 export default function MainPage() {
@@ -53,7 +60,12 @@ export default function MainPage() {
             });
 
             const data = await response.json();
-            setOfferData(data.data.data.slice(0, data.data.data.length - 1));
+            if (data.data.data.length === 10) {
+                setOfferData(data.data.data.slice(0, data.data.data.length - 1));
+            }
+            else {
+                setOfferData(data.data.data);
+            }
             setIsLoading(false);
         } catch (error) {
             console.error(error);
@@ -75,7 +87,7 @@ export default function MainPage() {
                     fetchOffers("cars");
                     break;
                 case "motorcycles":
-                    data = await import("../../testJsons/testOfferMotorcycles.json");
+                    fetchOffers("motorcycles");
                     break;
                 case "delivery-vans":
                     data = await import("../../testJsons/testOfferDeliveryVans.json");
@@ -96,7 +108,7 @@ export default function MainPage() {
                     data = null;
             }
 
-            if (data && selectedCategory !== "cars") {
+            if (data && selectedCategory !== "cars" && selectedCategory !== "motorcycles") {
                 if (buyNowOrBid === "buyNow") {
                     const { id, photos, title, price, year } = data.default;
                     setOfferData([{ id, image: photos.length > 0 ? photos[0] : "", title, price, year }]);
@@ -161,34 +173,35 @@ export default function MainPage() {
             </button>
             {!isLoading ? (
                 <div className="promoted-offers mt-4 pb-3">
-                <h1 className="text-2xl font-bold mb-2">Promoted Offers</h1>
+                    <h1 className="text-2xl font-bold mb-2">Promoted Offers</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {offerData && offerData[0].car && offerData.map((offer) => (
+                        {offerData && offerData.map((offer) => (
                             <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`} className="block p-4">
-                                <OfferElement key={offer.id} image={offer.car?.photos[0] || ""} title={offer.car?.title || ""} price={offer.car?.price || 0} year={offer.car?.year || 0} auction={offer.car?.auction} />
+                                {selectedCategory === "cars" && offer.car ? (
+                                    <OfferElement
+                                        image={offer.car.photos[0] || ""}
+                                        title={offer.car.title || ""}
+                                        price={offer.car.price || 0}
+                                        auction={offer.car.auction}
+                                        year={offer.car.year || 0}
+                                    />
+                                ) : selectedCategory === "motorcycles" && offer.motorcycle ? (
+                                    <OfferElement
+                                        image={offer.motorcycle.photos[0] || ""}
+                                        title={offer.motorcycle.title || ""}
+                                        price={offer.motorcycle.price || 0}
+                                        year={offer.motorcycle.year || 0}
+                                    />
+                                ) : (
+                                    <div>No data available</div>
+                                )}
                             </Link>
                         ))}
-                        {/* {offerData && buyNowOrBid ==="buyNow" && selectedCategory==="cars" && offerData.map((offer) => (
-                            <Link key={offer.id} to={`/${selectedCategory}/offer/${offer.id}`}>
-                                <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} auction={offer.auction} />
-                            </Link>
-                        ))}
-                        {offerData && buyNowOrBid ==="bid" && selectedCategory==="cars" && offerData.map((offer) => (
-                            <Link key={offer.id} to={`/${selectedCategory}/bid/${offer.id}`}>
-                                <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                            </Link>
-                        ))}
-                        {offerData && selectedCategory !== "cars" && offerData.map((offer) => (
-                            <Link key={offer.id} to={`/${selectedCategory}/${offer.id}`}>
-                                <OfferElement key={offer.id} image={offer.image} title={offer.title} price={offer.price} year={offer.year} />
-                            </Link>
-                        ))} */}
                     </div>
-            </div>
+                </div>
             ) : (
                 <div className="main-page flex justify-center items-center">
-                    <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
-                    >Loading...</h1>
+                    <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md">Loading...</h1>
                 </div>
             )}
         </div>

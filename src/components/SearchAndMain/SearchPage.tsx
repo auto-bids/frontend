@@ -98,45 +98,7 @@ export default function SearchPage() {
     };
 
     const fetchData = async () => {
-      // const paramPairs = searchParams.split("&");
-      // const decodedSearchParameters = paramPairs.reduce((acc: any, pair: string) => {
-      //   const [key, value] = pair.split("=");
-      //   const thisKey = decodeURIComponent(key);
-    
-      //   if (
-      //     ["price_min", "price_max", "year_min", "year_max", "mileage_min", "mileage_max", "engine_capacity_min", "engine_capacity_max", "power_min", "power_max", "doors", "seats"].includes(thisKey)
-      //   ) {
-      //     acc[thisKey] = parseInt(decodeURIComponent(value), 10);
-      //   } else if (["lat", "lng", "radius"].includes(thisKey)) {
-      //     acc[thisKey] = parseFloat(decodeURIComponent(value));
-      //   } else {
-      //     if (value) {
-      //       acc[thisKey] = decodeURIComponent(value.replace(/\+/g, ' '));
-      //     }
-      //   }
-    
-      //   return acc;
-      // }, {});
-    
-      // decodedSearchParameters["location"] = {
-      //   type: "Point",
-      //   coordinates: [decodedSearchParameters["lng"], decodedSearchParameters["lat"]],
-      // };
-      // delete decodedSearchParameters["lat"];
-      // delete decodedSearchParameters["lng"];
-      // decodedSearchParameters["distance"] = decodedSearchParameters["radius"];
-      // delete decodedSearchParameters["radius"];
-
-      // console.log(decodedSearchParameters["location"]);
-      // if (decodedSearchParameters["location"].coordinates[0] === undefined && decodedSearchParameters["location"].coordinates[1] === undefined) {
-      //   delete decodedSearchParameters["location"];
-      //   delete decodedSearchParameters["distance"];
-      // }
-    
       try {
-        // const filters = Object.keys(decodedSearchParameters)
-        // .map((key) => `${key}=${encodeURIComponent(decodedSearchParameters[key])}`)
-        // .join("&");
         const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/${currentPage}?${searchParams}`, {
           method: "GET",
           headers: {
@@ -204,13 +166,23 @@ export default function SearchPage() {
             <div className="search-page-offers-list gap-4">
               {offerData && offerData.map((offer: any) => (
                 <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="">
-                  <OfferElement
-                    image={offer.car.photos[0]}
-                    title={offer.car.title}
-                    price={offer.car.price}
-                    auction={offer.car.auction}
-                    year={offer.car.year}
-                  />
+                  {category === "cars" && offer.car ? (
+                    <OfferElement
+                      image={offer.car.photos[0] || ""}
+                      title={offer.car.title || ""}
+                      price={offer.car.price || 0}
+                      year={offer.car.year || 0}
+                    />
+                  ) : category === "motorcycles" && offer.motorcycle ? (
+                    <OfferElement
+                      image={offer.motorcycle.photos[0] || ""}
+                      title={offer.motorcycle.title || ""}
+                      price={offer.motorcycle.price || 0}
+                      year={offer.motorcycle.year || 0}
+                    />
+                  ) : (
+                    <div>No data available</div>
+                  )}
                 </Link>
               ))}
               {offerData && offerData.length === 0 && (

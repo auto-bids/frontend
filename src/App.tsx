@@ -41,6 +41,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               {/* <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} /> */}
               <Route path="/cars/offer/:id" element={<OfferPage />} />
+              <Route path="/motorcycles/offer/:id" element={<OfferPageMotorcycles />} />
               <Route path="/offer-motorcycles/:id" element={<OfferPageMotorcycles />} />
               <Route path="/offer-delivery-vans/:id" element={<OfferPageDeliveryVans />} />
               <Route path="/offer-trucks/:id" element={<OfferPageTrucks />} />

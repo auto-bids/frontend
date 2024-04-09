@@ -36,25 +36,27 @@ interface FormValues {
 }
 
 const validationSchema = Yup.object().shape({
-    make: Yup.string().required("Make is required"),
-    model: Yup.string().required("Model is required"),
-    type: Yup.string().required("Type is required"),
-    year: Yup.number().required("Year is required"),
-    mileage: Yup.number().required("Mileage is required"),
-    vin_number: Yup.string().required("VIN number is required"),
-    price_min: Yup.number().required("Price is required"),
-    fuel: Yup.string().required("Fuel is required"),
-    transmission: Yup.string().required("Transmission is required"),
-    engine_capacity: Yup.number().required("Engine capacity is required"),
-    power: Yup.number().required("Power is required"),
-    condition: Yup.string().required("Condition is required"),
-    registration_number: Yup.string().required("Registration number is required"),
-    first_registration: Yup.string().required("First registration is required"),
-    telephone_number: Yup.string().required("Telephone number is required"),
-    location: Yup.object().shape({
-        type: Yup.string().required("Location type is required"),
-        coordinates: Yup.array().of(Yup.number()).required("Location coordinates are required"),
-    }),
+  title: Yup.string().required("Required").max(100, "Title must be less than 100 characters"),
+  make: Yup.string().required("Required"),
+  model: Yup.string().required("Required"),
+  price: Yup.number().required("Required").min(0, "Price must be greater than 0").max(100000000, "Price must be less than 100000000").integer("Price must be an integer"),
+  description: Yup.string().required("Required").max(3000, "Description must be less than 3000 characters"),
+  year: Yup.number().required("Required").min(1900, "Year must be greater than 1900").max(new Date().getFullYear(), "Year must be less than current year").integer("Year must be an integer"),
+  mileage: Yup.number().min(0, "Mileage must be greater than 0").max(1000000, "Mileage must be less than 1000000").integer("Mileage must be an integer"),
+  vin_number: Yup.string().max(17, "VIN number must be 17 characters"),
+  engine_capacity: Yup.number().min(0, "Engine capacity must be greater than 0").max(10000, "Engine capacity must be less than 10000").integer("Engine capacity must be an integer"),
+  fuel: Yup.string(),
+  transmission: Yup.string(),
+  type: Yup.string(),
+  power: Yup.number().min(0, "Power must be greater than 0").max(1000, "Power must be less than 1500").integer("Power must be an integer"),
+  registration_number: Yup.string().max(10, "Registration number must be less than 10 characters").min(3, "Registration number must be greater than 3 characters"),
+  first_registration: Yup.string().matches(/^\d{4}-\d{2}-\d{2}$/, "First registration must be in format YYYY-MM-DD"),
+  condition: Yup.string(),
+  telephone_number: Yup.string().min(9, "Telephone number must be at least 9 characters").max(15, "Telephone number must be less than 15 characters"),
+  location: Yup.object().shape({
+      type: Yup.string(),
+      coordinates: Yup.array().of(Yup.number()),
+  }),
 });
 
 export default function NewListingMotorcycles() {
