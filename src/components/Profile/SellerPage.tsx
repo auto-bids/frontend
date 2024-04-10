@@ -62,6 +62,11 @@ export default function SellerPage() {
           });
           if (response.ok) {
             const offers = await response.json();
+            if (offers.data.number_of_pages === 0) {
+              setOfferData([]);
+              setIsLoading(false);
+              return;
+            }
             const offerData: IOffer[] = [];
             offers.data.data.forEach((offer: any) => {
               selectedCategory === "cars" && offerData.push({

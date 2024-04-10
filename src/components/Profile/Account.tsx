@@ -45,6 +45,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
     const [selectedComponent, setSelectedComponent] = useState("yourOffers");
     const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
+    const [category, setCategory] = useState("cars");
 
     const handleEditProfile = () => {
       setIsEditing(true);
@@ -65,7 +66,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
       });
       if (numberOfPages > 1) {
         for (let i = 2; i <= numberOfPages; i++) {
-          const response = await fetch(`${process.env.REACT_APP_PROFILE_CARS_ENDPOINT}${i}`, {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${i}`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -86,7 +87,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       if (confirmed) {
         try {
-          const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ALL_USER_CARS_ENDPOINT}`, {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/all/me`, {
             method: "DELETE",
             credentials: "include",
             headers: {
@@ -227,7 +228,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       const fetchUsersOffers = async () => {
         try {
-          const response = await fetch(`${process.env.REACT_APP_PROFILE_CARS_ENDPOINT}${pageNumber}`, {
+          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -239,18 +240,38 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             const offers = await response.json();
             const offerData: IOffer[] = [];
             setNumberOfPages(offers.data.number_of_pages);
-            offers.data.data.forEach((offer: any) => {
-              offerData.push({
-                id: offer.id,
-                image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
-                title: offer.car.title,
-                price: offer.car.price,
-                year: offer.car.year,
-                description: offer.car.description,
-                mileage: offer.car.mileage,
-                photos: offer.car.photos,
+            if (offers.data.number_of_pages === 0) {
+              setOfferData([]);
+              return;
+            }
+            else if (category === "cars"){
+              offers.data.data.forEach((offer: any) => {
+                offerData.push({
+                  id: offer.id,
+                  image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
+                  title: offer.car.title,
+                  price: offer.car.price,
+                  year: offer.car.year,
+                  description: offer.car.description,
+                  mileage: offer.car.mileage,
+                  photos: offer.car.photos,
+                });
               });
-            });
+            }
+            else if (category === "motorcycles"){
+              offers.data.data.forEach((offer: any) => {
+                offerData.push({
+                  id: offer.id,
+                  image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
+                  title: offer.motorcycle.title,
+                  price: offer.motorcycle.price,
+                  year: offer.motorcycle.year,
+                  description: offer.motorcycle.description,
+                  mileage: offer.motorcycle.mileage,
+                  photos: offer.motorcycle.photos,
+                });
+              });
+            }
             setOfferData(offerData);
           } else {
             console.log("Error fetching offers");
@@ -266,7 +287,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
 
       useEffect(() => {
         fetchUsersOffers();
-      }, [pageNumber, editingOfferId]);
+      }, [pageNumber, editingOfferId, category]);
 
       const handleDeleteProfile = async () => {
         const confirmed = window.confirm("Are you sure you want to delete your account?");
@@ -280,7 +301,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           });
           if (numberOfPages > 1) {
             for (let i = 2; i <= numberOfPages; i++) {
-              const response = await fetch(`${process.env.REACT_APP_PROFILE_CARS_ENDPOINT}${i}`, {
+              const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${i}`, {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -374,7 +395,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
             photoUrls.forEach((photo) => {
               removePhotoFromCloudinary(photo);
             });
-            const response = await fetch(`${process.env.REACT_APP_CARS_DELETE_ENDPOINT}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/me`, {
               method: "DELETE",
               credentials: "include",
               headers: {
@@ -489,7 +510,18 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
           </div>
           {selectedComponent === "yourOffers" &&
           <div className="account-offers p-4 bg-gray-100">
-            <h2 className="text-xl font-bold mb-4">Your offers</h2>
+            <select
+              onChange={(e) => setCategory(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
+            >
+              <option value="cars">cars</option>
+              <option value="motorcycles">motorcycles</option>
+              <option value="delivery vans">delivery vans</option>
+              <option value="trucks">trucks</option>
+              <option value="construction machinery">construction machinery</option>
+              <option value="trailers">trailers</option>
+              <option value="agricultural machinery">agricultural machinery</option>
+            </select>
             <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
               Delete all offers
             </button>
@@ -506,9 +538,10 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
                       price={offer.price}
                       mileage={offer.mileage}
                       photos={offer.photos}
+                      category={category}
                     />
                   ) : (
-                    <Link to={`/cars/offer/${offer.id}`} className="block rounded p-4">
+                    <Link to={`/${category}/offer/${offer.id}`} className="block rounded p-4">
                       <OfferElement
                         image={offer.image}
                         title={offer.title}

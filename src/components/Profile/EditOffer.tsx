@@ -12,6 +12,7 @@ interface IOffer {
   price: number;
   mileage: number;
   photos: string[];
+  category: string;
 }
 
 const offerSchema = Yup.object().shape({
@@ -69,7 +70,7 @@ export default function EditOffer(props: IOffer) {
                 photos: [...photos, ...uploadedPhotoUrls],
             };
     
-            await fetch(`${process.env.REACT_APP_CARS_EDIT_ENDPOINT}`, {
+            await fetch(`${process.env.REACT_APP_API_BASE_URL}/${props.category}/edit/me`, {
                 method: "PUT",
                 credentials: "include",
                 headers: {
