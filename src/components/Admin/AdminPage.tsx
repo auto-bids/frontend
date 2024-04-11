@@ -9,7 +9,7 @@ ChartJS.register(ArcElement);
 export default function AdminPage() {
     const [category, setCategory] = useState("users");
     const [usersEmail, setUsersEmail] = useState("");
-    const [offerID, setOfferID] = useState("");
+    const [offerLink, setOfferLink] = useState("");
     const [usersReason, setUsersReason] = useState("");
     const [offersReason, setOffersReason] = useState("");
     const [loading, setLoading] = useState(false);
@@ -133,15 +133,24 @@ export default function AdminPage() {
     }
 
     const handleBanOffer = async () => {
-        if (!offerID || !offersReason) {
+        if (!offerLink || !offersReason) {
             alert("Please fill in all fields");
             return;
         }
         const confirmBan = window.confirm("Are you sure you want to ban this offer?");
         if (confirmBan) {
             setLoading(true);
+            const parts = offerLink.split("/");
+            const buyNowOrBid = parts[3];
+            if (buyNowOrBid === "bid"){
+                const category = "cars"
+            }
+            else {
+                const category = parts[2];
+            }
+            const offerId = parts[4];
             try {
-                const response = await fetch(`${process.env.REACT_APP_CARS_OFFER_ID_ENDPOINT}/${offerID}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/details${offerId}`, {
                     method: "GET",
                     credentials: "include",
                     headers: {
@@ -165,7 +174,7 @@ export default function AdminPage() {
                 setUsersEmail(offerData.data.data.user.email);
                 await handleSendEmail();
     
-                await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}${offerID}`, {
+                await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/${category}/delete/${offerId}`, {
                     method: "DELETE",
                     credentials: "include",
                     headers: {
@@ -246,7 +255,7 @@ export default function AdminPage() {
                 {category === "offers" && (
                     <div className="flex flex-col items-center justify-center h-full space-y-4 p-4">
                         <h1 className="text-2xl font-bold">Ban offer</h1>
-                        <input type="text" placeholder="Offer ID" className="w-full h-12 px-4 border border-gray-300 rounded" onChange={(e) => setOfferID(e.target.value)} />
+                        <input type="text" placeholder="Link to offer" className="w-full h-12 px-4 border border-gray-300 rounded" onChange={(e) => setOfferLink(e.target.value)} />
                         <textarea placeholder="Reason for ban" className="w-full h-32 px-4 border border-gray-300 rounded" onChange={(e) => setOffersReason(e.target.value)}/>
                         <button className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded transition duration-300" onClick={handleBanOffer}>
                             Ban

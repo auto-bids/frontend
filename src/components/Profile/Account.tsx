@@ -319,12 +319,58 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               }
             }
           }
-          try{
-            removePhotoFromCloudinary(profileData?.profile_picture || "");
+          const categories = ["cars", "motorcycles", "delivery vans", "trucks", "construction machinery", "trailers", "agricultural machinery"].filter((cat) => cat !== category);
+          for (const category of categories) {
+            try {
+              let pageNumber = 1;
+              while (true) {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}`, {
+                  method: "GET",
+                  credentials: "include",
+                  headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                  },
+                });
+                if (response.ok) {
+                  const offers = await response.json();
+                  if (offers.data.number_of_pages === 0) {
+                    break;
+                  }
+                  offers.data.data.forEach((offer: any) => {
+                    offer.car.photos.forEach((photo: string) => {
+                      removePhotoFromCloudinary(photo);
+                    });
+                  });
+                  pageNumber++;
+                } else {
+                  console.log("Error deleting offers");
+                  break;
+                }
+              }
+            } catch (error) {
+              console.error("Error deleting offers:", error);
+            }
+            
+          for (const category of categories) {
+            try {
+              const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/all/me`, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": "true",
+                },
+              });
+              if (!response.ok) {
+                console.log("Error deleting offers");
+              }
+            } catch (error) {
+              console.error("Error deleting offers:", error);
+            }
           }
-          catch (error) {
-            console.error("Error removing profile picture from cloudinary:", error);
-          }
+        }
+
           try {
             const response = await fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
               method: "DELETE",
