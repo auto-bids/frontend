@@ -4,6 +4,7 @@ import {Bar, Chart, Pie} from "react-chartjs-2";
 import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import {Chart as ChartJS, ArcElement} from "chart.js/auto";
 import emailjs from "@emailjs/browser";
+import { off } from "process";
 ChartJS.register(ArcElement);
 
 export default function AdminPage() {
@@ -45,57 +46,70 @@ export default function AdminPage() {
             setLoading(true);
             try {
                 await handleSendEmail();
-                const offerDataFirstPage = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}/${usersEmail}/1`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                        "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Credentials": "true",
-                    },
-                });
-                if (!offerDataFirstPage.ok) {
-                    throw new Error("Failed to fetch offer data");
-                }
-                const offerData = await offerDataFirstPage.json();
-                console.log(offerData); 
-                const offers = offerData.data.data;
-                const numberOfPages = offerData.data.number_of_pages;
-                if (numberOfPages > 1) {
-                    for (let i = 2; i <= numberOfPages; i++) {
-                        const response = await fetch(`${process.env.REACT_APP_CARS_EMAIL_PAGE_ENDPOINT}${usersEmail}/${i}`, {
-                            method: "GET",
-                            credentials: "include",
-                            headers: {
-                                "Access-Control-Allow-Origin": "*",
-                                "Access-Control-Allow-Credentials": "true",
-                            },
-                        });
-                        if (!response.ok) {
-                            throw new Error("Failed to fetch offer data");
-                        }
-                        const data = await response.json();
-                        offers.data.data.offers.push(...data.data.data.offers);
-                    }
-                }
-                await Promise.all(offers.map(async (offer: any) => {
-                    await Promise.all(offer.car.photos.map(async (photo: string) => {
-                        try {
-                            await removePhotoFromCloudinary(photo);
-                        } catch (error) {
-                            console.error(`Failed to delete photo ${photo} from cloud:`, error);
-                        }
-                    }));
-                }));
-                await Promise.all(offers.map(async (offer: any) => {
-                    await fetch(`${process.env.REACT_APP_BAN_OFFER_ENDPOINT}${offer.id}`, {
-                        method: "DELETE",
+                // const categories = ["cars", "motorcycles", "bids", "delivery-vans", "trucks", "trailers", "construction-machinery", "agricultural-machinery"];
+                const categories = ["cars", "motorcycles"];
+                for (const cat of categories) {
+                    const catBetter = cat === "motorcycles" ? "motorcycle" : cat === "cars" ? "car" : cat;
+                    const firstResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${cat}/search/user/${usersEmail}/1`, {
+                        method: "GET",
                         credentials: "include",
                         headers: {
                             "Access-Control-Allow-Origin": "*",
                             "Access-Control-Allow-Credentials": "true",
                         },
                     });
-                }));
+                    if (!firstResponse.ok) {
+                        throw new Error("Failed to fetch offers");
+                    }
+                    const firstData = await firstResponse.json();
+                    const numberOfPages = firstData.data.number_of_pages;
+                    if (numberOfPages === 0) {
+                        continue;
+                    }
+                    else{
+                        const offers = firstData.data.data;
+                        for (let i = 2; i <= numberOfPages; i++) {
+                            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${cat}/search/user/${usersEmail}/${i}`, {
+                                method: "GET",
+                                credentials: "include",
+                                headers: {
+                                    "Access-Control-Allow-Origin": "*",
+                                    "Access-Control-Allow-Credentials": "true",
+                                },
+                            });
+                            if (!response.ok) {
+                                throw new Error("Failed to fetch offers");
+                            }
+                            const data = await response.json();
+                            offers.push(...data.data.data);
+                        }
+
+                        await Promise.all(offers.map(async (offer: any) => {
+                            await Promise.all(offer[catBetter].photos.map(async (photo: string) => {
+                                try {
+                                    await removePhotoFromCloudinary(photo);
+                                } catch (error) {
+                                    console.error(`Failed to delete photo ${photo} from cloud:`, error);
+                                }
+                            }));
+                        }));
+                        await Promise.all(offers.map(async (offer: any) => {
+                            try{
+                                await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/${cat}/delete/${offer.id}`, {
+                                    method: "DELETE",
+                                    credentials: "include",
+                                    headers: {
+                                        "Access-Control-Allow-Origin": "*",
+                                        "Access-Control-Allow-Credentials": "true",
+                                    },
+                                });
+                            }
+                            catch (error) {
+                                console.error(`Failed to ban offer ${offer.id}:`, error);
+                            }
+                        }));
+                    }
+                }
                 const profileData = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}${usersEmail}`, {
                     method: "GET",
                     credentials: "include",
@@ -109,12 +123,7 @@ export default function AdminPage() {
                     throw new Error("Failed to fetch profile data");
                 }
                 const profile = await profileData.json();
-                try{
-                    removePhotoFromCloudinary(profile.data.data.profile_image);
-                }
-                catch (error) {
-                    console.error(`Failed to delete photo ${profile.data.data.profile_image} from cloud:`, error);
-                }
+                console.log('deleting profile')
                 await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}${usersEmail}`, {
                     method: "DELETE",
                     credentials: "include",
@@ -123,6 +132,13 @@ export default function AdminPage() {
                         "Access-Control-Allow-Credentials": "true",
                     },
                 });
+                console.log('profile deleted')
+                try{
+                    removePhotoFromCloudinary(profile.data.data.profile_image);
+                }
+                catch (error) {
+                    console.error(`Failed to delete photo ${profile.data.data.profile_image} from cloud:`, error);
+                }
                 setLoading(false);
             }
             catch (error) {
@@ -141,16 +157,11 @@ export default function AdminPage() {
         if (confirmBan) {
             setLoading(true);
             const parts = offerLink.split("/");
-            const buyNowOrBid = parts[3];
-            if (buyNowOrBid === "bid"){
-                const category = "cars"
-            }
-            else {
-                const category = parts[2];
-            }
-            const offerId = parts[4];
+            const buyNowOrBid = parts[4];
+            const offerCategory = buyNowOrBid === "bid" ? "bid" : parts[3];
+            const offerId = parts[5];
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/details${offerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${offerCategory}/details/${offerId}`, {
                     method: "GET",
                     credentials: "include",
                     headers: {
@@ -162,8 +173,14 @@ export default function AdminPage() {
                     throw new Error("Failed to fetch offer data");
                 }
                 const offerData = await response.json();
+
+                setUsersEmail(offerData.data.data.user_email);
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                const offerCategoryBetter = offerCategory === "motorcycles" ? "motorcycle" : offerCategory === "cars" ? "car" : offerCategory;
                 
-                await Promise.all(offerData.data.data.car.photos.map(async (photo: string) => {
+                console.log(offerData.data.data[offerCategoryBetter].photos);
+                await Promise.all(offerData.data.data[offerCategoryBetter].photos.map(async (photo: string) => {
                     try {
                         await removePhotoFromCloudinary(photo);
                     } catch (error) {
@@ -171,10 +188,10 @@ export default function AdminPage() {
                     }
                 }));
 
-                setUsersEmail(offerData.data.data.user.email);
+                
                 await handleSendEmail();
     
-                await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/${category}/delete/${offerId}`, {
+                await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/${offerCategory}/delete/${offerId}`, {
                     method: "DELETE",
                     credentials: "include",
                     headers: {

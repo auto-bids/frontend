@@ -319,7 +319,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               }
             }
           }
-          const categories = ["cars", "motorcycles", "delivery vans", "trucks", "construction machinery", "trailers", "agricultural machinery"].filter((cat) => cat !== category);
+          const categories = ["cars", "motorcycles","bids", "delivery vans", "trucks", "construction machinery", "trailers", "agricultural machinery"].filter((cat) => cat !== category);
           for (const category of categories) {
             try {
               let pageNumber = 1;
@@ -569,7 +569,7 @@ export default function Account({ setIsLoggedIn }: {setIsLoggedIn: (value: boole
               <option value="agricultural machinery">agricultural machinery</option>
             </select>
             <button onClick={handleDeleteAllOffers} className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
-              Delete all offers
+              Delete all offers in this category
             </button>
             <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {offerData &&
