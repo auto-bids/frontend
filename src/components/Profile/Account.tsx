@@ -201,7 +201,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
     const fetchData = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
-                method: "POST",
+                method: "GET",
                 credentials: "include",
                 headers: {
                     "Access-Control-Allow-Origin": "*",

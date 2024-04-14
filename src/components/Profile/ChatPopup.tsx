@@ -166,7 +166,7 @@ export default function ChatPopup(props: IChat) {
     const fetchData = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
-                method: "POST",
+                method: "GET",
                 credentials: "include",
                 headers: {
                     "Access-Control-Allow-Origin": "*",

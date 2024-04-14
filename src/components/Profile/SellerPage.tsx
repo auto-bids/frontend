@@ -139,14 +139,20 @@ export default function SellerPage() {
           <h2>{sellerData?.email}</h2>
         </div>
         <div className="seller-page-buttons ml-auto">
-          {document.cookie === "isLoggedIn=true" && document.cookie.split("=")[1] === "true" ? (
-            <button className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300">Chat</button>
-          ) : (
-            <Link to="/register">
-              <button className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300">Register/Login to chat with the seller</button>
-            </Link>
-          )}
-        </div>
+                    {document.cookie === "isLoggedIn=true" && document.cookie.split("=")[1] === "true" ? (
+                        <button
+                            className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300"
+                            onClick={handleModal}
+                        >Chat</button>
+                    ) : (
+                        <Link to="/register">
+                            <button
+                                className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300">Register/Login
+                                to chat with the seller
+                            </button>
+                        </Link>
+                    )}
+                </div>
       </div>
         <div className="seller-page-offers mt-4">
           <div className="seller-page-offers-search mb-1 pb-3 shadow-md">
@@ -154,7 +160,6 @@ export default function SellerPage() {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
             >
-              <option value="all">all</option>
               <option value="cars">cars</option>
               <option value="motorcycles">motorcycles</option>
               <option value="delivery vans">delivery vans</option>
