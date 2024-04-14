@@ -26,7 +26,7 @@ import OfferPageTrailers from './components/OfferPage/OfferPageTrailers';
 import OfferPageAgriculturalMachinery from './components/OfferPage/OfferPageAgriculturalMachinery';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(document.cookie==="isLoggedIn=true" ? true : false);
+  const [isLoggedIn, setIsLoggedIn] = useState(document.cookie === "isLoggedIn=true");
   // const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (

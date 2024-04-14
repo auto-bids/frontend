@@ -1,21 +1,23 @@
 import React, {useEffect} from "react";
 import OfferElement from "../Other/OfferElement";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {useState} from "react";
+import {Link} from "react-router-dom";
+import ChatPopup from "./ChatPopup";
+import Modal from "react-modal";
 
 interface IOffer {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  year: number;
-};
+    id: string;
+    image: string;
+    title: string;
+    price: number;
+    year: number;
+}
 
 
 interface ISeller {
-  email: string;
-  user_name: string;
-  profile_picture: string;
+    email: string;
+    user_name: string;
+    profile_picture: string;
 }
 
 export default function SellerPage() {
@@ -26,56 +28,61 @@ export default function SellerPage() {
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchPhrase, setSearchPhrase] = useState("");
+    const [chatModalIsOpen, setChatModalIsOpen] = useState(false);
 
     const fetchData = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}` + window.location.pathname.split("/")[2], {
-          method: "GET",
-              credentials: "include",
-              headers: {
-                  "Access-Control-Allow-Origin": "*",
-                  "Access-Control-Allow-Credentials": "true",
-              },
-        });
-        if (response.ok) {
-          const profileData = await response.json();
-          setSellerData({
-            email: profileData.data.data.email,
-            user_name: profileData.data.data.user_name,
-            profile_picture: profileData.data.data.profile_image,
-          });
+        try {
+            const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}` + window.location.pathname.split("/")[2], {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            });
+            if (response.ok) {
+                const profileData = await response.json();
+                setSellerData({
+                    email: profileData.data.data.email,
+                    user_name: profileData.data.data.user_name,
+                    profile_picture: profileData.data.data.profile_image,
+                });
+            }
+        } catch (error) {
+            console.error("Error loading profile data:", error);
         }
-      } catch (error) {
-        console.error("Error loading profile data:", error);
-      }
     };
 
-      const fetchOfferData = async () => {
+    const handleModal = () => {
+        setChatModalIsOpen(!chatModalIsOpen);
+    }
+
+    const fetchOfferData = async () => {
         try {
-          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}`, {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-          });
-          if (response.ok) {
-            const offers = await response.json();
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            });
+            if (response.ok) {
+                const offers = await response.json();
             if (offers.data.number_of_pages === 0) {
               setOfferData([]);
               setIsLoading(false);
               return;
             }
-            const offerData: IOffer[] = [];
-            offers.data.data.forEach((offer: any) => {
-              selectedCategory === "cars" && offerData.push({
-                id: offer.id,
-                image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
-                title: offer.car.title,
-                price: offer.car.price,
-                year: offer.car.year,
-              });
+                const offerData: IOffer[] = [];
+                offers.data.data.forEach((offer: any) => {
+                    selectedCategory === "cars" && offerData.push({
+                        id: offer.id,
+                        image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
+                        title: offer.car.title,
+                        price: offer.car.price,
+                        year: offer.car.year,
+                    });
               selectedCategory === "motorcycles" && offerData.push({
                 id: offer.id,
                 image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
@@ -83,45 +90,44 @@ export default function SellerPage() {
                 price: offer.motorcycle.price,
                 year: offer.motorcycle.year,
               });
-            });
-            setNumberOfPages(offers.data.number_of_pages);
-            setOfferData(offerData);
-            setIsLoading(false);
-          }
+                });
+                setNumberOfPages(offers.data.number_of_pages);
+                setOfferData(offerData);
+                setIsLoading(false);
+            }
         } catch (error) {
-          console.error("Error loading offer data:", error);
-          setIsLoading(false);
+            console.error("Error loading offer data:", error);
+            setIsLoading(false);
         }
-      }
+    }
 
-      useEffect(() => {
+    useEffect(() => {
         fetchData();
         fetchOfferData();
-      }, [currentPage, selectedCategory]);
+    }, [currentPage, selectedCategory]);
 
-    
 
-  function handleSearch() {
-    setIsLoading(true);
-    fetchOfferData();
-  }
+    function handleSearch() {
+        setIsLoading(true);
+        fetchOfferData();
+    }
 
     if (!sellerData && !isLoading) {
-      return (
-        <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
-          <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
-          >Seller not found</h1>
-        </div>
-      );
+        return (
+            <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+                <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                >Seller not found</h1>
+            </div>
+        );
     }
 
     if (isLoading) {
-      return (
-        <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
-          <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
-          >Loading...</h1>
-        </div>
-      );
+        return (
+            <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
+                <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md"
+                >Loading...</h1>
+            </div>
+        );
     }
 
     return(
@@ -148,6 +154,7 @@ export default function SellerPage() {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
             >
+              <option value="all">all</option>
               <option value="cars">cars</option>
               <option value="motorcycles">motorcycles</option>
               <option value="delivery vans">delivery vans</option>
@@ -188,6 +195,31 @@ export default function SellerPage() {
                 >No offers found</h1>
             </div>
           )}
+          <Modal isOpen={chatModalIsOpen} appElement={document.getElementById('root') as HTMLElement} style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.25)'
+                    },
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '60%',
+                        height: '80%',
+                        borderRadius: '30px',
+                        paddingTop: '8px'
+                    }
+
+                }}>
+                    <button
+                        className="px-4 py-2 bg-red-400 text-white rounded focus:outline-none hover:bg-red-500 transition duration-300 absolute top-4 right-4 backdrop-blur-0"
+                        onClick={handleModal}
+                    >X
+                    </button>
+                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[2]}/>}
+            </Modal>
         </div>
     </div>
   );
