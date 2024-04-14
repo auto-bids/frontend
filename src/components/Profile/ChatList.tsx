@@ -58,10 +58,18 @@ export default function ChatList(props: IChat) {
 
     const fetchConversations = async () => {
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_CHAT_CONVERSATIONS_ENDPOINT}${props.receiverEmail}`);
+            const response = await fetch(`http://${process.env.REACT_APP_CHAT_CONVERSATIONS_ENDPOINT}${props.receiverEmail}`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            })
+            console.log(response)
             if (response.ok) {
                 const res = await response.json()
-                if (res?.status === 200 && res?.message === "ok") {
+                if (res?.status === 200) {
                     const conversationsWithPictures = await Promise.all(res.data?.data?.rooms.map(async (room: any) => {
                         const profilePicture = await fetchUsersProfilePicture(room.email);
                         const lastMessage = await fetchLastMessage(room.id);
@@ -127,7 +135,9 @@ export default function ChatList(props: IChat) {
 
     const fetchLastMessage = async (roomId: string) => {
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_CHAT_HISTORY_ENDPOINT}${roomId}/${props.receiverEmail}/0`);
+            const response = await fetch(`http://${process.env.REACT_APP_CHAT_HISTORY_ENDPOINT}${roomId}/${props.receiverEmail}/0`, {
+                credentials: "include",
+            });
             if (response.status === 302) {
                 const res = await response.json();
                 if(res.data.data === null){

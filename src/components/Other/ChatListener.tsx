@@ -98,7 +98,13 @@ export default function ChatListener() {
 
     const fetchConversations = async () => {
         try {
-            const response = await fetch(`http://${process.env.REACT_APP_CHAT_CONVERSATIONS_ENDPOINT}${email}`);
+            const response = await fetch(`http://${process.env.REACT_APP_CHAT_CONVERSATIONS_ENDPOINT}${email}`, {
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            });
             if (response.ok) {
                 const res = await response.json();
                 if (res?.status === 200 && res?.message === "ok") {
