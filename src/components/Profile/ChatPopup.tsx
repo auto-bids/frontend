@@ -34,6 +34,7 @@ export default function ChatPopup(props: IChat) {
     const [receiverPicture, setReceiverPicture] = useState<string>("");
     const [senderPicture, setSenderPicture] = useState<string>("");
     const [message, setMessage] = useState<string>("");
+    const [allMessagesFetched, setAllMessagesFetched] = useState<boolean>(false);
     const page = useRef<number>(0)
     let subscribed = false;
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -50,7 +51,6 @@ export default function ChatPopup(props: IChat) {
                 const newWs = new WebSocket(webSocketUrl);
 
                 newWs.onopen = () => {
-                    console.log("WebSocket opened");
                     newWs.send(JSON.stringify({
                         options: "create",
                         message: "test",
@@ -87,7 +87,6 @@ export default function ChatPopup(props: IChat) {
                 }
 
                 newWs.onclose = () => {
-                    console.log("WebSocket closed");
                 };
 
                 setWs(newWs);
@@ -128,17 +127,24 @@ export default function ChatPopup(props: IChat) {
 
             if (response.status === 302) {
                 const res: IMessageBackend = await response.json();
-                const messagesData = res.data.data.map((message) => {
-                    return {
-                        message: message.messages.Message,
-                        sender: message.messages.Sender,
-                        destination: "",
-                        options: "",
-                        time: message.messages.Time * 1000
+                if(res.data.data) {
+                    const messagesData = res.data.data.map((message) => {
+                        return {
+                            message: message.messages.Message,
+                            sender: message.messages.Sender,
+                            destination: "",
+                            options: "",
+                            time: message.messages.Time * 1000
+                        }
+                    });
+                    setMessages((prevMessages) => [...messagesData.reverse(), ...prevMessages]);
+                    page.current++;
+                    if(res.data.data.length < 10){
+                        setAllMessagesFetched(true);
                     }
-                });
-                setMessages((prevMessages) => [...messagesData.reverse(), ...prevMessages]);
-                page.current++;
+                } else {
+                    setAllMessagesFetched(true);
+                }
             }
         } catch (error) {
             console.error("Error loading profile data:", error);
@@ -207,10 +213,11 @@ export default function ChatPopup(props: IChat) {
             <div className="flex flex-col h-full">
                 <div
                     className="flex-grow h-0 border-2 border-neutral-400 border-b-0 w-full overflow-auto rounded-xl rounded-b-none p-3">
+                    {!allMessagesFetched &&
                     <button className="ml-[42%] text-teal-500 hover:text-teal-900 mb-5"
                             onClick={fetchHistoricalMessages}
                     >====Load More====
-                    </button>
+                    </button>}
                     {messages.map((message, index) => (
                         message.sender === props.receiverEmail ?
                             <div key={index + "div"}>

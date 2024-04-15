@@ -8,6 +8,7 @@ interface NewMessages {
     date: Date;
 }
 
+
 export default function ChatListener() {
     const [conversations, setConversations] = useState([]);
     const [email, setEmail] = useState("");
@@ -15,30 +16,32 @@ export default function ChatListener() {
     const [ws, setWs] = useState<WebSocket>()
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                        "Access-Control-Allow-Origin": "*",
-                        "Access-Control-Allow-Credentials": "true",
-                    },
-                });
-                if (response.ok) {
-                    if (response.status === 200) {
-                        const profileData = await response.json();
-                        setEmail(profileData.data.data.email);
+        if (document.cookie === "isLoggedIn=true") {
+            const fetchData = async () => {
+                try {
+                    const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
+                        method: "GET",
+                        credentials: "include",
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Credentials": "true",
+                        },
+                    });
+                    if (response.ok) {
+                        if (response.status === 200) {
+                            const profileData = await response.json();
+                            setEmail(profileData.data.data.email);
+                        }
                     }
+                } catch (e) {
+                    console.error("Error loading chat data:", e);
                 }
-            } catch (e) {
-                console.error("Error loading chat data:", e);
-            }
-        };
+            };
 
-        fetchData().then(() => {
-            (email !== "" && fetchConversations());
-        });
+            fetchData().then(() => {
+                (email !== "" && fetchConversations());
+            });
+        }
     }, [email]);
 
 
@@ -48,9 +51,7 @@ export default function ChatListener() {
                 setWs(newWs);
 
                 newWs.onopen = () => {
-                    console.log("Connected to chat websocket");
                     conversations.forEach((conversation) => {
-                        console.log("Subscribing to conversation");
                         newWs.send(JSON.stringify({
                             options: "subscribe",
                             message: "subscribe",
