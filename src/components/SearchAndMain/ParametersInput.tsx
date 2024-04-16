@@ -110,7 +110,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const searchPath = buyNowOrBid === "buyNow" ? "/search/cars" : "/search/cars-bids";
+    const searchPath = buyNowOrBid === "buyNow" ? "/search/cars" : "/search/auction";
     const queryParams =  new URLSearchParams();
     Object.entries(formValues).forEach(([key, value]) => {
       if (value !== "") {
@@ -309,30 +309,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   
           {buyNowOrBid === "bid" && (
             <>
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Current Bid:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} />
-                  <input className="form-input border rounded p-2 full" name="currentBidTo" placeholder="Current Bid to" value={formValues.currentBidTo} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} />
-                </div>
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Seller Reserve:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="text" name="sellerReserveFrom" placeholder="Seller Reserve from" value={formValues.sellerReserveFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="text" name="sellerReserveTo" placeholder="Seller Reserve to" value={formValues.sellerReserveTo} onChange={handleInputChange} />
-                </div>
-              </div>
-            
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Number of Bids:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="text" name="numberOfBidsFrom" placeholder="Number of Bids from" value={formValues.numberOfBidsFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="text" name="numberOfBidsTo" placeholder="Number of Bids to" value={formValues.numberOfBidsTo} onChange={handleInputChange} />
-                </div>
-              </div>
-
               <div className="flex flex-col space-y-2">
                 <label className="block text-sm font-medium text-gray-700">End Date:</label>
                 <div className="flex space-x-2">

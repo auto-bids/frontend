@@ -7,6 +7,7 @@ import NewListingMotorcycles from "./NewListingMotorcycles";
 import NewListingTrailers from "./NewListingTrailers";
 import NewListingTrucks from "./NewListingTrucks";
 import { Link } from "react-router-dom";
+import NewListingBid from "./NewListingBid";
 
 export default function NewListingGeneral({isLoggedIn}: {isLoggedIn: boolean}){
     const [category, setCategory] = useState("");
@@ -39,6 +40,9 @@ export default function NewListingGeneral({isLoggedIn}: {isLoggedIn: boolean}){
             case "cars":
                 setCategoryComponent(<NewListing />);
                 break;
+            case "auction":
+                setCategoryComponent(<NewListingBid />);
+                break;
             default:
                 setCategoryComponent(<div className="p-4 text-center text-2xl border border-gray-300 rounded bg-gray-200">Please select a category</div>);
             break;
@@ -50,7 +54,7 @@ export default function NewListingGeneral({isLoggedIn}: {isLoggedIn: boolean}){
         return(
             <div>
                 <div>
-                    {["cars","motorcycles","delivery-vans","trucks","construction-machinery","trailers","agricultural-machinery"].map((categoryName) => (
+                    {["cars","auction","motorcycles","delivery-vans","trucks","construction-machinery","trailers","agricultural-machinery"].map((categoryName) => (
                         <button
                         key={categoryName}
                         onClick={() => handleCategoryChange(categoryName)}
