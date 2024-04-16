@@ -66,11 +66,15 @@ export default function ChatListener() {
 
                     if (!idPattern.test(event.data)) {
                         const parsedData = JSON.parse(event.data);
+                        if (parsedData.sender === email) {
+                            return;
+                        }
                         const newMessage = {
                             sender: parsedData.sender,
                             message: parsedData.message,
                             date: new Date(),
                         };
+
 
                         setNewMessages((prevMessages) => {
                             return [...prevMessages, newMessage];
