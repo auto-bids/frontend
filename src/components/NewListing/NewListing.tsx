@@ -138,7 +138,7 @@ export default function NewListing() {
       );
       const filteredUploadedPhotoUrls = uploadedPhotoUrls.filter((photo) => photo !== undefined);
       const valuesWithPhotos = { ...formik.values, photos: filteredUploadedPhotoUrls };
-      await fetch(`${process.env.REACT_APP_CARS_ADD_ENDPOINT}`, {
+      await fetch(`${process.env.REACT_APP_API_BASE_URL}/cars/add/me`, {
         method: "POST",
         credentials: "include",
         headers: {

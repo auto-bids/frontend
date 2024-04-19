@@ -19,7 +19,7 @@ export default function ChatListener() {
         if (document.cookie === "isLoggedIn=true") {
             const fetchData = async () => {
                 try {
-                    const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/login/me`, {
                         method: "GET",
                         credentials: "include",
                         headers: {

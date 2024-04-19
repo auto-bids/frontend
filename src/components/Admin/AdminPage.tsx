@@ -110,7 +110,7 @@ export default function AdminPage() {
                         }));
                     }
                 }
-                const profileData = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}${usersEmail}`, {
+                const profileData = await fetch(`${process.env.REACT_APP_BASE_URL}/profiles/user/${usersEmail}`, {
                     method: "GET",
                     credentials: "include",
                     headers: {
@@ -124,7 +124,7 @@ export default function AdminPage() {
                 }
                 const profile = await profileData.json();
                 console.log('deleting profile')
-                await fetch(`${process.env.REACT_APP_BAN_USER_ENDPOINT}${usersEmail}`, {
+                await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/profiles/delete/${usersEmail}`, {
                     method: "DELETE",
                     credentials: "include",
                     headers: {

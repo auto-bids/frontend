@@ -152,7 +152,7 @@ export default function ChatPopup(props: IChat) {
     };
     const fetchReceiverPicture = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}${props.receiverEmail}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/user/${props.receiverEmail}`, {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -171,7 +171,7 @@ export default function ChatPopup(props: IChat) {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/login/me`, {
                 method: "GET",
                 credentials: "include",
                 headers: {

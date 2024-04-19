@@ -152,7 +152,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                     profile_image: uploadedProfilePicture || profileData?.profile_picture,
                     user_name: editedProfile?.user_name,
                 };
-                fetch(`${process.env.REACT_APP_PROFILE_EDIT_ENDPOINT}`, {
+                fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/edit/me`, {
                     method: "PUT",
                     credentials: "include",
                     headers: {
@@ -200,7 +200,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/login/me`, {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -377,7 +377,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
         }
 
           try {
-            const response = await fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/delete/me`, {
               method: "DELETE",
               credentials: "include",
               headers: {
@@ -386,7 +386,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
               },
             });
       
-            const response2 = await fetch(`${process.env.REACT_APP_LOGOUT_ENDPOINT}`, {
+            const response2 = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logout`, {
               method: "POST",
               credentials: "include",
               headers: {
@@ -415,7 +415,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
 
     const handleLogout = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_LOGOUT_ENDPOINT}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logout`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
