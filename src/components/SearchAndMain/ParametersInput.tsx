@@ -50,6 +50,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     steering: "",
     filter_by: "",
     sort_direction: "",
+    Status: "",
   });
 
   useEffect(() => {
@@ -307,21 +308,27 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             </div>
           )}
   
-          {/*{buyNowOrBid === "bid" && (*/}
-          {/*  <>*/}
-          {/*    <div className="flex flex-col space-y-2">*/}
-          {/*      <label className="block text-sm font-medium text-gray-700">End Date:</label>*/}
-          {/*      <div className="flex space-x-2">*/}
-          {/*        <input className="form-input border rounded p-2 full" type="date" name="end" placeholder="End Date from" value={formValues.end} onChange={handleInputChange} />*/}
-          {/*        <input className="form-input border rounded p-2 full" type="date" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />*/}
-          {/*      </div>*/}
-          {/*    </div>*/}
-          {/*  </>*/}
-          {/*)}*/}
+          {buyNowOrBid === "bid" && (
+            <>
+              <div className="flex flex-col space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Status:</label>
+                <div className="flex space-x-2">
+                  <select className="form-select border rounded p-2 full" name="Status" value={formValues.Status}
+                          onChange={handleInputChange}>
+                    <option value="">Status</option>
+                    <option value="started">Started</option>
+                    <option value="ended">Ended</option>
+                    <option value="notstarted">Not Started</option>
+                  </select>
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Fuel Type:</label>
-            <select className="form-select border rounded p-2 full" name="fuel" value={formValues.fuel} onChange={handleInputChange}>
+            <select className="form-select border rounded p-2 full" name="fuel" value={formValues.fuel}
+                    onChange={handleInputChange}>
               <option value="">Fuel Type</option>
               <option value="Gasoline">Gasoline</option>
               <option value="Diesel">Diesel</option>

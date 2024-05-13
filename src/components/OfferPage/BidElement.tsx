@@ -142,8 +142,9 @@ export default function BidElement(props: BidElementProps) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (props.startDate.getTime() * 1000 > new Date().getTime()) {
-                setTimeLeft("Auction not started yet (starts at " + props.startDate.toLocaleString() + ")");
+            const date = props.startDate.getTime() * 1000;
+            if (date > new Date().getTime()) {
+                setTimeLeft("Auction not started yet (starts at " + new Date(date).toLocaleString() + ")");
                 return;
             }
 
@@ -187,7 +188,7 @@ export default function BidElement(props: BidElementProps) {
                     <h3 className="text-neutral-500 mt-1">Amount of bids:</h3>
                     <p>{bids}</p>
                 </div>
-                {timeLeft !== ("Auction ended" || timeLeft.split(" ")[0] === "Auction") && (
+                {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && (
                     <div className="bid-element-info-form mt-2">
                         <input
                             type="text"
@@ -202,7 +203,7 @@ export default function BidElement(props: BidElementProps) {
                 <div className="bid-element-info-time mt-1">
                     <p>{timeLeft}{timeLeft !== ("Auction ended") || (timeLeft.split(" ")[0] === "Auction") && "to end"}</p>
                 </div>
-                {timeLeft !== ("Auction ended" || timeLeft.split(" ")[0] === "Auction") && (
+                {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && (
                     <button onClick={handlePlaceBid}
                             className="mt-2 p-1 bg-teal-500 text-white rounded-md hover:bg-teal-600 mb-1">
                         Place Bid
