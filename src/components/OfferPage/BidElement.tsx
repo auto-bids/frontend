@@ -56,7 +56,6 @@ export default function BidElement(props: BidElementProps) {
                 };
 
                 newWs.onmessage = (event) => {
-                    console.log(event.data);
                     if (event.data.includes("offer")) {
                         const data = JSON.parse(event.data);
                         setPrice(data.offer);
@@ -153,6 +152,9 @@ export default function BidElement(props: BidElementProps) {
 
             if (distance < 0) {
                 setTimeLeft("Auction ended");
+                if (user === lastBidder)
+                    alert("You won the auction!")
+
             } else {
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
