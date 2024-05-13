@@ -36,7 +36,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     sellerReserveTo: "",
     numberOfBidsFrom: "",
     numberOfBidsTo: "",
-    endDateFrom: "",
+    end: "",
     endDateTo: "",
     fuel: "",
     condition: "",
@@ -307,17 +307,17 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             </div>
           )}
   
-          {buyNowOrBid === "bid" && (
-            <>
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">End Date:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="date" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="date" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
-                </div>
-              </div>
-            </>
-          )}
+          {/*{buyNowOrBid === "bid" && (*/}
+          {/*  <>*/}
+          {/*    <div className="flex flex-col space-y-2">*/}
+          {/*      <label className="block text-sm font-medium text-gray-700">End Date:</label>*/}
+          {/*      <div className="flex space-x-2">*/}
+          {/*        <input className="form-input border rounded p-2 full" type="date" name="end" placeholder="End Date from" value={formValues.end} onChange={handleInputChange} />*/}
+          {/*        <input className="form-input border rounded p-2 full" type="date" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*  </>*/}
+          {/*)}*/}
 
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Fuel Type:</label>
