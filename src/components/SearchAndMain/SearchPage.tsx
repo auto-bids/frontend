@@ -164,7 +164,7 @@ export default function SearchPage() {
                 </div>
                 <div className="search-page-offers-list gap-4">
                     {offerData && offerData.map((offer: any) => (
-                        <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="">
+                        <Link to={`/${category}/offer/${offer.id ? offer.id : offer._id}`} key={offer.id ? offer.id : offer._id} className="">
                             {offer.car ? (
                                 <OfferElement
                                     image={offer.car.photos[0] || ""}
