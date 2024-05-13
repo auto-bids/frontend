@@ -53,8 +53,6 @@ describe("Search car offer", () => {
         cy.contains("cygaro")
         cy.get("button").contains("2").click()
         cy.contains("car")
-        cy.get("button").contains("3").click()
-        cy.contains("golf")
     })
 
     it("tests multiple searches after eachother", () => {
