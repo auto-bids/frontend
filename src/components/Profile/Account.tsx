@@ -8,6 +8,8 @@ import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import LoadingOverlay from "../Other/LoadingOverlay";
 import ChatList from "./ChatList";
 import MyBids from "./MyBids";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 
 interface IOffer {
     mileage: number;
@@ -194,9 +196,15 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
         if (pageNumber < numberOfPages) {
             setPageNumber(pageNumber + 1);
         }
+        if(category === "auction" && offerData?.length === 10) {
+            setPageNumber(pageNumber + 1);
+        }
     }
     const handlePreviousPage = () => {
         if (pageNumber > 1) {
+            setPageNumber(pageNumber - 1);
+        }
+        if(category === "auction" && pageNumber > 1) {
             setPageNumber(pageNumber - 1);
         }
     }
@@ -477,7 +485,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                 });
 
                 if (response.ok) {
-                    fetchUsersOffers();
+                    await fetchUsersOffers();
                 } else {
                     console.log("Error deleting offer");
                 }

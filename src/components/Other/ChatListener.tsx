@@ -74,7 +74,6 @@ export default function ChatListener() {
         }
     }
 
-
     useEffect(() => {
             if (email && !chatWs && conversations.length > 0) {
                 const newWs = new WebSocket(`${process.env.REACT_APP_CHAT_CREATE_ENDPOINT}${email}`);
@@ -132,7 +131,7 @@ export default function ChatListener() {
     );
 
     useEffect(() => {
-            if (email && !chatWs && conversations.length > 0) {
+            if (email && !bidWs && joinedAuctions.length > 0) {
                 const bidWs = new WebSocket(`${process.env.REACT_APP_AUCTIONS_WS_ENDPOINT}${email}`);
                 setBidWs(bidWs);
 
@@ -146,28 +145,32 @@ export default function ChatListener() {
                 };
 
 
-                // bidWs.onmessage = (event) => {
-                //     const data = JSON.parse(event.data);
-                //     // TODO implement win notification
-                // }
+                bidWs.onmessage = (event) => {
+                    if (event.data.includes("offer") && event.data.includes("status")) {
+                        const data = JSON.parse(event.data);
+                        if (data.offer.sender === email) {
+                            alert("You won an auction!")
+                        }
+                    }
+                }
 
 
                 bidWs.onclose = () => {
                     console.log("WebSocket closed");
                 };
 
-                setChatWs(bidWs);
+                setBidWs(bidWs);
             }
 
             // Close WebSocket connection when component unmounts
             return () => {
-                if (chatWs) {
-                    chatWs.close();
+                if (bidWs) {
+                    bidWs.close();
                 }
             };
         }
         ,
-        [email, conversations, chatWs]
+        [email, conversations, bidWs]
     );
 
     const fetchConversations = async () => {

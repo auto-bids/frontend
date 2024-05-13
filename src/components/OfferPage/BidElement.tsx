@@ -15,6 +15,7 @@ export default function BidElement(props: BidElementProps) {
     const [ws, setWs] = useState<WebSocket | null>(null);
     const [lastBidder, setLastBidder] = useState<string>("");
     const [user, setUser] = useState<any>();
+    const [joined, setJoined] = useState<boolean>(false);
 
     const fetchData = async () => {
         try {
@@ -36,57 +37,48 @@ export default function BidElement(props: BidElementProps) {
     };
 
     useEffect(() => {
-            fetchData().then((data) => {
-                    if (data) {
-                        setUser(data.email);
-                    }
+        fetchData().then((data) => {
+                if (data) {
+                    setUser(data.email);
                 }
-            );
+            }
+        );
 
-            if (props.offerId && !ws && user) {
+        if (props.offerId && !ws && user) {
 
-                const webSocketUrl = `${process.env.REACT_APP_AUCTIONS_WS_ENDPOINT}/${user}`;
-                const newWs = new WebSocket(webSocketUrl);
+            const webSocketUrl = `${process.env.REACT_APP_AUCTIONS_WS_ENDPOINT}/${user}`;
+            const newWs = new WebSocket(webSocketUrl);
 
-                newWs.onopen = () => {
-                    newWs.send(JSON.stringify({
-                        options: "join",
-                        destination: props.offerId,
-                    }));
-                };
 
-                newWs.onmessage = (event) => {
-                    if (event.data.includes("offer")) {
-                        const data = JSON.parse(event.data);
-                        setPrice(data.offer);
-                        setBids((prevState) => prevState + 1);
-                        setLastBidder(data.sender)
-                    }
-
-                    // TODO: Implement win message (not working on backend yet?)
-                    // if (event.data.includes("win")) {
-                    //     if (user === lastBidder)
-                    //         alert("You won the auction!")
-                    // }
+            newWs.onmessage = (event) => {
+                if (event.data.includes("offer") && !event.data.includes("status")) {
+                    const data = JSON.parse(event.data);
+                    setPrice(data.offer);
+                    setBids((prevState) => prevState + 1);
+                    setLastBidder(data.sender)
                 }
 
-
-                newWs.onclose = () => {
-                };
-
-                setWs(newWs);
+                if (event.data.includes("status")) {
+                    const data = JSON.parse(event.data);
+                    if (data.offer.sender == user) {
+                        alert("You won the auction!")
+                    }
+                }
             }
 
-            return () => {
-                if (ws) {
-                    ws.close();
-                }
+
+            newWs.onclose = () => {
             };
+
+            setWs(newWs);
         }
-        ,
-        [ws, user, props.offerId]
-    )
-    ;
+
+        return () => {
+            if (ws) {
+                ws.close();
+            }
+        };
+    }, [ws, user, props.offerId]);
 
     useEffect(() => {
 
@@ -127,14 +119,23 @@ export default function BidElement(props: BidElementProps) {
             setErrorMessage("Please enter a valid number");
             return;
         }
+
+        if (!joined) {
+            ws?.send(JSON.stringify({
+                    options: "join",
+                    destination: props.offerId,
+                })
+            );
+        }
+
         ws?.send(JSON.stringify({
-                options: "bid",
-                destination: props.offerId,
-                offer: {
-                    offer: parseInt(bidValue),
-                },
-            })
-        );
+            options: "bid",
+            destination: props.offerId,
+            offer: {
+                offer: parseInt(bidValue),
+            },
+        }));
+
         setBidValue("");
         setErrorMessage("");
     };
@@ -149,13 +150,6 @@ export default function BidElement(props: BidElementProps) {
 
             const now = new Date().getTime();
             const distance = props.endDate.getTime() * 1000 - now;
-
-            if(distance == 0) {
-                if(user === lastBidder) {
-                    alert("You won the auction!")
-                }
-                ws?.close()
-            }
 
             if (distance < 0) {
                 setTimeLeft("Auction ended")
@@ -186,7 +180,7 @@ export default function BidElement(props: BidElementProps) {
                     <p className="text-xs text-neutral-500">
                         {lastBidder !== user ? (
                             <span>
-                                Last Bid by: {`${lastBidder.substring(0, 2)}...${lastBidder.split("@")[0].slice(-2)}`}
+                                Last Bid by: {`${lastBidder?.substring(0, 2)}...${lastBidder?.split("@")[0].slice(-2)}`}
                             </span>
                         ) : (
                             <span>Your Bid</span>
