@@ -63,6 +63,9 @@ export default function ChatListener() {
                         setJoinedAuctions((prevState) => [...prevState, ...data.data.data.map((auction: {
                             _id: any;
                         }) => auction._id)]);
+                        if (data.data.data.length === 10) {
+                            fetchJoinedAuctions(i + 1)
+                        }
                     }
                 }
             )
@@ -143,10 +146,10 @@ export default function ChatListener() {
                 };
 
 
-                bidWs.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
-                    // TODO implement win notification
-                }
+                // bidWs.onmessage = (event) => {
+                //     const data = JSON.parse(event.data);
+                //     // TODO implement win notification
+                // }
 
 
                 bidWs.onclose = () => {

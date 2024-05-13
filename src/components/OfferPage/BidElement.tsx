@@ -150,10 +150,15 @@ export default function BidElement(props: BidElementProps) {
             const now = new Date().getTime();
             const distance = props.endDate.getTime() * 1000 - now;
 
-            if (distance < 0) {
-                setTimeLeft("Auction ended");
-                if (user === lastBidder)
+            if(distance == 0) {
+                if(user === lastBidder) {
                     alert("You won the auction!")
+                }
+                ws?.close()
+            }
+
+            if (distance < 0) {
+                setTimeLeft("Auction ended")
 
             } else {
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));

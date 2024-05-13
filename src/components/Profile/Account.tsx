@@ -7,6 +7,7 @@ import EditOffer from "./EditOffer";
 import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import LoadingOverlay from "../Other/LoadingOverlay";
 import ChatList from "./ChatList";
+import MyBids from "./MyBids";
 
 interface IOffer {
     mileage: number;
@@ -584,6 +585,10 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                         className={`px-4 py-2 focus:outline-none border rounded ${selectedComponent === "chat" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
                     Chat
                 </button>
+                <button onClick={() => setSelectedComponent("mybids")}
+                        className={`px-4 py-2 focus:outline-none border rounded ${selectedComponent === "mybids" ? "bg-teal-500 text-white ml-2" : "bg-gray-300 text-gray-700 hover:bg-gray-400 ml-2"}`}>
+                    My Bids
+                </button>
             </div>
             {selectedComponent === "yourOffers" &&
                 <div className="account-offers p-4 bg-gray-100">
@@ -677,6 +682,11 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                     <div className="account-chat-elements">
                         <ChatList receiverEmail={profileData.email}/>
                     </div>
+                </div>
+            }
+            {selectedComponent === "mybids" &&
+                <div className="account-chat pt-4 p-4 bg-gray-100">
+                    <MyBids email={profileData.email}/>
                 </div>
             }
         </div>
