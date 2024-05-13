@@ -51,17 +51,18 @@ export default function ChatPopup(props: IChat) {
                 const newWs = new WebSocket(webSocketUrl);
 
                 newWs.onopen = () => {
-                    newWs.send(JSON.stringify({
-                        options: "create",
-                        message: "test",
-                        destination: props.receiverEmail,
-                    }));
+                        newWs.send(JSON.stringify({
+                            options: "create",
+                            message: "test",
+                            destination: props?.receiverEmail,
+                        }));
                 };
 
 
                 newWs.onmessage = (event) => {
                     const message = event.data;
                     const idPattern = /^[0-9a-fA-F]{24}$/;
+                    console.log(message)
 
                     if (!idPattern.test(message)) {
                         const newMessage = {
@@ -82,6 +83,7 @@ export default function ChatPopup(props: IChat) {
                             message: "subscribe",
                             destination: message,
                         }));
+                        console.log(message)
                         setSubscriptionId(message);
                     }
                 }
@@ -127,7 +129,7 @@ export default function ChatPopup(props: IChat) {
 
             if (response.status === 302) {
                 const res: IMessageBackend = await response.json();
-                if(res.data.data) {
+                if (res.data.data) {
                     const messagesData = res.data.data.map((message) => {
                         return {
                             message: message.messages.Message,
@@ -139,7 +141,7 @@ export default function ChatPopup(props: IChat) {
                     });
                     setMessages((prevMessages) => [...messagesData.reverse(), ...prevMessages]);
                     page.current++;
-                    if(res.data.data.length < 10){
+                    if (res.data.data.length < 10) {
                         setAllMessagesFetched(true);
                     }
                 } else {
@@ -214,10 +216,10 @@ export default function ChatPopup(props: IChat) {
                 <div
                     className="flex-grow h-0 border-2 border-neutral-400 border-b-0 w-full overflow-auto rounded-xl rounded-b-none p-3">
                     {!allMessagesFetched &&
-                    <button className="ml-[42%] text-teal-500 hover:text-teal-900 mb-5"
-                            onClick={fetchHistoricalMessages}
-                    >====Load More====
-                    </button>}
+                        <button className="ml-[42%] text-teal-500 hover:text-teal-900 mb-5"
+                                onClick={fetchHistoricalMessages}
+                        >====Load More====
+                        </button>}
                     {messages.map((message, index) => (
                         message.sender === props.receiverEmail ?
                             <div key={index + "div"}>

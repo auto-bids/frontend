@@ -1,84 +1,215 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
 interface BidElementProps {
-  isActive: boolean;
-  currentBid: number;
-  numberOfBids: number;
-  sellerReserve: number;
-  endDate: Date;
+    endDate: Date;
+    offerId: string;
+    startDate: Date;
 }
 
 export default function BidElement(props: BidElementProps) {
-  const [bidValue, setBidValue] = useState("");
-  const [timeLeft, setTimeLeft] = useState<string>("");
+    const [bidValue, setBidValue] = useState("");
+    const [timeLeft, setTimeLeft] = useState<string>("");
+    const [price, setPrice] = useState<number>(0);
+    const [bids, setBids] = useState<number>(0);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [ws, setWs] = useState<WebSocket | null>(null);
+    const [lastBidder, setLastBidder] = useState<string>("");
+    const [user, setUser] = useState<any>();
 
-  const handleBidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBidValue(event.target.value);
-  };
-
-  const handlePlaceBid = () => {
-    console.log(`Placing bid: ${bidValue} PLN`);
-  };
-
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date().getTime();
-      const endDate = props.endDate.getTime();
-      const timeDifference = endDate - now;
-
-      if (timeDifference > 0) {
-        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-        );
-
-        setTimeLeft(`${days}d ${hours}h ${minutes}m`);
-      } else {
-        setTimeLeft("Auction has ended");
-      }
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_PROFILE_LOGIN_ENDPOINT}`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            });
+            if (response.ok) {
+                const res = await response.json();
+                return res.data?.data;
+            }
+        } catch (error) {
+            console.error("Error loading profile data:", error);
+        }
     };
 
-    const timer = setInterval(() => {
-      calculateTimeLeft();
-    }, 60000);
+    useEffect(() => {
+            fetchData().then((data) => {
+                    if (data) {
+                        setUser(data.email);
+                    }
+                }
+            );
 
-    calculateTimeLeft();
+            if (props.offerId && !ws && user) {
 
-    return () => clearInterval(timer);
-  }, [props.endDate]);
+                const webSocketUrl = `${process.env.REACT_APP_AUCTIONS_WS_ENDPOINT}/${user}`;
+                const newWs = new WebSocket(webSocketUrl);
 
-  return (
-    <div className="bid-element">
-      <div className="bid-element-info">
-        <div className="Seller reserve">
-          <h3>Seller reserve:</h3>
-          <p>{props.sellerReserve}</p>
+                newWs.onopen = () => {
+                    newWs.send(JSON.stringify({
+                        options: "join",
+                        destination: props.offerId,
+                    }));
+                };
+
+                newWs.onmessage = (event) => {
+                    console.log(event.data);
+                    if (event.data.includes("offer")) {
+                        const data = JSON.parse(event.data);
+                        setPrice(data.offer);
+                        setBids((prevState) => prevState + 1);
+                        setLastBidder(data.sender)
+                    }
+
+                    // TODO: Implement win message (not working on backend yet?)
+                    // if (event.data.includes("win")) {
+                    //     if (user === lastBidder)
+                    //         alert("You won the auction!")
+                    // }
+                }
+
+
+                newWs.onclose = () => {
+                };
+
+                setWs(newWs);
+            }
+
+            return () => {
+                if (ws) {
+                    ws.close();
+                }
+            };
+        }
+        ,
+        [ws, user, props.offerId]
+    )
+    ;
+
+    useEffect(() => {
+
+
+        const fetchData = async (i: number) => {
+            try {
+                fetch(`${process.env.REACT_APP_AUCTIONS_ENDPOINT}/offers/${props.offerId}/${i}`).then(
+                    response => response.json()
+                ).then(data => {
+                    if (data.data.data !== null) {
+                        const lastOffer = data.data.data[0]
+                        if (i === 0) {
+                            setPrice(lastOffer.offers.offer)
+                            setLastBidder(lastOffer.offers.sender)
+                        }
+                        setBids((prevState) => prevState + data.data.data.length)
+                        if (data.data.data.length === 10) {
+                            fetchData(i + 1)
+                        }
+                    }
+
+                })
+            } catch (e) {
+                console.error(e)
+            }
+        }
+
+        fetchData(0)
+    }, [props.offerId])
+
+
+    const handleBidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setBidValue(event.target.value);
+    };
+
+    const handlePlaceBid = () => {
+        if (isNaN(parseInt(bidValue)) || parseInt(bidValue) <= 0 || parseInt(bidValue) < price) {
+            setErrorMessage("Please enter a valid number");
+            return;
+        }
+        ws?.send(JSON.stringify({
+                options: "bid",
+                destination: props.offerId,
+                offer: {
+                    offer: parseInt(bidValue),
+                },
+            })
+        );
+        setBidValue("");
+        setErrorMessage("");
+    };
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (props.startDate.getTime() * 1000 > new Date().getTime()) {
+                setTimeLeft("Auction not started yet (starts at " + props.startDate.toLocaleString() + ")");
+                return;
+            }
+
+            const now = new Date().getTime();
+            const distance = props.endDate.getTime() * 1000 - now;
+
+            if (distance < 0) {
+                setTimeLeft("Auction ended");
+            } else {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s `);
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+        // eslint-disable-next-line
+    }, []);
+
+    return (
+        <div className="bid-element border shadow-md bg-zinc-50">
+            <div className="bid-element-info">
+                <h2 className="font-bold">Bids</h2>
+                <div className="bid-element-info-price mt-2 text-sm">
+                    <h3 className="text-neutral-500">Current price:</h3>
+                    <p className="text-3xl">{price} PLN</p>
+                    <p className="text-xs text-neutral-500">
+                        {lastBidder !== user ? (
+                            <span>
+                                Last Bid by: {`${lastBidder.substring(0, 2)}...${lastBidder.split("@")[0].slice(-2)}`}
+                            </span>
+                        ) : (
+                            <span>Your Bid</span>
+                        )}
+                    </p>
+                    <h3 className="text-neutral-500 mt-1">Amount of bids:</h3>
+                    <p>{bids}</p>
+                </div>
+                {timeLeft !== ("Auction ended" || timeLeft.split(" ")[0] === "Auction") && (
+                    <div className="bid-element-info-form mt-2">
+                        <input
+                            type="text"
+                            placeholder="Your Bid"
+                            value={bidValue}
+                            onChange={handleBidChange}
+                        />
+                        <p className="text-red-500 text-sm">{errorMessage}</p>
+
+                    </div>
+                )}
+                <div className="bid-element-info-time mt-1">
+                    <p>{timeLeft}{timeLeft !== ("Auction ended" || timeLeft.split(" ")[0] === "Auction") && "to end"}</p>
+                </div>
+                {timeLeft !== ("Auction ended" || timeLeft.split(" ")[0] === "Auction") && (
+                    <button onClick={handlePlaceBid}
+                            className="mt-2 p-1 bg-teal-500 text-white rounded-md hover:bg-teal-600 mb-1">
+                        Place Bid
+                    </button>
+                )}
+
+            </div>
         </div>
-        <div className="bid-element-info-time">
-          <h3>Time left:</h3>
-          <p>{timeLeft}</p>
-        </div>
-        <div className="bid-element-info-bids">
-          <h3>Bids:</h3>
-          <p>{props.numberOfBids}</p>
-        </div>
-        <div className="bid-element-info-bid">
-          <h3>Current bid:</h3>
-          <p>{props.currentBid}</p>
-        </div>
-        <div className="bid-element-info-form">
-          <input
-            type="text"
-            placeholder="Bid"
-            value={bidValue}
-            onChange={handleBidChange}
-          />
-          <button onClick={handlePlaceBid}>Place bid</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

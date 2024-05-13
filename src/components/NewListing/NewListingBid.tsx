@@ -178,8 +178,8 @@ export default function NewListingBid() {
                 },
                 body: JSON.stringify({
                     car: {...valuesWithPhotos},
-                    start: 1713399916,
-                    end: 1713499155,
+                    start: Math.floor(new Date(formik.values.start).getTime() / 1000),
+                    end: Math.floor(new Date(formik.values.end).getTime() / 1000),
                 }),
             });
 
@@ -616,7 +616,8 @@ export default function NewListingBid() {
                     name="end"
                     type="datetime-local"
                     className="w-full border p-2 mb-2"
-                    onChange={formik.handleChange}
+                    onChange={
+                        formik.handleChange}
                     value={formik.values.end}
                 />
                 {formik.errors.end ? <div className="text-red-500">{formik.errors.end}</div> : null}
