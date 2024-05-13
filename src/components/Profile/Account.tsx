@@ -621,6 +621,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                             category={category}
                                             type={category === "auction" ? "auction" : "offer"}
                                             email={profileData.email}
+                                            year={offer.year}
                                         />
                                     ) : (
                                         <Link to={`/${category}/offer/${offer.id}`} className="block rounded p-4">

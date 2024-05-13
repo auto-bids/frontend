@@ -15,6 +15,7 @@ interface IOffer {
     category: string;
     type: string;
     email: string;
+    year: number;
 }
 
 const offerSchema = Yup.object().shape({
@@ -37,6 +38,10 @@ export default function EditOffer(props: IOffer) {
             price: props.type === "offer" ? props.price : 2,
             mileage: props.mileage,
             photos: props.photos,
+            minimalRaise: 0,
+            title: props.title,
+            year: props.year,
+            telephone_number: ""
         },
         validationSchema: offerSchema,
         onSubmit: async (values) => {

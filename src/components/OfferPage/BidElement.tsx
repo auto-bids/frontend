@@ -201,7 +201,7 @@ export default function BidElement(props: BidElementProps) {
                     </div>
                 )}
                 <div className="bid-element-info-time mt-1">
-                    <p>{timeLeft}{timeLeft !== ("Auction ended") || (timeLeft.split(" ")[0] === "Auction") && "to end"}</p>
+                    <p>{timeLeft} {timeLeft.split(" ")[0] !== "Auction" && "left"}</p>
                 </div>
                 {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && (
                     <button onClick={handlePlaceBid}
