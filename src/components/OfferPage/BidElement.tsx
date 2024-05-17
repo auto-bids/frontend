@@ -16,6 +16,7 @@ export default function BidElement(props: BidElementProps) {
     const [lastBidder, setLastBidder] = useState<string>("");
     const [user, setUser] = useState<any>();
     const [joined, setJoined] = useState<boolean>(false);
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     const fetchData = async () => {
         try {
@@ -29,10 +30,11 @@ export default function BidElement(props: BidElementProps) {
             });
             if (response.ok) {
                 const res = await response.json();
+                setLoggedIn(true)
                 return res.data?.data;
             }
-        } catch (error) {
-            console.error("Error loading profile data:", error);
+        } catch (e) {
+            setLoggedIn(false);
         }
     };
 
@@ -189,7 +191,7 @@ export default function BidElement(props: BidElementProps) {
                     <h3 className="text-neutral-500 mt-1">Amount of bids:</h3>
                     <p>{bids}</p>
                 </div>
-                {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && (
+                {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && loggedIn && (
                     <div className="bid-element-info-form mt-2">
                         <input
                             type="text"
@@ -201,10 +203,15 @@ export default function BidElement(props: BidElementProps) {
 
                     </div>
                 )}
+                {!loggedIn && (
+                    <div className="bid-element-info-form mt-2">
+                        <p className="text-red-500 text-sm">Please log in to place a bid</p>
+                    </div>
+                )}
                 <div className="bid-element-info-time mt-1">
                     <p>{timeLeft} {timeLeft.split(" ")[0] !== "Auction" && "left"}</p>
                 </div>
-                {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && (
+                {timeLeft !== "Auction ended" && timeLeft.split(" ")[0] !== "Auction" && loggedIn && (
                     <button onClick={handlePlaceBid}
                             className="mt-2 p-1 bg-teal-500 text-white rounded-md hover:bg-teal-600 mb-1">
                         Place Bid
