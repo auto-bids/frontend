@@ -7,16 +7,21 @@ import EditOffer from "./EditOffer";
 import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import LoadingOverlay from "../Other/LoadingOverlay";
 import ChatList from "./ChatList";
+import MyBids from "./MyBids";
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 
 interface IOffer {
     mileage: number;
     photos: string[];
     description: string;
     id: string;
+    _id?: string;
     image: string;
     title: string;
     price: number;
     year: number;
+    auctionEnd?: string
 }
 
 
@@ -50,7 +55,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.has('chat') && setSelectedComponent('chat');
     }, []);
-    
+
 
     const handleEditProfile = () => {
         setIsEditing(true);
@@ -63,53 +68,53 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
     };
 
     const handleDeleteAllOffers = async () => {
-      const confirmed = window.confirm("Are you sure you want to delete all your offers?");
-      offerData?.forEach((offer) => {
-        offer.photos.forEach((photo) => {
-          removePhotoFromCloudinary(photo);
-        });
-      });
-      if (numberOfPages > 1) {
-        for (let i = 2; i <= numberOfPages; i++) {
-          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${i}`, {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-          });
-          if (response.ok) {
-            const offers = await response.json();
-            offers.data.data.forEach((offer: any) => {
-              offer.car.photos.forEach((photo: string) => {
+        const confirmed = window.confirm("Are you sure you want to delete all your offers?");
+        offerData?.forEach((offer) => {
+            offer.photos.forEach((photo) => {
                 removePhotoFromCloudinary(photo);
-              });
             });
-          }
+        });
+        if (numberOfPages > 1) {
+            for (let i = 2; i <= numberOfPages; i++) {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${i}`, {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                });
+                if (response.ok) {
+                    const offers = await response.json();
+                    offers.data.data.forEach((offer: any) => {
+                        offer.car.photos.forEach((photo: string) => {
+                            removePhotoFromCloudinary(photo);
+                        });
+                    });
+                }
+            }
         }
-      }
 
-      if (confirmed) {
-        try {
-          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/all/me`, {
-            method: "DELETE",
-            credentials: "include",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-          });
-    
-          if (response.ok) {
-            fetchUsersOffers();
-          } else {
-            console.log("Error deleting all offers");
-          }
-        } catch (error) {
-          console.error("Error deleting all offers:", error);
+        if (confirmed) {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/all/me`, {
+                    method: "DELETE",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                });
+
+                if (response.ok) {
+                    fetchUsersOffers();
+                } else {
+                    console.log("Error deleting all offers");
+                }
+            } catch (error) {
+                console.error("Error deleting all offers:", error);
+            }
         }
-      }
     }
 
 
@@ -191,9 +196,15 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
         if (pageNumber < numberOfPages) {
             setPageNumber(pageNumber + 1);
         }
+        if(category === "auction" && offerData?.length === 10) {
+            setPageNumber(pageNumber + 1);
+        }
     }
     const handlePreviousPage = () => {
         if (pageNumber > 1) {
+            setPageNumber(pageNumber - 1);
+        }
+        if(category === "auction" && pageNumber > 1) {
             setPageNumber(pageNumber - 1);
         }
     }
@@ -233,183 +244,200 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
 
     const fetchUsersOffers = async () => {
         try {
-          const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}`, {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Credentials": "true",
-            },
-          });
-          if (response.ok) {
-            const offers = await response.json();
-            const offerData: IOffer[] = [];
-            setNumberOfPages(offers.data.number_of_pages);
-            if (offers.data.number_of_pages === 0) {
-              setOfferData([]);
-              return;
-            }
-            else if (category === "cars"){
-              offers.data.data.forEach((offer: any) => {
-                offerData.push({
-                  id: offer.id,
-                  image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
-                  title: offer.car.title,
-                  price: offer.car.price,
-                  year: offer.car.year,
-                  description: offer.car.description,
-                  mileage: offer.car.mileage,
-                  photos: offer.car.photos,
-                });
-              });
-            }
-            else if (category === "motorcycles"){
-              offers.data.data.forEach((offer: any) => {
-                offerData.push({
-                  id: offer.id,
-                  image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
-                  title: offer.motorcycle.title,
-                  price: offer.motorcycle.price,
-                  year: offer.motorcycle.year,
-                  description: offer.motorcycle.description,
-                  mileage: offer.motorcycle.mileage,
-                  photos: offer.motorcycle.photos,
-                });
-              });
-            }
-            setOfferData(offerData);
-          } else {
-            console.log("Error fetching offers");
-          }
+            const uri = category !== "auction" ? `${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}` : `${process.env.REACT_APP_AUCTIONS_ENDPOINT}/my/${profileData?.email}/${pageNumber-1}`
+            const response = await fetch(uri, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                },
+            });
+            if (response.ok) {
+                const offers = await response.json();
+                if (offers.data.data !== null) {
+                    const offerData: IOffer[] = [];
+                    setNumberOfPages(offers.data.number_of_pages);
+                    if (offers.data.number_of_pages === 0) {
+                        setOfferData([]);
+                        return;
+                    } else if (category === "cars") {
+                        offers.data.data.forEach((offer: any) => {
+                            offerData.push({
+                                id: offer.id,
+                                image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
+                                title: offer.car.title,
+                                price: offer.car.price,
+                                year: offer.car.year,
+                                description: offer.car.description,
+                                mileage: offer.car.mileage,
+                                photos: offer.car.photos,
+                            });
+                        });
+                    } else if (category === "auction") {
+                        offers.data.data.forEach((offer: any) => {
+                            offerData.push({
+                                id: offer._id,
+                                image: offer.car.photos?.length > 0 ? offer.car.photos[0] : [],
+                                title: offer.car.title,
+                                price: offer.car.price,
+                                year: offer.car.year,
+                                description: offer.car.description,
+                                mileage: offer.car.mileage,
+                                photos: offer.car.photos,
+                                auctionEnd: offer.end
+                            });
+                        });
+                    } else if (category === "motorcycles") {
+                        offers.data.data.forEach((offer: any) => {
+                            offerData.push({
+                                id: offer.id,
+                                image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
+                                title: offer.motorcycle.title,
+                                price: offer.motorcycle.price,
+                                year: offer.motorcycle.year,
+                                description: offer.motorcycle.description,
+                                mileage: offer.motorcycle.mileage,
+                                photos: offer.motorcycle.photos,
+                            });
+                        });
+                    }
+                    setOfferData(offerData);
+                }
+                } else {
+                    console.log("Error fetching offers");
+                }
+
         } catch (error) {
             console.error("Error fetching offers:", error);
         }
     }
 
     useEffect(() => {
-        fetchData();
+        fetchData().then();
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
         fetchUsersOffers();
-      }, [pageNumber, editingOfferId, category]);
+        // eslint-disable-next-line
+    }, [pageNumber, editingOfferId, category]);
 
     const handleDeleteProfile = async () => {
         const confirmed = window.confirm("Are you sure you want to delete your account?");
 
         if (confirmed) {
-          setLoading(true);
-          offerData?.forEach((offer) => {
-            offer.photos.forEach((photo) => {
-              removePhotoFromCloudinary(photo);
-            });
-          });
-          if (numberOfPages > 1) {
-            for (let i = 2; i <= numberOfPages; i++) {
-              const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${i}`, {
-                method: "GET",
-                credentials: "include",
-                headers: {
-                  "Access-Control-Allow-Origin": "*",
-                  "Access-Control-Allow-Credentials": "true",
-                },
-              });
-              if (response.ok) {
-                const offers = await response.json();
-                offers.data.data.forEach((offer: any) => {
-                  offer.car.photos.forEach((photo: string) => {
+            setLoading(true);
+            offerData?.forEach((offer) => {
+                offer.photos.forEach((photo) => {
                     removePhotoFromCloudinary(photo);
-                  });
                 });
-              }
-            }
-          }
-          const categories = ["cars", "motorcycles","bids", "delivery vans", "trucks", "construction machinery", "trailers", "agricultural machinery"].filter((cat) => cat !== category);
-          for (const category of categories) {
-            try {
-              let pageNumber = 1;
-              while (true) {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}`, {
-                  method: "GET",
-                  credentials: "include",
-                  headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Credentials": "true",
-                  },
-                });
-                if (response.ok) {
-                  const offers = await response.json();
-                  if (offers.data.number_of_pages === 0) {
-                    break;
-                  }
-                  offers.data.data.forEach((offer: any) => {
-                    offer.car.photos.forEach((photo: string) => {
-                      removePhotoFromCloudinary(photo);
+            });
+            if (numberOfPages > 1) {
+                for (let i = 2; i <= numberOfPages; i++) {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${i}`, {
+                        method: "GET",
+                        credentials: "include",
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Credentials": "true",
+                        },
                     });
-                  });
-                  pageNumber++;
-                } else {
-                  console.log("Error deleting offers");
-                  break;
+                    if (response.ok) {
+                        const offers = await response.json();
+                        offers.data.data.forEach((offer: any) => {
+                            offer.car.photos.forEach((photo: string) => {
+                                removePhotoFromCloudinary(photo);
+                            });
+                        });
+                    }
                 }
-              }
-            } catch (error) {
-              console.error("Error deleting offers:", error);
             }
-            
-          for (const category of categories) {
-            try {
-              const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/all/me`, {
-                method: "DELETE",
-                credentials: "include",
-                headers: {
-                  "Access-Control-Allow-Origin": "*",
-                  "Access-Control-Allow-Credentials": "true",
-                },
-              });
-              if (!response.ok) {
-                console.log("Error deleting offers");
-              }
-            } catch (error) {
-              console.error("Error deleting offers:", error);
-            }
-          }
-        }
+            const categories = ["cars", "motorcycles", "auction", "delivery vans", "trucks", "construction machinery", "trailers", "agricultural machinery"].filter((cat) => cat !== category);
+            for (const category of categories) {
+                try {
+                    let pageNumber = 1;
+                    while (true) {
+                        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}`, {
+                            method: "GET",
+                            credentials: "include",
+                            headers: {
+                                "Access-Control-Allow-Origin": "*",
+                                "Access-Control-Allow-Credentials": "true",
+                            },
+                        });
+                        if (response.ok) {
+                            const offers = await response.json();
+                            if (offers.data.number_of_pages === 0) {
+                                break;
+                            }
+                            offers.data.data.forEach((offer: any) => {
+                                offer.car.photos.forEach((photo: string) => {
+                                    removePhotoFromCloudinary(photo);
+                                });
+                            });
+                            pageNumber++;
+                        } else {
+                            console.log("Error deleting offers");
+                            break;
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error deleting offers:", error);
+                }
 
-          try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/delete/me`, {
-              method: "DELETE",
-              credentials: "include",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": "true",
-              },
-            });
-      
-            const response2 = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logout`, {
-              method: "POST",
-              credentials: "include",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": "true",
-              },
-            });
-      
-            if (response.ok && response2.ok) {
-              setIsLoggedIn(false);
-              if (document.cookie !== "isLoggedIn=false") {
-                document.cookie = "isLoggedIn=false";
-              }
-              window.location.href = "/";
-            } else {
-              console.log("Error deleting profile");
+                for (const category of categories) {
+                    try {
+                        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/all/me`, {
+                            method: "DELETE",
+                            credentials: "include",
+                            headers: {
+                                "Access-Control-Allow-Origin": "*",
+                                "Access-Control-Allow-Credentials": "true",
+                            },
+                        });
+                        if (!response.ok) {
+                            console.log("Error deleting offers");
+                        }
+                    } catch (error) {
+                        console.error("Error deleting offers:", error);
+                    }
+                }
             }
-          } catch (error) {
-            console.error("Error deleting profile:", error);
-          }
-          finally {
-            setLoading(false);
-          }
+
+            try {
+                const response = await fetch(`${process.env.REACT_APP_PROFILE_DELETE_ENDPOINT}`, {
+                    method: "DELETE",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                });
+
+                const response2 = await fetch(`${process.env.REACT_APP_LOGOUT_ENDPOINT}`, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                });
+
+                if (response.ok && response2.ok) {
+                    setIsLoggedIn(false);
+                    if (document.cookie !== "isLoggedIn=false") {
+                        document.cookie = "isLoggedIn=false";
+                    }
+                    window.location.href = "/";
+                } else {
+                    console.log("Error deleting profile");
+                }
+            } catch (error) {
+                console.error("Error deleting profile:", error);
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
@@ -440,32 +468,32 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
     const handleDeleteOffer = async (id: string, photoUrls: string[]) => {
         const confirmed = window.confirm("Are you sure you want to delete this offer?");
         if (confirmed) {
-          setLoading(true);
-          try {
-            photoUrls.forEach((photo) => {
-              removePhotoFromCloudinary(photo);
-            });
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/delete/me`, {
-              method: "DELETE",
-              credentials: "include",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": "true",
-              },
-              body: JSON.stringify({ id }),
-            });
-      
-            if (response.ok) {
-              fetchUsersOffers();
-            } else {
-              console.log("Error deleting offer");
+            setLoading(true);
+            try {
+                photoUrls?.forEach((photo) => {
+                    removePhotoFromCloudinary(photo);
+                });
+                const uri = category !== "auction" ? `${process.env.REACT_APP_API_BASE_URL}/${category}/delete/me` : `${process.env.REACT_APP_AUCTIONS_ENDPOINT}remove/${profileData?.email}/${id}`;
+                const response = await fetch(uri, {
+                    method: "DELETE",
+                    credentials: "include",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": "true",
+                    },
+                    body: JSON.stringify({id}),
+                });
+
+                if (response.ok) {
+                    await fetchUsersOffers();
+                } else {
+                    console.log("Error deleting offer");
+                }
+            } catch (error) {
+                console.error("Error deleting offer:", error);
+            } finally {
+                setLoading(false);
             }
-          } catch (error) {
-            console.error("Error deleting offer:", error);
-          }
-          finally {
-            setLoading(false);
-          }
         }
     };
 
@@ -565,21 +593,26 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                         className={`px-4 py-2 focus:outline-none border rounded ${selectedComponent === "chat" ? "bg-teal-500 text-white" : "bg-gray-300 text-gray-700 hover:bg-gray-400"}`}>
                     Chat
                 </button>
+                <button onClick={() => setSelectedComponent("mybids")}
+                        className={`px-4 py-2 focus:outline-none border rounded ${selectedComponent === "mybids" ? "bg-teal-500 text-white ml-2" : "bg-gray-300 text-gray-700 hover:bg-gray-400 ml-2"}`}>
+                    My Bids
+                </button>
             </div>
             {selectedComponent === "yourOffers" &&
                 <div className="account-offers p-4 bg-gray-100">
                     <select
-              onChange={(e) => setCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
-            >
-              <option value="cars">cars</option>
-              <option value="motorcycles">motorcycles</option>
-              <option value="delivery vans">delivery vans</option>
-              <option value="trucks">trucks</option>
-              <option value="construction machinery">construction machinery</option>
-              <option value="trailers">trailers</option>
-              <option value="agricultural machinery">agricultural machinery</option>
-            </select>
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
+                    >
+                        <option value="cars">cars</option>
+                        <option value="auction">auction</option>
+                        <option value="motorcycles">motorcycles</option>
+                        <option value="delivery vans">delivery vans</option>
+                        <option value="trucks">trucks</option>
+                        <option value="construction machinery">construction machinery</option>
+                        <option value="trailers">trailers</option>
+                        <option value="agricultural machinery">agricultural machinery</option>
+                    </select>
                     <button onClick={handleDeleteAllOffers}
                             className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
                         Delete all offers in this category
@@ -598,7 +631,10 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                             price={offer.price}
                                             mileage={offer.mileage}
                                             photos={offer.photos}
-                      category={category}
+                                            category={category}
+                                            type={category === "auction" ? "auction" : "offer"}
+                                            email={profileData.email}
+                                            year={offer.year}
                                         />
                                     ) : (
                                         <Link to={`/${category}/offer/${offer.id}`} className="block rounded p-4">
@@ -607,6 +643,8 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                                 title={offer.title}
                                                 price={offer.price}
                                                 year={offer.year}
+                                                auctionEnd={offer.auctionEnd}
+                                                offerId={offer.id}
                                             />
                                         </Link>
                                     )}
@@ -652,6 +690,11 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                     <div className="account-chat-elements">
                         <ChatList receiverEmail={profileData.email}/>
                     </div>
+                </div>
+            }
+            {selectedComponent === "mybids" &&
+                <div className="account-chat pt-4 p-4 bg-gray-100">
+                    <MyBids email={profileData.email}/>
                 </div>
             }
         </div>
