@@ -1,0 +1,37 @@
+name: Deploy docker image frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push_to_registry:
+    name: Push Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log to Docker
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: autobidscloud/auto-bids:frontend
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: autobidscloud/auto-bids:frontend
+          platforms: linux/amd64
+

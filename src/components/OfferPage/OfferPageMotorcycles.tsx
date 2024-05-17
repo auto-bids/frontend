@@ -85,7 +85,7 @@ export default function OfferPage(){
 
     const fetchOfferData = async () => {
         try{
-            const response = await fetch(`${process.env.REACT_APP_MOTORCYCLES_OFFER_ID_ENDPOINT}/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/motorcycles/details/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

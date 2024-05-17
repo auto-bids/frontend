@@ -110,7 +110,7 @@ export default function ChatList(props: IChat) {
 
     const fetchUsersProfilePicture = async (email: string) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_PROFILE_EMAIL_ENDPOINT}${email}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/user/${email}`, {
                 method: "GET",
                 credentials: "include",
                 headers: {
