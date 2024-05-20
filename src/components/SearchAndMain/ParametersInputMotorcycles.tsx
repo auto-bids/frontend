@@ -9,7 +9,13 @@ interface MotorcycleData {
   models: string[];
 }
 
-export default function MotorcycleParametersInput({showAllFields, searchParameters}: {showAllFields: boolean, searchParameters: any}) {
+interface ParametersInputMotorcyclesProps {
+  showAllFields: boolean;
+  searchParameters: any;
+  reloadOffers?: (arg0: number) => void;
+}
+
+export default function MotorcycleParametersInput({showAllFields, searchParameters, reloadOffers}: ParametersInputMotorcyclesProps) {
   const [motorcycleData, setMotorcycleData] = useState<MotorcycleData[]>([]);
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 100000 });
   const [locationVisible, setLocationVisible] = useState(false);
@@ -437,7 +443,13 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
         <div className="col-span-1">
         </div>
         <div className="col-span-1 flex items-center justify-center">
-          <Link to={generateSearchUrl()} className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
+          <Link to={generateSearchUrl()} className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300" onClick={() => {
+            if (reloadOffers) {
+              reloadOffers(1);
+            }
+            window.scrollTo(0, 0);
+            }}
+            >
             Search
           </Link>
         </div>

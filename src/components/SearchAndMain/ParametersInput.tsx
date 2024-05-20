@@ -9,7 +9,14 @@ interface CarData {
   models: string[];
 }
 
-export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters }: { showAllFields: boolean; buyNowOrBid: string, searchParameters: any }) {
+interface ParametersInputProps {
+  showAllFields: boolean;
+  buyNowOrBid: string;
+  searchParameters: any;
+  reloadOffers?: (arg0: number) => void;
+}
+
+export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters, reloadOffers }: ParametersInputProps) {
   const [carData, setCarData] = useState<CarData[]>([]);
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 10000000000 });
   const [tempMake, setTempMake] = useState("");
@@ -421,7 +428,13 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         <div className="col-span-1">
         </div>
         <div className="col-span-1 flex items-center justify-center">
-          <Link to={generateSearchUrl()} className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
+          <Link to={generateSearchUrl()} className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300" onClick={() => {
+            if (reloadOffers) {
+              reloadOffers(1);
+            }
+            window.scrollTo(0, 0);
+            }}
+          >
             Search
           </Link>
         </div>
