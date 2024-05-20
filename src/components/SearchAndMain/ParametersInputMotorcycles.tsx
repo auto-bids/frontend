@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LocationInputSearch from "../Map/LocationInputSearch";
 import motorcycleDataJson from "../../testJsons/makeModelMotorcycles.json";
 import Autosuggest from 'react-autosuggest';
+import { Link } from 'react-router-dom';
 
 interface MotorcycleData {
   make: string;
@@ -127,10 +128,9 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
     setTempModel("");
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const generateSearchUrl = () => {
     const searchPath = "/search/motorcycles";
-    const queryParams =  new URLSearchParams();
+    const queryParams = new URLSearchParams();
     Object.entries(formValues).forEach(([key, value]) => {
       if (value !== "") {
         queryParams.append(key, value);
@@ -146,8 +146,7 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
       queryParams.append("radius", locationParams.radius.toString());
     }
 
-    const newUrl = `${searchPath}?${queryParams.toString()}/1`;
-    window.location.href = newUrl;
+    return `${searchPath}?${queryParams.toString()}/1`;
   };
 
   const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -156,7 +155,7 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
   };
 
   return (
-    <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+    <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={(e) => e.preventDefault()}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
       <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">Make:</label>
@@ -438,9 +437,9 @@ export default function MotorcycleParametersInput({showAllFields, searchParamete
         <div className="col-span-1">
         </div>
         <div className="col-span-1 flex items-center justify-center">
-          <button type="submit" className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
+          <Link to={generateSearchUrl()} className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
             Search
-          </button>
+          </Link>
         </div>
         <div className="col-span-1 flex items-center justify-end">
           <select name="filter_by" className="form-select border rounded p-2" onChange={handleSortByChange} value={`${formValues.filter_by}_${formValues.sort_direction}`} >
