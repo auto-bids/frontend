@@ -40,6 +40,7 @@ declare global {
     namespace Cypress {
         interface Chainable {
             loginWithAuth0(): Chainable,
+            addFormValidation(isAuction: boolean): Chainable
         }
     }
 }

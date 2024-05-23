@@ -24,6 +24,7 @@ export default function OfferElement(props: OfferElementProps) {
     const [lastBidder, setLastBidder] = React.useState<string>("");
 
     useEffect(() => {
+        console.log(props.auctionEnd)
 
         if(props.auctionEnd) {
             const fetchData = async (i: number) => {
@@ -66,7 +67,7 @@ export default function OfferElement(props: OfferElementProps) {
                     {props.auctionEnd ? (
                         <div className="offer-element-details-bid">
                             <p className="text-gray-700">End date: {new Date(parseInt(props.auctionEnd)*1000).toLocaleString()} </p>
-                            <p className="text-gray-700">Last Bid: <span className="font-bold">{price}</span>  {bids > 0 && "by " + lastBidder}</p>
+                            <p className="text-gray-700">Last Bid: <span className="font-bold">{price}</span>  {bids > 0 && ("by " + lastBidder?.substring(0, 2)+"..."+lastBidder?.split("@")[0].slice(-2))}</p>
                             <p className="text-gray-700">Number of Bids: <span className="font-bold">{bids}</span></p>
                         </div>
                     ) : (
@@ -86,7 +87,7 @@ export default function OfferElement(props: OfferElementProps) {
                         <div className="offer-element-details-bid">
                             <p className="text-gray-700">End
                                 date: {new Date(parseInt(props.auctionEnd) * 1000).toLocaleString()} </p>
-                            <p className="text-gray-700">Last Bid: <span className="font-bold">{price}</span>  {bids > 0 && "by " + lastBidder}</p>
+                            <p className="text-gray-700">Last Bid: <span className="font-bold">{price}</span>  {bids > 0 && ("by " + lastBidder?.substring(0, 2)+"..."+lastBidder?.split("@")[0].slice(-2))}</p>
                             <p className="text-gray-700">Number of Bids: <span className="font-bold">{bids}</span></p>
                         </div>
                     ) : (

@@ -9,6 +9,7 @@ describe("createNewListing", () => {
     });
 
     it("should display the form when logged in", () => {
+        cy.get('.App > :nth-child(2) > :nth-child(1) > :nth-child(1)').click();
         cy.get(".new-listing-form").should("be.visible");
     });
 
@@ -17,6 +18,10 @@ describe("createNewListing", () => {
     });
 
     describe("form validation", () => {
+        beforeEach(() => {
+            cy.get('.App > :nth-child(2) > :nth-child(1) > :nth-child(1)').click();
+        });
+
         it("should display titleErrors", () => {
             cy.get("#title").type(("a").repeat(101));
             cy.contains("Title must be less than 100 characters");
@@ -156,6 +161,7 @@ describe("createNewListing", () => {
     });
 
     it("should submit the form with valid data", () => {
+        cy.get('.App > :nth-child(2) > :nth-child(1) > :nth-child(1)').click();
         cy.get("#title").type("Test Car 1");
 
         cy.get('input[name="make"]').type("Toyota");
@@ -190,7 +196,10 @@ describe("createNewListing", () => {
 
 
         cy.get(".new-listing-form").submit();
-        cy.wait(1000);
+
+        cy.contains("Search", {timeout: 10000}).should("be.visible");
+
+        cy.wait(3000);
 
         cy.url().then(url => {
             const pathname = new URL(url).pathname;

@@ -63,8 +63,8 @@ const validationSchema = Yup.object().shape({
         type: Yup.string(),
         coordinates: Yup.array().of(Yup.number()),
     }),
-    start: Yup.date().min(new Date(), "Start date must be in the future"),
-    end: Yup.date().min(Yup.ref("start"), "End date must be after start date"),
+    start: Yup.date().min(new Date(), "Start date must be in the future").default(() => new Date(Date.now() + 300000)),
+    end: Yup.date().min(Yup.ref("start"), "End date must be after start date").default(() => new Date(Date.now() + 3600000))
 });
 
 export default function NewListingBid() {
@@ -131,8 +131,8 @@ export default function NewListingBid() {
                 type: "Point",
                 coordinates: [0, 0],
             },
-            start: Date.now() + 300,
-            end: Date.now() + 3600,
+            start: 0,
+            end: 0
         } as FormValues,
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -609,7 +609,7 @@ export default function NewListingBid() {
                     onChange={formik.handleChange}
                     value={formik.values.start}
                 />
-                {formik.errors.start ? <div className="text-red-500">{formik.errors.start}</div> : null}
+                {formik.errors.start ? <div className="text-red-500">{formik.errors.start.includes("Invalid Date") ? "Invalid Date" : formik.errors.start}</div> : null}
                 <label htmlFor="end" className="block mb-1 font-bold">End Time</label>
                 <input
                     id="end"
@@ -620,7 +620,7 @@ export default function NewListingBid() {
                         formik.handleChange}
                     value={formik.values.end}
                 />
-                {formik.errors.end ? <div className="text-red-500">{formik.errors.end}</div> : null}
+                {formik.errors.end ? <div className="text-red-500">{formik.errors.end.includes("Invalid Date") ? "Invalid Date" : formik.errors.end}</div> : null}
                 <label htmlFor="condition" className="block mb-1 font-bold">Condition</label>
                 <select
                     id="condition"

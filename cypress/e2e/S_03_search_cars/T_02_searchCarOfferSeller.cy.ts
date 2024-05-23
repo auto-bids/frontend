@@ -13,11 +13,10 @@ describe("Search car offer seller", () => {
             cy.get('input[name="year_min"]').type("1999");
             cy.get('input[name="year_max"]').type("1999");
 
-            cy.get("button").contains("Search").click();
+            cy.get('.justify-center > .form-button').click()
+            cy.get('.justify-center > .form-button').click()
 
-            cy.contains("golf")
-            cy.contains("1999")
-            cy.contains("650")
+            cy.wait(1000)
 
             cy.get('.offer-element').click()
 

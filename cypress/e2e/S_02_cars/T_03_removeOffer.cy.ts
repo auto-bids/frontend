@@ -2,10 +2,10 @@ describe('Remove Offer', () => {
     it('should remove offer', () => {
         cy.loginWithAuth0()
         cy.visit('/account')
-        cy.get('button#deleteOfferButton').click()
+        cy.get('.col-span-1 > .bg-red-500').click()
         cy.on('window:confirm', () => true);
         cy.reload()
-        cy.get('#deleteOfferButton').should('not.exist')
+        cy.get('.col-span-1 > .bg-red-500').should('not.exist')
     })
 })
 

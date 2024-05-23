@@ -13,7 +13,7 @@ describe("Search car offer", () => {
         cy.get('input[name="year_min"]').type("1999");
         cy.get('input[name="year_max"]').type("1999");
 
-        cy.get("button").contains("Search").click();
+        cy.get('.justify-center > .form-button').click()
 
         cy.contains("golf")
         cy.contains("1999")
@@ -44,14 +44,14 @@ describe("Search car offer", () => {
         cy.get('[name="engine_capacity_max"]').type("a")
         cy.get('[name="engine_capacity_max"]').should("have.value", "")
 
-        cy.get("button").contains("Search").click();
+        cy.get('.justify-center > .form-button').click()
     })
 
     it("tests pagination", () => {
         cy.visit("/search/cars?")
-        cy.get("button").contains("Search").click();
+        cy.get('.justify-center > .form-button').click()
         cy.contains("cygaro")
-        cy.get("button").contains("2").click()
+        cy.get('.search-page-pagination-buttons > :nth-child(2)').click()
         cy.contains("car")
     })
 
@@ -60,19 +60,20 @@ describe("Search car offer", () => {
         cy.get('input[name="year_min"]').type("1999");
         cy.get('input[name="year_max"]').type("1999");
         cy.get('[name="mileage_min"]').type("400000")
-        cy.get("button").contains("Search").click();
+        cy.get('.justify-center > .form-button').click()
         cy.contains("golf")
         cy.contains("Śmietnik")
 
         cy.get('input[name="year_min"]').clear().type("1988");
         cy.get('input[name="year_max"]').clear().type("1988");
         cy.get('[name="mileage_min"]').clear()
-        cy.get("button").contains("Search").click();
+        cy.get('.justify-center > .form-button').click()
+        cy.get('.justify-center > .form-button').click()
         cy.contains("project car")
 
         cy.get('input[name="year_min"]').clear().type("1999");
         cy.get('input[name="year_max"]').clear().type("1999");
-        cy.get("button").contains("Search").click();
+        cy.get('.justify-center > .form-button').click()
         cy.contains("1999 mercury grandma keith v8")
 
     })

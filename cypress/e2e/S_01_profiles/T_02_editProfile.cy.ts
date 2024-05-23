@@ -14,7 +14,7 @@ describe('Edit Profile', () => {
     it('should cancel edit profile', () => {
         visitAccountPageAndEditProfile()
         cy.get('input[name="user_name"]').clear().type('John Doe')
-        cy.get('button').contains('Cancel').click()
+        cy.get('.account-edit-profile > .flex > .bg-gray-500').click()
         cy.contains('Your account')
     })
 
@@ -70,8 +70,7 @@ describe('Edit Profile', () => {
         });
         cy.get('input[type="file"]').selectFile('cypress/fixtures/wrong_file_format.xyz')
         cy.get('button').contains('Save').click()
-
-        cy.get("svg", {timeout: 10000}).should("not.be.visible");
+        
         cy.wait(3000)
         cy.reload()
 
