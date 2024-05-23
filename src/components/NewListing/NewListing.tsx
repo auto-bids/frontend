@@ -266,7 +266,7 @@ export default function NewListing() {
           onChange={formik.handleChange}
           value={formik.values.title}
         />
-        {formik.errors.title && <div className="text-red-500">{formik.errors.title}</div>}
+        {formik.errors.title && <div id="titleError" className="text-red-500">{formik.errors.title}</div>}
         <label htmlFor="make" className="block mb-1 font-bold">Make</label>
         <div className="relative">
           <Autosuggest
@@ -300,7 +300,7 @@ export default function NewListing() {
             </button>
           )}
         </div>
-        {formik.errors.make ? <div className="text-red-500">{formik.errors.make}</div> : null}
+        {formik.errors.make ? <div id="makeError" className="text-red-500">{formik.errors.make}</div> : null}
         <label htmlFor="model" className="block mb-1 font-bold">Model</label>
         <div className="relative">
           <Autosuggest
@@ -338,7 +338,7 @@ export default function NewListing() {
             </button>
           )}
         </div>
-        {formik.errors.model ? <div className="text-red-500">{formik.errors.model}</div> : null}
+        {formik.errors.model ? <div id="modelError" className="text-red-500">{formik.errors.model}</div> : null}
         <label htmlFor="price" className="block mb-1 font-bold">Price</label>
         <input
           id="price"
@@ -351,7 +351,7 @@ export default function NewListing() {
           onChange={formik.handleChange}
           value={formik.values.price}
         />
-        {formik.errors.price ? <div className="text-red-500">{formik.errors.price}</div> : null}
+        {formik.errors.price ? <div id="descError" className="text-red-500">{formik.errors.price}</div> : null}
         <label htmlFor="description" className="block mb-1 font-bold">Description</label>
         <textarea
           id="description"
@@ -360,7 +360,7 @@ export default function NewListing() {
           onChange={formik.handleChange}
           value={formik.values.description}
         />
-        {formik.errors.description ? <div className="text-red-500">{formik.errors.description}</div> : null}
+        {formik.errors.description ? <div id="descError" className="text-red-500">{formik.errors.description}</div> : null}
         <label htmlFor="photos" className="block mb-1 font-bold">Photos</label>
         {tempPhotos.map((photo, index) => (
             <div key={index} className="flex mb-2">
@@ -382,7 +382,7 @@ export default function NewListing() {
         >
         +
         </button>
-        {formik.errors.photos ? <div className="text-red-500">{formik.errors.photos}</div> : null}
+        {formik.errors.photos ? <div id="photoError" className="text-red-500">{formik.errors.photos}</div> : null}
         <label htmlFor="year" className="block mb-1 font-bold">Year</label>
         <input
           id="year"
