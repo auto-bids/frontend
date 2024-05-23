@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import LoadingOverlay from "../Other/LoadingOverlay";
 import Autosuggest from "react-autosuggest";
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
     title: string;
@@ -65,13 +66,15 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Element {
+export default function NewListing() {
   const [tempPhotos, setTempPhotos] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [tempMake, setTempMake] = useState("");
   const [tempModel, setTempModel] = useState("");
   const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
   const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -115,11 +118,6 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     });
   };
 
-  const handleMakeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    formik.setFieldValue("make", event.target.value);
-    formik.setFieldValue("model", "");
-  };
-
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -140,7 +138,7 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
       );
       const filteredUploadedPhotoUrls = uploadedPhotoUrls.filter((photo) => photo !== undefined);
       const valuesWithPhotos = { ...formik.values, photos: filteredUploadedPhotoUrls };
-      await fetch(`${process.env.REACT_APP_CARS_ADD_ENDPOINT}`, {
+      await fetch(`${process.env.REACT_APP_API_BASE_URL}/cars/add/me`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -156,8 +154,9 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
       console.error("Error:", error);
     }
     finally {
+      await new Promise(resolve => setTimeout(resolve, 2000));
       setLoading(false);
-      window.location.href = "/";
+      navigate("/");
     }
   };
 
@@ -166,6 +165,10 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     const allowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
     if (!file || !allowedFileTypes.includes(file.type)) {
       alert("Invalid file type. Please upload a JPEG or PNG image.");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      alert("File size too large. Please upload a file smaller than 10MB.");
       return;
     }
     if (file) {
@@ -227,13 +230,13 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
   const getSuggestionValue = (suggestion: string) => suggestion;
 
   const renderMakeSuggestion = (suggestion: string) => (
-    <div onClick={() => {formik.setFieldValue("make", suggestion); formik.setFieldValue("model", "")}}>
+    <div onClick={() => {formik.setFieldValue("make", suggestion); formik.setFieldValue("model", ""); setTempMake(suggestion)}}>
       {suggestion}
     </div>
   );
 
   const renderModelSuggestion = (suggestion: string) => (
-    <div onClick={() => formik.setFieldValue("model", suggestion)}>
+    <div onClick={() => {formik.setFieldValue("model", suggestion); setTempModel(suggestion); setRenderModelSuggestions(false)}}>
       {suggestion}
     </div>
   );
@@ -249,7 +252,6 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
     formik.setFieldValue("model", "");
   }
 
-  if (isLoggedIn) {
     return (
     <div className="new-listing-page p-4">
       {loading && <LoadingOverlay />}
@@ -580,15 +582,5 @@ export default function NewListing({isLoggedIn}: {isLoggedIn: boolean}): JSX.Ele
         <button type="submit" className="border rounded p-2 bg-teal-500 text-black hover:bg-teal-600 transition duration-300 w-full font-bold">Submit</button>
       </form>
     </div>
-  )
-  }else {
-    return (
-      <div className="new-listing-page p-4 h-screen flex flex-col justify-center items-center">
-        <h1 className="text-2xl font-bold mb-4">New Listing</h1>
-        <Link to="/register" className="border rounded p-2 bg-teal-500 text-white hover:bg-teal-600 transition duration-300 font-bold w-auto">
-          Login or register to add new listing
-        </Link>
-      </div>
-    );
-  }
+  );
 };

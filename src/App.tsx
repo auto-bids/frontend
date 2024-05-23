@@ -1,14 +1,14 @@
 import './App.css';
 import React from 'react';
-import { useState } from 'react';
+import {useState} from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import MainPage from './components/SearchAndMain/MainPage';
 import {BrowserRouter as Router} from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import SearchPage from './components/SearchAndMain/SearchPage';
 import Account from './components/Profile/Account';
-import NewListing from './components/NewListing/NewListing';
+import NewListingGeneral from './components/NewListing/NewListingGeneral';
 import RegisterPage from './components/Profile/RegisterPage';
 import OfferPage from './components/OfferPage/OfferPage';
 import PrivacyPolicy from './components/Footer/PrivacyPolicy';
@@ -26,38 +26,41 @@ import OfferPageTrailers from './components/OfferPage/OfferPageTrailers';
 import OfferPageAgriculturalMachinery from './components/OfferPage/OfferPageAgriculturalMachinery';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(document.cookie==="isLoggedIn=true" ? true : false);
+    const [isLoggedIn, setIsLoggedIn] = useState(document.cookie === "isLoggedIn=true");
+    // const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  return (
-    <div className="App">
-      <Router>
-        <Header props={isLoggedIn} />
-           <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/search/:category" element={<SearchPage />} />
-              <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn} />} />
-              <Route path="/new-listing" element={<NewListing isLoggedIn={isLoggedIn} />} />
-              <Route path="/register" element={<RegisterPage />} />
-              {/* <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} /> */}
-              <Route path="/cars/offer/:id" element={<OfferPage />} />
-              <Route path="/offer-motorcycles/:id" element={<OfferPageMotorcycles />} />
-              <Route path="/offer-delivery-vans/:id" element={<OfferPageDeliveryVans />} />
-              <Route path="/offer-trucks/:id" element={<OfferPageTrucks />} />
-              <Route path="/offer-construction-machinery/:id" element={<OfferPageConstructionMachinery />} />
-              <Route path="/offer-trailers/:id" element={<OfferPageTrailers />} />
-              <Route path="/offer-agricultural-machinery/:id" element={<OfferPageAgriculturalMachinery />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/contact-us" element={<ContactUs />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/help" element={<Help />} />
-              <Route path="/seller/:email" element={<SellerPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-           </Routes>
-        <Footer />
-      </Router>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Router>
+                <Header props={isLoggedIn}/>
+                <Routes>
+                    <Route path="/" element={<MainPage/>}/>
+                    <Route path="/search/:category" element={<SearchPage/>}/>
+                    <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/new-listing" element={<NewListingGeneral isLoggedIn={isLoggedIn}/>}/>
+                    <Route path="/register" element={<RegisterPage/>}/>
+                    {/* <Route path="/offer-cars/:offerType/:id" element={<OfferPage />} /> */}
+                    <Route path="/auction/offer/:id" element={<OfferPage/>}/>
+                    <Route path="/cars/offer/:id" element={<OfferPage/>}/>
+                    <Route path="/motorcycles/offer/:id" element={<OfferPageMotorcycles/>}/>
+                    <Route path="/offer-motorcycles/:id" element={<OfferPageMotorcycles/>}/>
+                    <Route path="/offer-delivery-vans/:id" element={<OfferPageDeliveryVans/>}/>
+                    <Route path="/offer-trucks/:id" element={<OfferPageTrucks/>}/>
+                    <Route path="/offer-construction-machinery/:id" element={<OfferPageConstructionMachinery/>}/>
+                    <Route path="/offer-trailers/:id" element={<OfferPageTrailers/>}/>
+                    <Route path="/offer-agricultural-machinery/:id" element={<OfferPageAgriculturalMachinery/>}/>
+                    <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                    <Route path="/about-us" element={<AboutUs/>}/>
+                    <Route path="/contact-us" element={<ContactUs/>}/>
+                    <Route path="/terms-of-service" element={<TermsOfService/>}/>
+                    <Route path="/help" element={<Help/>}/>
+                    <Route path="/seller/:email" element={<SellerPage/>}/>
+                    <Route path="/admin" element={<AdminPage/>}/>
+                </Routes>
+                <Footer/>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

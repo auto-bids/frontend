@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.customScrollbar{
+  scrollbar-width: thin;
+  scrollbar-color: #282c34 #282c34;
+}

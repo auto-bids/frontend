@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+import LoadingOverlay from "../Other/LoadingOverlay";
 
 export default function ContactUs() {
     const [email, setEmail] = useState("");
     const [description, setDescription] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY || ''), []);
 
     const handleEmailChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setEmail(event.target.value);
@@ -12,14 +17,25 @@ export default function ContactUs() {
         setDescription(event.target.value);
     };
 
+    const handleSendEmail = async () => {
+      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID ?? '';
+      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_2 ?? '';
+      try {
+          setLoading(true);
+          await emailjs.send(serviceId, templateId, {
+              email: email,
+              description: description,
+          });
+          alert("email successfully sent");
+      } catch (error) {
+          console.log(error);
+      } finally {
+          setLoading(false);
+      }
+  }
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-        const emailData = {
-            email: email,
-            description: description,
-        };
-        //tutaj dodać ewentualną funkcję wysyłającą email
-        console.log(emailData);
+        handleSendEmail();
     };
 
     return (

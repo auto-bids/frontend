@@ -1,23 +1,28 @@
-import React, {useEffect, useState} from "react";
+import React, { useState, useEffect } from "react";
 import LocationInputSearch from "../Map/LocationInputSearch";
 import carDataJson from "../../testJsons/makeModelCars.json";
 import Autosuggest from 'react-autosuggest';
-import {useNavigate} from 'react-router-dom';
-import {Browser} from "leaflet";
+import { Link } from 'react-router-dom';
 
 interface CarData {
   make: string;
   models: string[];
 }
 
-export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters }: { showAllFields: boolean; buyNowOrBid: string, searchParameters: any }) {
+interface ParametersInputProps {
+  showAllFields: boolean;
+  buyNowOrBid: string;
+  searchParameters: any;
+  reloadOffers?: (arg0: number) => void;
+}
+
+export default function ParametersInputMain({ showAllFields, buyNowOrBid, searchParameters, reloadOffers }: ParametersInputProps) {
   const [carData, setCarData] = useState<CarData[]>([]);
   const [locationParams, setLocationParams] = useState<{ position: [number, number] | null; radius: number }>({ position: null, radius: 10000000000 });
   const [tempMake, setTempMake] = useState("");
   const [tempModel, setTempModel] = useState("");
   const [renderMakeSuggestions, setRenderMakeSuggestions] = useState(false);
   const [renderModelSuggestions, setRenderModelSuggestions] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCarData(carDataJson);
@@ -39,7 +44,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     sellerReserveTo: "",
     numberOfBidsFrom: "",
     numberOfBidsTo: "",
-    endDateFrom: "",
+    end: "",
     endDateTo: "",
     fuel: "",
     condition: "",
@@ -53,6 +58,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     steering: "",
     filter_by: "",
     sort_direction: "",
+    Status: "",
   });
 
   useEffect(() => {
@@ -69,7 +75,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         ...prevFormValues,
         ...decodedSearchParameters,
       }));
-  
+
       if (decodedSearchParameters["lat"] && decodedSearchParameters["lng"]) {
         setLocationParams({
           position: [parseFloat(decodedSearchParameters["lat"]), parseFloat(decodedSearchParameters["lng"])],
@@ -79,7 +85,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     }
   }, [searchParameters]);
 
-  
   const [locationVisible, setLocationVisible] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -96,7 +101,6 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
-
   const handleLocationChange = (params: { position: [number, number] | null; radius: number }) => {
     setLocationParams(params);
   };
@@ -111,10 +115,9 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
     setFormValues({ ...formValues, filter_by, sort_direction });
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const searchPath = buyNowOrBid === "buyNow" ? "/search/cars" : "/search/cars-bids";
-    const queryParams =  new URLSearchParams();
+  const generateSearchUrl = () => {
+    const searchPath = buyNowOrBid === "buyNow" ? "/search/cars" : "/search/auction";
+    const queryParams = new URLSearchParams();
     Object.entries(formValues).forEach(([key, value]) => {
       if (value !== "") {
         queryParams.append(key, value);
@@ -129,9 +132,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       queryParams.append("lng", locationParams.position[1].toString());
       queryParams.append("radius", locationParams.radius.toString());
     }
-    window.location.href = `${searchPath}?${queryParams.toString()}/1`;
 
-
+    return `${searchPath}?${queryParams.toString()}/1`;
   };
 
   const getMakeSuggestions = (value: string) => {
@@ -169,7 +171,7 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
   }
 
   return (
-    <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+    <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={(e) => e.preventDefault()}>
   
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
       <div>
@@ -295,8 +297,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Mileage:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_min" placeholder="Mileage from" value={formValues.mileage_min} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="mileage_max" placeholder="Mileage to" value={formValues.mileage_max} onChange={handleInputChange} />
             </div>
           </div>
   
@@ -304,8 +306,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
             <div className="flex flex-col space-y-2">
               <label className="block text-sm font-medium text-gray-700">Price:</label>
               <div className="flex space-x-2">
-                <input className="form-input border rounded p-2 full" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
-                <input className="form-input border rounded p-2 full" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
+                <input className="form-input border rounded pb-2 pt-2 pl-1 full" name="price_min" placeholder="Price from" value={formValues.price_min} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
+                <input className="form-input border rounded pb-2 pt-2 pl-1 full" name="price_max" placeholder="Price to" value={formValues.price_max} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()}/>
               </div>
             </div>
           )}
@@ -313,34 +315,15 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           {buyNowOrBid === "bid" && (
             <>
               <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Current Bid:</label>
+                <label className="block text-sm font-medium text-gray-700">Status:</label>
                 <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" name="currentBidFrom" placeholder="Current Bid from" value={formValues.currentBidFrom} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} />
-                  <input className="form-input border rounded p-2 full" name="currentBidTo" placeholder="Current Bid to" value={formValues.currentBidTo} onChange={handleInputChange} type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} />
-                </div>
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Seller Reserve:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="text" name="sellerReserveFrom" placeholder="Seller Reserve from" value={formValues.sellerReserveFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="text" name="sellerReserveTo" placeholder="Seller Reserve to" value={formValues.sellerReserveTo} onChange={handleInputChange} />
-                </div>
-              </div>
-            
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Number of Bids:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="text" name="numberOfBidsFrom" placeholder="Number of Bids from" value={formValues.numberOfBidsFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="text" name="numberOfBidsTo" placeholder="Number of Bids to" value={formValues.numberOfBidsTo} onChange={handleInputChange} />
-                </div>
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <label className="block text-sm font-medium text-gray-700">End Date:</label>
-                <div className="flex space-x-2">
-                  <input className="form-input border rounded p-2 full" type="date" name="endDateFrom" placeholder="End Date from" value={formValues.endDateFrom} onChange={handleInputChange} />
-                  <input className="form-input border rounded p-2 full" type="date" name="endDateTo" placeholder="End Date to" value={formValues.endDateTo} onChange={handleInputChange} />
+                  <select className="form-select border rounded p-2 full" name="Status" value={formValues.Status}
+                          onChange={handleInputChange}>
+                    <option value="">Status</option>
+                    <option value="started">Started</option>
+                    <option value="ended">Ended</option>
+                    <option value="notstarted">Not Started</option>
+                  </select>
                 </div>
               </div>
             </>
@@ -348,7 +331,8 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
 
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Fuel Type:</label>
-            <select className="form-select border rounded p-2 full" name="fuel" value={formValues.fuel} onChange={handleInputChange}>
+            <select className="form-select border rounded p-2 full" name="fuel" value={formValues.fuel}
+                    onChange={handleInputChange}>
               <option value="">Fuel Type</option>
               <option value="Gasoline">Gasoline</option>
               <option value="Diesel">Diesel</option>
@@ -385,16 +369,16 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Engine Capacity:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_min" placeholder="Engine Capacity from" value={formValues.engine_capacity_min} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="engine_capacity_max" placeholder="Engine Capacity to" value={formValues.engine_capacity_max} onChange={handleInputChange} />
             </div>
           </div>
             
           <div className="flex flex-col space-y-2">
             <label className="block text-sm font-medium text-gray-700">Power:</label>
             <div className="flex space-x-2">
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
-              <input className="form-input border rounded p-2 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_min" placeholder="Power from" value={formValues.power_min} onChange={handleInputChange} />
+              <input className="form-input border rounded pb-2 pt-2 pl-1 full" type="number" pattern="[0-9]*" inputMode="numeric" onWheel={(e) => e.currentTarget.blur()} name="power_max" placeholder="Power to" value={formValues.power_max} onChange={handleInputChange} />
             </div>
           </div>
   
@@ -444,9 +428,15 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
         <div className="col-span-1">
         </div>
         <div className="col-span-1 flex items-center justify-center">
-          <button type="submit" className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300">
+          <Link to={generateSearchUrl()} className="form-button border rounded p-4 font-bold bg-teal-500 hover:bg-teal-600 transition duration-300" onClick={() => {
+            if (reloadOffers) {
+              reloadOffers(1);
+            }
+            window.scrollTo(0, 0);
+            }}
+          >
             Search
-          </button>
+          </Link>
         </div>
         <div className="col-span-1 flex items-center justify-end">
           <select name="filter_by" className="form-select border rounded p-2" onChange={handleSortByChange} value={`${formValues.filter_by}_${formValues.sort_direction}`} >
@@ -462,5 +452,4 @@ export default function ParametersInputMain({ showAllFields, buyNowOrBid, search
       </div>
     </form>
   );
-  
 }
