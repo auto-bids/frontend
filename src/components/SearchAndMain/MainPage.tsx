@@ -8,6 +8,7 @@ import ParametersInputConstructionMachinery from "./ParametersInputConstructionM
 import ParametersInputTrailers from "./ParametersInputTrailers";
 import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
 import {Link} from "react-router-dom";
+import ComponentUnderConstruction from "../Other/ComponentUnderConstruction";
 
 interface IAuction {
     isActive: boolean;
@@ -162,10 +163,35 @@ export default function MainPage() {
                                     selectedCategory === categoryName
                                         ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300'
                                         : 'bg-gray-200 text-black hover:bg-gray-300 transition duration-300'
-                                } px-3 py-1 rounded m-2`}
+                                } px-3 py-1 rounded m-2 ${
+                                    categoryName === "delivery-vans" || 
+                                    categoryName === "trucks" || 
+                                    categoryName === "construction-machinery" || 
+                                    categoryName === "trailers" || 
+                                    categoryName === "agricultural-machinery" 
+                                        ? 'disabled:bg-gray-400 disabled:text-gray-600 cursor-not-allowed'
+                                        : ''
+                                }`}
+                                disabled={
+                                    categoryName === "delivery-vans" || 
+                                    categoryName === "trucks" || 
+                                    categoryName === "construction-machinery" || 
+                                    categoryName === "trailers" || 
+                                    categoryName === "agricultural-machinery"
+                                }
+                                title={
+                                    categoryName === "delivery-vans" || 
+                                    categoryName === "trucks" || 
+                                    categoryName === "construction-machinery" || 
+                                    categoryName === "trailers" || 
+                                    categoryName === "agricultural-machinery" 
+                                        ? 'Under construction' 
+                                        : ''
+                                }
                             >
                                 {categoryName}
                             </button>
+                        
                         ))}
                     </div>
                 </div>
@@ -177,15 +203,20 @@ export default function MainPage() {
                 {selectedCategory === "motorcycles" &&
                     <ParametersInputMotorcycles showAllFields={showAllFields} searchParameters={null}/>}
                 {selectedCategory === "delivery-vans" &&
-                    <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null}/>}
+                    // <ParametersInputDeliveryVans showAllFields={showAllFields} searchParameters={null}/>}
+                    <ComponentUnderConstruction />}
                 {selectedCategory === "trucks" &&
-                    <ParametersInputTrucks showAllFields={showAllFields} searchParameters={null}/>}
+                    // <ParametersInputTrucks showAllFields={showAllFields} searchParameters={null}/>}
+                    <ComponentUnderConstruction />}
                 {selectedCategory === "construction-machinery" &&
-                    <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}
+                    // <ParametersInputConstructionMachinery showAllFields={showAllFields} searchParameters={null}/>}
+                    <ComponentUnderConstruction />}
                 {selectedCategory === "trailers" &&
-                    <ParametersInputTrailers showAllFields={showAllFields} searchParameters={null}/>}
+                    // <ParametersInputTrailers showAllFields={showAllFields} searchParameters={null}/>}
+                    <ComponentUnderConstruction />}
                 {selectedCategory === "agricultural-machinery" &&
-                    <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
+                    // <ParametersInputAgriculturalMachinery showAllFields={showAllFields} searchParameters={null}/>}
+                    <ComponentUnderConstruction />}
             </div>
 
             <button className="show-all-fields mb-4 p-2 bg-gray-300 rounded hover:bg-gray-400 transition duration-300"

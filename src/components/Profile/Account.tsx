@@ -607,12 +607,13 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                         <option value="cars">cars</option>
                         <option value="auction">auction</option>
                         <option value="motorcycles">motorcycles</option>
-                        <option value="delivery vans">delivery vans</option>
-                        <option value="trucks">trucks</option>
-                        <option value="construction machinery">construction machinery</option>
-                        <option value="trailers">trailers</option>
-                        <option value="agricultural machinery">agricultural machinery</option>
+                        <option value="delivery vans" disabled>delivery vans</option>
+                        <option value="trucks" disabled>trucks</option>
+                        <option value="construction machinery" disabled>construction machinery</option>
+                        <option value="trailers" disabled>trailers</option>
+                        <option value="agricultural machinery" disabled>agricultural machinery</option>
                     </select>
+
                     <button onClick={handleDeleteAllOffers}
                             className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
                         Delete all offers in this category

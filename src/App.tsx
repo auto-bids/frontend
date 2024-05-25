@@ -24,6 +24,7 @@ import OfferPageTrucks from './components/OfferPage/OfferPageTrucks';
 import OfferPageConstructionMachinery from './components/OfferPage/OfferPageConstructionMachinery';
 import OfferPageTrailers from './components/OfferPage/OfferPageTrailers';
 import OfferPageAgriculturalMachinery from './components/OfferPage/OfferPageAgriculturalMachinery';
+import NotFound from './components/Other/NotFound';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(document.cookie === "isLoggedIn=true");
@@ -56,6 +57,7 @@ function App() {
                     <Route path="/help" element={<Help/>}/>
                     <Route path="/seller/:email" element={<SellerPage/>}/>
                     <Route path="/admin" element={<AdminPage/>}/>
+                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
                 <Footer/>
             </Router>

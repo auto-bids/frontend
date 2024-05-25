@@ -56,15 +56,39 @@ export default function NewListingGeneral({isLoggedIn}: {isLoggedIn: boolean}){
                 <div>
                     {["cars","auction","motorcycles","delivery-vans","trucks","construction-machinery","trailers","agricultural-machinery"].map((categoryName) => (
                         <button
-                        key={categoryName}
-                        onClick={() => handleCategoryChange(categoryName)}
-                        className={`category-button ${
-                            category === categoryName
-                            ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300'
-                            : 'bg-gray-200 text-black hover:bg-gray-300 transition duration-300'
-                        } px-3 py-1 rounded m-2`}
+                            key={categoryName}
+                            onClick={() => handleCategoryChange(categoryName)}
+                            className={`category-button ${
+                                category === categoryName
+                                    ? 'bg-teal-500 text-white hover:bg-teal-600 transition duration-300'
+                                    : 'bg-gray-200 text-black hover:bg-gray-300 transition duration-300'
+                            } px-3 py-1 rounded m-2 ${
+                                categoryName === "delivery-vans" || 
+                                categoryName === "trucks" || 
+                                categoryName === "construction-machinery" || 
+                                categoryName === "trailers" || 
+                                categoryName === "agricultural-machinery" 
+                                    ? 'disabled:bg-gray-400 disabled:text-gray-600 cursor-not-allowed'
+                                    : ''
+                            }`}
+                            disabled={
+                                categoryName === "delivery-vans" || 
+                                categoryName === "trucks" || 
+                                categoryName === "construction-machinery" || 
+                                categoryName === "trailers" || 
+                                categoryName === "agricultural-machinery"
+                            }
+                            title={
+                                categoryName === "delivery-vans" || 
+                                categoryName === "trucks" || 
+                                categoryName === "construction-machinery" || 
+                                categoryName === "trailers" || 
+                                categoryName === "agricultural-machinery" 
+                                    ? 'Under construction' 
+                                    : ''
+                            }
                         >
-                        {categoryName}
+                            {categoryName}
                         </button>
                     ))}
                 </div>
