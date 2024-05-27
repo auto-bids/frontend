@@ -40,6 +40,9 @@ interface IOffer {
         auction?: IAuction;
         year: number;
     };
+    auctionEnd?: string
+    end?: string
+    offers?: any[]
 };
 
 export default function MainPage() {
@@ -65,6 +68,7 @@ export default function MainPage() {
             });
 
             const data = await response.json();
+
             if (data.data.data.length === 10) {
                 setOfferData(data.data.data.slice(0, data.data.data.length - 1));
             } else {
@@ -75,6 +79,7 @@ export default function MainPage() {
             console.error(error);
         }
     }
+
     useEffect(() => {
         const fetchData = async () => {
             let data;
@@ -232,14 +237,15 @@ export default function MainPage() {
                             return (
                             <Link key={offer.id} to={`/${buyNowOrBid==="bid" ? 'auction' : selectedCategory}/offer/${offer.id}`} className="block p-4">
                                 {selectedCategory === "cars" && offer.car ? (
-
-
                                     <OfferElement
                                         image={offer.car.photos[0] || ""}
                                         title={offer.car.title || ""}
                                         price={offer.car.price || 0}
-                                        auction={offer.car.auction}
+                                        auctionEnd={offer.end}
+                                        offerId={offer.id}
                                         year={offer.car.year || 0}
+                                        offers={offer.offers}
+                                        main={true}
                                     />
                                 ) : selectedCategory === "motorcycles" && offer.motorcycle ? (
                                     <OfferElement
@@ -247,6 +253,7 @@ export default function MainPage() {
                                         title={offer.motorcycle.title || ""}
                                         price={offer.motorcycle.price || 0}
                                         year={offer.motorcycle.year || 0}
+
                                     />
                                 ) : (
                                     <div>No data available</div>

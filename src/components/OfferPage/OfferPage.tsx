@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import BidElement from "./BidElement";
 import SellerElement from "./SellerElement";
 import {useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -51,6 +51,7 @@ interface IOffer {
             coordinates: [number, number];
         };
     };
+    owner?: string
 };
 
 function MyPrevPageArrow(props: any) {
@@ -124,7 +125,7 @@ export default function OfferPage() {
 
     const fetchOfferData = async () => {
         try {
-            const response = await fetch(`${offerType!=="auction" ?  process.env.REACT_APP_CARS_OFFER_ID_ENDPOINT : process.env.REACT_APP_AUCTIONS_ENDPOINT + "/get/"}/${id}`, {
+            const response = await fetch(`${offerType !== "auction" ? process.env.REACT_APP_CARS_OFFER_ID_ENDPOINT : process.env.REACT_APP_AUCTIONS_ENDPOINT + "/get/"}/${id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -214,7 +215,7 @@ export default function OfferPage() {
                 className="offer-page-top-bar flex justify-between items-center p-4 bg-gray-400 shadow-md shadow-gray-300">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold">{offerData.car.title}</h1>
-                    <p>{offerData.car.price}</p>
+                    <p className="offerPrice">{offerData.car.price}</p>
                 </div>
                 {/* {!offerData.auction && (
                     <p>
@@ -277,11 +278,11 @@ export default function OfferPage() {
                 <div className="offer-page-main-details grid grid-cols-1 md:grid-cols-2 gap-4">
                     {renderDetail("Make", offerData.car.make)}
                     {offerType === "auction" && (
-                            <BidElement
-                                endDate={new Date(offerData.end)}
-                                startDate={new Date(offerData.start)}
-                                offerId={offerData._id as string}
-                            />
+                        <BidElement
+                            endDate={new Date(offerData.end)}
+                            startDate={new Date(offerData.start)}
+                            offerId={offerData._id as string}
+                        />
                     )}
                     {renderDetail("Model", offerData.car.model)}
                     {renderDetail("Type", offerData.car.type)}
@@ -304,11 +305,22 @@ export default function OfferPage() {
                     <h2 className="offer-page-main-description-header font-bold">Description</h2>
                     <p className="offer-page-main-description-description">{offerData.car.description}</p>
                 </div>
-                {offerType !== "auction" && (
-                <div className="offer-page-main-seller bg-neutral-50 mt-4 shadow-md">
-                    <SellerElement phone={offerData.car.telephone_number} email={offerData.user_email}
-                                   x={offerData.car.location.coordinates[0]} y={offerData.car.location.coordinates[1]}/>
-                </div>
+                {offerType !== "auction" ? (
+                    <div className="offer-page-main-seller bg-neutral-50 mt-4 shadow-md">
+                        <SellerElement phone={offerData.car.telephone_number} email={offerData.user_email}
+                                       x={offerData.car.location.coordinates[0]}
+                                       y={offerData.car.location.coordinates[1]}/>
+                    </div>
+                ) : (
+                    <div className="offer-page-main-seller bg-neutral-50 mt-4 shadow-md">
+                        <h2 className="offer-page-main-seller-header font-bold">Seller Info</h2>
+                        <p className="offer-page-main-seller-email">{offerData.owner}</p>
+                        <Link to={`/seller/${offerData.owner}`} >
+                            <button className="bg-teal-500 text-white p-2 mt-2 w-full hover:bg-teal-600 transition duration-300">
+                                View Seller Profile
+                            </button>
+                        </Link>
+                    </div>
                 )}
             </div>
         </div>

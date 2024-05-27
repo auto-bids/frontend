@@ -5,8 +5,8 @@ import ParametersInputTrucks from "./ParametersInputTrucks";
 import ParametersInputConstructionMachinery from "./ParametersInputConstructionMachinery";
 import ParametersInputTrailers from "./ParametersInputTrailers";
 import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import OfferElement from "../Other/OfferElement";
 import PaginationButton from "../Other/PaginationButton";
 
@@ -25,6 +25,8 @@ interface IOffer {
     },
     id: string;
     user_email: string;
+    _id?: string;
+    end?: string;
 }
 
 export default function SearchPage() {
@@ -32,6 +34,7 @@ export default function SearchPage() {
     const [numberOfPages, setNumberOfPages] = useState<number>(0);
     const [pageArray, setPageArray] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [nextPage, setNextPage] = useState<boolean>(false);
 
     const url = window.location.href;
     const category = url.split("/")[4].split("?")[0];
@@ -67,7 +70,7 @@ export default function SearchPage() {
     const fetchData = async (pageNum: number) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/${pageNum}?${searchParams}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/${category}/search/${category === "auction" ? pageNum - 1 : pageNum}?${searchParams}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -85,6 +88,15 @@ export default function SearchPage() {
                 setOfferData(data.data.data);
                 setNumberOfPages(data.data.number_of_pages);
                 setPageArray(generatePageArray(data.data.number_of_pages, currentPage));
+
+
+                if (category === "auction") {
+                    if (data.data.data.length === 10) {
+                        setNextPage(true);
+                    } else {
+                        setNextPage(false);
+                    }
+                }
             }
         } catch (error) {
             console.log(error);
@@ -112,14 +124,25 @@ export default function SearchPage() {
                     <h2 className="text-2xl font-bold mb-4">Search parameters</h2>
                 </div>
                 <div className="search-page-parameters-input">
-                    {category === "cars" && <ParametersInput showAllFields={true} buyNowOrBid="buyNow" searchParameters={searchParams} reloadOffers={fetchData} />}
-                    {category === "auction" && <ParametersInput showAllFields={true} buyNowOrBid="bid" searchParameters={searchParams} reloadOffers={fetchData} />}
-                    {category === "motorcycles" && <ParametersInputMotorcycles showAllFields={true} searchParameters={searchParams} reloadOffers={fetchData} />}
-                    {category === "delivery-vans" && <ParametersInputDeliveryVans showAllFields={true} searchParameters={searchParams} />}
-                    {category === "trucks" && <ParametersInputTrucks showAllFields={true} searchParameters={searchParams} />}
-                    {category === "construction-machinery" && <ParametersInputConstructionMachinery showAllFields={true} searchParameters={searchParams} />}
-                    {category === "trailers" && <ParametersInputTrailers showAllFields={true} searchParameters={searchParams} />}
-                    {category === "agricultural-machinery" && <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams} />}
+                    {category === "cars" &&
+                        <ParametersInput showAllFields={true} buyNowOrBid="buyNow" searchParameters={searchParams}
+                                         reloadOffers={fetchData}/>}
+                    {category === "auction" &&
+                        <ParametersInput showAllFields={true} buyNowOrBid="bid" searchParameters={searchParams}
+                                         reloadOffers={fetchData}/>}
+                    {category === "motorcycles" &&
+                        <ParametersInputMotorcycles showAllFields={true} searchParameters={searchParams}
+                                                    reloadOffers={fetchData}/>}
+                    {category === "delivery-vans" &&
+                        <ParametersInputDeliveryVans showAllFields={true} searchParameters={searchParams}/>}
+                    {category === "trucks" &&
+                        <ParametersInputTrucks showAllFields={true} searchParameters={searchParams}/>}
+                    {category === "construction-machinery" &&
+                        <ParametersInputConstructionMachinery showAllFields={true} searchParameters={searchParams}/>}
+                    {category === "trailers" &&
+                        <ParametersInputTrailers showAllFields={true} searchParameters={searchParams}/>}
+                    {category === "agricultural-machinery" &&
+                        <ParametersInputAgriculturalMachinery showAllFields={true} searchParameters={searchParams}/>}
                 </div>
             </div>
             <div className="search-page-offers bg-gray-100 p-4">
@@ -128,13 +151,16 @@ export default function SearchPage() {
                 </div>
                 <div className="search-page-offers-list gap-4">
                     {offerData && offerData.map((offer: IOffer) => (
-                        <Link to={`/${category}/offer/${offer.id}`} key={offer.id} className="">
+                        <Link to={`/${category}/offer/${offer.id ? offer.id : offer._id}`}
+                              key={offer.id ? offer.id : offer._id} className="">
                             {offer.car ? (
                                 <OfferElement
                                     image={offer.car.photos[0] || ""}
                                     title={offer.car.title || ""}
                                     price={offer.car.price || 0}
                                     year={offer.car.year || 0}
+                                    auctionEnd={offer.end || ""}
+                                    offerId={offer.id ? offer.id : offer._id}
                                 />
                             ) : offer.motorcycle ? (
                                 <OfferElement
@@ -149,12 +175,13 @@ export default function SearchPage() {
                         </Link>
                     ))}
                     {offerData && offerData.length === 0 && (
-                        <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md">No offers found</h1>
+                        <h1 className="text-2xl font-bold text-center p-4 bg-gray-400 shadow-md border width-100% rounded-md">No
+                            offers found</h1>
                     )}
                 </div>
             </div>
             <div className="search-page-pagination pt-3 pb-3 shadow-md">
-                {offerData && offerData.length !== 0 && numberOfPages > 1 && (
+                {(offerData && offerData.length !== 0 && numberOfPages > 1 && category !== "auction") ? (
                     <div className="search-page-pagination-buttons">
                         {currentPage > 1 && (
                             <Link
@@ -176,8 +203,9 @@ export default function SearchPage() {
                                 link={`/search/${category}?${searchParams}/${page}`}
                                 fetchOffers={fetchData}
                             />
-                        ))}
-                        {currentPage < numberOfPages && (
+                        ))
+                        }
+                        {(currentPage < numberOfPages) && (
                             <Link
                                 to={`/search/${category}?${searchParams}/${currentPage + 1}`}
                                 className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
@@ -187,6 +215,34 @@ export default function SearchPage() {
                                 }}
                             >
                                 Next
+                            </Link>
+                        )}
+                    </div>
+                ) : (
+                    <div className="search-page-pagination-buttons">
+                        {category === "auction" && nextPage && (
+                            <Link
+                                to={`/search/${category}?${searchParams}/${currentPage + 1}`}
+                                className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
+                                onClick={() => {
+                                    fetchData(currentPage + 1);
+                                    window.scrollTo(0, 0);
+                                }}
+                            >
+                                Next
+                            </Link>
+
+                        )}
+                        {category === "auction" && !nextPage && currentPage >= 1 && (
+                            <Link
+                                to={`/search/${category}?${searchParams}/${currentPage - 1}`}
+                                className="form-button border-2 rounded p-2 hover:bg-gray-200 transition duration-300"
+                                onClick={() => {
+                                    fetchData(currentPage - 1);
+                                    window.scrollTo(0, 0);
+                                }}
+                            >
+                                Previous
                             </Link>
                         )}
                     </div>
