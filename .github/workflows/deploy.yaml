@@ -33,5 +33,5 @@ jobs:
         with:
           push: true
           tags: autobidscloud/auto-bids:frontend
-          platforms: linux/amd64,linux/arm64,linux/arm64/v8
+          platforms: linux/amd64,linux/arm64
 
