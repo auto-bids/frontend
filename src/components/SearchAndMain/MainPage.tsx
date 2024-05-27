@@ -41,6 +41,7 @@ interface IOffer {
     };
     auctionEnd?: string
     end?: string
+    offers?: any[]
 };
 
 export default function MainPage() {
@@ -77,6 +78,7 @@ export default function MainPage() {
             console.error(error);
         }
     }
+
     useEffect(() => {
         const fetchData = async () => {
             let data;
@@ -211,6 +213,8 @@ export default function MainPage() {
                                         auctionEnd={offer.end}
                                         offerId={offer.id}
                                         year={offer.car.year || 0}
+                                        offers={offer.offers}
+                                        main={true}
                                     />
                                 ) : selectedCategory === "motorcycles" && offer.motorcycle ? (
                                     <OfferElement

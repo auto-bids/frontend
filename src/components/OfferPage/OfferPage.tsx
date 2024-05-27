@@ -112,8 +112,6 @@ export default function OfferPage() {
         setIsModalOpen(true);
     };
 
-    console.log(offerData)
-
     const settings = {
         dots: true,
         infinite: true,

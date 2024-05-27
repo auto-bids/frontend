@@ -22,6 +22,7 @@ interface IOffer {
     price: number;
     year: number;
     auctionEnd?: string
+    offers?: any
 }
 
 
@@ -285,7 +286,8 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                 description: offer.car.description,
                                 mileage: offer.car.mileage,
                                 photos: offer.car.photos,
-                                auctionEnd: offer.end
+                                auctionEnd: offer.end,
+                                offers: offer.offers
                             });
                         });
                     } else if (category === "motorcycles") {
@@ -645,6 +647,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                                 year={offer.year}
                                                 auctionEnd={offer.auctionEnd}
                                                 offerId={offer.id}
+                                                offers={offer.offers}
                                             />
                                         </Link>
                                     )}
