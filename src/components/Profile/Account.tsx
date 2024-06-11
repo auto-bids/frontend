@@ -52,6 +52,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
     const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [category, setCategory] = useState("cars");
+    const [noOffersInCategory, setNoOffersInCategory] = useState(false);
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.has('chat') && setSelectedComponent('chat');
@@ -261,6 +262,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                     setNumberOfPages(offers.data.number_of_pages);
                     if (offers.data.number_of_pages === 0) {
                         setOfferData([]);
+                        setNoOffersInCategory(true);
                         return;
                     } else if (category === "cars") {
                         offers.data.data.forEach((offer: any) => {
@@ -275,6 +277,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                 photos: offer.car.photos,
                             });
                         });
+                        setNoOffersInCategory(false);
                     } else if (category === "auction") {
                         offers.data.data.forEach((offer: any) => {
                             offerData.push({
@@ -289,6 +292,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                 auctionEnd: offer.end,
                                 offers: offer.offers
                             });
+                            setNoOffersInCategory(false);
                         });
                     } else if (category === "motorcycles") {
                         offers.data.data.forEach((offer: any) => {
@@ -302,6 +306,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                 mileage: offer.motorcycle.mileage,
                                 photos: offer.motorcycle.photos,
                             });
+                            setNoOffersInCategory(false);
                         });
                     }
                     setOfferData(offerData);
@@ -621,7 +626,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                         Delete all offers in this category
                     </button>
                     <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {offerData &&
+                        {offerData && !noOffersInCategory ?
                             offerData.map((offer, index) => (
                                 <div key={offer.id}
                                      className={`border p-4 rounded bg-white ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
@@ -674,7 +679,10 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                         </button>
                                     )}
                                 </div>
-                            ))}
+                            )) : noOffersInCategory ?
+                            <div className="text-center text-gray-700">No offers in this category</div> :
+                            <div className="text-center text-gray-700">Loading...</div>
+                        }
                     </div>
                     <div className="mt-4 flex justify-between">
                         <button onClick={handlePreviousPage}
