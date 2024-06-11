@@ -8,8 +8,6 @@ import removePhotoFromCloudinary from '../../utils/cloudinaryApi';
 import LoadingOverlay from "../Other/LoadingOverlay";
 import ChatList from "./ChatList";
 import MyBids from "./MyBids";
-import {DomEvent} from "leaflet";
-import off = DomEvent.off;
 
 interface IOffer {
     mileage: number;
@@ -312,10 +310,12 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                     setOfferData(offerData);
                 }
                 } else {
+                    setNoOffersInCategory(true)
                     console.log("Error fetching offers");
                 }
 
         } catch (error) {
+            setNoOffersInCategory(true)
             console.error("Error fetching offers:", error);
         }
     }
