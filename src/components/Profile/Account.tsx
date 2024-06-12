@@ -196,7 +196,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
         if (pageNumber < numberOfPages) {
             setPageNumber(pageNumber + 1);
         }
-        if(category === "auction" && offerData?.length === 10) {
+        if (category === "auction" && offerData?.length === 10) {
             setPageNumber(pageNumber + 1);
         }
     }
@@ -204,7 +204,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
         if (pageNumber > 1) {
             setPageNumber(pageNumber - 1);
         }
-        if(category === "auction" && pageNumber > 1) {
+        if (category === "auction" && pageNumber > 1) {
             setPageNumber(pageNumber - 1);
         }
     }
@@ -244,7 +244,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
 
     const fetchUsersOffers = async () => {
         try {
-            const uri = category !== "auction" ? `${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}` : `${process.env.REACT_APP_AUCTIONS_ENDPOINT}/my/${profileData?.email}/${pageNumber-1}`
+            const uri = category !== "auction" ? `${process.env.REACT_APP_API_BASE_URL}/${category}/search/user/me/${pageNumber}` : `${process.env.REACT_APP_AUCTIONS_ENDPOINT}/my/${profileData?.email}/${pageNumber - 1}`
             const response = await fetch(uri, {
                 method: "GET",
                 credentials: "include",
@@ -254,65 +254,64 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                 },
             });
             if (response.ok) {
-                const offers = await response.json();
-                if (offers.data.data !== null) {
-                    const offerData: IOffer[] = [];
-                    setNumberOfPages(offers.data.number_of_pages);
-                    if (offers.data.number_of_pages === 0) {
-                        setOfferData([]);
-                        setNoOffersInCategory(true);
-                        return;
-                    } else if (category === "cars") {
-                        offers.data.data.forEach((offer: any) => {
-                            offerData.push({
-                                id: offer.id,
-                                image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
-                                title: offer.car.title,
-                                price: offer.car.price,
-                                year: offer.car.year,
-                                description: offer.car.description,
-                                mileage: offer.car.mileage,
-                                photos: offer.car.photos,
-                            });
+                const offers = await response.json()
+                if (offers.data.data === null) {
+                    setNoOffersInCategory(true)
+                    return;
+                }
+                const offerData: IOffer[] = [];
+                setNumberOfPages(offers.data.number_of_pages);
+                if (offers.data.number_of_pages === 0) {
+                    setOfferData([]);
+                    setNoOffersInCategory(true);
+                    return;
+                } else if (category === "cars") {
+                    offers.data.data.forEach((offer: any) => {
+                        offerData.push({
+                            id: offer.id,
+                            image: offer.car.photos.length > 0 ? offer.car.photos[0] : "",
+                            title: offer.car.title,
+                            price: offer.car.price,
+                            year: offer.car.year,
+                            description: offer.car.description,
+                            mileage: offer.car.mileage,
+                            photos: offer.car.photos,
+                        });
+                    });
+                    setNoOffersInCategory(false);
+                } else if (category === "auction") {
+                    offers.data.data.forEach((offer: any) => {
+                        offerData.push({
+                            id: offer._id,
+                            image: offer.car.photos?.length > 0 ? offer.car.photos[0] : [],
+                            title: offer.car.title,
+                            price: offer.car.price,
+                            year: offer.car.year,
+                            description: offer.car.description,
+                            mileage: offer.car.mileage,
+                            photos: offer.car.photos,
+                            auctionEnd: offer.end,
+                            offers: offer.offers
                         });
                         setNoOffersInCategory(false);
-                    } else if (category === "auction") {
-                        offers.data.data.forEach((offer: any) => {
-                            offerData.push({
-                                id: offer._id,
-                                image: offer.car.photos?.length > 0 ? offer.car.photos[0] : [],
-                                title: offer.car.title,
-                                price: offer.car.price,
-                                year: offer.car.year,
-                                description: offer.car.description,
-                                mileage: offer.car.mileage,
-                                photos: offer.car.photos,
-                                auctionEnd: offer.end,
-                                offers: offer.offers
-                            });
-                            setNoOffersInCategory(false);
+                    });
+                } else if (category === "motorcycles") {
+                    offers.data.data.forEach((offer: any) => {
+                        offerData.push({
+                            id: offer.id,
+                            image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
+                            title: offer.motorcycle.title,
+                            price: offer.motorcycle.price,
+                            year: offer.motorcycle.year,
+                            description: offer.motorcycle.description,
+                            mileage: offer.motorcycle.mileage,
+                            photos: offer.motorcycle.photos,
                         });
-                    } else if (category === "motorcycles") {
-                        offers.data.data.forEach((offer: any) => {
-                            offerData.push({
-                                id: offer.id,
-                                image: offer.motorcycle.photos.length > 0 ? offer.motorcycle.photos[0] : "",
-                                title: offer.motorcycle.title,
-                                price: offer.motorcycle.price,
-                                year: offer.motorcycle.year,
-                                description: offer.motorcycle.description,
-                                mileage: offer.motorcycle.mileage,
-                                photos: offer.motorcycle.photos,
-                            });
-                            setNoOffersInCategory(false);
-                        });
-                    }
-                    setOfferData(offerData);
+                        setNoOffersInCategory(false);
+                    });
                 }
-                } else {
-                    setNoOffersInCategory(true)
-                    console.log("Error fetching offers");
-                }
+                setOfferData(offerData);
+            }
 
         } catch (error) {
             setNoOffersInCategory(true)
@@ -625,8 +624,9 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                             className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-600 transition duration-300">
                         Delete all offers in this category
                     </button>
+                    {noOffersInCategory && <div className="text-gray-700">No offers in this category</div>}
                     <div className="account-offers-elements mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {offerData && !noOffersInCategory ?
+                        {offerData && !noOffersInCategory &&
                             offerData.map((offer, index) => (
                                 <div key={offer.id}
                                      className={`border p-4 rounded bg-white ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
@@ -679,11 +679,10 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                                         </button>
                                     )}
                                 </div>
-                            )) : noOffersInCategory ?
-                            <div className="text-center text-gray-700">No offers in this category</div> :
-                            <div className="text-center text-gray-700">Loading...</div>
+                            ))
                         }
                     </div>
+                    {!noOffersInCategory &&
                     <div className="mt-4 flex justify-between">
                         <button onClick={handlePreviousPage}
                                 className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">
@@ -694,6 +693,7 @@ export default function Account({setIsLoggedIn}: { setIsLoggedIn: (value: boolea
                             Next
                         </button>
                     </div>
+                    }
                 </div>
             }
             {selectedComponent === "chat" &&
