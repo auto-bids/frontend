@@ -2,11 +2,6 @@ import React, {useEffect, useState} from "react";
 import ParametersInput from "./ParametersInput";
 import ParametersInputMotorcycles from "./ParametersInputMotorcycles";
 import OfferElement from "../Other/OfferElement";
-import ParametersInputDeliveryVans from "./ParametersInputDeliveryVans";
-import ParametersInputTrucks from "./ParametersInputTrucks";
-import ParametersInputConstructionMachinery from "./ParametersInputConstructionMachinery";
-import ParametersInputTrailers from "./ParametersInputTrailers";
-import ParametersInputAgriculturalMachinery from "./ParametersInputAgriculturalMachinery";
 import {Link} from "react-router-dom";
 import ComponentUnderConstruction from "../Other/ComponentUnderConstruction";
 
@@ -43,7 +38,7 @@ interface IOffer {
     auctionEnd?: string
     end?: string
     offers?: any[]
-};
+}
 
 export default function MainPage() {
     const [selectedCategory, setSelectedCategory] = useState("cars");
@@ -245,7 +240,6 @@ export default function MainPage() {
                                         offerId={offer.id}
                                         year={offer.car.year || 0}
                                         offers={offer.offers}
-                                        main={true}
                                     />
                                 ) : selectedCategory === "motorcycles" && offer.motorcycle ? (
                                     <OfferElement

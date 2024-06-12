@@ -27,6 +27,7 @@ interface IOffer {
     user_email: string;
     _id?: string;
     end?: string;
+    offers?: any[]
 }
 
 export default function SearchPage() {
@@ -79,6 +80,7 @@ export default function SearchPage() {
                 },
             });
             const data = await response.json();
+            console.log(data)
 
             if (data.data.number_of_pages === 0) {
                 setOfferData([]);
@@ -161,6 +163,7 @@ export default function SearchPage() {
                                     year={offer.car.year || 0}
                                     auctionEnd={offer.end || ""}
                                     offerId={offer.id ? offer.id : offer._id}
+                                    offers={offer.offers}
                                 />
                             ) : offer.motorcycle ? (
                                 <OfferElement

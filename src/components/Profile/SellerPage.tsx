@@ -4,9 +4,6 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import ChatPopup from "./ChatPopup";
 import Modal from "react-modal";
-import {DomEvent} from "leaflet";
-import off = DomEvent.off;
-import {of} from "rxjs";
 
 interface IOffer {
     id: string;
@@ -188,11 +185,11 @@ export default function SellerPage() {
                         <option value="cars">cars</option>
                         <option value="motorcycles">motorcycles</option>
                         <option value="auctions">auctions</option>
-                        <option value="delivery vans">delivery vans</option>
-                        <option value="trucks">trucks</option>
-                        <option value="construction machinery">construction machinery</option>
-                        <option value="trailers">trailers</option>
-                        <option value="agricultural machinery">agricultural machinery</option>
+                        <option value="delivery vans" disabled={true}>delivery vans</option>
+                        <option value="trucks" disabled={true}>trucks</option>
+                        <option value="construction machinery" disabled={true}>construction machinery</option>
+                        <option value="trailers" disabled={true}>trailers</option>
+                        <option value="agricultural machinery" disabled={true}>agricultural machinery</option>
                     </select>
                     <input type="text" placeholder="Search"
                            className="px-4 py-2 border border-gray-300 rounded focus:outline-none"

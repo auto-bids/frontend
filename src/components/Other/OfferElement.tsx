@@ -17,7 +17,6 @@ interface OfferElementProps {
     year: number;
     offerId?: string;
     offers?: any[];
-    main?: boolean;
 }
 
 export default function OfferElement(props: OfferElementProps) {
@@ -26,42 +25,9 @@ export default function OfferElement(props: OfferElementProps) {
     const [lastBidder, setLastBidder] = React.useState<string>("");
 
     useEffect(() => {
-
-        if (props.auctionEnd && props.main) {
-            const fetchData = async (i: number) => {
-                try {
-                    fetch(`${process.env.REACT_APP_AUCTIONS_ENDPOINT}offers/${props.offerId}/${i}`).then(
-                        response => response.json()
-                    ).then(data => {
-                        if (data.data.data !== null) {
-                            const lastOffer = data.data.data[0]
-                            if (i === 0) {
-                                setPrice(lastOffer.offers.offer)
-                                setLastBidder(lastOffer.offers.sender)
-                            }
-                            setBids((prevState) => prevState + data.data.data.length)
-                            if (data.data.data.length === 10) {
-                                fetchData(i + 1)
-                            }
-                        }
-
-                    })
-                } catch (e) {
-                    console.error(e)
-                }
-            }
-
-            fetchData(0)
-        }
-    }, [props.offerId])
-
-
-    useEffect(() => {
-        if (!props.main) {
             setPrice(props.offers && props.offers.length > 0 ? props.offers[props.offers.length - 1].offer : 0)
             setBids(props.offers ? props.offers.length : 0)
             setLastBidder(props.offers && props.offers.length > 0 ? props.offers[props.offers.length - 1].sender : "")
-        }
     }, []);
 
     return (
@@ -76,7 +42,7 @@ export default function OfferElement(props: OfferElementProps) {
                     <div className="offer-element-details col-span-2 mt-4">
                         <h3 className="text-lg font-bold mb-2">{props.title}</h3>
                         <p className="text-gray-700">{props.year}</p>
-                        {props.auctionEnd && (props.offers || props.main) ? (
+                        {props.auctionEnd && (props.offers) ? (
                             <div className="offer-element-details-bid">
                                 <p className="text-gray-700">End
                                     date: {new Date(parseInt(props.auctionEnd) * 1000).toLocaleString()} </p>
@@ -100,7 +66,7 @@ export default function OfferElement(props: OfferElementProps) {
                     <div className="offer-element-details flex-grow">
                         <h3 className="text-lg font-bold mb-2">{props.title}</h3>
                         <p className="text-gray-700">{props.year}</p>
-                        {props.auctionEnd && (props.offers || props.main) ? (
+                        {props.auctionEnd && (props.offers) ? (
                             <div className="offer-element-details-bid">
                                 <p className="text-gray-700">End
                                     date: {new Date(parseInt(props.auctionEnd) * 1000).toLocaleString()} </p>
