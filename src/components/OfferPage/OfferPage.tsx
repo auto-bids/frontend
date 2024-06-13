@@ -100,7 +100,7 @@ function MyNextPageArrow(props: any) {
 
 
 export default function OfferPage() {
-    const offerType = window.location.href.split("/")[3];
+    const offerType = window.location.href.split("/")[4];
     const {id} = useParams<{ id: string }>();
     const [offerData, setOfferData] = useState<IOffer | null>(null);
 

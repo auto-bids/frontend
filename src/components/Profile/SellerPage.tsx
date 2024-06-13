@@ -34,7 +34,7 @@ export default function SellerPage() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/user/` + window.location.pathname.split("/")[2], {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/user/` + window.location.pathname.split("/")[3], {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -61,7 +61,7 @@ export default function SellerPage() {
 
     const fetchOfferData = async () => {
         try {
-            const uri = selectedCategory != "auctions" ? `${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[2]}/${currentPage}?${searchPhrase}` :
+            const uri = selectedCategory != "auctions" ? `${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[3]}/${currentPage}?${searchPhrase}` :
                 `${process.env.REACT_APP_API_BASE_URL}/auction/my/${sellerData?.email}/${currentPage - 1}`;
             const response = await fetch(uri, {
                 method: "GET",
@@ -256,7 +256,7 @@ export default function SellerPage() {
                         onClick={handleModal}
                     >X
                     </button>
-                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[2]}/>}
+                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[3]}/>}
                 </Modal>
             </div>
         </div>

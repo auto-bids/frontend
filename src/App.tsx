@@ -4,7 +4,7 @@ import {useState} from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import MainPage from './components/SearchAndMain/MainPage';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {HashRouter as Router} from 'react-router-dom';
 import {Routes, Route} from 'react-router-dom';
 import SearchPage from './components/SearchAndMain/SearchPage';
 import Account from './components/Profile/Account';

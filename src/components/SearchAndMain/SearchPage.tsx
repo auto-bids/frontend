@@ -38,7 +38,7 @@ export default function SearchPage() {
     const [nextPage, setNextPage] = useState<boolean>(false);
 
     const url = window.location.href;
-    const category = url.split("/")[4].split("?")[0];
+    const category = url.split("/")[5].split("?")[0];
     const searchParams = url.split("?")[1]?.split("/")[0] || "";
     const currentPage = parseInt(url.split("?")[1]?.split("/")[1] || "1", 10);
 
