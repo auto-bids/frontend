@@ -229,7 +229,6 @@ export default function MainPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {offerData && offerData.map((offer) => {
                             offer.id = offer.id || offer._id as string;
-                            console.log(offer)
                             return (
                             <Link key={offer.id} to={`/${buyNowOrBid==="bid" ? 'auction' : selectedCategory}/offer/${offer.id}`} className="block p-4">
                                 {selectedCategory === "cars" && offer.car ? (

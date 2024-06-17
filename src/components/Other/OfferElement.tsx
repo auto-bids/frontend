@@ -26,7 +26,7 @@ export default function OfferElement(props: OfferElementProps) {
     const [lastBidder, setLastBidder] = React.useState<string>("");
 
     useEffect(() => {
-            setPrice(props.offers  && props.offers.length > 0 ? props.offers[props.offers.length - 1].offer : 0)
+            setPrice(props.offers && props.offers.length > 0 ? props.offers[props.offers.length - 1].offer : 0)
             setBids(props.offers ? props.offers.length : 0)
             setLastBidder(props.offers && props.offers.length > 0 ? props.offers[props.offers.length - 1].sender : "")
     }, []);
@@ -57,7 +57,11 @@ export default function OfferElement(props: OfferElementProps) {
                                 )}
                             </div>
                         ) : (
-                            <p className="text-xl font-bold text-blue-500">{props.price}</p>
+                            props.auctionEnd ? (
+                                <p className="text-gray-700">End
+                                    date: {new Date(parseInt(props.auctionEnd) * 1000).toLocaleString()} </p>
+                            ) : (
+                            <p className="text-xl font-bold text-blue-500">{props.price}</p>)
                         )}
                     </div>
                 </>

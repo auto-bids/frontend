@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import OfferElement from "../Other/OfferElement";
 import {Link} from "react-router-dom";
-import EditOffer from "./EditOffer";
 
 interface MyBidsProps {
     email: string;
@@ -25,6 +24,7 @@ export default function MyBids(props: MyBidsProps) {
                 });
                 if (response.ok) {
                     const res = await response.json();
+                    console.log(res)
                     if (res.data.data.length > 0) {
                         setAllAuctions((prevState) => [...prevState, ...res.data.data]);
                         if (res.data.data.length === 10) {
@@ -56,10 +56,6 @@ export default function MyBids(props: MyBidsProps) {
 
     }, [category, allAuctions])
 
-    useEffect(() => {
-        console.log(allAuctions)
-    }, [allAuctions]);
-
 
     return (
         <>
@@ -80,9 +76,8 @@ export default function MyBids(props: MyBidsProps) {
                                 <OfferElement
                                     image={offer.car.photos[0]}
                                     title={offer.car.title}
-                                    price={offer.car.price}
                                     year={offer.car.year}
-                                    auctionEnd={offer.car.auctionEnd}
+                                    auctionEnd={offer.end}
                                     offerId={offer.id}
                                 />
                             </Link>

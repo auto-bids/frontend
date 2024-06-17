@@ -290,7 +290,7 @@ export default function SellerPage() {
                         onClick={handleModal}
                     >X
                     </button>
-                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.href.split("/")[2]}/>}
+                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.hash.split("/")[2]}/>}
                 </Modal>
             </div>
         </div>

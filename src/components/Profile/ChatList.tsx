@@ -70,22 +70,21 @@ export default function ChatList(props: IChat) {
             if (response.ok) {
                 const res = await response.json()
                 if (res?.status === 200) {
-                    const conversationsWithPictures = await Promise.all(res.data?.data?.rooms.map(async (room: any) => {
-                        const profilePicture = await fetchUsersProfilePicture(room.email);
-                        const lastMessage = await fetchLastMessage(room.id);
-                        return {
-                            email: room.email,
-                            id: room.id,
-                            profilePicture: profilePicture,
-                            lastMessage: {
-                                Sender: lastMessage.Sender,
-                                Message: lastMessage.Message,
-                                Time: lastMessage.Time ? lastMessage.Time*1000 : ""
-                            },
+                    return await Promise.all(res.data?.data?.rooms.map(async (room: any) => {
+                            const profilePicture = await fetchUsersProfilePicture(room.email);
+                            const lastMessage = await fetchLastMessage(room.id);
+                            return {
+                                email: room.email,
+                                id: room.id,
+                                profilePicture: profilePicture,
+                                lastMessage: {
+                                    Sender: lastMessage.Sender,
+                                    Message: lastMessage.Message,
+                                    Time: lastMessage.Time ? lastMessage.Time * 1000 : ""
+                                },
                             }
                         }
                     ));
-                    setConversations(conversationsWithPictures);
                 }
             }
         } catch (e) {
@@ -94,7 +93,17 @@ export default function ChatList(props: IChat) {
     }
 
     useEffect(() => {
-        fetchConversations()
+        fetchConversations().then((conversations) => {
+            if(conversations !== undefined){
+            const sortedConversations = conversations.sort((a, b) => {
+                if (a.lastMessage.Time && b.lastMessage.Time) {
+                    return b.lastMessage.Time - a.lastMessage.Time
+                }
+                return 0;
+            })
+            setConversations(sortedConversations);
+            }
+        })
         // eslint-disable-next-line
     }, []);
 
@@ -149,8 +158,22 @@ export default function ChatList(props: IChat) {
             console.error("Error loading chat data:", e);
         }
     }
+
+    useEffect(() => {
+
+        const sortedConversations = conversations.sort((a, b) => {
+            if (a.lastMessage.Time && b.lastMessage.Time) {
+                return b.lastMessage.Time - a.lastMessage.Time
+            }
+            return 0;
+        })
+
+        setConversations(() => sortedConversations);
+    }, [conversations]);
+
+
     return (
-        <div className="h-[60vh] w-[60%] m-auto">
+        <div className="h-[60vh] m-auto overflow-auto w-[60%]">
             <div className="flex flex-col">
                 {conversations.map((conversation) => {
                         return (
