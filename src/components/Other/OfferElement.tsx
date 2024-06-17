@@ -17,6 +17,7 @@ interface OfferElementProps {
     year: number;
     offerId?: string;
     offers?: any[];
+    search?: boolean;
 }
 
 export default function OfferElement(props: OfferElementProps) {
@@ -25,7 +26,7 @@ export default function OfferElement(props: OfferElementProps) {
     const [lastBidder, setLastBidder] = React.useState<string>("");
 
     useEffect(() => {
-            setPrice(props.offers && props.offers.length > 0 ? props.offers[props.offers.length - 1].offer : 0)
+            setPrice(props.offers  && props.offers.length > 0 ? props.offers[props.offers.length - 1].offer : 0)
             setBids(props.offers ? props.offers.length : 0)
             setLastBidder(props.offers && props.offers.length > 0 ? props.offers[props.offers.length - 1].sender : "")
     }, []);
@@ -42,7 +43,7 @@ export default function OfferElement(props: OfferElementProps) {
                     <div className="offer-element-details col-span-2 mt-4">
                         <h3 className="text-lg font-bold mb-2">{props.title}</h3>
                         <p className="text-gray-700">{props.year}</p>
-                        {props.auctionEnd && (props.offers) ? (
+                        {props.auctionEnd && (props.offers || props.search) ? (
                             <div className="offer-element-details-bid">
                                 <p className="text-gray-700">End
                                     date: {new Date(parseInt(props.auctionEnd) * 1000).toLocaleString()} </p>
@@ -50,8 +51,10 @@ export default function OfferElement(props: OfferElementProps) {
                                     className="font-bold">{bids > 0 ? price : "No bids yet"}</span> {bids > 0 &&
                                     ("by " + lastBidder.substring(0, 2) + "..." + lastBidder.split("@")[0].slice(-2))}
                                 </p>
+                                {!props.search && (
                                 <p className="text-gray-700">Number of Bids: <span className="font-bold">{bids}</span>
                                 </p>
+                                )}
                             </div>
                         ) : (
                             <p className="text-xl font-bold text-blue-500">{props.price}</p>
@@ -66,7 +69,7 @@ export default function OfferElement(props: OfferElementProps) {
                     <div className="offer-element-details flex-grow">
                         <h3 className="text-lg font-bold mb-2">{props.title}</h3>
                         <p className="text-gray-700">{props.year}</p>
-                        {props.auctionEnd && (props.offers) ? (
+                        {props.auctionEnd && (props.offers || props.search) ? (
                             <div className="offer-element-details-bid">
                                 <p className="text-gray-700">End
                                     date: {new Date(parseInt(props.auctionEnd) * 1000).toLocaleString()} </p>
@@ -74,8 +77,10 @@ export default function OfferElement(props: OfferElementProps) {
                                     className="font-bold">{bids > 0 ? price : "No bids yet"}</span> {bids > 0 &&
                                     ("by " + lastBidder.substring(0, 2) + "..." + lastBidder.split("@")[0].slice(-2))}
                                 </p>
-                                <p className="text-gray-700">Number of Bids: <span className="font-bold">{bids}</span>
-                                </p>
+                                {!props.search && (
+                                    <p className="text-gray-700">Number of Bids: <span className="font-bold">{bids}</span>
+                                    </p>
+                                )}
                             </div>
                         ) : (
                             <p className="text-xl font-bold text-blue-500">{props.price}</p>

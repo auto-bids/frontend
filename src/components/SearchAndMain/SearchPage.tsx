@@ -164,6 +164,7 @@ export default function SearchPage() {
                                     auctionEnd={offer.end || ""}
                                     offerId={offer.id ? offer.id : offer._id}
                                     offers={offer.offers}
+                                    search={true}
                                 />
                             ) : offer.motorcycle ? (
                                 <OfferElement

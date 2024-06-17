@@ -31,10 +31,13 @@ export default function SellerPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchPhrase, setSearchPhrase] = useState("");
     const [chatModalIsOpen, setChatModalIsOpen] = useState(false);
+    const [isMyProfile, setIsMyProfile] = useState(false);
+
 
     const fetchData = async () => {
+
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/user/` + window.location.pathname.split("/")[3], {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/user/` + window.location.hash.split("/")[2], {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -59,9 +62,38 @@ export default function SellerPage() {
         setChatModalIsOpen(!chatModalIsOpen);
     }
 
+    useEffect(() => {
+        if (document.cookie === "isLoggedIn=true") {
+            const fetchCurrentUser = async () => {
+                try {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profiles/login/me`, {
+                        method: "GET",
+                        credentials: "include",
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Credentials": "true",
+                        },
+                    });
+                    if (response.ok) {
+                        if (response.status === 200) {
+                            const profileData = await response.json();
+                            if (profileData.data.data.email === window.location.hash.split("/")[2]) {
+                                setIsMyProfile(true);
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error loading chat data:", e);
+                }
+            };
+            fetchCurrentUser();
+        }
+
+    }, [sellerData]);
+
     const fetchOfferData = async () => {
         try {
-            const uri = selectedCategory != "auctions" ? `${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.pathname.split("/")[3]}/${currentPage}?${searchPhrase}` :
+            const uri = selectedCategory !== "auctions" ? `${process.env.REACT_APP_API_BASE_URL}/${selectedCategory}/search/user/${window.location.hash.split("/")[2]}/${currentPage}?${searchPhrase}` :
                 `${process.env.REACT_APP_API_BASE_URL}/auction/my/${sellerData?.email}/${currentPage - 1}`;
             const response = await fetch(uri, {
                 method: "GET",
@@ -121,10 +153,10 @@ export default function SellerPage() {
             setIsLoading(false);
         }
     }
-
     useEffect(() => {
-        fetchData();
+        fetchData()
         fetchOfferData();
+        // eslint-disable-next-line
     }, [currentPage, selectedCategory]);
 
 
@@ -154,12 +186,13 @@ export default function SellerPage() {
     return (
         <div className="seller-page">
             <div className="seller-page-header flex items-center p-4">
-                <img src={sellerData?.profile_picture} alt="seller profile picture"
+                <img src={sellerData?.profile_picture} alt="seller profile"
                      className="w-20 h-20 rounded-full object-cover mr-4"/>
                 <div>
                     <h1 className="text-2xl font-bold">{sellerData?.user_name}</h1>
                     <h2>{sellerData?.email}</h2>
                 </div>
+                {!isMyProfile && (
                 <div className="seller-page-buttons ml-auto">
                     {document.cookie === "isLoggedIn=true" && document.cookie.split("=")[1] === "true" ? (
                         <button
@@ -175,6 +208,7 @@ export default function SellerPage() {
                         </Link>
                     )}
                 </div>
+                    )}
             </div>
             <div className="seller-page-offers mt-4">
                 <div className="seller-page-offers-search mb-1 pb-3 shadow-md">
@@ -207,7 +241,7 @@ export default function SellerPage() {
                 ) : offerData && offerData.length > 0 ? (
                     <>
                         <div
-                            className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3">
+                            className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3 h-screen">
                             {offerData.map((offer, index) => (
                                 <Link to={`/${selectedCategory}/offer/${offer.id}`} key={offer.id}
                                       className={`block rounded p-1 ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
@@ -256,7 +290,7 @@ export default function SellerPage() {
                         onClick={handleModal}
                     >X
                     </button>
-                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.pathname.split("/")[3]}/>}
+                    {chatModalIsOpen && <ChatPopup receiverEmail={window.location.href.split("/")[2]}/>}
                 </Modal>
             </div>
         </div>
