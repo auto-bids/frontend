@@ -225,13 +225,6 @@ export default function SellerPage() {
                         <option value="trailers" disabled={true}>trailers</option>
                         <option value="agricultural machinery" disabled={true}>agricultural machinery</option>
                     </select>
-                    <input type="text" placeholder="Search"
-                           className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
-                           onChange={(e) => setSearchPhrase('search_phrase=' + e.target.value)}/>
-                    <button
-                        className="px-4 py-2 bg-teal-500 text-white rounded focus:outline-none hover:bg-teal-600 transition duration-300"
-                        onClick={handleSearch}>Search
-                    </button>
                 </div>
                 {isLoading ? (
                     <div className="offer-page bg-gray-100 flex justify-center items-center h-screen">
