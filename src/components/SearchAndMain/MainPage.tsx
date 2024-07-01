@@ -240,6 +240,7 @@ export default function MainPage() {
                                         offerId={offer.id}
                                         year={offer.car.year || 0}
                                         offers={offer.offers}
+                                        search={true}
                                     />
                                 ) : selectedCategory === "motorcycles" && offer.motorcycle ? (
                                     <OfferElement

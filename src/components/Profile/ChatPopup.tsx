@@ -62,7 +62,6 @@ export default function ChatPopup(props: IChat) {
                 newWs.onmessage = (event) => {
                     const message = event.data;
                     const idPattern = /^[0-9a-fA-F]{24}$/;
-                    console.log(message)
 
                     if (!idPattern.test(message)) {
                         const newMessage = {
