@@ -38,6 +38,7 @@ export default function OfferElement(props: OfferElementProps) {
                 <>
                     <div className="offer-element-image col-span-1">
                         <img src={props.image} alt={props.title}
+                            style={{ maxHeight: "30vh", minHeight: "30vh"}}
                              className="w-full h-auto object-cover sm:max-h-48 md:max-h-48 lg:max-h-64"/>
                     </div>
                     <div className="offer-element-details col-span-2 mt-4">

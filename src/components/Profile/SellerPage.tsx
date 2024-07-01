@@ -234,7 +234,7 @@ export default function SellerPage() {
                 ) : offerData && offerData.length > 0 ? (
                     <>
                         <div
-                            className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3 h-screen">
+                            className="seller-page-offers-offers grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 p-3 h-full">
                             {offerData.map((offer, index) => (
                                 <Link to={`/${selectedCategory}/offer/${offer.id}`} key={offer.id}
                                       className={`block rounded p-1 ${index === offerData.length - 1 && offerData.length % 3 === 1 ? 'col-span-1 md:col-start-2 lg:col-start-2' : ''}`}>
